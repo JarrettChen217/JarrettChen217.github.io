@@ -69,6 +69,39 @@ function compile(source) {
       result.demo={src:asset(d.src,'mp4'),poster:asset(d.poster,'webp'),width:d.width,height:d.height,caption:bi(d.caption,`${field}.caption`)};
     }
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
+    if(p.team !== undefined) result.team=bi(p.team,`${p.id}.team`);
+    if(p.featuredVideo !== undefined){
+      const field=`${p.id}.featuredVideo`;const value=p.featuredVideo;
+      if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.youtubeId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.youtubeId))fail(`${field}: invalid YouTube ID`);
+      let watch;try{watch=new URL(value.watchUrl);}catch{fail(`${field}: invalid watch URL`);}
+      if(watch.protocol!=='https:'||!['youtube.com','www.youtube.com'].includes(watch.hostname)||watch.pathname!=='/watch'||watch.searchParams.get('v')!==value.youtubeId)fail(`${field}: watch URL must match the YouTube ID`);
+      if(typeof value.poster!=='string'||!new RegExp(`^assets/projects/${p.id}/[a-z0-9-]+\\.webp$`).test(value.poster))fail(`${field}: invalid poster path`);
+      const poster=path.join(ROOT,value.poster);
+      if(!fs.existsSync(poster)||!fs.statSync(poster).isFile()||!fs.realpathSync(poster).startsWith(fs.realpathSync(ROOT)+path.sep))fail(`${field}: poster missing or outside repository`);
+      if(![value.width,value.height].every(n=>Number.isInteger(n)&&n>0))fail(`${field}: invalid poster dimensions`);
+      result.featuredVideo={youtubeId:value.youtubeId,watchUrl:watch.href,poster:value.poster,width:value.width,height:value.height,caption:bi(value.caption,`${field}.caption`)};
+    }
+    if(p.play !== undefined){
+      const field=`${p.id}.play`;const value=p.play;
+      if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.url!=='string'||!/^play\/[a-z0-9]+(?:-[a-z0-9]+)*\/index\.html$/.test(value.url))fail(`${field}: invalid repository-relative play URL`);
+      result.play={url:value.url,label:bi(value.label,`${field}.label`)};
+    }
+    if(p.sectionOrder !== undefined){
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
+      if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
+      result.sectionOrder=[...p.sectionOrder];
+    }
+    if(p.credits !== undefined){
+      const field=`${p.id}.credits`;
+      if(!Array.isArray(p.credits))fail(`${field}: must be a list`);
+      result.credits=p.credits.map((item,i)=>{
+        const itemField=`${field}[${i}]`;
+        if(!item||typeof item!=='object'||Array.isArray(item))fail(`${itemField}: must be an object`);
+        const credit={title:bi(item.title,`${itemField}.title`),body:bi(item.body,`${itemField}.body`)};
+        if(item.url!==undefined){let url;try{url=new URL(item.url);}catch{fail(`${itemField}: invalid URL`);}if(url.protocol!=='https:')fail(`${itemField}: URL must use HTTPS`);credit.url=url.href;}
+        return credit;
+      });
+    }
     if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
     if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
     return {published:p.published,data:result};

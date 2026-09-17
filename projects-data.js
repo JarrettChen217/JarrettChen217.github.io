@@ -21,6 +21,9 @@ const PROJECTS = {
       "id": "avl-visualisation"
     },
     {
+      "id": "midas-curse-unity"
+    },
+    {
       "id": "mur-simulation"
     }
   ],
@@ -701,6 +704,240 @@ const PROJECTS = {
         "education",
         "算法",
         "可视化"
+      ]
+    },
+    {
+      "id": "midas-curse-unity",
+      "name": [
+        "Midas Curse — Unity Survival Game",
+        "Midas Curse（Unity 生存游戏）"
+      ],
+      "date": [
+        "Aug 2023 – early Nov 2023",
+        "2023年8月 – 2023年11月初"
+      ],
+      "region": "au",
+      "type": "team",
+      "tech": "Unity, C#, ShaderLab, Git",
+      "summary": [
+        "A third-person maze, combat, and survival game built around a Midas-inspired golden-path mechanic.",
+        "以 Midas 神话为灵感、围绕黄金路径机制展开的第三人称迷宫战斗与生存游戏。"
+      ],
+      "background": [
+        "Project 1 established the concept and an initial playable prototype; Project 2 developed the same game into a fuller two-stage experience with a maze, enemies, skills, a shop, visual effects, and a boss encounter. This was my first experience with Unity and the starting point for systematically learning Unity, shader concepts, and game development through practice.",
+        "Project 1 建立游戏概念与初步可玩原型，Project 2 则在同一作品上继续开发，形成包含迷宫、敌人、技能、商店、视觉效果与 Boss 战的两阶段体验。这是我第一次接触 Unity，也是我通过实践系统学习 Unity、Shader 概念与游戏开发的起点。"
+      ],
+      "work": [
+        [
+          "Implemented and refined player movement and animation integration, including running states and Blend Tree adjustments.",
+          "实现并完善玩家移动与动画集成，包括跑步状态及 Blend Tree 调整。"
+        ],
+        [
+          "Worked on player-facing feedback and interaction flows, including health awareness, pause and shop controls, camera sensitivity, and audio behaviour.",
+          "参与玩家反馈与交互流程开发，包括生命值提示、暂停与商店控制、镜头灵敏度及音频行为。"
+        ],
+        [
+          "Contributed enemy spawning and animation adjustments, scene integration, and implementation debugging across the later development stage.",
+          "在后续开发阶段参与敌人生成与动画调整、场景集成及实现调试。"
+        ]
+      ],
+      "journey": [
+        {
+          "title": [
+            "Two stages of one game",
+            "同一游戏的两个开发阶段"
+          ],
+          "body": [
+            "Project 1 moved from the Midas-inspired premise to a playable prototype of movement, the golden path, the maze, and survival feedback. Project 2 carried the same foundation into a broader game loop with staged progression, combat, enemies, item upgrades, and a boss encounter.",
+            "Project 1 将 Midas 灵感推进为包含移动、黄金路径、迷宫与生存反馈的可玩原型；Project 2 延续同一基础，进一步形成带有阶段推进、战斗、敌人、道具升级与 Boss 战的完整玩法循环。"
+          ]
+        },
+        {
+          "title": [
+            "Refining feedback through playtesting",
+            "通过试玩反馈完善视觉提示"
+          ],
+          "body": [
+            "The team used face-to-face playtesting and a survey to guide the later iteration. One visible refinement made the affected ground easier to distinguish through stronger colour contrast and particle feedback, helping players read the golden-path state while moving.",
+            "团队通过面对面试玩与问卷反馈指导后续迭代。其中一项可见改进通过更鲜明的颜色对比与粒子反馈区分受影响地面，帮助玩家在移动过程中判断黄金路径状态。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/midas-curse-unity/maze-model-1280.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/maze-model-800.webp",
+          "width": 1280,
+          "height": 720,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "Three-dimensional maze model in the Unity editor",
+            "Unity 编辑器中的三维迷宫模型"
+          ],
+          "caption": [
+            "The maze translated the level plan into a navigable Unity environment for exploration, item collection, and encounters.",
+            "团队将关卡平面设计转化为可在 Unity 中探索、收集道具并触发战斗的三维迷宫环境。"
+          ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/maze-plan-1400.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/maze-plan-800.webp",
+          "width": 1400,
+          "height": 1413,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Final two-dimensional maze plan",
+            "最终二维迷宫平面设计"
+          ],
+          "caption": [
+            "The final maze plan reduced unnecessary dead ends and established a clear route toward its central objective.",
+            "最终迷宫方案减少不必要的死路，并围绕中央目标形成更清晰的探索路线。"
+          ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/visual-feedback-before-1400.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/visual-feedback-before-800.webp",
+          "width": 1400,
+          "height": 1297,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Earlier golden-path visual feedback during playtesting",
+            "试玩阶段较早版本的黄金路径视觉反馈"
+          ],
+          "caption": [
+            "Earlier visual treatment used during the team's playtesting comparison.",
+            "团队在试玩对比中使用的较早版本视觉表现。"
+          ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/visual-feedback-after-1182.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/visual-feedback-after-800.webp",
+          "width": 1182,
+          "height": 1155,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Refined golden-path feedback with stronger colour and particles",
+            "使用更鲜明颜色与粒子效果完善后的黄金路径反馈"
+          ],
+          "caption": [
+            "The refined result gives the affected path stronger contrast and particle feedback so its state is easier to read in motion.",
+            "改进结果通过更强的颜色对比与粒子反馈突出受影响路径，使玩家在移动中更容易判断其状态。"
+          ]
+        }
+      ],
+      "demo": {
+        "src": "assets/projects/midas-curse-unity/gold-path-demo.mp4",
+        "poster": "assets/projects/midas-curse-unity/gold-path-800.webp",
+        "width": 960,
+        "height": 540,
+        "caption": [
+          "An early Unity prototype of the golden-path mechanic: movement leaves transformed ground that becomes both a resource and a hazard.",
+          "黄金路径机制的早期 Unity 原型：移动会在身后留下被转化的地面，使路径同时成为资源与风险。"
+        ]
+      },
+      "team": [
+        "Cosmic Creators",
+        "Cosmic Creators"
+      ],
+      "featuredVideo": {
+        "youtubeId": "_KGzpyql4ps",
+        "watchUrl": "https://www.youtube.com/watch?v=_KGzpyql4ps",
+        "poster": "assets/projects/midas-curse-unity/demo-poster-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "caption": [
+          "Midas Curse gameplay demo by Cosmic Creators.",
+          "Cosmic Creators 的 Midas Curse 游戏演示。"
+        ]
+      },
+      "play": {
+        "url": "play/midas-curse/index.html",
+        "label": [
+          "Play Game",
+          "在线试玩"
+        ]
+      },
+      "sectionOrder": [
+        "video",
+        "background",
+        "demo",
+        "product",
+        "contributions",
+        "journey",
+        "engineering",
+        "team",
+        "credits"
+      ],
+      "credits": [
+        {
+          "title": [
+            "Team production",
+            "团队制作"
+          ],
+          "body": [
+            "Game concept, systems integration, evaluation, and project presentation were completed collaboratively by Cosmic Creators.",
+            "游戏概念、系统集成、试玩评估与项目展示由 Cosmic Creators 团队协作完成。"
+          ]
+        },
+        {
+          "title": [
+            "Models",
+            "模型、场景、图标与特效"
+          ],
+          "body": [
+            "The compiled game uses credited third-party assets from the Unity Asset Store and other sources documented by the team; these assets are not presented as original personal artwork.",
+            "游戏构建使用来自 Unity Asset Store 及团队文档所列其他来源的第三方素材；这些素材不作为个人原创美术成果展示。"
+          ],
+          "url": "https://assetstore.unity.com/"
+        },
+        {
+          "title": [
+            "Character animation",
+            "角色动画"
+          ],
+          "body": [
+            "Character and creature animation sources include Mixamo, integrated and adjusted within the Unity project.",
+            "角色与生物动画素材包括 Mixamo 资源，并在 Unity 项目中进行集成与调整。"
+          ],
+          "url": "https://www.mixamo.com/"
+        },
+        {
+          "title": [
+            "Shader learning reference",
+            "Shader 学习参考"
+          ],
+          "body": [
+            "The team's dissolve-effect study referenced a tutorial and then adapted the approach for the game's visual direction.",
+            "团队的溶解效果学习参考了教程，并在此基础上结合游戏视觉方向进行调整。"
+          ],
+          "url": "https://www.youtube.com/watch?v=LIuLeCq5-qs"
+        },
+        {
+          "title": [
+            "Sound effects",
+            "音效素材"
+          ],
+          "body": [
+            "Sound-effect sources include Pixabay and remain subject to their respective source terms.",
+            "音效素材来源包括 Pixabay，并遵循相应来源的使用条款。"
+          ],
+          "url": "https://pixabay.com/sound-effects/"
+        }
+      ],
+      "keywords": [
+        "Unity",
+        "game development",
+        "survival game",
+        "shaders",
+        "animation",
+        "Blend Tree",
+        "游戏开发",
+        "生存游戏",
+        "动画"
       ]
     },
     {

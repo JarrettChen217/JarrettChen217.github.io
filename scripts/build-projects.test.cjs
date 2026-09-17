@@ -3,6 +3,47 @@ const fixture=()=>yaml.load(fs.readFileSync(path.join(__dirname,'../projects.yml
 const run=doc=>compile(yaml.dump(doc));
 const demo=()=>({src:'assets/projects/avl-visualisation/avl-insertion-demo.mp4',poster:'assets/projects/avl-visualisation/avl-insertion-poster.webp',width:1440,height:1022,caption:{en:'Insertion and rotation',zh:'插入与旋转'}});
 const logo=()=>({src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Algorithms in Action project mark',zh:'Algorithms in Action 项目标识'}});
+const midasExtras=()=>({
+ team:{en:'Cosmic Creators',zh:'Cosmic Creators'},
+ featuredVideo:{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:{en:'Midas Curse gameplay demo',zh:'Midas Curse 游戏演示'}},
+ play:{url:'play/midas-curse/index.html',label:{en:'Play Game',zh:'在线试玩'}},
+ sectionOrder:['video','background','product','contributions','journey','engineering','team','credits','resources','scope'],
+ credits:[{title:{en:'Models and environments',zh:'模型与场景'},body:{en:'Third-party assets remain credited to their creators.',zh:'第三方素材版权归各自创作者所有。'},url:'https://assetstore.unity.com/'}]
+});
+test('project experience fields compile bilingual public data and strip research metadata',()=>{
+ const doc=fixture();const source=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(source,midasExtras(),{researchNotes:'/private/report.pdf'});
+ const project=run(doc).projects.find(item=>item.id==='avl-visualisation');
+ assert.deepEqual(project.team,['Cosmic Creators','Cosmic Creators']);
+ assert.deepEqual(project.featuredVideo,{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:['Midas Curse gameplay demo','Midas Curse 游戏演示']});
+ assert.deepEqual(project.play,{url:'play/midas-curse/index.html',label:['Play Game','在线试玩']});
+ assert.deepEqual(project.sectionOrder,midasExtras().sectionOrder);
+ assert.deepEqual(project.credits,[{title:['Models and environments','模型与场景'],body:['Third-party assets remain credited to their creators.','第三方素材版权归各自创作者所有。'],url:'https://assetstore.unity.com/'}]);
+ assert.ok(!JSON.stringify(project).includes('/private/report.pdf'));
+});
+test('project experience fields reject unsafe video, play, order and credit values',()=>{
+ const changes=[
+  {featuredVideo:{...midasExtras().featuredVideo,youtubeId:'not a youtube id'}},
+  {featuredVideo:{...midasExtras().featuredVideo,watchUrl:'http://www.youtube.com/watch?v=_KGzpyql4ps'}},
+  {featuredVideo:{...midasExtras().featuredVideo,caption:{en:'English only'}}},
+  {featuredVideo:{...midasExtras().featuredVideo,poster:'../secret.webp'}},
+  {featuredVideo:{...midasExtras().featuredVideo,width:0}},
+  {play:{...midasExtras().play,url:'../secret.html'}},
+  {play:{...midasExtras().play,url:'https://example.com/play'}},
+  {sectionOrder:['video','unknown']},
+  {sectionOrder:['video','video']},
+  {credits:[{...midasExtras().credits[0],url:'http://example.com'}]},
+  {credits:[{title:{en:'Only English'},body:midasExtras().credits[0].body}]}
+ ];
+ for(const change of changes){const doc=fixture();Object.assign(doc.projects.find(project=>project.id==='avl-visualisation'),midasExtras(),change);assert.throws(()=>run(doc),/featuredVideo|play|sectionOrder|credits/);}
+});
+test('detail renders the configured bilingual Midas sequence and demo actions',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(p,midasExtras());p.journey=[{title:{en:'Iteration',zh:'设计迭代'},body:{en:'Refined through playtesting.',zh:'通过试玩反馈完善。'}}];
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext(`detail(${JSON.stringify(p.id)})`,context);
+ assert.match(html,/Cosmic Creators/);assert.match(html,/class="video-poster"/);assert.match(html,/src="assets\/projects\/avl-visualisation\/avl-interface-800\.webp"/);assert.ok(!html.includes('youtube-nocookie.com'));assert.match(html,/Watch Demo/);assert.match(html,/href="play\/midas-curse\/index\.html"/);assert.match(html,/Play Game/);
+ assert.ok(html.indexOf('project-featured-video')<html.indexOf('Background'));assert.ok(html.indexOf('Project in action')<html.indexOf('Work &amp; contribution'));assert.ok(html.indexOf('Work &amp; contribution')<html.indexOf('Iteration'));assert.ok(html.indexOf('Iteration')<html.indexOf('Credits &amp; sources'));
+ html=vm.runInContext("language='zh';detail("+JSON.stringify(p.id)+")",context);assert.match(html,/Midas Curse 游戏演示/);assert.match(html,/观看演示/);assert.match(html,/在线试玩/);assert.match(html,/设计迭代/);assert.match(html,/素材来源与署名/);
+});
 test('project logo compiles validated local media and renders beside the bilingual detail title',()=>{
  const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.logo={...logo(),source:'/private/original-logo.png'};
  const result=run(doc);const compiled=result.projects.find(p=>p.id==='avl-visualisation');assert.deepEqual(compiled.logo,{src:logo().src,width:800,height:397,alt:['Algorithms in Action project mark','Algorithms in Action 项目标识']});assert.ok(!JSON.stringify(compiled).includes('/private/original-logo.png'));

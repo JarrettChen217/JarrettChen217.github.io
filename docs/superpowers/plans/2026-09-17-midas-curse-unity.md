@@ -4,7 +4,7 @@
 
 **Goal:** Publish a bilingual Midas Curse case study with verified content, compressed media, a confirmed gameplay video, and an independently loadable Unity WebGL play page.
 
-**Architecture:** Extend the existing YAML compiler with optional project metadata and ordered sections while preserving the current defaults. Render the YouTube demo and action links from generated data, and host a minimal standalone Unity player whose relative paths reference only one deduplicated runtime build.
+**Architecture:** Extend the existing YAML compiler with optional project metadata and ordered sections while preserving the current defaults. Render a local demo poster linked to the verified YouTube watch page (the video rejects third-party embedding) plus action links from generated data, and host a minimal standalone Unity player whose relative paths reference only one deduplicated runtime build.
 
 **Tech Stack:** Static HTML/CSS/JavaScript, Node.js built-in test runner, js-yaml, FFmpeg/WebP tooling, Unity WebGL runtime, GitHub Pages.
 
@@ -49,7 +49,7 @@
 - Consumes: compiler output from Task 1.
 - Produces: `featuredVideo(p)`, project actions, team metadata, credits, and ordered section HTML.
 
-- [ ] Add rendering tests that assert the YouTube no-cookie embed, watch/play actions, bilingual text, and configured section order.
+- [ ] Add rendering tests that assert the local YouTube poster fallback, watch/play actions, bilingual text, and configured section order.
 - [ ] Confirm tests fail against the existing renderer.
 - [ ] Implement small section renderers and a default order matching existing pages.
 - [ ] Add restrained action/video styling, keyboard focus support, desktop two-column media, and mobile one-column behavior.
@@ -119,4 +119,3 @@
 2. `feat: add Midas Curse bilingual case study`
 3. `feat: host Midas Curse WebGL build`
 4. `test: verify Midas Curse responsive experience` (only if QA requires tracked fixes/tests)
-

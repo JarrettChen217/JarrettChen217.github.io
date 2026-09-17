@@ -25,7 +25,7 @@ The case study is evidence-led. It foregrounds the playable result, core mechani
 
 ## Media and interaction
 
-- Embed the confirmed YouTube demo with the privacy-enhanced YouTube host and provide a visible **Watch Demo / 观看演示** link.
+- The confirmed YouTube watch page works, but its owner settings reject third-party embedding. Show a local 16:9 video poster linked to YouTube and provide a visible **Watch Demo / 观看演示** action instead of leaving a broken iframe.
 - Provide **Play Game / 在线试玩** to a standalone `play/midas-curse/` page.
 - The play page copies only the outer Unity WebGL runtime set: one loader, one data archive, one framework file, and one WebAssembly file. It does not copy duplicate nested builds.
 - Rename runtime files to stable lowercase names and use relative URLs so the page works both locally and at the GitHub Pages root.
@@ -51,7 +51,7 @@ The surrounding site remains academic and restrained. Midas uses its own media r
 Optional project fields introduced by this case study:
 
 - `team`: bilingual non-empty string.
-- `featuredVideo`: YouTube ID, canonical HTTPS watch URL, and bilingual caption.
+- `featuredVideo`: YouTube ID, canonical HTTPS watch URL, validated local poster dimensions, and bilingual caption.
 - `play`: safe repository-relative `.html` URL and bilingual label.
 - `sectionOrder`: unique values from the renderer's documented section keys.
 - `credits`: bilingual title/body plus an optional HTTPS source URL.
@@ -73,4 +73,3 @@ The compiler strips research paths and unrecognized metadata, validates all new 
 - Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths.
 - Open the standalone WebGL page over HTTP, verify all four runtime resources return successfully, and confirm the loader reaches Unity initialization rather than a missing-path error.
 - After branch push, verify the branch contents and public-page path assumptions without changing the repository's configured Pages source.
-

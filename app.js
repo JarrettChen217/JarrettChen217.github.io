@@ -22,7 +22,7 @@ function matches(p){const tokens=filters.query.normalize('NFKC').toLowerCase().t
 function updateResults(){const found=CONTENT.projects.filter(matches);document.querySelector('#result-count').textContent=t([`${found.length} of ${CONTENT.projects.length} projects`,`${found.length} / ${CONTENT.projects.length} 个项目`]);document.querySelector('#project-results').innerHTML=found.map(p=>entry(p)).join('')||`<p class="empty">${label('No matching projects. Try another keyword or clear the filters.','没有匹配的项目，请更换关键词或清除筛选。')}</p>`;}
 function journey(p){if(!p.journey?.length)return '';return `<section class="detail-section project-journey"><h3>${label('Highlights & development','成果与实现')}</h3>${p.journey.map(item=>`<article class="journey-entry"><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></article>`).join('')}</section>`;}
 function architecture(p){if(!p.architecture?.length)return '';return `<section class="detail-section project-architecture"><h3>${label('Architecture','系统架构')}</h3><ol class="architecture-flow">${p.architecture.map(item=>`<li><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></li>`).join('')}</ol></section>`;}
-function gallery(p,group){const items=(p.gallery||[]).filter(item=>item.group===group);if(!items.length)return '';const titles={product:['Project in action','作品展示'],engineering:['Design & delivery','设计与交付'],team:['Team & moments','团队与记录']};return `<section class="detail-section project-gallery"><h3>${esc(t(titles[group]))}</h3><div class="gallery-grid gallery-${group}">${items.map(item=>`<figure><a href="${esc(item.src)}" target="_blank" rel="noopener" aria-label="${label('Open larger image: ','查看大图：')}${esc(t(item.alt))}"><img src="${esc(item.thumbnail)}" srcset="${esc(item.thumbnail)} ${item.thumbnailWidth}w, ${esc(item.src)} ${item.width}w" sizes="${group==='team'?'(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 40vw, 360px':'(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 65vw, 800px'}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${esc(t(item.alt))}"></a><figcaption>${esc(t(item.caption))}</figcaption></figure>`).join('')}</div></section>`;}
+function gallery(p,group){const items=(p.gallery||[]).filter(item=>item.group===group);if(!items.length)return '';const titles={product:['Project in action','作品展示'],engineering:['Design & delivery','设计与交付'],team:['Team & moments','团队与记录']};return `<section class="detail-section project-gallery"><h3>${esc(t(titles[group]))}</h3><div class="gallery-grid gallery-${group}">${items.map(item=>`<figure><a href="${esc(item.src)}" data-gallery-preview aria-haspopup="dialog" aria-label="${label('Open larger image: ','查看大图：')}${esc(t(item.alt))}"><img src="${esc(item.thumbnail)}" srcset="${esc(item.thumbnail)} ${item.thumbnailWidth}w, ${esc(item.src)} ${item.width}w" sizes="${group==='team'?'(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 40vw, 360px':'(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 65vw, 800px'}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${esc(t(item.alt))}"></a><figcaption>${esc(t(item.caption))}</figcaption></figure>`).join('')}</div></section>`;}
 function demoVideo(p){const d=p.demo;if(!d)return '';return `<figure class="project-demo"><video controls playsinline preload="none" poster="${esc(d.poster)}" width="${d.width}" height="${d.height}" aria-label="${esc(t(d.caption))}"><source src="${esc(d.src)}" type="video/mp4"><a href="${esc(d.src)}">${label('Watch the demo','观看演示')}</a></video><figcaption>${esc(t(d.caption))}</figcaption></figure>`;}
 function detail(id){const p=CONTENT.projects.find(x=>x.id===id);if(!p)return `<h2>${label('Project not found','未找到项目')}</h2><a href="#projects">${label('Back to projects','返回项目列表')}</a>`;return `<a class="back" href="#projects"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to all projects','返回所有项目')}</a><h2 class="detail-heading">${esc(t(p.name))}</h2><div class="detail-meta">${esc(t(p.date))}<br>${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}<br>${esc(p.tech)}</div><p>${esc(t(p.summary))}</p><div class="detail-section"><h3>${label('Background','项目背景')}</h3><p>${esc(t(p.background))}</p></div>${p.work.length?`<div class="detail-section"><h3>${label('Work & contribution','工作与贡献')}</h3><ul>${p.work.map(w=>`<li>${esc(t(w))}</li>`).join('')}</ul></div>`:''}${gallery(p,'product')}${demoVideo(p)}${journey(p)}${architecture(p)}${gallery(p,'engineering')}${gallery(p,'team')}${p.links?.length?`<div class="detail-section"><h3>${label('Resources','项目资源')}</h3>${p.links.map(link=>`<a href="${esc(link.url)}" target="_blank" rel="noopener">${esc(t(link.label))}</a>`).join(' · ')}</div>`:''}${p.boundary?`<div class="detail-section"><h3>${label('Scope','展示范围')}</h3><p>${esc(t(p.boundary))}</p></div>`:''}`;}
 function contact(){const items=[['Email',CONTENT.email,CONTENT.email?'mailto:'+CONTENT.email:''],['LinkedIn',CONTENT.linkedin,CONTENT.linkedin],['GitHub',CONTENT.github,CONTENT.github],['WeChat',CONTENT.wechat,'']];return `<section><h2>${label('Contact','联系我')}</h2><p>${label('Feel free to get in touch about software engineering, AI applications, or opportunities to collaborate.','欢迎就软件工程、AI 应用或合作机会与我联系。')}</p><div class="contact-list">${items.map(([name,value,url])=>`<div class="contact-item"><strong>${name}</strong><div>${value?(url?`<a href="${esc(url)}">${esc(value.replace('https://www.','').replace('https://',''))}</a>`:`${esc(value)}<button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`):label('To be added','待补充')}</div></div>`).join('')}</div></section>`;}
@@ -33,4 +33,57 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const wc=document.q
 document.querySelector('.skip').addEventListener('click',event=>{event.preventDefault();document.querySelector('#main').focus();document.querySelector('#main').scrollIntoView()});
 window.addEventListener('hashchange',()=>{render();if(!route().id||route().page!=='overview')window.scrollTo(0,0)});
 setInterval(()=>{const bar=document.querySelector('#ms-fill');if(bar){const pct=progress().toFixed(1);bar.style.width=pct+'%';bar.parentElement.setAttribute('aria-valuenow',pct);document.querySelector('#ms-pct').textContent=pct+'%'}},60000);
+// Keep source order while allowing the next photo to occupy the shorter column.
+function galleryRowSpan(height,gap){return Math.ceil((height+gap)/(1+gap));}
+let galleryResizeObserver;
+function layoutGalleries(){
+  galleryResizeObserver?.disconnect();
+  const grids=document.querySelectorAll('.gallery-team');
+  const update=()=>{
+    grids.forEach(grid=>{
+      const gap=parseFloat(getComputedStyle(grid).rowGap)||24;
+      grid.classList.add('masonry-ready');
+      grid.querySelectorAll('figure').forEach(figure=>{
+        figure.style.gridRowEnd='span '+galleryRowSpan(figure.getBoundingClientRect().height,gap);
+      });
+    });
+  };
+  update();
+  if(typeof ResizeObserver!=='undefined'){
+    galleryResizeObserver=new ResizeObserver(update);
+    grids.forEach(grid=>{galleryResizeObserver.observe(grid);grid.querySelectorAll('figure').forEach(f=>galleryResizeObserver.observe(f));});
+  }
+}
+function openGalleryPreview(link){
+  const photo=link.querySelector('img');
+  const caption=link.closest('figure').querySelector('figcaption')?.textContent||photo.alt;
+  const dialog=document.createElement('dialog');
+  dialog.className='photo-preview';
+  dialog.setAttribute('aria-label',t(['Image preview','图片预览']));
+  dialog.innerHTML=`<button type="button" class="photo-preview-close" autofocus aria-label="${label('Close preview','关闭预览')}">×</button><figure><img src="${esc(link.getAttribute('href'))}" alt="${esc(photo.alt)}"><figcaption>${esc(caption)}</figcaption></figure>`;
+  const previousOverflow=document.documentElement.style.overflow;
+  const close=()=>dialog.close();
+  dialog.querySelector('button').addEventListener('click',close);
+  dialog.addEventListener('click',e=>{if(e.target===dialog)close();});
+  dialog.addEventListener('close',()=>{
+    document.documentElement.style.overflow=previousOverflow;
+    dialog.remove();
+    window.removeEventListener('hashchange',close);
+    if(link.isConnected)link.focus({preventScroll:true});
+  },{once:true});
+  document.body.append(dialog);
+  dialog.showModal();
+  document.documentElement.style.overflow='hidden';
+  window.addEventListener('hashchange',close);
+}
+document.addEventListener('click',event=>{
+  const link=event.target.closest('[data-gallery-preview]');
+  if(!link||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();
+  openGalleryPreview(link);
+});
+// Observe only route content replacement; gallery sizing does not modify children.
+if(typeof MutationObserver!=='undefined'){
+  new MutationObserver(layoutGalleries).observe(document.querySelector('#main'),{childList:true});
+}
 render();

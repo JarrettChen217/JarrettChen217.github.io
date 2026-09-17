@@ -243,8 +243,8 @@ const PROJECTS = {
             "更清晰的教师仪表盘"
           ],
           "body": [
-            "The team refined the readiness dashboard from a pie chart to a histogram, making the distribution easier to compare. The later client walkthrough confirmed that the revised chart was easier to read. I facilitated the low-fidelity usability session that informed this refinement, helping connect user feedback with the next design iteration.",
-            "团队将学习准备度仪表盘的饼图改为柱状图，让分布更便于比较；后续客户演示反馈确认，新图表更容易阅读。我主持了为这次改版提供依据的低保真可用性测试，帮助将用户反馈衔接到下一轮设计。"
+            "The team added an enlarged chart view and switching between doughnut and bar charts to the readiness dashboard, making the distribution easier to compare. The later client walkthrough confirmed that the revised chart was easier to read. I facilitated the low-fidelity usability session that informed this refinement, helping connect user feedback with the next design iteration.",
+            "团队为学习准备度仪表盘增加放大视图及环形图与柱状图切换，让分布更便于比较；后续客户演示反馈确认，新图表更容易阅读。我主持了为这次改版提供依据的低保真可用性测试，帮助将用户反馈衔接到下一轮设计。"
           ]
         },
         {
@@ -258,6 +258,98 @@ const PROJECTS = {
           ]
         }
       ],
+      "gallery": [
+        {
+          "src": "assets/projects/berry-street/dashboard-1600.webp",
+          "thumbnail": "assets/projects/berry-street/dashboard-800.webp",
+          "width": 1440,
+          "height": 1044,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "Classroom readiness dashboard prototype with enlarged bar chart",
+            "班级学习准备度仪表盘原型及放大的柱状图"
+          ],
+          "caption": [
+            "A closer view of classroom readiness, pairing labelled response counts with a bar chart for comparison.",
+            "将带标签的回答数量与柱状图并列呈现，方便教师比较班级学习准备度分布。"
+          ]
+        },
+        {
+          "src": "assets/projects/berry-street/visual-palette-1600.webp",
+          "thumbnail": "assets/projects/berry-street/visual-palette-800.webp",
+          "width": 1024,
+          "height": 768,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Berry Street Education Model colour palette",
+            "Berry Street Education Model 视觉配色板"
+          ],
+          "caption": [
+            "A shared palette referencing the Berry Street Education Model identity supported visual consistency across the prototype.",
+            "参考 Berry Street Education Model 品牌视觉的统一配色板，支持原型各页面保持一致。"
+          ]
+        },
+        {
+          "src": "assets/projects/berry-street/usability-planning-1600.webp",
+          "thumbnail": "assets/projects/berry-street/usability-planning-800.webp",
+          "width": 1600,
+          "height": 1200,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Whiteboard mapping student and teacher usability tasks to prototype refinements",
+            "梳理学生及教师可用性任务与原型改进的白板"
+          ],
+          "caption": [
+            "Planning student check-in and teacher dashboard tasks, linking usability feedback to action items and high-fidelity refinements.",
+            "围绕学生签到与教师仪表盘规划测试任务，将可用性反馈衔接到行动项与高保真原型改进。"
+          ]
+        },
+        {
+          "src": "assets/projects/berry-street/presentation-planning-1600.webp",
+          "thumbnail": "assets/projects/berry-street/presentation-planning-800.webp",
+          "width": 1600,
+          "height": 1200,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Whiteboard organising the team presentation and handover",
+            "组织团队展示与交接内容的白板"
+          ],
+          "caption": [
+            "The team organised its presentation around the client context, usability testing, design refinements and handover deliverables.",
+            "团队围绕客户背景、可用性测试、设计改进与交接成果组织展示内容及分工。"
+          ]
+        },
+        {
+          "src": "assets/projects/berry-street/team-with-max-1600.webp",
+          "thumbnail": "assets/projects/berry-street/team-with-max-800.webp",
+          "width": 1600,
+          "height": 1067,
+          "thumbnailWidth": 800,
+          "group": "team",
+          "alt": [
+            "Berry Street project team with supervisor Max",
+            "Berry Street 项目团队与导师 Max 的合照"
+          ],
+          "caption": [
+            "The Wombat team with our supervisor Max.",
+            "Wombat 团队与导师 Max 合影。"
+          ]
+        }
+      ],
+      "demo": {
+        "src": "assets/projects/berry-street/dashboard-demo.mp4",
+        "poster": "assets/projects/berry-street/dashboard-poster.webp",
+        "width": 1440,
+        "height": 1044,
+        "caption": [
+          "The iPad-oriented prototype switches between doughnut and bar charts within an enlarged classroom readiness view.",
+          "面向 iPad 的交互原型，在放大的班级学习准备度视图中切换环形图与柱状图。"
+        ]
+      },
       "keywords": [
         "leadership",
         "design",

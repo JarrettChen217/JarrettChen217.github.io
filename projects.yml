@@ -132,12 +132,70 @@ projects:
     journey:
       - title: {en: A clearer teacher dashboard, zh: 更清晰的教师仪表盘}
         body:
-          en: The team refined the readiness dashboard from a pie chart to a histogram, making the distribution easier to compare. The later client walkthrough confirmed that the revised chart was easier to read. I facilitated the low-fidelity usability session that informed this refinement, helping connect user feedback with the next design iteration.
-          zh: 团队将学习准备度仪表盘的饼图改为柱状图，让分布更便于比较；后续客户演示反馈确认，新图表更容易阅读。我主持了为这次改版提供依据的低保真可用性测试，帮助将用户反馈衔接到下一轮设计。
+          en: The team added an enlarged chart view and switching between doughnut and bar charts to the readiness dashboard, making the distribution easier to compare. The later client walkthrough confirmed that the revised chart was easier to read. I facilitated the low-fidelity usability session that informed this refinement, helping connect user feedback with the next design iteration.
+          zh: 团队为学习准备度仪表盘增加放大视图及环形图与柱状图切换，让分布更便于比较；后续客户演示反馈确认，新图表更容易阅读。我主持了为这次改版提供依据的低保真可用性测试，帮助将用户反馈衔接到下一轮设计。
       - title: {en: From requirements to a high-fidelity prototype, zh: 从需求梳理到高保真原型}
         body:
           en: Across the sprints, the team brought together user stories, acceptance criteria and an iPad-oriented high-fidelity prototype for handover. The student check-in was refined to a three-option design for primary-school users, which received positive feedback in the final walkthrough. My Scrum Master role supported coordination across requirements, testing and prototype refinement.
           zh: 在多轮冲刺中，团队将用户故事、验收标准与面向 iPad 的高保真原型整理为交接成果。学生签到流程调整为适合小学生的三个选项，并在最终演示中获得积极反馈。我作为 Scrum Master，协助衔接需求、测试与原型改进工作。
+
+    demo:
+      src: assets/projects/berry-street/dashboard-demo.mp4
+      poster: assets/projects/berry-street/dashboard-poster.webp
+      width: 1440
+      height: 1044
+      caption:
+        en: The iPad-oriented prototype switches between doughnut and bar charts within an enlarged classroom readiness view.
+        zh: 面向 iPad 的交互原型，在放大的班级学习准备度视图中切换环形图与柱状图。
+    gallery:
+      - src: assets/projects/berry-street/dashboard-1600.webp
+        thumbnail: assets/projects/berry-street/dashboard-800.webp
+        width: 1440
+        height: 1044
+        thumbnailWidth: 800
+        group: product
+        alt: {en: Classroom readiness dashboard prototype with enlarged bar chart, zh: 班级学习准备度仪表盘原型及放大的柱状图}
+        caption:
+          en: A closer view of classroom readiness, pairing labelled response counts with a bar chart for comparison.
+          zh: 将带标签的回答数量与柱状图并列呈现，方便教师比较班级学习准备度分布。
+      - src: assets/projects/berry-street/visual-palette-1600.webp
+        thumbnail: assets/projects/berry-street/visual-palette-800.webp
+        width: 1024
+        height: 768
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Berry Street Education Model colour palette, zh: Berry Street Education Model 视觉配色板}
+        caption:
+          en: A shared palette referencing the Berry Street Education Model identity supported visual consistency across the prototype.
+          zh: 参考 Berry Street Education Model 品牌视觉的统一配色板，支持原型各页面保持一致。
+      - src: assets/projects/berry-street/usability-planning-1600.webp
+        thumbnail: assets/projects/berry-street/usability-planning-800.webp
+        width: 1600
+        height: 1200
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Whiteboard mapping student and teacher usability tasks to prototype refinements, zh: 梳理学生及教师可用性任务与原型改进的白板}
+        caption:
+          en: Planning student check-in and teacher dashboard tasks, linking usability feedback to action items and high-fidelity refinements.
+          zh: 围绕学生签到与教师仪表盘规划测试任务，将可用性反馈衔接到行动项与高保真原型改进。
+      - src: assets/projects/berry-street/presentation-planning-1600.webp
+        thumbnail: assets/projects/berry-street/presentation-planning-800.webp
+        width: 1600
+        height: 1200
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Whiteboard organising the team presentation and handover, zh: 组织团队展示与交接内容的白板}
+        caption:
+          en: The team organised its presentation around the client context, usability testing, design refinements and handover deliverables.
+          zh: 团队围绕客户背景、可用性测试、设计改进与交接成果组织展示内容及分工。
+      - src: assets/projects/berry-street/team-with-max-1600.webp
+        thumbnail: assets/projects/berry-street/team-with-max-800.webp
+        width: 1600
+        height: 1067
+        thumbnailWidth: 800
+        group: team
+        alt: {en: Berry Street project team with supervisor Max, zh: Berry Street 项目团队与导师 Max 的合照}
+        caption: {en: The Wombat team with our supervisor Max., zh: Wombat 团队与导师 Max 合影。}
 
   - id: avl-visualisation
     published: true

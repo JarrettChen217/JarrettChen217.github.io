@@ -2,6 +2,17 @@ const test=require('node:test');const assert=require('node:assert/strict');const
 const fixture=()=>yaml.load(fs.readFileSync(path.join(__dirname,'../projects.yml'),'utf8'));
 const run=doc=>compile(yaml.dump(doc));
 const demo=()=>({src:'assets/projects/avl-visualisation/avl-insertion-demo.mp4',poster:'assets/projects/avl-visualisation/avl-insertion-poster.webp',width:1440,height:1022,caption:{en:'Insertion and rotation',zh:'插入与旋转'}});
+const logo=()=>({src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Algorithms in Action project mark',zh:'Algorithms in Action 项目标识'}});
+test('project logo compiles validated local media and renders beside the bilingual detail title',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.logo={...logo(),source:'/private/original-logo.png'};
+ const result=run(doc);const compiled=result.projects.find(p=>p.id==='avl-visualisation');assert.deepEqual(compiled.logo,{src:logo().src,width:800,height:397,alt:['Algorithms in Action project mark','Algorithms in Action 项目标识']});assert.ok(!JSON.stringify(compiled).includes('/private/original-logo.png'));
+ const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('avl-visualisation')",context);assert.match(html,/class="detail-title-row"/);assert.match(html,/class="project-logo"/);assert.match(html,/alt="Algorithms in Action project mark"/);assert.match(html,/width="800" height="397"/);
+ html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/alt="Algorithms in Action 项目标识"/);assert.ok(!vm.runInContext("detail('online-ordering')",context).includes('project-logo'));
+});
+test('project logo rejects unsafe paths, missing files, bad dimensions and untranslated alt text',()=>{
+ for(const change of [{src:'../secret.webp'},{src:'https://example.com/logo.webp'},{src:'assets/projects/avl-visualisation/missing.webp'},{src:'assets/projects/berry-street/visual-palette-800.webp'},{width:0},{height:1.5},{alt:{en:'Only English'}}]){const doc=fixture();doc.projects.find(p=>p.id==='avl-visualisation').logo={...logo(),...change};assert.throws(()=>run(doc),/logo/);}
+});
 test('demo compiles public fields and rejects unsafe or incomplete media',()=>{
  const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.demo={...demo(),original:'/private/original.mov'};
  const result=run(doc).projects.find(p=>p.id==='avl-visualisation');assert.equal(result.demo.src,demo().src);assert.ok(!JSON.stringify(result).includes('/private/original.mov'));

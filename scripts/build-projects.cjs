@@ -21,6 +21,15 @@ function compile(source) {
     if (typeof p.tech !== 'string' || !p.tech.trim()) fail(`${p.id}: tech is required`);
     if (!Array.isArray(p.work)) fail(`${p.id}: work must be a list`);
     const result = {id:p.id, name:bi(p.name,`${p.id}.name`), date:bi(p.date,`${p.id}.date`), region:p.region, type:p.type, tech:p.tech, summary:bi(p.summary,`${p.id}.summary`), background:bi(p.background,`${p.id}.background`), work:p.work.map((w,i)=>bi(w,`${p.id}.work[${i}]`))};
+    if(p.logo !== undefined){
+      const field=`${p.id}.logo`;const value=p.logo;
+      if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
+      if(typeof value.src!=='string'||!new RegExp(`^assets/projects/${p.id}/[a-z0-9-]+\\.webp$`).test(value.src))fail(`${field}: invalid asset path`);
+      const file=path.join(ROOT,value.src);
+      if(!fs.existsSync(file)||!fs.statSync(file).isFile()||!fs.realpathSync(file).startsWith(fs.realpathSync(ROOT)+path.sep))fail(`${field}: asset missing or outside repository`);
+      if(![value.width,value.height].every(n=>Number.isInteger(n)&&n>0))fail(`${field}: invalid dimensions`);
+      result.logo={src:value.src,width:value.width,height:value.height,alt:bi(value.alt,`${field}.alt`)};
+    }
     if(p.journey !== undefined) {
       if(!Array.isArray(p.journey)) fail(`${p.id}.journey: must be a list`);
       result.journey=p.journey.map((entry,i)=>{

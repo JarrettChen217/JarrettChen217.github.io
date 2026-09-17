@@ -111,6 +111,11 @@ projects:
   - id: berry-street
     published: true
     name: {en: Berry Street Teachers App, zh: Berry Street Teachers App（教师应用设计）}
+    logo:
+      src: assets/projects/berry-street/wombat-mark.webp
+      width: 380
+      height: 236
+      alt: {en: Wombat team mark, zh: Wombat 团队标识}
     date: {en: 'Feb 2025 – Aug 2025', zh: '2025年2月 – 2025年8月'}
     region: au
     type: team
@@ -158,6 +163,16 @@ projects:
         caption:
           en: A closer view of classroom readiness, pairing labelled response counts with a bar chart for comparison.
           zh: 将带标签的回答数量与柱状图并列呈现，方便教师比较班级学习准备度分布。
+      - src: assets/projects/berry-street/goal-model-1600.webp
+        thumbnail: assets/projects/berry-street/goal-model-800.webp
+        width: 1600
+        height: 368
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Goal model connecting stakeholder roles with functional and emotional goals, zh: 关联利益相关方角色、功能目标与情感目标的目标模型}
+        caption:
+          en: The goal model connects students, teachers, school administrators and support teams with the functions and experiences the prototype should support.
+          zh: 目标模型将学生、教师、学校管理者与支持团队关联到原型应支持的功能与体验目标。
       - src: assets/projects/berry-street/visual-palette-1600.webp
         thumbnail: assets/projects/berry-street/visual-palette-800.webp
         width: 1024
@@ -200,6 +215,11 @@ projects:
   - id: avl-visualisation
     published: true
     name: {en: 'Algorithms in Action — AVL Trees', zh: 'Algorithms in Action（AVL 树可视化）'}
+    logo:
+      src: assets/projects/avl-visualisation/aia-mark.webp
+      width: 300
+      height: 300
+      alt: {en: Algorithms in Action project mark, zh: Algorithms in Action 项目标识}
     date: {en: 'Aug 2024 – Oct 2024', zh: '2024年8月 – 2024年10月'}
     region: au
     type: team

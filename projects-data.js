@@ -236,6 +236,15 @@ const PROJECTS = {
           "参与原型设计方向及隐私相关设计讨论。"
         ]
       ],
+      "logo": {
+        "src": "assets/projects/berry-street/wombat-mark.webp",
+        "width": 380,
+        "height": 236,
+        "alt": [
+          "Wombat team mark",
+          "Wombat 团队标识"
+        ]
+      },
       "journey": [
         {
           "title": [
@@ -273,6 +282,22 @@ const PROJECTS = {
           "caption": [
             "A closer view of classroom readiness, pairing labelled response counts with a bar chart for comparison.",
             "将带标签的回答数量与柱状图并列呈现，方便教师比较班级学习准备度分布。"
+          ]
+        },
+        {
+          "src": "assets/projects/berry-street/goal-model-1600.webp",
+          "thumbnail": "assets/projects/berry-street/goal-model-800.webp",
+          "width": 1600,
+          "height": 368,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Goal model connecting stakeholder roles with functional and emotional goals",
+            "关联利益相关方角色、功能目标与情感目标的目标模型"
+          ],
+          "caption": [
+            "The goal model connects students, teachers, school administrators and support teams with the functions and experiences the prototype should support.",
+            "目标模型将学生、教师、学校管理者与支持团队关联到原型应支持的功能与体验目标。"
           ]
         },
         {
@@ -393,6 +418,15 @@ const PROJECTS = {
           "担任 Scrum Master，并修复递归回放导航行为。"
         ]
       ],
+      "logo": {
+        "src": "assets/projects/avl-visualisation/aia-mark.webp",
+        "width": 300,
+        "height": 300,
+        "alt": [
+          "Algorithms in Action project mark",
+          "Algorithms in Action 项目标识"
+        ]
+      },
       "journey": [
         {
           "title": [

@@ -1,0 +1,6 @@
+{
+  "name": "hao-chen-portfolio",
+  "private": true,
+  "scripts": {"build": "node scripts/build-projects.cjs", "check": "node scripts/build-projects.cjs --check", "test": "node --test scripts/build-projects.test.cjs"},
+  "devDependencies": {"js-yaml": "4.2.0"}
+}

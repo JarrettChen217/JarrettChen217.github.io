@@ -1,0 +1,6 @@
+# Local intake only. Nothing dropped here is automatically published.
+*
+!*/
+!.gitignore
+!.gitkeep
+!README.md

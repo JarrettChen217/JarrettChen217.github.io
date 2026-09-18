@@ -22,9 +22,222 @@ const PROJECTS = {
     },
     {
       "id": "mur-simulation"
+    },
+    {
+      "id": "dance-xr",
+      "description": [
+        "An immersive Meta Quest 3 dance-practice prototype combining floor guidance, rhythm feedback and optional Vive Tracker ankle tracking.",
+        "面向 Meta Quest 3 的沉浸式舞蹈练习原型，结合地面引导、节奏反馈与可选的 Vive Tracker 脚踝追踪。"
+      ]
     }
   ],
   "projects": [
+    {
+      "id": "dance-xr",
+      "name": [
+        "Dance XR — VR Dance Practice System",
+        "Dance XR（VR 舞蹈练习系统）"
+      ],
+      "date": [
+        "Apr 2026 – May 2026 · Columbia University team project · COMS W4172",
+        "2026年4月 – 2026年5月 · 哥伦比亚大学团队项目 · COMS W4172"
+      ],
+      "region": "ny",
+      "type": "team",
+      "tech": "Unity 6.3.6f1, C#, Meta XR SDK, OpenXR, Meta Quest 3, SteamVR, HTC Vive Tracker, UDP, JSON, RenderTexture",
+      "summary": [
+        "An immersive dance-practice prototype for Meta Quest 3 that combines floor-based step guidance, rhythm scoring, a configurable minimap, and optional Vive Tracker ankle tracking.",
+        "面向 Meta Quest 3 的沉浸式舞蹈练习原型，通过地面脚步引导、节奏评分、可配置小地图与可选的 Vive Tracker 脚踝追踪帮助用户按自己的节奏练习。"
+      ],
+      "background": [
+        "Dance XR explores how a standalone VR experience can provide spatial step guidance and playback control without requiring learners to keep watching an instructor. Users choose a style, difficulty and song, then follow virtual footprints while viewing score and position feedback. A floating control panel provides playback, discrete speed changes, footprint scaling, and minimap or camera options.",
+        "Dance XR 探索如何让一套独立运行的 VR 体验在不要求用户持续注视真人教练的情况下，提供空间脚步引导与练习节奏控制。用户可选择舞种、难度与歌曲，再跟随虚拟脚印练习，并查看得分与位置反馈。悬浮控制面板提供播放控制、离散倍速调整、脚印大小设置，以及小地图与相机模式切换。"
+      ],
+      "work": [
+        [
+          "Led the initial project architecture and Unity 6.3 / Meta XR scaffolding, then maintained core application state and integration work.",
+          "主导项目初期架构与 Unity 6.3 / Meta XR 工程搭建，并持续维护核心应用状态与系统集成。"
+        ],
+        [
+          "Implemented the floating interaction menu and minimap system, including top-down rendering, drag and two-hand scaling, foot markers, follow/orientation modes, and camera controls.",
+          "实现悬浮交互菜单与小地图系统，包括俯视渲染、拖动与双手缩放、双脚标记、跟随/朝向模式和相机控制。"
+        ],
+        [
+          "Built the Quest-side Vive Tracker receiver and calibration pipeline: packet decoding, receiver states, two-point yaw-and-translation calibration, foot binding, telemetry, and lost-tracking warnings.",
+          "实现 Quest 端 Vive Tracker 接收与校准管线，包括数据包解析、接收状态机、双点偏航角与平移校准、左右脚绑定、遥测及丢失追踪提示。"
+        ],
+        [
+          "Supported repeated merges, device builds, and integration fixes as the prototype iterated toward the final demonstration.",
+          "在原型迭代至最终演示的过程中承担多次合并、设备构建与集成修复。"
+        ]
+      ],
+      "teamCredit": [
+        "Four-person team: Yihe An, Hao Chen, Hiroyuki Akiyama, and John Mitnik",
+        "四人团队：Yihe An、Hao Chen、Hiroyuki Akiyama 和 John Mitnik"
+      ],
+      "workHeading": [
+        "My contribution",
+        "我的贡献"
+      ],
+      "journey": [
+        {
+          "title": [
+            "A practice flow that stays in the learner’s space",
+            "让练习始终发生在用户的空间中"
+          ],
+          "body": [
+            "The session starts with a choice of dance style, difficulty and song. During practice, floor footprints provide the next spatial cue while score and position feedback remain available without asking the learner to follow a continuously visible instructor.",
+            "练习从选择舞种、难度与歌曲开始。过程中，地面虚拟脚印提供下一步的空间提示，得分与位置反馈也始终可见，用户无需持续注视真人教练。"
+          ]
+        },
+        {
+          "title": [
+            "Controls that adapt the routine to the learner",
+            "让用户按自己的节奏调整练习"
+          ],
+          "body": [
+            "The floating panel brings playback controls, discrete speed choices, footprint scaling, and minimap or camera modes into reach. The minimap adds a top-down view of the practice space and foot positions without displacing the primary guidance.",
+            "悬浮面板将播放控制、离散倍速选择、脚印缩放，以及小地图或相机模式集中在可触及的位置。小地图以俯视图呈现练习空间与双脚位置，同时不干扰主要引导。"
+          ]
+        },
+        {
+          "title": [
+            "AI-assisted development",
+            "大量使用 AI 工具，但核心仍是设备集成"
+          ],
+          "body": [
+            "This was a project where I used AI tools extensively for Unity experimentation and presentation work. The essential work remained adapting suggestions to the existing project, connecting unfamiliar VR packages and hardware, and iterating on real devices until the demonstration worked.",
+            "这是我首次在 Unity 实验与演示材料制作中大量使用 AI 工具的项目。关键工作仍然是将建议适配到已有工程，连接陌生的 VR 软件包与硬件，并在真实设备上持续迭代直至完成演示。"
+          ]
+        }
+      ],
+      "architecture": [
+        {
+          "title": [
+            "Vive ankle trackers",
+            "Vive 脚踝追踪器"
+          ],
+          "body": [
+            "HTC Vive Trackers mounted at the ankles provide the optional foot-pose input for the practice experience.",
+            "佩戴在脚踝上的 HTC Vive Tracker 为练习体验提供可选的脚部姿态输入。"
+          ]
+        },
+        {
+          "title": [
+            "Windows companion to local network packets",
+            "Windows 伴随应用到局域网数据包"
+          ],
+          "body": [
+            "A companion Unity application on Windows reads tracker poses through SteamVR and sends them over the local network as UDP/JSON packets.",
+            "Windows 上运行的伴随 Unity 应用通过 SteamVR 读取追踪器姿态，并以 UDP/JSON 数据包通过局域网发送。"
+          ]
+        },
+        {
+          "title": [
+            "Quest receiver",
+            "Quest 接收、校准与脚部锚点"
+          ],
+          "body": [
+            "The Quest Unity application receives packets, calibrates the two coordinate spaces, binds left and right foot anchors, and handles stale or lost tracking states.",
+            "Quest Unity 应用接收数据包、校准两个坐标空间、绑定左右脚锚点，并处理追踪过期或丢失状态。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/dance-xr/dance-xr-minimap-controls-1600.webp",
+          "thumbnail": "assets/projects/dance-xr/dance-xr-minimap-controls-800.webp",
+          "width": 1600,
+          "height": 900,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "In-headset minimap with score",
+            "头显内的小地图、得分、音乐速度与脚印大小控制"
+          ],
+          "caption": [
+            "The in-headset view combines a configurable minimap and score feedback with controls for music speed and footprint size.",
+            "头显内视图将可配置小地图与得分反馈结合，并提供音乐速度和脚印大小控制。"
+          ]
+        },
+        {
+          "src": "assets/projects/dance-xr/dance-xr-session-menu-1600.webp",
+          "thumbnail": "assets/projects/dance-xr/dance-xr-session-menu-800.webp",
+          "width": 1600,
+          "height": 900,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "Dance XR session menu for style",
+            "用于选择舞种、难度、歌曲与校准的 Dance XR 练习菜单"
+          ],
+          "caption": [
+            "The session menu gathers style, difficulty, song and calibration choices before a practice run begins.",
+            "练习开始前，菜单集中呈现舞种、难度、歌曲与校准选项。"
+          ]
+        },
+        {
+          "src": "assets/projects/dance-xr/dance-xr-vive-trackers-1600.webp",
+          "thumbnail": "assets/projects/dance-xr/dance-xr-vive-trackers-800.webp",
+          "width": 1600,
+          "height": 1200,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Two HTC Vive Trackers with ankle straps",
+            "两个配有脚踝绑带的 HTC Vive Tracker"
+          ],
+          "caption": [
+            "Optional ankle-mounted Vive Trackers supplied the foot-pose input carried through the companion and Quest applications.",
+            "可选的脚踝 Vive Tracker 提供脚部姿态输入，并由伴随应用传递至 Quest 应用。"
+          ]
+        },
+        {
+          "src": "assets/projects/dance-xr/dance-xr-minimap-sketch-1600.webp",
+          "thumbnail": "assets/projects/dance-xr/dance-xr-minimap-sketch-800.webp",
+          "width": 1600,
+          "height": 963,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Team design sketch for a minimap and floating control panel",
+            "团队为小地图与悬浮控制面板绘制的设计草图"
+          ],
+          "caption": [
+            "A team design sketch exploring the relationship between the minimap and floating controls.",
+            "一张团队设计草图，探索小地图与悬浮控制面板之间的关系。"
+          ]
+        }
+      ],
+      "youtubeDemo": {
+        "videoId": "eip1ze0U0Ns",
+        "embedUrl": "https://www.youtube.com/embed/eip1ze0U0Ns?si=-dlLqAk-GLLG2Q_H",
+        "url": "https://youtu.be/eip1ze0U0Ns",
+        "title": [
+          "Dance XR five-minute demo",
+          "Dance XR 五分钟演示"
+        ],
+        "linkLabel": [
+          "Watch on YouTube",
+          "在 YouTube 观看"
+        ]
+      },
+      "boundary": [
+        "Educational prototype. Current public build availability was not verified; this page does not present hand tracking, an instructor avatar, multiplayer, or a downloadable Quest build as completed features.",
+        "教学原型。当前公开构建的可用性尚未核实；本页不将手部追踪、教练虚拟形象、多人功能或可下载的 Quest 构建描述为已完成特性。"
+      ],
+      "keywords": [
+        "VR",
+        "Unity",
+        "Meta Quest 3",
+        "Vive Tracker",
+        "UDP",
+        "C#",
+        "virtual reality",
+        "虚拟现实",
+        "舞蹈"
+      ]
+    },
     {
       "id": "agent-ai",
       "name": [

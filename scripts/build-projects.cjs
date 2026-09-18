@@ -21,6 +21,8 @@ function compile(source) {
     if (typeof p.tech !== 'string' || !p.tech.trim()) fail(`${p.id}: tech is required`);
     if (!Array.isArray(p.work)) fail(`${p.id}: work must be a list`);
     const result = {id:p.id, name:bi(p.name,`${p.id}.name`), date:bi(p.date,`${p.id}.date`), region:p.region, type:p.type, tech:p.tech, summary:bi(p.summary,`${p.id}.summary`), background:bi(p.background,`${p.id}.background`), work:p.work.map((w,i)=>bi(w,`${p.id}.work[${i}]`))};
+    if(p.teamCredit!==undefined)result.teamCredit=bi(p.teamCredit,`${p.id}.teamCredit`);
+    if(p.workHeading!==undefined)result.workHeading=bi(p.workHeading,`${p.id}.workHeading`);
     if(p.logo !== undefined){
       const field=`${p.id}.logo`;const value=p.logo;
       if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
@@ -106,6 +108,14 @@ function compile(source) {
       };
       if(!d||![d.width,d.height].every(n=>Number.isInteger(n)&&n>0))fail(`${field}: invalid dimensions`);
       result.demo={src:asset(d.src,'mp4'),poster:asset(d.poster,'webp'),width:d.width,height:d.height,caption:bi(d.caption,`${field}.caption`)};
+    }
+    if(p.youtubeDemo !== undefined){
+      const value=p.youtubeDemo;const field=`${p.id}.youtubeDemo`;
+      if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.videoId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.videoId))fail(`${field}: invalid video ID`);
+      const expectedEmbed=`https://www.youtube.com/embed/${value.videoId}?si=-dlLqAk-GLLG2Q_H`;
+      const expectedUrl=`https://youtu.be/${value.videoId}`;
+      if(value.embedUrl!==expectedEmbed||value.url!==expectedUrl)fail(`${field}: untrusted or mismatched YouTube URL`);
+      result.youtubeDemo={videoId:value.videoId,embedUrl:value.embedUrl,url:value.url,title:bi(value.title,`${field}.title`),linkLabel:bi(value.linkLabel,`${field}.linkLabel`)};
     }
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
     if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }

@@ -98,4 +98,14 @@ jobs:
           curl "${curl_args[@]}" "$site_url/styles.css" | grep -F -- '--accent:#375d73'
           curl "${curl_args[@]}" "$site_url/app.js" | grep -F 'function route()'
           curl "${curl_args[@]}" "$site_url/projects-data.js" | grep -F 'Generated from projects.yml'
+          curl "${curl_args[@]}" "$site_url/play/midas-curse/index.html" | grep -F '<title>Midas Curse | Play</title>'
+          curl "${curl_args[@]}" "$site_url/play/midas-curse/Build/midas-curse.loader.js" | grep -F 'createUnityInstance'
+          runtime_assets=(
+            midas-curse.data.unityweb
+            midas-curse.framework.js.unityweb
+            midas-curse.wasm.unityweb
+          )
+          for asset in "${runtime_assets[@]}"; do
+            curl "${curl_args[@]}" --range 0-0 --output /dev/null "$site_url/play/midas-curse/Build/$asset"
+          done
           echo "Deployed site: $site_url/" >> "$GITHUB_STEP_SUMMARY"

@@ -33,3 +33,17 @@ test('dev pull requests run quality checks but only main can deploy', () => {
   assert.equal(workflow.jobs['production-health'].if, productionCondition);
   assert.equal(productionCondition.includes('refs/heads/dev'), false);
 });
+
+test('production health verifies the Midas play page and Unity runtime assets', () => {
+  const script = workflow.jobs['production-health'].steps.find(step => step.run).run;
+  for (const path of [
+    'play/midas-curse/index.html',
+    'play/midas-curse/Build/midas-curse.loader.js',
+    'midas-curse.data.unityweb',
+    'midas-curse.framework.js.unityweb',
+    'midas-curse.wasm.unityweb',
+  ]) {
+    assert.match(script, new RegExp(path.replaceAll('.', '\\.')));
+  }
+  assert.match(script, /--range 0-0 --output \/dev\/null/);
+});

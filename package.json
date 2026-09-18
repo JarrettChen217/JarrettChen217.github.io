@@ -1,6 +1,17 @@
 {
   "name": "hao-chen-portfolio",
   "private": true,
-  "scripts": {"build": "node scripts/build-projects.cjs", "check": "node scripts/build-projects.cjs --check", "test": "node --test scripts/build-projects.test.cjs"},
-  "devDependencies": {"js-yaml": "4.2.0"}
+  "scripts": {
+    "build": "node scripts/build-projects.cjs",
+    "build:site": "node scripts/build-site.cjs",
+    "check": "node scripts/build-projects.cjs --check",
+    "test": "npm run test:unit",
+    "test:unit": "node --test scripts/*.test.cjs",
+    "test:e2e": "playwright test",
+    "verify": "npm run check && npm run test:unit && npm run build:site && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "js-yaml": "4.3.2"
+  }
 }

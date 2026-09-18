@@ -25,9 +25,15 @@ projects:
     published: true
     name: {en: Dance XR — VR Dance Practice System, zh: Dance XR（VR 舞蹈练习系统）}
     date: {en: Apr 2026 – May 2026 · Columbia University team project · COMS W4172, zh: 2026年4月 – 2026年5月 · 哥伦比亚大学团队项目 · COMS W4172}
-    teamCredit:
-      en: 'Four-person team: Yihe An, Hao Chen, Hiroyuki Akiyama, and John Mitnik'
-      zh: 四人团队：Yihe An、Hao Chen、Hiroyuki Akiyama 和 John Mitnik
+    members:
+      - name: {en: Yihe An, zh: Yihe An}
+        url: https://github.com/YihAn011
+      - name: {en: Hao Chen, zh: Hao Chen}
+        url: https://github.com/JarrettChen217
+      - name: {en: Hiroyuki Akiyama, zh: Hiroyuki Akiyama}
+        url: https://github.com/Hi-ak
+      - name: {en: John Mitnik, zh: John Mitnik}
+        url: https://github.com/johnmitnik2
     region: ny
     type: team
     tech: Unity 6.3.6f1, C#, Meta XR SDK, OpenXR, Meta Quest 3, SteamVR, HTC Vive Tracker, UDP, JSON, RenderTexture
@@ -227,6 +233,7 @@ projects:
     date: {en: 'Feb 2025 – Aug 2025', zh: '2025年2月 – 2025年8月'}
     region: au
     type: team
+    team: {en: Team025 Wombat, zh: Team025 Wombat}
     tech: Requirements engineering, Agile/Scrum, Figma
     keywords: [leadership, design, UX, 需求, 团队协作]
     summary:
@@ -240,6 +247,7 @@ projects:
       url: https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that
     members:
       - name: {en: Ziyu Wang, zh: Ziyu Wang}
+        url: https://github.com/Lafinoon
       - name: {en: Hao Chen, zh: Hao Chen}
         url: https://github.com/JarrettChen217
       - name: {en: Zikun Qiu, zh: Zikun Qiu}
@@ -420,6 +428,7 @@ projects:
     date: {en: 'Aug 2024 – Oct 2024', zh: '2024年8月 – 2024年10月'}
     region: au
     type: team
+    team: {en: Static Sound, zh: Static Sound}
     tech: React, JavaScript, AVL trees
     keywords: [algorithms, animation, education, 算法, 可视化]
     summary:
@@ -838,6 +847,7 @@ projects:
     date: {en: 'Sep 2024 – Nov 2024', zh: '2024年9月 – 2024年11月'}
     region: au
     type: team
+    team: {en: Melbourne University Racing, zh: Melbourne University Racing}
     tech: ROS2, NVIDIA Isaac Sim, Python, OpenCV
     keywords: [robotics, simulation, sensors, 机器人, 仿真]
     summary:

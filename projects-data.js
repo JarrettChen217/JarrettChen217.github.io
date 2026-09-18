@@ -74,10 +74,6 @@ const PROJECTS = {
           "在原型迭代至最终演示的过程中承担多次合并、设备构建与集成修复。"
         ]
       ],
-      "teamCredit": [
-        "Four-person team: Yihe An, Hao Chen, Hiroyuki Akiyama, and John Mitnik",
-        "四人团队：Yihe An、Hao Chen、Hiroyuki Akiyama 和 John Mitnik"
-      ],
       "workHeading": [
         "My contribution",
         "我的贡献"
@@ -228,6 +224,36 @@ const PROJECTS = {
       "boundary": [
         "Educational prototype. Current public build availability was not verified; this page does not present hand tracking, an instructor avatar, multiplayer, or a downloadable Quest build as completed features.",
         "教学原型。当前公开构建的可用性尚未核实；本页不将手部追踪、教练虚拟形象、多人功能或可下载的 Quest 构建描述为已完成特性。"
+      ],
+      "members": [
+        {
+          "name": [
+            "Yihe An",
+            "Yihe An"
+          ],
+          "url": "https://github.com/YihAn011"
+        },
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Hiroyuki Akiyama",
+            "Hiroyuki Akiyama"
+          ],
+          "url": "https://github.com/Hi-ak"
+        },
+        {
+          "name": [
+            "John Mitnik",
+            "John Mitnik"
+          ],
+          "url": "https://github.com/johnmitnik2"
+        }
       ],
       "keywords": [
         "VR",
@@ -759,12 +785,17 @@ const PROJECTS = {
           }
         ]
       },
+      "team": [
+        "Team025 Wombat",
+        "Team025 Wombat"
+      ],
       "members": [
         {
           "name": [
             "Ziyu Wang",
             "Ziyu Wang"
-          ]
+          ],
+          "url": "https://github.com/Lafinoon"
         },
         {
           "name": [
@@ -1114,6 +1145,10 @@ const PROJECTS = {
           "演示 AVL 节点插入与重新平衡，结合树旋转动画和逐步高亮的伪代码。"
         ]
       },
+      "team": [
+        "Static Sound",
+        "Static Sound"
+      ],
       "keywords": [
         "algorithms",
         "animation",
@@ -1612,6 +1647,10 @@ const PROJECTS = {
       "boundary": [
         "This case study focuses on simulation infrastructure, not ownership of the team's machine-learning models.",
         "本案例聚焦仿真基础设施，不将团队机器学习模型作为个人独立成果。"
+      ],
+      "team": [
+        "Melbourne University Racing",
+        "Melbourne University Racing"
       ],
       "keywords": [
         "robotics",

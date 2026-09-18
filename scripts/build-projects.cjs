@@ -21,7 +21,7 @@ function compile(source) {
     if (typeof p.tech !== 'string' || !p.tech.trim()) fail(`${p.id}: tech is required`);
     if (!Array.isArray(p.work)) fail(`${p.id}: work must be a list`);
     const result = {id:p.id, name:bi(p.name,`${p.id}.name`), date:bi(p.date,`${p.id}.date`), region:p.region, type:p.type, tech:p.tech, summary:bi(p.summary,`${p.id}.summary`), background:bi(p.background,`${p.id}.background`), work:p.work.map((w,i)=>bi(w,`${p.id}.work[${i}]`))};
-    if(p.teamCredit!==undefined)result.teamCredit=bi(p.teamCredit,`${p.id}.teamCredit`);
+    if(p.teamCredit!==undefined)fail(`${p.id}.teamCredit is deprecated; use team and members instead`);
     if(p.workHeading!==undefined)result.workHeading=bi(p.workHeading,`${p.id}.workHeading`);
     if(p.logo !== undefined){
       const field=`${p.id}.logo`;const value=p.logo;
@@ -167,6 +167,7 @@ function compile(source) {
         return compiled;
       });
     }
+    if(p.type==='team'&&p.team===undefined&&p.members===undefined)fail(`${p.id}: team projects require a team name or public members`);
     if(p.featuredVideo !== undefined){
       const field=`${p.id}.featuredVideo`;const value=p.featuredVideo;
       if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.youtubeId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.youtubeId))fail(`${field}: invalid YouTube ID`);

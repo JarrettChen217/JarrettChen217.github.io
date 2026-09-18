@@ -11,27 +11,32 @@ The case study is evidence-led. It foregrounds the playable result, core mechani
 - Stable project ID: `midas-curse-unity`.
 - `projects.yml` remains the source of truth for English and Chinese copy, media references, section order, video, play link, team name, credits, and Overview selection.
 - Overview adds only `{id: midas-curse-unity}`. It reuses the canonical project summary and does not copy project content.
-- The detail sequence is: summary, embedded gameplay video and actions, background/core gameplay, personal contributions, gameplay media, brief design iteration, supporting design media, team record, credits, and resources.
+- The detail sequence is: summary, background/core gameplay, an engineering narrative, embedded gameplay video and actions, early-mechanic media, product media, personal contributions, brief design iteration, supporting design media, team record, credits, and resources.
 - Existing projects keep their current default section order. An optional validated `sectionOrder` field changes order only where explicitly configured.
+- The engineering narrative explains the team's 2023 path from concept to implementation before generative-AI coding assistants were part of its workflow. It covers documentation/tutorial-led learning, prototyping, manual debugging, the golden-ground grid and state model, shader integration, and the WebGL-driven rendering decision without turning the section into a defect log.
 
 ## Content boundaries
 
 - Attribute the game concept, integrated result, design iterations, shader work, and evaluation to Cosmic Creators unless authorship is individually verified.
 - Hao's contribution summary may include player running animation and Blend Tree work, health feedback, pause/shop interactions, enemy spawning and animation adjustments, camera/audio/UI work, and implementation debugging supported by the reports and commit history.
 - Describe shader learning as part of the learning journey. Do not assign a specific shader to Hao without stronger evidence.
+- Describe the golden-ground and shader pipeline as a **team system**. Commit history attributes much of the grid/state implementation to Gaoyongle Zhang, the initial dissolve work to Jiayi Sun, later integration to multiple contributors, and Hao's geometry-shader enemy-death experiment to Hao. Do not collapse those contributions into a personal ownership claim.
+- Hao's first-Unity reflection may explicitly say that the team learned in 2023 through documentation, tutorials, prototypes, code review, and manual debugging before generative-AI coding assistants were part of its workflow.
 - Do not publish Noita reference GIFs, music MP4 files, course materials, peer reviews, private data, unrelated logs, or source code.
 - Treat third-party models, environments, icons, animations, sound, music, tutorials, and effects as credited dependencies, not personal or team-original art.
 - Do not commit `OurGroup.jpg` until public-display permission is confirmed.
 
 ## Media and interaction
 
-- The confirmed YouTube watch page works, but its owner settings reject third-party embedding. Show a local 16:9 video poster linked to YouTube and provide a visible **Watch Demo / 观看演示** action instead of leaving a broken iframe.
+- Embed the gameplay video in a responsive 16:9 YouTube iframe using the user-provided `https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr` URL. Keep a visible **Watch Demo / 观看演示** link because YouTube may still reject playback according to owner or referrer policy.
+- The iframe is non-autoplaying, lazy-loaded, titled bilingually, fullscreen-capable, and restricted to the permissions in the provided embed markup.
 - Provide **Play Game / 在线试玩** to a standalone `play/midas-curse/` page.
 - The play page copies only the outer Unity WebGL runtime set: one loader, one data archive, one framework file, and one WebAssembly file. It does not copy duplicate nested builds.
 - Rename runtime files to stable lowercase names and use relative URLs so the page works both locally and at the GitHub Pages root.
 - Keep WebGL loading user-triggered to avoid a roughly 59 MB download when someone only reads the case study.
 - Convert selected source images and GIFs into web-friendly WebP derivatives. Preserve originals in their read-only source locations.
 - Preferred media: project cover, gold-path mechanic, maze design/model, visual-feedback improvement, and—after permission—the team photo.
+- Add a small baked WebP lettering badge reading **Built by hand · 2023** beside the engineering narrative. The badge uses a restrained kawaii treatment in muted gold and soft cream so every visitor sees the same lettering without depending on an installed font. All substantive technical content remains live bilingual HTML with accessible text; the badge is decorative emphasis only.
 
 ## Visual direction
 
@@ -44,14 +49,15 @@ The surrounding site remains academic and restrained. Midas uses its own media r
 - **Game action accent:** muted ochre `#8a641d`, reserved for the demo/play actions
 - **Type:** the site's existing system sans-serif stack and heading scale
 - **Layout:** left-aligned reading column, hairline section rules, two-column supporting media on desktop and one column on mobile
-- **Memorable element:** the gameplay demo and paired actions directly below the project brief
+- **Memorable element:** a compact kawaii lettering badge introduces the hand-built engineering narrative; the gameplay iframe and paired actions follow the narrative.
 
 ## Data contracts
 
 Optional project fields introduced by this case study:
 
 - `team`: bilingual non-empty string.
-- `featuredVideo`: YouTube ID, canonical HTTPS watch URL, validated local poster dimensions, and bilingual caption.
+- `featuredVideo`: YouTube ID, canonical HTTPS watch URL, validated HTTPS embed URL whose `/embed/<id>` path matches the ID, validated local poster dimensions, and bilingual caption.
+- `engineeringNarrative`: bilingual heading and introduction, a validated local WebP badge with dimensions and bilingual alt text, and an ordered list of bilingual engineering steps.
 - `play`: safe repository-relative `.html` URL and bilingual label.
 - `sectionOrder`: unique values from the renderer's documented section keys.
 - `credits`: bilingual title/body plus an optional HTTPS source URL.
@@ -61,6 +67,7 @@ The compiler strips research paths and unrecognized metadata, validates all new 
 ## Accessibility and responsive behavior
 
 - Video iframe has a bilingual title, a fixed aspect ratio, lazy loading, and a fallback watch link.
+- The decorative lettering badge has meaningful bilingual alt text while the full engineering explanation remains selectable HTML.
 - Actions have visible keyboard focus and remain full-width tap targets on small screens.
 - Images retain dimensions, alt text, lazy loading, and in-page preview behavior.
 - Desktop and mobile preserve source order and avoid horizontal overflow.
@@ -68,8 +75,9 @@ The compiler strips research paths and unrecognized metadata, validates all new 
 
 ## Verification
 
-- TDD covers compiler validation, Overview identity reuse, bilingual rendering, section ordering, safe relative play paths, and YouTube output.
+- TDD covers compiler validation, Overview identity reuse, bilingual rendering, engineering-narrative ordering and escaping, safe embed URLs, section ordering, safe relative play paths, and YouTube output.
 - `npm test`, `npm run check`, and `git diff --check` must pass before each implementation-phase commit.
-- Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths.
+- Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths. Confirm the engineering narrative appears before the gameplay iframe and that the badge remains legible without affecting text accessibility.
+- Attempt playback in the real iframe environment. If YouTube rejects the embed, record the observed error and verify that the visible watch link still opens the confirmed working watch page.
 - Open the standalone WebGL page over HTTP, verify all four runtime resources return successfully, and confirm the loader reaches Unity initialization rather than a missing-path error.
 - After branch push, verify the branch contents and public-page path assumptions without changing the repository's configured Pages source.

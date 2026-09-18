@@ -1654,8 +1654,8 @@ const PROJECTS = {
     {
       "id": "mur-simulation",
       "name": [
-        "Melbourne University Racing — Simulation",
-        "Melbourne University Racing（机器人仿真）"
+        "ROS AI Vehicle — Simulation Infrastructure",
+        "ROS AI 智能小车 — 仿真基础设施"
       ],
       "date": [
         "Sep 2024 – Nov 2024",
@@ -1663,39 +1663,142 @@ const PROJECTS = {
       ],
       "region": "au",
       "type": "team",
-      "tech": "ROS2, NVIDIA Isaac Sim, Python, OpenCV",
+      "tech": "ROS2, NVIDIA Isaac Sim, Python, OpenCV, RPyC",
       "summary": [
-        "Simulation infrastructure and sensor interfaces for an autonomous track-following robot.",
-        "自主循迹机器人的仿真环境与传感器接口。"
+        "Early ROS2 and Isaac Sim infrastructure for a competition-oriented AI vehicle: a simulated track, vehicle control, and sensor-data pathways for downstream learning research.",
+        "面向比赛型 AI 智能小车的前期 ROS2 与 Isaac Sim 基础设施：包括仿真跑道、车辆控制，以及为下游学习研究准备的传感器数据通路。"
       ],
       "background": [
-        "The racing-team project uses Isaac Sim and ROS2 to connect a simulated robot with sensor streams and movement commands.",
-        "赛车队项目使用 Isaac Sim 与 ROS2，将仿真机器人连接到传感器数据流与运动指令。"
+        "I developed the simulation layer for a competition-oriented AI vehicle project: configuring a car-like four-wheel chassis in Isaac Sim, placing it on a track, and using ROS2 to connect movement commands with simulated sensor streams. Prior Unity experience helped me move quickly through the scene-building workflow.",
+        "我为比赛型 AI 智能小车项目开发仿真层：在 Isaac Sim 中配置类似小车的四轮车架并将其放入跑道，再通过 ROS2 将运动指令与模拟传感器数据流连接起来。此前的 Unity 经验帮助我更快完成场景搭建流程。"
       ],
       "work": [
         [
-          "Built the simulation environment and enabled the ROS2 bridge.",
-          "构建仿真环境并启用 ROS2 bridge。"
+          "Built the early Isaac Sim track and vehicle configuration, then enabled the ROS2 bridge for the simulation.",
+          "搭建前期 Isaac Sim 跑道与车辆配置，并为仿真启用 ROS2 Bridge。"
         ],
         [
-          "Developed Python subscriber and publisher nodes for camera, LiDAR, odometry, and velocity control.",
-          "开发相机、激光雷达、里程计与速度控制的 Python 订阅及发布节点。"
+          "Developed Python ROS2 pathways for keyboard, game-controller, and RPC-based velocity control, plus simulated camera, LiDAR, and odometry data.",
+          "开发键盘、手柄和基于 RPC 的速度控制 ROS2 通路，以及模拟相机、激光雷达和里程计数据通路。"
+        ],
+        [
+          "Prepared simulated sensor signals for reinforcement-learning teammates to explore path recognition; game-controller driving was intended to collect behaviour examples for imitation-learning experiments.",
+          "为强化学习团队准备模拟传感器信号，用于探索路径识别；手柄驾驶则计划用于采集行为示例，服务模仿学习实验。"
         ]
       ],
+      "architecture": [
+        {
+          "title": [
+            "Isaac Sim vehicle and track",
+            "Isaac Sim 车辆与跑道"
+          ],
+          "body": [
+            "A car-like four-wheel vehicle and cone-based track were configured in Isaac Sim as the simulation environment.",
+            "在 Isaac Sim 中配置类似小车的四轮车辆与锥桶跑道，作为仿真环境。"
+          ]
+        },
+        {
+          "title": [
+            "ROS 2 control and simulation bridge",
+            "ROS 2 控制与仿真桥接"
+          ],
+          "body": [
+            "The ROS 2 Bridge connected simulation topics with velocity-control paths from keyboard, game-controller, and RPyC experiments.",
+            "ROS 2 Bridge 将仿真话题与键盘、手柄和 RPyC 实验中的速度控制通路连接起来。"
+          ]
+        },
+        {
+          "title": [
+            "Simulated sensor data for downstream learning",
+            "面向下游学习的模拟传感器数据"
+          ],
+          "body": [
+            "Camera, LiDAR, and odometry pathways supplied simulated observations for downstream reinforcement- and imitation-learning exploration; this page does not claim a completed model result.",
+            "相机、激光雷达和里程计通路为下游强化学习与模仿学习探索提供模拟观测；本页面不声称模型成果已经完成。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/mur-simulation/isaac-sim-ros2-bridge-racetrack-1600.webp",
+          "thumbnail": "assets/projects/mur-simulation/isaac-sim-ros2-bridge-racetrack-800.webp",
+          "width": 1600,
+          "height": 1120,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "A simulated four-wheel Jackal vehicle and cone-based track in Isaac Sim",
+            "Isaac Sim 中的四轮 Jackal 车辆与锥桶跑道，ROS 2 Bridge 已启用。"
+          ],
+          "caption": [
+            "The Isaac Sim scene brought the vehicle, cone-based track, and ROS 2 bridge into one simulation workspace.",
+            "Isaac Sim 场景将车辆、锥桶跑道和 ROS 2 Bridge 汇集到同一仿真工作区。"
+          ]
+        },
+        {
+          "src": "assets/projects/mur-simulation/ros2-camera-subscriber-simulated-track-1600.webp",
+          "thumbnail": "assets/projects/mur-simulation/ros2-camera-subscriber-simulated-track-800.webp",
+          "width": 1600,
+          "height": 900,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "A ROS 2 camera subscriber displays the simulated cone track beside the Python subscriber implementation.",
+            "ROS 2 相机订阅器显示模拟锥桶跑道，旁边为 Python 订阅器实现。"
+          ],
+          "caption": [
+            "The camera-subscriber path converts the simulated stereo-camera stream into a displayable frame while the project records odometry output.",
+            "相机订阅通路将模拟立体相机流转换为可显示画面，同时项目记录里程计输出。"
+          ]
+        }
+      ],
+      "demo": {
+        "src": "assets/projects/mur-simulation/ros2-sensor-twist-control-demo.mp4",
+        "poster": "assets/projects/mur-simulation/ros2-sensor-twist-control-poster-800.webp",
+        "width": 2000,
+        "height": 1600,
+        "caption": [
+          "Isaac Sim capture of the vehicle around cones alongside ROS 2 action-graph nodes and velocity-command output.",
+          "Isaac Sim 录屏展示车辆在锥桶间运行，并呈现 ROS 2 Action Graph 节点和速度指令输出。"
+        ]
+      },
       "boundary": [
-        "This case study focuses on simulation infrastructure, not ownership of the team's machine-learning models.",
-        "本案例聚焦仿真基础设施，不将团队机器学习模型作为个人独立成果。"
+        "This case study covers simulation and ROS2 infrastructure only. Reinforcement/imitation-learning models, model convergence, autonomous driving, and race performance were downstream goals, not results claimed here. Hao collaborated under mentorship and was not a formal MUR Motorsports software-team member.",
+        "本案例仅涵盖仿真与 ROS2 基础设施。强化/模仿学习模型、模型收敛、自动驾驶和比赛表现均为下游目标，并非本页面声称已实现的成果。Hao 在导师协作下参与项目，并非 MUR Motorsports 正式软件团队成员。"
       ],
       "team": [
-        "Melbourne University Racing",
-        "Melbourne University Racing"
+        "Mentored collaboration with Johnson Tong",
+        "与导师 Johnson Tong 协作"
+      ],
+      "sectionOrder": [
+        "background",
+        "architecture",
+        "product",
+        "contributions",
+        "engineering",
+        "demo",
+        "resources",
+        "scope"
       ],
       "keywords": [
         "robotics",
         "simulation",
         "sensors",
+        "reinforcement learning",
+        "imitation learning",
         "机器人",
-        "仿真"
+        "仿真",
+        "强化学习",
+        "模仿学习"
+      ],
+      "links": [
+        {
+          "label": [
+            "Public source repository",
+            "公开源代码仓库"
+          ],
+          "url": "https://github.com/JarrettChen217/MURSports-ROS"
+        }
       ]
     },
     {

@@ -808,7 +808,8 @@ const PROJECTS = {
           "name": [
             "Zikun Qiu",
             "Zikun Qiu"
-          ]
+          ],
+          "url": "https://github.com/MLTqy1234"
         },
         {
           "name": [
@@ -1148,6 +1149,43 @@ const PROJECTS = {
       "team": [
         "Static Sound",
         "Static Sound"
+      ],
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Ziyu Wang",
+            "Ziyu Wang"
+          ],
+          "url": "https://github.com/Lafinoon"
+        },
+        {
+          "name": [
+            "Jiayi Sun",
+            "Jiayi Sun"
+          ],
+          "url": "https://github.com/JiayiSun666"
+        },
+        {
+          "name": [
+            "Junhao Zhu",
+            "Junhao Zhu"
+          ],
+          "url": "https://github.com/junhaozhu1"
+        },
+        {
+          "name": [
+            "Gaoyongle Zhang",
+            "Gaoyongle Zhang"
+          ],
+          "url": "https://github.com/XinMoZ"
+        }
       ],
       "keywords": [
         "algorithms",
@@ -1854,8 +1892,8 @@ const PROJECTS = {
       "type": "academic",
       "tech": "Python, Pygame, Jupyter Notebook, pandas",
       "summary": [
-        "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
-        "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
+        "A two-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+        "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的两人合作项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
       ],
       "background": [
         "SWEN90004 framed the assignment as a modelling exercise: teams reimplemented a selected NetLogo grid model, investigated its behaviour, and proposed an extension. Our Python version separates parameter configuration, simulation control, Pygame rendering, and notebook-based data inspection; black and white daisies, bare soil, local temperature, reproduction, ageing, and heat diffusion interact on a toroidal grid. Ant-colony shortest-path examples offer a useful analogy for the course's complex-systems lens: simple local pheromone feedback can accumulate into a collective route. DaisyWorld does not simulate ants or route finding; its system-level patterns arise instead from vegetation, albedo, and temperature feedback. The extension adds pollution zones and spread, pollution-dependent behaviour and visual overlays, plus a Lucky Clover mutation and pollution-mitigation pathway. These are implemented mechanisms, not reported experimental results.",
@@ -1881,6 +1919,22 @@ const PROJECTS = {
           "使用固定随机种子录制的扩展模型本机 macOS/Pygame 网格渲染画面。该画面仅用于功能演示，不代表实验结果。"
         ]
       },
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Junhao Zhu",
+            "Junhao Zhu"
+          ],
+          "url": "https://github.com/junhaozhu1"
+        }
+      ],
       "keywords": [
         "agent-based modelling",
         "complex systems",

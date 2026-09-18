@@ -404,7 +404,7 @@ const PROJECTS = {
       "id": "vitalguard",
       "name": [
         "VitalGuard AI",
-        "VitalGuard AI（可穿戴传感系统）"
+        "VitalGuard AI（AIoT 可穿戴健康洞察原型）"
       ],
       "date": [
         "Sep 2025 – Dec 2025",
@@ -412,35 +412,343 @@ const PROJECTS = {
       ],
       "region": "ny",
       "type": "academic",
-      "tech": "ESP32, MicroPython, Python, Flask, Google Cloud, Gunicorn",
+      "tech": "ESP32, MicroPython, MAX30102, HDC1080, ADXL345, FSR402, Flask, OpenAI API",
       "summary": [
-        "A university AIoT prototype connecting wearable sensor readings to a cloud service and web dashboard.",
-        "将可穿戴传感器读数连接到云服务与 Web 仪表板的大学 AIoT 原型项目。"
+        "A Columbia AIoT course prototype that connects an ESP32 wearable sensor assembly to a Flask service, a structured LLM-report path, and a mobile-friendly web dashboard.",
+        "一个 Columbia AIoT 课程原型：将 ESP32 可穿戴传感器组件连接到 Flask 服务、结构化 LLM 报告链路与适配手机的 Web 仪表板。"
       ],
       "background": [
-        "The team project investigates a device-to-cloud workflow for sensor collection, processing, visualisation, and generated reports. Its repository separates embedded firmware, the Flask service, and the project website.",
-        "团队项目探索设备到云端的传感采集、处理、可视化及报告生成流程，仓库分别组织嵌入式固件、Flask 服务与项目网站。"
+        "VitalGuard AI was developed for Columbia EECS E4764 Artificial Intelligence of Things in Fall 2025. The project moved from an early course proposal into a working sensor-to-dashboard prototype, with the embedded firmware, Flask service, and browser interface kept as separate parts of the system.",
+        "VitalGuard AI 是 Columbia EECS E4764 Artificial Intelligence of Things 2025 年秋季课程项目。团队从早期课程方案逐步完成传感器到仪表板的原型，并将嵌入式固件、Flask 服务与浏览器界面作为独立部分开发。"
       ],
       "work": [
         [
-          "Worked on the ESP32-to-Flask data pipeline and cloud backend.",
-          "参与 ESP32 到 Flask 的数据管道与云端后端工作。"
+          "Cloud backend, frontend, and data pipeline.",
+          "云端后端、前端与数据管道。"
         ],
         [
-          "Configured backend serving and process management with Gunicorn and systemd.",
-          "使用 Gunicorn 与 systemd 配置后端服务及进程管理。"
+          "Worked on the ESP32-to-Flask path and the browser-facing service workflow.",
+          "参与 ESP32 到 Flask 的数据链路与面向浏览器的服务流程。"
         ]
       ],
+      "workHeading": [
+        "Hao Chen’s contribution",
+        "Hao Chen 的贡献"
+      ],
+      "process": {
+        "heading": [
+          "From course proposal to a working prototype",
+          "从课程方案到可运行原型"
+        ],
+        "intro": [
+          "The October proposal framed the use case and an ambitious system map. The implementation then narrowed that scope into a sensor-connected ESP32 prototype, an HTTP backend path, and a browser dashboard that the team could demonstrate.",
+          "10 月的提案先界定使用场景并绘制了较完整的系统设想；之后团队将范围收敛为可连接传感器的 ESP32 原型、HTTP 后端链路与可演示的浏览器仪表板。"
+        ],
+        "stages": [
+          {
+            "id": "proposal",
+            "label": [
+              "Proposal",
+              "方案阶段"
+            ],
+            "title": [
+              "Course framing and the first system map",
+              "课程定位与第一版系统图"
+            ],
+            "body": [
+              "The initial presentation from 20 October 2025 set out a wearable-to-cloud-to-user concept and a list of possible sensors and interfaces. It is shown here as design-stage context. Its AWS, socket, Bluetooth, OLED, native-app, and emergency-alert items were proposals, not final implementation claims.",
+              "2025 年 10 月 20 日的初始展示提出了从可穿戴设备到云端再到用户端的构想，以及候选传感器与界面。这里将其作为设计阶段背景展示；其中 AWS、Socket、蓝牙、OLED、原生 App 与紧急通知均属方案内容，不作为最终实现主张。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-proposal-flow-1024.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-proposal-flow-512.webp",
+                "width": 1024,
+                "height": 389,
+                "thumbnailWidth": 512,
+                "alt": [
+                  "Early proposal graphic showing device",
+                  "早期提案中展示设备、云端与手机的示意图"
+                ],
+                "caption": [
+                  "Original proposal graphic: an early device-to-cloud-to-user framing, not evidence of the final transport or app implementation.",
+                  "原始提案图：早期的设备到云端再到用户端构想，不代表最终传输方式或 App 实现。"
+                ]
+              },
+              {
+                "src": "assets/projects/vitalguard/vitalguard-proposal-map-1400.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-proposal-map-700.webp",
+                "width": 1400,
+                "height": 1096,
+                "thumbnailWidth": 700,
+                "alt": [
+                  "Early VitalGuard proposal block diagram",
+                  "VitalGuard 早期提案框图"
+                ],
+                "caption": [
+                  "The October proposal’s broad system map. The later prototype used the verified ESP32, Wi-Fi HTTP, Flask, and browser-dashboard path described on this page.",
+                  "10 月提案中的完整系统图。后续原型采用了本页所述、经核对的 ESP32、Wi-Fi HTTP、Flask 与浏览器仪表板链路。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hardware",
+            "label": [
+              "Hardware build",
+              "硬件制作"
+            ],
+            "title": [
+              "A glove-mounted sensor assembly",
+              "手套式传感器组件"
+            ],
+            "body": [
+              "The team assembled a glove-mounted prototype around an ESP32, battery, breakout boards, and wired sensors. The physical build made the sensor placement, power, and cabling constraints visible before the software path could be demonstrated.",
+              "团队围绕 ESP32、电池、扩展板与有线传感器搭建了手套式原型。实体制作让传感器位置、供电与布线限制在软件链路演示之前就变得可见。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-circuit-diagram-768.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-circuit-diagram-384.webp",
+                "width": 768,
+                "height": 1152,
+                "thumbnailWidth": 384,
+                "alt": [
+                  "ESP32 circuit diagram with pressure",
+                  "包含压力传感器、I²C 多路复用器和传感器连接的 ESP32 电路图"
+                ],
+                "caption": [
+                  "ESP32 wiring reference: the pressure divider feeds an ADC input, while the temperature/humidity, PPG, and accelerometer modules share a TCA9548A I²C multiplexer.",
+                  "ESP32 接线参考：压力分压电路接入 ADC 输入；温湿度、PPG 与加速度计模块经 TCA9548A I²C 多路复用器连接。"
+                ]
+              },
+              {
+                "src": "assets/projects/vitalguard/vitalguard-prototype-tabletop-960.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-prototype-tabletop-480.webp",
+                "width": 960,
+                "height": 1280,
+                "thumbnailWidth": 480,
+                "alt": [
+                  "Tabletop view of the glove-mounted VitalGuard prototype",
+                  "桌面上的 VitalGuard 手套式原型"
+                ],
+                "caption": [
+                  "The working assembly combines the glove, ESP32 board, battery, breakout modules, and wired sensors.",
+                  "可工作的组件结合了手套、ESP32 开发板、电池、扩展模块与有线传感器。"
+                ]
+              },
+              {
+                "src": "assets/projects/vitalguard/vitalguard-prototype-worn-960.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-prototype-worn-480.webp",
+                "width": 960,
+                "height": 1280,
+                "thumbnailWidth": 480,
+                "alt": [
+                  "VitalGuard prototype worn on a hand",
+                  "佩戴在手上的 VitalGuard 原型"
+                ],
+                "caption": [
+                  "The worn prototype makes the placement and cabling of the hand-mounted assembly visible.",
+                  "佩戴状态展示了手部组件的放置方式与布线。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "pipeline",
+            "label": [
+              "Data path",
+              "数据链路"
+            ],
+            "title": [
+              "Wiring the sensor path to the backend",
+              "将传感器链路接入后端"
+            ],
+            "body": [
+              "The final firmware maps the HDC1080, MAX30102, ADXL345, FSR402, and TCA9548A connections into one ESP32 program. It then packages readings for Wi-Fi HTTP upload to the Flask service.",
+              "最终固件将 HDC1080、MAX30102、ADXL345、FSR402 与 TCA9548A 的连接整合至一个 ESP32 程序，并将读数打包后经 Wi-Fi HTTP 上传至 Flask 服务。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-connection-map-1600.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-connection-map-800.webp",
+                "width": 1600,
+                "height": 251,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Sensor connection map for the VitalGuard ESP32 prototype",
+                  "VitalGuard ESP32 原型的传感器连接图"
+                ],
+                "caption": [
+                  "Connection notes for the temperature and humidity, PPG, force, accelerometer, and I²C multiplexer modules.",
+                  "温湿度、PPG、压力、加速度计与 I²C 多路复用器模块的连接说明。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "interface",
+            "label": [
+              "Interface and report",
+              "界面与报告"
+            ],
+            "title": [
+              "Making the system legible on a phone-sized screen",
+              "在手机尺寸界面中呈现系统状态"
+            ],
+            "body": [
+              "The browser dashboard groups prototype readings and heuristic labels into a compact mobile-friendly interface. The code also defines a structured LLM-report path, while the page avoids presenting the UI as a medical diagnosis or a validated live clinical system.",
+              "浏览器仪表板将原型读数与启发式标签组织成适配手机的紧凑界面。代码也定义了结构化 LLM 报告链路；本页不会将该界面描述为医疗诊断或经验证的临床实时系统。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-dashboard-874.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-dashboard-437.webp",
+                "width": 874,
+                "height": 1068,
+                "thumbnailWidth": 437,
+                "alt": [
+                  "VitalGuard mobile-friendly browser dashboard",
+                  "VitalGuard 适配手机的浏览器仪表板"
+                ],
+                "caption": [
+                  "The dashboard layout exposes sensor visualisation, status labels, and the report entry point on a phone-sized browser.",
+                  "仪表板在手机尺寸浏览器中呈现传感器可视化、状态标签与报告入口。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "architecture": [
+        {
+          "title": [
+            "Wearable sensing",
+            "可穿戴传感"
+          ],
+          "body": [
+            "The final firmware reads a MAX30102 PPG module, HDC1080 temperature and humidity sensor, ADXL345 accelerometer, and FSR402 force sensor. These are prototype readings, not clinical measurements.",
+            "最终固件读取 MAX30102 PPG 模块、HDC1080 温湿度传感器、ADXL345 加速度计与 FSR402 力传感器。所有读数均为原型读数，并非临床测量。"
+          ]
+        },
+        {
+          "title": [
+            "ESP32 and I²C expansion",
+            "ESP32 与 I²C 扩展"
+          ],
+          "body": [
+            "MicroPython firmware uses the ESP32 as the controller and a TCA9548A I²C multiplexer to connect sensor modules alongside the ADC-based force input.",
+            "MicroPython 固件以 ESP32 为控制核心，并通过 TCA9548A I²C 多路复用器连接传感器模块，同时读取基于 ADC 的压力输入。"
+          ]
+        },
+        {
+          "title": [
+            "Wi-Fi upload",
+            "Wi-Fi 上传"
+          ],
+          "body": [
+            "The device batches JSON sensor payloads and sends them through Wi-Fi HTTP requests to the Flask API. No Bluetooth transport is claimed for the final reviewed firmware.",
+            "设备将传感器数据打包为 JSON，通过 Wi-Fi HTTP 请求发送至 Flask API。经核对的最终固件不主张使用蓝牙传输。"
+          ]
+        },
+        {
+          "title": [
+            "Flask service and status labels",
+            "Flask 服务与状态标签"
+          ],
+          "body": [
+            "The backend accepts recent data, provides browser endpoints, and derives heuristic status labels for a dashboard. No performance, accuracy, or latency metric is claimed.",
+            "后端接收近期数据、提供浏览器接口，并生成用于仪表板的启发式状态标签。页面不主张性能、准确率或延迟指标。"
+          ]
+        },
+        {
+          "title": [
+            "Structured report path",
+            "结构化报告链路"
+          ],
+          "body": [
+            "The reviewed code includes an OpenAI gpt-4o-mini integration that can send structured statuses and recent history for a conservative report. The source does not independently prove a live API response at a specific demo moment.",
+            "经核对的代码包含 OpenAI gpt-4o-mini 集成，可将结构化状态与近期历史发送以生成谨慎的报告。现有资料未独立证明某个演示时刻的实时 API 返回。"
+          ]
+        }
+      ],
+      "youtubeDemo": {
+        "videoId": "b8C_5I-G9is",
+        "embedUrl": "https://www.youtube.com/embed/b8C_5I-G9is",
+        "url": "https://youtu.be/b8C_5I-G9is",
+        "title": [
+          "VitalGuard project demo",
+          "VitalGuard 项目演示"
+        ],
+        "linkLabel": [
+          "Watch on YouTube",
+          "在 YouTube 观看"
+        ]
+      },
       "boundary": [
-        "An educational engineering prototype; no clinical validation or medical-device capability is claimed.",
-        "本项目为教学工程原型，不主张临床验证结果或医疗器械能力。"
+        "Columbia AIoT course prototype. The proposal graphics document the design process, while the page distinguishes them from the final reviewed firmware and service path. The prototype does not claim clinical validation, medical-device capability, diagnosis, emergency dispatch, or measured real-time performance.",
+        "Columbia AIoT 课程原型。提案图用于记录设计过程，本页将其与经核对的最终固件和服务链路区分开来。该原型不主张临床验证、医疗器械能力、诊断、紧急调度或可量化的实时性能。"
+      ],
+      "team": [
+        "Group 19",
+        "第19组"
+      ],
+      "members": [
+        {
+          "name": [
+            "Daolin Li",
+            "Daolin Li"
+          ],
+          "url": "https://github.com/dl3832"
+        },
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Sripad Karne",
+            "Sripad Karne"
+          ],
+          "url": "https://github.com/Sripadkarne"
+        },
+        {
+          "name": [
+            "Yizheng Tang",
+            "Yizheng Tang"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "architecture",
+        "process",
+        "youtube",
+        "resources",
+        "scope"
       ],
       "keywords": [
+        "AIoT",
         "IoT",
         "wearable",
-        "hardware",
+        "ESP32",
+        "Flask",
+        "LLM",
         "物联网",
         "可穿戴"
+      ],
+      "links": [
+        {
+          "label": [
+            "Project source on GitHub",
+            "GitHub 项目源码"
+          ],
+          "url": "https://github.com/JarrettChen217/EECS-E4764-2025-Fall-Final-Project-vitalguard-ai"
+        }
       ]
     },
     {

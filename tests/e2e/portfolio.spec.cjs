@@ -85,7 +85,7 @@ test('loads every Internship detail directly and avoids mobile overflow', async 
   const assertClean = monitorBrowser(page);
   for (const [id, heading, imageCount] of [
     ['cummins-us', 'Cummins Inc. — Turbo Technologies', 6],
-    ['accenture', 'Accenture Co., Ltd.', 0],
+    ['accenture', 'Accenture Co., Ltd.', 3],
     ['cummins-china', 'Cummins (China) Investment Co., Ltd.', 2],
   ]) {
     await page.goto(`/#internship/${id}`);
@@ -107,6 +107,17 @@ test('loads every Internship detail directly and avoids mobile overflow', async 
   expect(await page.locator('.process-findings li').evaluateAll(items => items.every(item => getComputedStyle(item, '::before').content === 'none'))).toBe(true);
   await expect(page.getByRole('heading', { name: 'From plant question to reviewable evidence' })).toBeVisible();
   await expect(page.locator('.internship-delivery-step')).toHaveCount(5);
+  await page.goto('/#internship/accenture');
+  await expect(page.getByRole('heading', { name: 'Selected work' })).toBeVisible();
+  await expect(page.locator('.internship-work-item')).toHaveCount(2);
+  await expect(page.getByRole('heading', { name: 'Review sentiment classification' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Hourly store-sales forecasting' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'From task brief to evidence-backed comparison' })).toBeVisible();
+  await expect(page.locator('.process-stage')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: 'Remote delivery rhythm' })).toBeVisible();
+  await expect(page.locator('.internship-delivery-step')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: 'What I learned' })).toBeVisible();
+  await expect(page.locator('.internship-gallery img')).toHaveCount(3);
   await page.goto('/#internship/cummins-china');
   await expect(page.getByRole('heading', { name: 'Selected work' })).toBeVisible();
   await expect(page.locator('.internship-work-item')).toHaveCount(2);

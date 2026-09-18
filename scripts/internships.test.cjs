@@ -46,7 +46,7 @@ test('internship content provides bilingual catalogue and detail metadata', () =
   assert.equal(vm.runInContext('CONTENT.internships.length', context), 3);
   assert.equal(vm.runInContext('CONTENT.internships.every(item => item.region && item.roleKey && item.excerpt.length === 2 && item.tech)', context), true);
   assert.equal(vm.runInContext('CONTENT.internships[0].gallery.length', context), 6);
-  assert.equal(vm.runInContext('CONTENT.internships[1].gallery?.length || 0', context), 0);
+  assert.equal(vm.runInContext('CONTENT.internships[1].gallery.length', context), 3);
   assert.equal(vm.runInContext('CONTENT.internships[2].gallery.length', context), 2);
   assert.match(vm.runInContext('CONTENT.internships[0].summary[0]', context), /Codex, GitHub Copilot, and Claude Code/);
   assert.match(vm.runInContext('CONTENT.internships[0].summary[1]', context), /Codex、GitHub Copilot 与 Claude Code/);
@@ -87,11 +87,33 @@ test('individual Internship details include the right content and galleries', ()
   assert.match(us, /Kappa DAT-reading skill/);
   assert.equal((us.match(/<img/g) || []).length, 6);
   assert.match(us, /Global Manufacturing colleagues in Charleston/);
-  assert.doesNotMatch(accenture, /<img/);
-  assert.doesNotMatch(accenture, /internship-highlights/);
+  assert.equal((accenture.match(/<img/g) || []).length, 3);
+  assert.match(accenture, /internship-highlights/);
   assert.equal((china.match(/<img/g) || []).length, 2);
   assert.match(missing, /Internship not found/);
   assert.match(missing, /href="#internships"/);
+});
+
+test('Accenture presents two evidence-backed applied machine-learning studies', () => {
+  const context = appContext();
+  const record = "CONTENT.internships.find(item => item.id === 'accenture')";
+  assert.equal(vm.runInContext(`${record}.team[0]`, context), 'Remote AI Project Team');
+  assert.equal(vm.runInContext(`${record}.work.length`, context), 2);
+  assert.equal(vm.runInContext(`${record}.background.length`, context), 2);
+  assert.equal(vm.runInContext(`${record}.process.stages.length`, context), 4);
+  assert.equal(vm.runInContext(`${record}.delivery.steps.length`, context), 4);
+  assert.equal(vm.runInContext(`${record}.work.every(item => item.challenge?.length === 2 && item.role?.length === 2 && item.validation?.length === 2 && item.outcome?.length === 2)`, context), true);
+  assert.equal(vm.runInContext(`${record}.gallery.every(image => /^assets\\/internships\\/accenture-[a-z-]+-(?:800|1600)\\.webp$/.test(image.src) && /^assets\\/internships\\/accenture-[a-z-]+-(?:800|1600)\\.webp$/.test(image.thumbnail))`, context), true);
+  const html = vm.runInContext("internshipDetail('accenture')", context);
+  assert.match(html, /Background/);
+  assert.match(html, /Selected work/);
+  assert.match(html, /Review sentiment classification/);
+  assert.match(html, /Hourly store-sales forecasting/);
+  assert.match(html, /From task brief to evidence-backed comparison/);
+  assert.match(html, /Remote delivery rhythm/);
+  assert.match(html, /Public case-study scope/);
+  assert.equal((html.match(/class="process-stage"/g) || []).length, 4);
+  assert.equal((html.match(/class="internship-delivery-step"/g) || []).length, 4);
 });
 
 test('Cummins Charleston presents three evidence-bounded manufacturing data studies', () => {

@@ -62,7 +62,11 @@ Language follows the browser on the first visit and retains explicit language ch
 
 ## Quality gate and deployment
 
-The public site is hosted at [jarrettchen217.github.io](https://jarrettchen217.github.io/). Production changes enter `main` through a pull request. The required `quality-gate` check verifies the dependency audit, generated project data, unit tests, the public deployment allowlist, and the portfolio in Chromium before the pull request can be merged.
+The public site is hosted at [jarrettchen217.github.io](https://jarrettchen217.github.io/). Pull requests targeting either `dev` or `main` must pass the required `quality-gate`, which verifies the dependency audit, generated project data, unit tests, the public deployment allowlist, and the portfolio in Chromium. Pull-request checks never deploy the site; only a verified revision accepted into `main` can publish to GitHub Pages.
+
+```text
+project branch -> dev PR quality-gate -> main PR quality-gate -> main deployment and health check
+```
 
 Run the same gate locally:
 

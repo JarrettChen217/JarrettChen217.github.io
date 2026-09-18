@@ -1160,7 +1160,6 @@ const PROJECTS = {
       "featuredVideo": {
         "youtubeId": "_KGzpyql4ps",
         "watchUrl": "https://www.youtube.com/watch?v=_KGzpyql4ps",
-        "embedUrl": "https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr",
         "poster": "assets/projects/midas-curse-unity/demo-poster-1280.webp",
         "width": 1280,
         "height": 720,

@@ -47,6 +47,18 @@ test('detail renders the configured bilingual Midas sequence and demo actions',(
  assert.ok(html.indexOf('Background')<html.indexOf('project-process'));assert.ok(html.indexOf('project-process')<html.indexOf('project-featured-video'));assert.ok(html.indexOf('Project in action')<html.indexOf('Work &amp; contribution'));assert.ok(html.indexOf('Work &amp; contribution')<html.indexOf('Iteration'));assert.ok(html.indexOf('Iteration')<html.indexOf('Credits &amp; sources'));
  html=vm.runInContext("language='zh';detail("+JSON.stringify(p.id)+")",context);assert.match(html,/Midas Curse 游戏演示/);assert.match(html,/观看演示/);assert.match(html,/在线试玩/);assert.match(html,/设计迭代/);assert.match(html,/素材来源与署名/);
 });
+test('Midas uses the poster fallback when YouTube embedding is disabled',()=>{
+ const vm=require('node:vm');const result=run(fixture());const midas=result.projects.find(project=>project.id==='midas-curse-unity');
+ assert.equal(midas.featuredVideo.embedUrl,undefined);
+ const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ const html=vm.runInContext("detail('midas-curse-unity')",context);
+ assert.match(html,/class="video-poster"/);
+ assert.match(html,/src="assets\/projects\/midas-curse-unity\/demo-poster-1280\.webp"/);
+ assert.ok(!html.includes('class="video-embed"'));
+ assert.match(html,/Watch Demo/);
+ assert.match(html,/Play Game/);
+});
 const backgroundLink=()=>({label:{en:'Learn about the <TIPE> approach',zh:'了解 TIPE 教育方法'},url:'https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that'});
 const process=()=>({
  heading:{en:'From discovery to validation',zh:'从需求发现到验证'},

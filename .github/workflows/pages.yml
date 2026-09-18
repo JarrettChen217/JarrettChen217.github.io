@@ -1,0 +1,101 @@
+name: Portfolio quality and Pages
+
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gate:
+    name: quality-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+      - name: Reject high-severity dependency vulnerabilities
+        run: npm audit --audit-level=high
+      - name: Verify generated project data
+        run: npm run check
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build public site artifact
+        run: npm run build:site
+      - name: Run browser tests
+        run: npm run test:e2e
+      - name: Upload browser failure report
+        if: ${{ failure() && (hashFiles('playwright-report/**') != '' || hashFiles('test-results/**') != '') }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-failure-${{ github.run_id }}
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Upload verified Pages artifact
+        if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+          include-hidden-files: true
+
+  deploy:
+    name: deploy
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    needs: quality-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  production-health:
+    name: production-health
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE_URL: ${{ needs.deploy.outputs.page_url }}
+    steps:
+      - name: Verify deployed site and core assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          site_url="${SITE_URL%/}"
+          curl_args=(--fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 5)
+          curl "${curl_args[@]}" "$site_url/" | grep -F '<title>Hao Chen</title>'
+          curl "${curl_args[@]}" "$site_url/styles.css" | grep -F -- '--accent:#375d73'
+          curl "${curl_args[@]}" "$site_url/app.js" | grep -F 'function route()'
+          curl "${curl_args[@]}" "$site_url/projects-data.js" | grep -F 'Generated from projects.yml'
+          echo "Deployed site: $site_url/" >> "$GITHUB_STEP_SUMMARY"

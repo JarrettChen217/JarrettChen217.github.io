@@ -45,11 +45,11 @@ test('internship content provides bilingual catalogue and detail metadata', () =
   const context = appContext();
   assert.equal(vm.runInContext('CONTENT.internships.length', context), 3);
   assert.equal(vm.runInContext('CONTENT.internships.every(item => item.region && item.roleKey && item.excerpt.length === 2 && item.tech)', context), true);
-  assert.equal(vm.runInContext('CONTENT.internships[0].gallery.length', context), 4);
+  assert.equal(vm.runInContext('CONTENT.internships[0].gallery.length', context), 6);
   assert.equal(vm.runInContext('CONTENT.internships[1].gallery?.length || 0', context), 0);
   assert.equal(vm.runInContext('CONTENT.internships[2].gallery.length', context), 2);
-  assert.match(vm.runInContext('CONTENT.internships[0].summary[0]', context), /approval-gated/);
-  assert.match(vm.runInContext('CONTENT.internships[0].summary[1]', context), /审批门控/);
+  assert.match(vm.runInContext('CONTENT.internships[0].summary[0]', context), /Codex, GitHub Copilot, and Claude Code/);
+  assert.match(vm.runInContext('CONTENT.internships[0].summary[1]', context), /Codex、GitHub Copilot 与 Claude Code/);
 });
 
 test('the Internship catalogue mirrors Projects without embedding gallery photos', () => {
@@ -57,7 +57,7 @@ test('the Internship catalogue mirrors Projects without embedding gallery photos
   const entry = vm.runInContext('internshipEntry(CONTENT.internships[0])', context);
   const html = vm.runInContext('internships()', context);
   assert.match(entry, /href="#internship\/cummins-us"/);
-  assert.match(entry, /Data and AI-agent workflows/);
+  assert.match(entry, /Evidence-led manufacturing analytics/);
   assert.doesNotMatch(entry, /<img/);
   assert.match(html, /id="internship-search"/);
   assert.match(html, /id="internship-region"/);
@@ -65,7 +65,7 @@ test('the Internship catalogue mirrors Projects without embedding gallery photos
   assert.match(html, /id="internship-result-count"/);
   assert.doesNotMatch(html, /assets\/internships/);
   vm.runInContext('updateInternshipResults()', context);
-  assert.match(context.__nodes['#internship-results'].innerHTML, /Data and AI-agent workflows/);
+  assert.match(context.__nodes['#internship-results'].innerHTML, /Evidence-led manufacturing analytics/);
   assert.doesNotMatch(context.__nodes['#internship-results'].innerHTML, /<p>0<\/p>/);
 });
 
@@ -84,13 +84,89 @@ test('individual Internship details include the right content and galleries', ()
   const china = vm.runInContext("internshipDetail('cummins-china')", context);
   const missing = vm.runInContext("internshipDetail('missing')", context);
   assert.match(us, /Back to all internships/);
-  assert.match(us, /approval-gated/);
-  assert.equal((us.match(/<img/g) || []).length, 4);
+  assert.match(us, /Kappa DAT-reading skill/);
+  assert.equal((us.match(/<img/g) || []).length, 6);
+  assert.match(us, /Global Manufacturing colleagues in Charleston/);
   assert.doesNotMatch(accenture, /<img/);
   assert.doesNotMatch(accenture, /internship-highlights/);
   assert.equal((china.match(/<img/g) || []).length, 2);
   assert.match(missing, /Internship not found/);
   assert.match(missing, /href="#internships"/);
+});
+
+test('Cummins Charleston presents three evidence-bounded manufacturing data studies', () => {
+  const context = appContext();
+  const record = "CONTENT.internships.find(item => item.id === 'cummins-us')";
+  assert.equal(vm.runInContext(`${record}.team[0]`, context), 'Manufacturing Engineering & Data Analytics');
+  assert.equal(vm.runInContext(`${record}.work.length`, context), 3);
+  assert.equal(vm.runInContext(`${record}.background.length`, context), 2);
+  assert.equal(vm.runInContext(`${record}.process.stages.length`, context), 5);
+  assert.equal(vm.runInContext(`${record}.delivery.steps.length`, context), 5);
+  assert.equal(vm.runInContext(`${record}.work.every(item => item.challenge?.length === 2 && item.role?.length === 2 && item.validation?.length === 2 && item.outcome?.length === 2)`, context), true);
+  const html = vm.runInContext("internshipDetail('cummins-us')", context);
+  assert.match(html, /Background/);
+  assert.match(html, /Selected work/);
+  assert.match(html, /Balancing-system validation workflow/);
+  assert.match(html, /Decision-support web demonstrator/);
+  assert.match(html, /Read-only production-data and BI pipeline/);
+  assert.match(html, /Evidence-led manufacturing analytics/);
+  assert.match(html, /From plant question to reviewable evidence/);
+  assert.match(html, /Public case-study scope/);
+  assert.equal((html.match(/class="process-stage"/g) || []).length, 5);
+  assert.equal((html.match(/class="internship-delivery-step"/g) || []).length, 5);
+});
+
+test('Cummins Charleston explains the Agent Skills build and distribution system', () => {
+  const context = appContext();
+  const record = "CONTENT.internships.find(item => item.id === 'cummins-us')";
+  assert.equal(vm.runInContext(`${record}.agentSkills.examples.length`, context), 4);
+  assert.equal(vm.runInContext(`${record}.agentSkills.stages.length`, context), 4);
+  assert.equal(vm.runInContext(`${record}.agentSkills.examples.every(item => item.title.length === 2 && item.body.length === 2)`, context), true);
+  assert.equal(vm.runInContext(`${record}.agentSkills.stages.every(item => item.title.length === 2 && item.body.length === 2)`, context), true);
+  const html = vm.runInContext("internshipDetail('cummins-us')", context);
+  assert.match(html, /From repeated prompt to shared engineering capability/);
+  assert.match(html, /Kappa DAT reading and export/);
+  assert.match(html, /symbolic links/);
+  assert.match(html, /Codex, GitHub Copilot, and Claude Code/);
+  assert.match(html, /Make all three coding agents work from the same contract/);
+  assert.match(html, /Claude Code/);
+  assert.match(html, /GitHub Actions/);
+  assert.equal((html.match(/class="agent-skill-example"/g) || []).length, 4);
+  assert.equal((html.match(/class="agent-skill-stage"/g) || []).length, 4);
+});
+
+test('Cummins Charleston names coding agents without procurement details', () => {
+  const context = appContext();
+  const publicRecord = vm.runInContext("JSON.stringify(CONTENT.internships.find(item => item.id === 'cummins-us'))", context);
+  assert.match(publicRecord, /Codex/);
+  assert.match(publicRecord, /GitHub Copilot/);
+  assert.match(publicRecord, /Claude Code/);
+  assert.doesNotMatch(publicRecord, /company-provided|self-funded|公司提供|自费使用/i);
+});
+
+test('Cummins Charleston public content excludes machine and product identifiers', () => {
+  const context = appContext();
+  const publicRecord = vm.runInContext(`JSON.stringify((({
+    company, place, role, team, excerpt, tech, summary, background, highlights, work, process, delivery, boundary, gallery,
+  }) => ({ company, place, role, team, excerpt, tech, summary, background, highlights, work, process, delivery, boundary, gallery }))(
+    CONTENT.internships.find(item => item.id === 'cummins-us')
+  ))`, context);
+  const sensitive = /xento|schenck|turbotest|signalysis|rets\d+|\bATS\b|canberra|bronco|colorado|nighthawk|\bM23\b|\bID21\b|model\s*(?:name|no\.?|number)/i;
+  assert.doesNotMatch(publicRecord, sensitive);
+  assert.equal(vm.runInContext("CONTENT.internships.find(item => item.id === 'cummins-us').gallery.every(image => /^assets\\/internships\\/cummins-us-[a-z-]+-(?:800|1024|1600)\\.webp$/.test(image.src) && /^assets\\/internships\\/cummins-us-[a-z-]+-(?:800|1024|1600)\\.webp$/.test(image.thumbnail))", context), true);
+});
+
+test('Internship search includes the public Cummins Charleston case-study content', () => {
+  const context = appContext();
+  assert.equal(vm.runInContext("internshipFilters.query='read-only archive'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='containerized demonstrator'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='vibe coding'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='Claude Code'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='GitHub Copilot'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='Kappa DAT'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='GitHub Actions'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='symbolic links'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
+  assert.equal(vm.runInContext("internshipFilters.query='证据边界'; CONTENT.internships.filter(internshipMatches)[0].id", context), 'cummins-us');
 });
 
 test('Cummins China presents two evidence-backed Digital Team work studies', () => {

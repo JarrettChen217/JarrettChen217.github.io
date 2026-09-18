@@ -67,7 +67,7 @@ test('searches the Internship catalogue and opens bilingual detail routes', asyn
   await expect(page).toHaveTitle('Cummins Inc. — Turbo Technologies | Hao Chen');
   await expect(page.getByRole('link', { name: 'Internship', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.getByRole('link', { name: 'Back to all internships' })).toBeVisible();
-  await expect(page.locator('.internship-gallery img')).toHaveCount(4);
+  await expect(page.locator('.internship-gallery img')).toHaveCount(6);
   await expect(page.locator('.internship-gallery img').first()).toHaveAttribute('loading', 'lazy');
   await page.getByRole('link', { name: 'Back to all internships' }).click();
   await expect(page.getByLabel('Search internships')).toHaveValue('Cummins');
@@ -84,7 +84,7 @@ test('searches the Internship catalogue and opens bilingual detail routes', asyn
 test('loads every Internship detail directly and avoids mobile overflow', async ({ page }) => {
   const assertClean = monitorBrowser(page);
   for (const [id, heading, imageCount] of [
-    ['cummins-us', 'Cummins Inc. — Turbo Technologies', 4],
+    ['cummins-us', 'Cummins Inc. — Turbo Technologies', 6],
     ['accenture', 'Accenture Co., Ltd.', 0],
     ['cummins-china', 'Cummins (China) Investment Co., Ltd.', 2],
   ]) {
@@ -92,6 +92,21 @@ test('loads every Internship detail directly and avoids mobile overflow', async 
     await expect(page.locator('h2.detail-heading')).toHaveText(heading);
     await expect(page.locator('.internship-gallery img')).toHaveCount(imageCount);
   }
+  await page.goto('/#internship/cummins-us');
+  await expect(page.getByRole('heading', { name: 'Selected work' })).toBeVisible();
+  await expect(page.locator('.internship-work-item')).toHaveCount(3);
+  await expect(page.getByRole('heading', { name: 'Balancing-system validation workflow' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Decision-support web demonstrator' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Read-only production-data and BI pipeline' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'From repeated prompt to shared engineering capability' })).toBeVisible();
+  await expect(page.locator('.agent-skill-example')).toHaveCount(4);
+  await expect(page.locator('.agent-skill-stage')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: 'Make all three coding agents work from the same contract' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Evidence-led manufacturing analytics' })).toBeVisible();
+  await expect(page.locator('.process-stage')).toHaveCount(5);
+  expect(await page.locator('.process-findings li').evaluateAll(items => items.every(item => getComputedStyle(item, '::before').content === 'none'))).toBe(true);
+  await expect(page.getByRole('heading', { name: 'From plant question to reviewable evidence' })).toBeVisible();
+  await expect(page.locator('.internship-delivery-step')).toHaveCount(5);
   await page.goto('/#internship/cummins-china');
   await expect(page.getByRole('heading', { name: 'Selected work' })).toBeVisible();
   await expect(page.locator('.internship-work-item')).toHaveCount(2);
@@ -99,6 +114,7 @@ test('loads every Internship detail directly and avoids mobile overflow', async 
   await expect(page.getByRole('heading', { name: 'Heartbeat cumulative-data pipeline' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Two sprints, one delivery practice' })).toBeVisible();
   await expect(page.locator('.process-stage')).toHaveCount(4);
+  expect(await page.locator('.process-findings li').evaluateAll(items => items.every(item => getComputedStyle(item, '::before').content === 'none'))).toBe(true);
   await expect(page.getByRole('heading', { name: 'How the Digital Team moved work' })).toBeVisible();
   await expect(page.locator('.internship-delivery-step')).toHaveCount(5);
   await expect(page.getByRole('heading', { name: 'What I learned' })).toBeVisible();

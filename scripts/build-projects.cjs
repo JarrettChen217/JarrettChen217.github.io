@@ -131,9 +131,10 @@ function compile(source) {
     if(p.youtubeDemo !== undefined){
       const value=p.youtubeDemo;const field=`${p.id}.youtubeDemo`;
       if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.videoId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.videoId))fail(`${field}: invalid video ID`);
-      const expectedEmbed=`https://www.youtube.com/embed/${value.videoId}?si=-dlLqAk-GLLG2Q_H`;
+      const expectedEmbed=`https://www.youtube.com/embed/${value.videoId}`;
+      const legacyEmbed=`${expectedEmbed}?si=-dlLqAk-GLLG2Q_H`;
       const expectedUrl=`https://youtu.be/${value.videoId}`;
-      if(value.embedUrl!==expectedEmbed||value.url!==expectedUrl)fail(`${field}: untrusted or mismatched YouTube URL`);
+      if(![expectedEmbed,legacyEmbed].includes(value.embedUrl)||value.url!==expectedUrl)fail(`${field}: untrusted or mismatched YouTube URL`);
       result.youtubeDemo={videoId:value.videoId,embedUrl:value.embedUrl,url:value.url,title:bi(value.title,`${field}.title`),linkLabel:bi(value.linkLabel,`${field}.linkLabel`)};
     }
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
@@ -190,7 +191,7 @@ function compile(source) {
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }

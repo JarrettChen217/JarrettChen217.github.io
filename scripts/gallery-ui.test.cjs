@@ -17,3 +17,25 @@ test('video demo offers a bilingual in-page enlarge action',()=>{
  let html=vm.runInContext('demoVideo(project)',c);assert.match(html,/data-video-preview/);assert.match(html,/aria-haspopup="dialog"/);assert.match(html,/Enlarge video/);
  html=vm.runInContext("language='zh';demoVideo(project)",c);assert.match(html,/放大观看/);assert.ok(!html.includes('target="_blank"'));
 });
+test('Tetress UML diagrams use the full engineering-gallery row for legibility',()=>{
+ const styles=fs.readFileSync(path.join(__dirname,'../styles.css'),'utf8');
+ for(const diagram of ['tetress-astar-search-flow-700','tetress-mcts-class-model-700','tetress-mcts-turn-sequence-700']) assert.match(styles,new RegExp(`\\.gallery-engineering figure:has\\(img\\[src\\*="${diagram}"\\]\\)\\{grid-column:1/-1\\}`));
+});
+test('Tetress UML diagrams keep feedback paths and side labels readable',()=>{
+ const root=path.join(__dirname,'../assets/projects/tetress');
+ const astar=fs.readFileSync(path.join(root,'tetress-astar-search-flow.svg'),'utf8');
+ const classes=fs.readFileSync(path.join(root,'tetress-mcts-class-model.svg'),'utf8');
+ const sequence=fs.readFileSync(path.join(root,'tetress-mcts-turn-sequence.svg'),'utf8');
+ assert.match(astar,/Legal movement<\/text><text class="label" x="438" y="246">generator/);
+ assert.match(astar,/M1220 305 V360 H1165 V410/);
+ assert.match(astar,/text-anchor="middle" x="1165" y="490"/);
+ assert.match(astar,/M1045 495 V620 H735 V355 H914 V305/);
+ assert.match(classes,/\.sidehead\{font:700 19px/);
+ assert.match(classes,/M940 615 H970 V470 H1155 V515/);
+ assert.match(classes,/x="984" y="458">generates legal moves/);
+ for(const message of ['M210 275 H580','M580 326 H952','M952 670 H580','M580 734 H210']) assert.match(sequence,new RegExp(message));
+ assert.match(sequence,/M1250 490 H952/);
+ assert.match(sequence,/M210 770 H1250/);
+ assert.match(sequence,/M1250 810 H210/);
+ assert.ok(!sequence.includes('M952 444 H1000 V444 H952'));
+});

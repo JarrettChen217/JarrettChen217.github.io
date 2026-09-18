@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Tetress Part A A-star search flow</title>
+  <desc id="desc">A UML-style flow diagram of legal tetromino generation, priority-queue scoring, heuristic estimation, placement, line clearing, and the target-clearance check.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#527288"/></marker>
+    <style>
+      .bg{fill:#f7fafb}.title{font:700 36px Arial,sans-serif;fill:#1d3443}.sub{font:400 18px Arial,sans-serif;fill:#657986}.label{font:700 21px Arial,sans-serif;fill:#1d3443}.body{font:400 16px Arial,sans-serif;fill:#46606f}.small{font:600 15px Arial,sans-serif;fill:#527288}.box{fill:#fff;stroke:#a9c0cc;stroke-width:2}.accent{fill:#e7f3f6;stroke:#4a91a2;stroke-width:2}.mint{fill:#e9f6f0;stroke:#4c957b;stroke-width:2}.amber{fill:#fff6e7;stroke:#c78a32;stroke-width:2}.line{fill:none;stroke:#527288;stroke-width:2.5;marker-end:url(#arrow)}.dash{fill:none;stroke:#7893a2;stroke-width:2;stroke-dasharray:7 7;marker-end:url(#arrow)}.rule{stroke:#d8e4e9;stroke-width:2}
+    </style>
+  </defs>
+  <rect class="bg" width="1400" height="900" rx="24"/>
+  <text class="title" x="72" y="82">Part A · A* search flow</text><text class="sub" x="72" y="116">Single-player target clearance on an 11×11 toroidal Tetress board</text>
+  <rect class="box" x="72" y="185" width="230" height="120" rx="14"/><text class="label" x="98" y="228">Board + target</text><text class="body" x="98" y="258">occupied cells</text><text class="body" x="98" y="282">designated token</text>
+  <rect class="accent" x="410" y="185" width="270" height="120" rx="14"/><text class="label" x="438" y="222">Legal movement</text><text class="label" x="438" y="246">generator</text><text class="body" x="438" y="272">all_possible_movements()</text><text class="body" x="438" y="294">valid tetromino placements</text>
+  <rect class="box" x="410" y="397" width="270" height="112" rx="14"/><text class="label" x="438" y="439">Tetrominos</text><text class="body" x="438" y="468">piece templates + origins</text>
+  <rect class="amber" x="790" y="185" width="248" height="120" rx="14"/><text class="label" x="818" y="228">Priority queue</text><text class="body" x="818" y="258">f(n) = g(n) + h(n)</text><text class="body" x="818" y="282">best next state first</text>
+  <rect class="box" x="1110" y="185" width="220" height="120" rx="14"/><text class="label" x="1138" y="228">Place + clear</text><text class="body" x="1138" y="258">place_piece()</text><text class="body" x="1138" y="282">check_full_line()</text>
+  <path class="line" d="M302 245 H410"/><path class="line" d="M680 245 H790"/><path class="line" d="M1038 245 H1110"/><path class="dash" d="M545 397 V305"/>
+  <rect class="mint" x="790" y="390" width="248" height="178" rx="14"/><text class="label" x="818" y="430">Heuristic estimate</text><line class="rule" x1="818" y1="446" x2="1010" y2="446"/><text class="body" x="818" y="478">reach cost</text><text class="body" x="818" y="505">+ target fill cost</text><text class="body" x="818" y="532">min(row, column)</text><path class="dash" d="M914 390 V305"/>
+  <path class="line" d="M1220 305 V360 H1165 V410"/>
+  <polygon points="1165,410 1285,495 1165,580 1045,495" fill="#edf5f8" stroke="#527288" stroke-width="2.5"/>
+  <text class="label" text-anchor="middle" x="1165" y="490">target cleared?</text><text class="small" text-anchor="middle" x="1165" y="516">target ∉ board</text>
+  <rect class="mint" x="1060" y="675" width="270" height="100" rx="14"/><text class="label" x="1088" y="716">Return action list</text><text class="body" x="1088" y="744">low-cost placement sequence</text>
+  <path class="line" d="M1165 580 V675"/><text class="small" x="1181" y="642">yes</text>
+  <path class="dash" d="M1045 495 V620 H735 V355 H914 V305"/><text class="small" x="754" y="610">no · expand next legal state</text>
+  <text class="small" x="72" y="848">Implementation map derived from the project’s search(), Tetrominos, priority queue, heuristic_function_alt2(), and check_full_line() flow.</text>
+</svg>

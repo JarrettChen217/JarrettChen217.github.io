@@ -24,7 +24,12 @@ function monitorBrowser(page) {
   return () => expect(errors, errors.join('\n')).toEqual([]);
 }
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, context }) => {
+  await context.route('https://www.youtube.com/embed/**', route => route.fulfill({
+    status: 204,
+    contentType: 'text/html',
+    body: '',
+  }));
   await page.addInitScript(() => localStorage.clear());
 });
 
@@ -71,6 +76,25 @@ test('renders every published project route and keeps AVL media controlled', asy
   assertClean();
 });
 
+test('opens the Midas playable artifact and serves its Unity loader', async ({ page, context }) => {
+  const assertPortfolioClean = monitorBrowser(page);
+  await page.goto('/#project/midas-curse-unity');
+  const popupPromise = context.waitForEvent('page');
+  await page.getByRole('link', { name: 'Play Game' }).click();
+  const playPage = await popupPromise;
+  const assertPlayPageClean = monitorBrowser(playPage);
+
+  await expect(playPage).toHaveURL(`${baseOrigin}/play/midas-curse/index.html`);
+  await expect(playPage.getByRole('heading', { name: 'Midas Curse' })).toBeVisible();
+  await expect(playPage.getByRole('button', { name: /Load game/ })).toBeVisible();
+
+  const loader = await context.request.get('/play/midas-curse/Build/midas-curse.loader.js');
+  expect(loader.status()).toBe(200);
+  expect((await loader.body()).byteLength).toBeGreaterThan(0);
+  assertPortfolioClean();
+  assertPlayPageClean();
+});
+
 test('renders contact and avoids horizontal overflow on mobile routes', async ({ page }) => {
   const assertClean = monitorBrowser(page);
   await page.goto('/#contact');
@@ -85,4 +109,12 @@ test('renders contact and avoids horizontal overflow on mobile routes', async ({
     expect(hasNoOverflow, `${route} must not overflow horizontally`).toBe(true);
   }
   assertClean();
+});
+
+test('keeps the content width stable when Contact does not need scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  for (const route of ['#overview', '#projects', '#contact']) {
+    await page.goto(`/${route}`);
+    await expect(page.locator('html')).toHaveCSS('scrollbar-gutter', 'stable');
+  }
 });

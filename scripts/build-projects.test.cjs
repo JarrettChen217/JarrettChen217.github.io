@@ -217,6 +217,25 @@ test('youtube demo compiles the approved public metadata only',()=>{
  assert.deepEqual(value,{videoId:'eip1ze0U0Ns',embedUrl:'https://www.youtube.com/embed/eip1ze0U0Ns?si=-dlLqAk-GLLG2Q_H',url:'https://youtu.be/eip1ze0U0Ns',title:['Dance XR five-minute demo','Dance XR 五分钟演示'],linkLabel:['Watch on YouTube','在 YouTube 观看']});
  assert.ok(!JSON.stringify(value).includes('/private/'));
 });
+test('youtube demo accepts a clean official embed URL',()=>{
+ const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.youtubeDemo={...youtubeDemo(),embedUrl:'https://www.youtube.com/embed/eip1ze0U0Ns'};
+ const value=run(doc).projects.find(p=>p.id==='avl-visualisation').youtubeDemo;
+ assert.equal(value.embedUrl,'https://www.youtube.com/embed/eip1ze0U0Ns');
+});
+test('section order accepts the YouTube demo section',()=>{
+ const doc=fixture();const source=doc.projects.find(p=>p.id==='vitalguard');source.sectionOrder=['youtube'];
+ const vitalguard=run(doc).projects.find(p=>p.id==='vitalguard');
+ assert.deepEqual(vitalguard.sectionOrder,['youtube']);
+});
+test('VitalGuard publishes the proposal-to-prototype journey with verified media',()=>{
+ const vitalguard=run(fixture()).projects.find(p=>p.id==='vitalguard');
+ assert.deepEqual(vitalguard.sectionOrder,['background','contributions','architecture','process','youtube','resources','scope']);
+ assert.equal(vitalguard.architecture.length,5);
+ assert.equal(vitalguard.process.stages.length,4);
+ assert.equal(vitalguard.process.stages.flatMap(stage=>stage.gallery||[]).length,7);
+ assert.match(vitalguard.process.stages[0].body[0],/proposal|initial/i);
+ assert.match(vitalguard.boundary[0],/prototype/i);
+});
 test('youtube demo rejects untrusted URLs, mismatched IDs and incomplete translations',()=>{
  for(const change of [{videoId:'bad id'},{embedUrl:'https://evil.example/embed/eip1ze0U0Ns'},{embedUrl:'https://www.youtube.com/embed/_Nbhr87wm8I'},{url:'http://youtu.be/eip1ze0U0Ns'},{url:'https://youtu.be/_Nbhr87wm8I'},{title:{en:'English only'}},{linkLabel:{zh:'仅中文'}}]){
   const doc=fixture();doc.projects.find(p=>p.id==='avl-visualisation').youtubeDemo={...youtubeDemo(),...change};assert.throws(()=>run(doc),/youtubeDemo/);
@@ -256,7 +275,7 @@ test('detail renders a responsive five-minute YouTube demo with a link fallback'
  const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
  vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
  let html=vm.runInContext("detail('avl-visualisation')",context);
- assert.match(html,/class="[^\"]*project-youtube-demo/);assert.match(html,/src="https:\/\/www\.youtube\.com\/embed\/eip1ze0U0Ns\?si=-dlLqAk-GLLG2Q_H"/);assert.match(html,/title="Dance XR five-minute demo"/);assert.match(html,/allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"/);assert.match(html,/referrerpolicy="strict-origin-when-cross-origin"/);assert.match(html,/allowfullscreen/);assert.match(html,/href="https:\/\/youtu\.be\/eip1ze0U0Ns"/);assert.ok(!/\sautoplay(?:\s|=|>)/.test(html));
+ assert.match(html,/class="[^\"]*project-youtube-demo/);assert.match(html,/src="https:\/\/www\.youtube\.com\/embed\/eip1ze0U0Ns\?si=-dlLqAk-GLLG2Q_H"/);assert.match(html,/title="Dance XR five-minute demo"/);assert.match(html,/allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"/);assert.match(html,/referrerpolicy="strict-origin-when-cross-origin"/);assert.match(html,/allowfullscreen/);assert.match(html,/href="https:\/\/youtu\.be\/eip1ze0U0Ns"/);assert.ok(!/\sautoplay(?:\s|=|>)/.test(html));
  html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/Dance XR 五分钟演示/);assert.match(html,/在 YouTube 观看/);
 });
 const media=()=>({src:'assets/projects/avl-visualisation/avl-interface-1600.webp',thumbnail:'assets/projects/avl-visualisation/avl-interface-800.webp',width:1600,height:793,thumbnailWidth:800,group:'product',alt:{en:'AVL interface',zh:'AVL 界面'},caption:{en:'Synchronized tree and pseudocode.',zh:'同步呈现树图与伪代码。'}});
@@ -287,8 +306,12 @@ test('DaisyWorld publishes a verified bilingual course case study with a local n
  assert.equal(project.region,'au');
  assert.equal(project.type,'academic');
  assert.deepEqual(project.summary,[
-  "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
-  '墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。',
+  "A two-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+  '墨尔本大学 SWEN90004“复杂软件系统建模”课程中的两人合作项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。',
+ ]);
+ assert.deepEqual(project.members,[
+  {name:['Hao Chen','Hao Chen'],url:'https://github.com/JarrettChen217'},
+  {name:['Junhao Zhu','Junhao Zhu'],url:'https://github.com/junhaozhu1'},
  ]);
  assert.deepEqual(project.work,[
   ['Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.','搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。'],
@@ -320,4 +343,39 @@ test('DaisyWorld publishes a verified bilingual course case study with a local n
  assert.match(project.background[0],/pollution zones/);
  assert.match(project.background[1],/污染区域/);
  for(const field of ['logo','gallery','links','process','journey','architecture']) assert.equal(source[field],undefined);
+});
+test('Tetress publishes a bounded bilingual two-stage course case study with linked members',()=>{
+ const vm=require('node:vm');const doc=fixture();const project=run(doc).projects.find(item=>item.id==='tetress');
+ assert.ok(project);
+ assert.deepEqual(project.name,['Tetress — A* Search & MCTS Game Agent','Tetress — A* 搜索与 MCTS 博弈智能体']);
+ assert.deepEqual(project.date,['March 2024 to May 2024 · University of Melbourne · COMP30024 Artificial Intelligence · Semester 1, 2024','2024年3月 – 2024年5月 · 墨尔本大学 · COMP30024 Artificial Intelligence · 2024年第一学期']);
+ assert.deepEqual(project.team,['ByteBrainers','ByteBrainers']);
+ assert.deepEqual(project.members,[
+  {name:['Hao Chen','Hao Chen'],url:'https://github.com/JarrettChen217'},
+  {name:['Jiayi Sun','Jiayi Sun'],url:'https://github.com/JiayiSun666'}
+ ]);
+ assert.match(project.tech,/Python 3\.12/);assert.match(project.tech,/NumPy/);assert.match(project.tech,/priority queue/);assert.match(project.tech,/self-play testing/);
+ assert.equal(project.work.length,3);
+ assert.deepEqual(project.journey.map(item=>item.title),[
+  ['Part A — Single-player heuristic search','Part A — 单人启发式搜索'],
+  ['Part B — Two-player game agent','Part B — 双人博弈智能体'],
+  ['Local self-play & course tournament','本地自对弈与课程锦标赛']
+ ]);
+ assert.match(project.boundary[0],/not a course leaderboard result/);assert.match(project.boundary[1],/课程排行榜成绩/);
+ assert.ok(!doc.selected.some(item=>item.id==='tetress'));
+ assert.equal(project.gallery.length,7);
+ assert.deepEqual(project.gallery.map(item=>item.group),['engineering','engineering','engineering','engineering','engineering','engineering','engineering']);
+ assert.ok(project.gallery.every(item=>item.src.startsWith('assets/projects/tetress/')&&item.thumbnail.startsWith('assets/projects/tetress/')&&item.alt.every(Boolean)&&item.caption.every(Boolean)));
+ assert.deepEqual(project.gallery.slice(-3).map(item=>item.src),[
+  'assets/projects/tetress/tetress-astar-search-flow.webp',
+  'assets/projects/tetress/tetress-mcts-class-model.webp',
+  'assets/projects/tetress/tetress-mcts-turn-sequence.webp'
+ ]);
+ for(const field of ['links','process','architecture']) assert.equal(project[field],undefined);
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('tetress')",context);
+ assert.match(html,/href="https:\/\/github\.com\/JarrettChen217" target="_blank" rel="noopener">Hao Chen<\/a>/);assert.match(html,/href="https:\/\/github\.com\/JiayiSun666" target="_blank" rel="noopener">Jiayi Sun<\/a>/);assert.match(html,/MCTS selection, expansion, random simulation\/rollout and backpropagation/);assert.match(html,/class="detail-section project-gallery"/);assert.match(html,/A\* reach heuristic/);assert.match(html,/tetress-astar-search-flow\.webp/);assert.match(html,/tetress-mcts-class-model\.webp/);assert.match(html,/tetress-mcts-turn-sequence\.webp/);
+ html=vm.runInContext("language='zh';detail('tetress')",context);
+ assert.match(html,/Tetress — A\* 搜索与 MCTS 博弈智能体/);assert.match(html,/UCB 引导的节点选择/);assert.ok(!html.includes('MCTS selection, expansion'));
 });

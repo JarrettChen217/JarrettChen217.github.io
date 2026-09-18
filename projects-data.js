@@ -404,7 +404,7 @@ const PROJECTS = {
       "id": "vitalguard",
       "name": [
         "VitalGuard AI",
-        "VitalGuard AI（可穿戴传感系统）"
+        "VitalGuard AI（AIoT 可穿戴健康洞察原型）"
       ],
       "date": [
         "Sep 2025 – Dec 2025",
@@ -412,35 +412,343 @@ const PROJECTS = {
       ],
       "region": "ny",
       "type": "academic",
-      "tech": "ESP32, MicroPython, Python, Flask, Google Cloud, Gunicorn",
+      "tech": "ESP32, MicroPython, MAX30102, HDC1080, ADXL345, FSR402, Flask, OpenAI API",
       "summary": [
-        "A university AIoT prototype connecting wearable sensor readings to a cloud service and web dashboard.",
-        "将可穿戴传感器读数连接到云服务与 Web 仪表板的大学 AIoT 原型项目。"
+        "A Columbia AIoT course prototype that connects an ESP32 wearable sensor assembly to a Flask service, a structured LLM-report path, and a mobile-friendly web dashboard.",
+        "一个 Columbia AIoT 课程原型：将 ESP32 可穿戴传感器组件连接到 Flask 服务、结构化 LLM 报告链路与适配手机的 Web 仪表板。"
       ],
       "background": [
-        "The team project investigates a device-to-cloud workflow for sensor collection, processing, visualisation, and generated reports. Its repository separates embedded firmware, the Flask service, and the project website.",
-        "团队项目探索设备到云端的传感采集、处理、可视化及报告生成流程，仓库分别组织嵌入式固件、Flask 服务与项目网站。"
+        "VitalGuard AI was developed for Columbia EECS E4764 Artificial Intelligence of Things in Fall 2025. The project moved from an early course proposal into a working sensor-to-dashboard prototype, with the embedded firmware, Flask service, and browser interface kept as separate parts of the system.",
+        "VitalGuard AI 是 Columbia EECS E4764 Artificial Intelligence of Things 2025 年秋季课程项目。团队从早期课程方案逐步完成传感器到仪表板的原型，并将嵌入式固件、Flask 服务与浏览器界面作为独立部分开发。"
       ],
       "work": [
         [
-          "Worked on the ESP32-to-Flask data pipeline and cloud backend.",
-          "参与 ESP32 到 Flask 的数据管道与云端后端工作。"
+          "Cloud backend, frontend, and data pipeline.",
+          "云端后端、前端与数据管道。"
         ],
         [
-          "Configured backend serving and process management with Gunicorn and systemd.",
-          "使用 Gunicorn 与 systemd 配置后端服务及进程管理。"
+          "Worked on the ESP32-to-Flask path and the browser-facing service workflow.",
+          "参与 ESP32 到 Flask 的数据链路与面向浏览器的服务流程。"
         ]
       ],
+      "workHeading": [
+        "Hao Chen’s contribution",
+        "Hao Chen 的贡献"
+      ],
+      "process": {
+        "heading": [
+          "From course proposal to a working prototype",
+          "从课程方案到可运行原型"
+        ],
+        "intro": [
+          "The October proposal framed the use case and an ambitious system map. The implementation then narrowed that scope into a sensor-connected ESP32 prototype, an HTTP backend path, and a browser dashboard that the team could demonstrate.",
+          "10 月的提案先界定使用场景并绘制了较完整的系统设想；之后团队将范围收敛为可连接传感器的 ESP32 原型、HTTP 后端链路与可演示的浏览器仪表板。"
+        ],
+        "stages": [
+          {
+            "id": "proposal",
+            "label": [
+              "Proposal",
+              "方案阶段"
+            ],
+            "title": [
+              "Course framing and the first system map",
+              "课程定位与第一版系统图"
+            ],
+            "body": [
+              "The initial presentation from 20 October 2025 set out a wearable-to-cloud-to-user concept and a list of possible sensors and interfaces. It is shown here as design-stage context. Its AWS, socket, Bluetooth, OLED, native-app, and emergency-alert items were proposals, not final implementation claims.",
+              "2025 年 10 月 20 日的初始展示提出了从可穿戴设备到云端再到用户端的构想，以及候选传感器与界面。这里将其作为设计阶段背景展示；其中 AWS、Socket、蓝牙、OLED、原生 App 与紧急通知均属方案内容，不作为最终实现主张。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-proposal-flow-1024.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-proposal-flow-512.webp",
+                "width": 1024,
+                "height": 389,
+                "thumbnailWidth": 512,
+                "alt": [
+                  "Early proposal graphic showing device",
+                  "早期提案中展示设备、云端与手机的示意图"
+                ],
+                "caption": [
+                  "Original proposal graphic: an early device-to-cloud-to-user framing, not evidence of the final transport or app implementation.",
+                  "原始提案图：早期的设备到云端再到用户端构想，不代表最终传输方式或 App 实现。"
+                ]
+              },
+              {
+                "src": "assets/projects/vitalguard/vitalguard-proposal-map-1400.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-proposal-map-700.webp",
+                "width": 1400,
+                "height": 1096,
+                "thumbnailWidth": 700,
+                "alt": [
+                  "Early VitalGuard proposal block diagram",
+                  "VitalGuard 早期提案框图"
+                ],
+                "caption": [
+                  "The October proposal’s broad system map. The later prototype used the verified ESP32, Wi-Fi HTTP, Flask, and browser-dashboard path described on this page.",
+                  "10 月提案中的完整系统图。后续原型采用了本页所述、经核对的 ESP32、Wi-Fi HTTP、Flask 与浏览器仪表板链路。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hardware",
+            "label": [
+              "Hardware build",
+              "硬件制作"
+            ],
+            "title": [
+              "A glove-mounted sensor assembly",
+              "手套式传感器组件"
+            ],
+            "body": [
+              "The team assembled a glove-mounted prototype around an ESP32, battery, breakout boards, and wired sensors. The physical build made the sensor placement, power, and cabling constraints visible before the software path could be demonstrated.",
+              "团队围绕 ESP32、电池、扩展板与有线传感器搭建了手套式原型。实体制作让传感器位置、供电与布线限制在软件链路演示之前就变得可见。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-circuit-diagram-768.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-circuit-diagram-384.webp",
+                "width": 768,
+                "height": 1152,
+                "thumbnailWidth": 384,
+                "alt": [
+                  "ESP32 circuit diagram with pressure",
+                  "包含压力传感器、I²C 多路复用器和传感器连接的 ESP32 电路图"
+                ],
+                "caption": [
+                  "ESP32 wiring reference: the pressure divider feeds an ADC input, while the temperature/humidity, PPG, and accelerometer modules share a TCA9548A I²C multiplexer.",
+                  "ESP32 接线参考：压力分压电路接入 ADC 输入；温湿度、PPG 与加速度计模块经 TCA9548A I²C 多路复用器连接。"
+                ]
+              },
+              {
+                "src": "assets/projects/vitalguard/vitalguard-prototype-tabletop-960.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-prototype-tabletop-480.webp",
+                "width": 960,
+                "height": 1280,
+                "thumbnailWidth": 480,
+                "alt": [
+                  "Tabletop view of the glove-mounted VitalGuard prototype",
+                  "桌面上的 VitalGuard 手套式原型"
+                ],
+                "caption": [
+                  "The working assembly combines the glove, ESP32 board, battery, breakout modules, and wired sensors.",
+                  "可工作的组件结合了手套、ESP32 开发板、电池、扩展模块与有线传感器。"
+                ]
+              },
+              {
+                "src": "assets/projects/vitalguard/vitalguard-prototype-worn-960.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-prototype-worn-480.webp",
+                "width": 960,
+                "height": 1280,
+                "thumbnailWidth": 480,
+                "alt": [
+                  "VitalGuard prototype worn on a hand",
+                  "佩戴在手上的 VitalGuard 原型"
+                ],
+                "caption": [
+                  "The worn prototype makes the placement and cabling of the hand-mounted assembly visible.",
+                  "佩戴状态展示了手部组件的放置方式与布线。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "pipeline",
+            "label": [
+              "Data path",
+              "数据链路"
+            ],
+            "title": [
+              "Wiring the sensor path to the backend",
+              "将传感器链路接入后端"
+            ],
+            "body": [
+              "The final firmware maps the HDC1080, MAX30102, ADXL345, FSR402, and TCA9548A connections into one ESP32 program. It then packages readings for Wi-Fi HTTP upload to the Flask service.",
+              "最终固件将 HDC1080、MAX30102、ADXL345、FSR402 与 TCA9548A 的连接整合至一个 ESP32 程序，并将读数打包后经 Wi-Fi HTTP 上传至 Flask 服务。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-connection-map-1600.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-connection-map-800.webp",
+                "width": 1600,
+                "height": 251,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Sensor connection map for the VitalGuard ESP32 prototype",
+                  "VitalGuard ESP32 原型的传感器连接图"
+                ],
+                "caption": [
+                  "Connection notes for the temperature and humidity, PPG, force, accelerometer, and I²C multiplexer modules.",
+                  "温湿度、PPG、压力、加速度计与 I²C 多路复用器模块的连接说明。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "interface",
+            "label": [
+              "Interface and report",
+              "界面与报告"
+            ],
+            "title": [
+              "Making the system legible on a phone-sized screen",
+              "在手机尺寸界面中呈现系统状态"
+            ],
+            "body": [
+              "The browser dashboard groups prototype readings and heuristic labels into a compact mobile-friendly interface. The code also defines a structured LLM-report path, while the page avoids presenting the UI as a medical diagnosis or a validated live clinical system.",
+              "浏览器仪表板将原型读数与启发式标签组织成适配手机的紧凑界面。代码也定义了结构化 LLM 报告链路；本页不会将该界面描述为医疗诊断或经验证的临床实时系统。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/vitalguard/vitalguard-dashboard-874.webp",
+                "thumbnail": "assets/projects/vitalguard/vitalguard-dashboard-437.webp",
+                "width": 874,
+                "height": 1068,
+                "thumbnailWidth": 437,
+                "alt": [
+                  "VitalGuard mobile-friendly browser dashboard",
+                  "VitalGuard 适配手机的浏览器仪表板"
+                ],
+                "caption": [
+                  "The dashboard layout exposes sensor visualisation, status labels, and the report entry point on a phone-sized browser.",
+                  "仪表板在手机尺寸浏览器中呈现传感器可视化、状态标签与报告入口。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "architecture": [
+        {
+          "title": [
+            "Wearable sensing",
+            "可穿戴传感"
+          ],
+          "body": [
+            "The final firmware reads a MAX30102 PPG module, HDC1080 temperature and humidity sensor, ADXL345 accelerometer, and FSR402 force sensor. These are prototype readings, not clinical measurements.",
+            "最终固件读取 MAX30102 PPG 模块、HDC1080 温湿度传感器、ADXL345 加速度计与 FSR402 力传感器。所有读数均为原型读数，并非临床测量。"
+          ]
+        },
+        {
+          "title": [
+            "ESP32 and I²C expansion",
+            "ESP32 与 I²C 扩展"
+          ],
+          "body": [
+            "MicroPython firmware uses the ESP32 as the controller and a TCA9548A I²C multiplexer to connect sensor modules alongside the ADC-based force input.",
+            "MicroPython 固件以 ESP32 为控制核心，并通过 TCA9548A I²C 多路复用器连接传感器模块，同时读取基于 ADC 的压力输入。"
+          ]
+        },
+        {
+          "title": [
+            "Wi-Fi upload",
+            "Wi-Fi 上传"
+          ],
+          "body": [
+            "The device batches JSON sensor payloads and sends them through Wi-Fi HTTP requests to the Flask API. No Bluetooth transport is claimed for the final reviewed firmware.",
+            "设备将传感器数据打包为 JSON，通过 Wi-Fi HTTP 请求发送至 Flask API。经核对的最终固件不主张使用蓝牙传输。"
+          ]
+        },
+        {
+          "title": [
+            "Flask service and status labels",
+            "Flask 服务与状态标签"
+          ],
+          "body": [
+            "The backend accepts recent data, provides browser endpoints, and derives heuristic status labels for a dashboard. No performance, accuracy, or latency metric is claimed.",
+            "后端接收近期数据、提供浏览器接口，并生成用于仪表板的启发式状态标签。页面不主张性能、准确率或延迟指标。"
+          ]
+        },
+        {
+          "title": [
+            "Structured report path",
+            "结构化报告链路"
+          ],
+          "body": [
+            "The reviewed code includes an OpenAI gpt-4o-mini integration that can send structured statuses and recent history for a conservative report. The source does not independently prove a live API response at a specific demo moment.",
+            "经核对的代码包含 OpenAI gpt-4o-mini 集成，可将结构化状态与近期历史发送以生成谨慎的报告。现有资料未独立证明某个演示时刻的实时 API 返回。"
+          ]
+        }
+      ],
+      "youtubeDemo": {
+        "videoId": "b8C_5I-G9is",
+        "embedUrl": "https://www.youtube.com/embed/b8C_5I-G9is",
+        "url": "https://youtu.be/b8C_5I-G9is",
+        "title": [
+          "VitalGuard project demo",
+          "VitalGuard 项目演示"
+        ],
+        "linkLabel": [
+          "Watch on YouTube",
+          "在 YouTube 观看"
+        ]
+      },
       "boundary": [
-        "An educational engineering prototype; no clinical validation or medical-device capability is claimed.",
-        "本项目为教学工程原型，不主张临床验证结果或医疗器械能力。"
+        "Columbia AIoT course prototype. The proposal graphics document the design process, while the page distinguishes them from the final reviewed firmware and service path. The prototype does not claim clinical validation, medical-device capability, diagnosis, emergency dispatch, or measured real-time performance.",
+        "Columbia AIoT 课程原型。提案图用于记录设计过程，本页将其与经核对的最终固件和服务链路区分开来。该原型不主张临床验证、医疗器械能力、诊断、紧急调度或可量化的实时性能。"
+      ],
+      "team": [
+        "Group 19",
+        "第19组"
+      ],
+      "members": [
+        {
+          "name": [
+            "Daolin Li",
+            "Daolin Li"
+          ],
+          "url": "https://github.com/dl3832"
+        },
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Sripad Karne",
+            "Sripad Karne"
+          ],
+          "url": "https://github.com/Sripadkarne"
+        },
+        {
+          "name": [
+            "Yizheng Tang",
+            "Yizheng Tang"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "architecture",
+        "process",
+        "youtube",
+        "resources",
+        "scope"
       ],
       "keywords": [
+        "AIoT",
         "IoT",
         "wearable",
-        "hardware",
+        "ESP32",
+        "Flask",
+        "LLM",
         "物联网",
         "可穿戴"
+      ],
+      "links": [
+        {
+          "label": [
+            "Project source on GitHub",
+            "GitHub 项目源码"
+          ],
+          "url": "https://github.com/JarrettChen217/EECS-E4764-2025-Fall-Final-Project-vitalguard-ai"
+        }
       ]
     },
     {
@@ -808,7 +1116,8 @@ const PROJECTS = {
           "name": [
             "Zikun Qiu",
             "Zikun Qiu"
-          ]
+          ],
+          "url": "https://github.com/MLTqy1234"
         },
         {
           "name": [
@@ -1148,6 +1457,43 @@ const PROJECTS = {
       "team": [
         "Static Sound",
         "Static Sound"
+      ],
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Ziyu Wang",
+            "Ziyu Wang"
+          ],
+          "url": "https://github.com/Lafinoon"
+        },
+        {
+          "name": [
+            "Jiayi Sun",
+            "Jiayi Sun"
+          ],
+          "url": "https://github.com/JiayiSun666"
+        },
+        {
+          "name": [
+            "Junhao Zhu",
+            "Junhao Zhu"
+          ],
+          "url": "https://github.com/junhaozhu1"
+        },
+        {
+          "name": [
+            "Gaoyongle Zhang",
+            "Gaoyongle Zhang"
+          ],
+          "url": "https://github.com/XinMoZ"
+        }
       ],
       "keywords": [
         "algorithms",
@@ -1616,8 +1962,8 @@ const PROJECTS = {
     {
       "id": "mur-simulation",
       "name": [
-        "Melbourne University Racing — Simulation",
-        "Melbourne University Racing（机器人仿真）"
+        "ROS AI Vehicle — Simulation Infrastructure",
+        "ROS AI 智能小车 — 仿真基础设施"
       ],
       "date": [
         "Sep 2024 – Nov 2024",
@@ -1625,78 +1971,372 @@ const PROJECTS = {
       ],
       "region": "au",
       "type": "team",
-      "tech": "ROS2, NVIDIA Isaac Sim, Python, OpenCV",
+      "tech": "ROS2, NVIDIA Isaac Sim, Python, OpenCV, RPyC",
       "summary": [
-        "Simulation infrastructure and sensor interfaces for an autonomous track-following robot.",
-        "自主循迹机器人的仿真环境与传感器接口。"
+        "Early ROS2 and Isaac Sim infrastructure for a competition-oriented AI vehicle: a simulated track, vehicle control, and sensor-data pathways for downstream learning research.",
+        "面向比赛型 AI 智能小车的前期 ROS2 与 Isaac Sim 基础设施：包括仿真跑道、车辆控制，以及为下游学习研究准备的传感器数据通路。"
       ],
       "background": [
-        "The racing-team project uses Isaac Sim and ROS2 to connect a simulated robot with sensor streams and movement commands.",
-        "赛车队项目使用 Isaac Sim 与 ROS2，将仿真机器人连接到传感器数据流与运动指令。"
+        "I developed the simulation layer for a competition-oriented AI vehicle project: configuring a car-like four-wheel chassis in Isaac Sim, placing it on a track, and using ROS2 to connect movement commands with simulated sensor streams. Prior Unity experience helped me move quickly through the scene-building workflow.",
+        "我为比赛型 AI 智能小车项目开发仿真层：在 Isaac Sim 中配置类似小车的四轮车架并将其放入跑道，再通过 ROS2 将运动指令与模拟传感器数据流连接起来。此前的 Unity 经验帮助我更快完成场景搭建流程。"
       ],
       "work": [
         [
-          "Built the simulation environment and enabled the ROS2 bridge.",
-          "构建仿真环境并启用 ROS2 bridge。"
+          "Built the early Isaac Sim track and vehicle configuration, then enabled the ROS2 bridge for the simulation.",
+          "搭建前期 Isaac Sim 跑道与车辆配置，并为仿真启用 ROS2 Bridge。"
         ],
         [
-          "Developed Python subscriber and publisher nodes for camera, LiDAR, odometry, and velocity control.",
-          "开发相机、激光雷达、里程计与速度控制的 Python 订阅及发布节点。"
+          "Developed Python ROS2 pathways for keyboard, game-controller, and RPC-based velocity control, plus simulated camera, LiDAR, and odometry data.",
+          "开发键盘、手柄和基于 RPC 的速度控制 ROS2 通路，以及模拟相机、激光雷达和里程计数据通路。"
+        ],
+        [
+          "Prepared simulated sensor signals for reinforcement-learning teammates to explore path recognition; game-controller driving was intended to collect behaviour examples for imitation-learning experiments.",
+          "为强化学习团队准备模拟传感器信号，用于探索路径识别；手柄驾驶则计划用于采集行为示例，服务模仿学习实验。"
         ]
       ],
+      "architecture": [
+        {
+          "title": [
+            "Isaac Sim vehicle and track",
+            "Isaac Sim 车辆与跑道"
+          ],
+          "body": [
+            "A car-like four-wheel vehicle and cone-based track were configured in Isaac Sim as the simulation environment.",
+            "在 Isaac Sim 中配置类似小车的四轮车辆与锥桶跑道，作为仿真环境。"
+          ]
+        },
+        {
+          "title": [
+            "ROS 2 control and simulation bridge",
+            "ROS 2 控制与仿真桥接"
+          ],
+          "body": [
+            "The ROS 2 Bridge connected simulation topics with velocity-control paths from keyboard, game-controller, and RPyC experiments.",
+            "ROS 2 Bridge 将仿真话题与键盘、手柄和 RPyC 实验中的速度控制通路连接起来。"
+          ]
+        },
+        {
+          "title": [
+            "Simulated sensor data for downstream learning",
+            "面向下游学习的模拟传感器数据"
+          ],
+          "body": [
+            "Camera, LiDAR, and odometry pathways supplied simulated observations for downstream reinforcement- and imitation-learning exploration; this page does not claim a completed model result.",
+            "相机、激光雷达和里程计通路为下游强化学习与模仿学习探索提供模拟观测；本页面不声称模型成果已经完成。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/mur-simulation/isaac-sim-ros2-bridge-racetrack-1600.webp",
+          "thumbnail": "assets/projects/mur-simulation/isaac-sim-ros2-bridge-racetrack-800.webp",
+          "width": 1600,
+          "height": 1120,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "A simulated four-wheel Jackal vehicle and cone-based track in Isaac Sim",
+            "Isaac Sim 中的四轮 Jackal 车辆与锥桶跑道，ROS 2 Bridge 已启用。"
+          ],
+          "caption": [
+            "The Isaac Sim scene brought the vehicle, cone-based track, and ROS 2 bridge into one simulation workspace.",
+            "Isaac Sim 场景将车辆、锥桶跑道和 ROS 2 Bridge 汇集到同一仿真工作区。"
+          ]
+        },
+        {
+          "src": "assets/projects/mur-simulation/ros2-camera-subscriber-simulated-track-1600.webp",
+          "thumbnail": "assets/projects/mur-simulation/ros2-camera-subscriber-simulated-track-800.webp",
+          "width": 1600,
+          "height": 900,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "A ROS 2 camera subscriber displays the simulated cone track beside the Python subscriber implementation.",
+            "ROS 2 相机订阅器显示模拟锥桶跑道，旁边为 Python 订阅器实现。"
+          ],
+          "caption": [
+            "The camera-subscriber path converts the simulated stereo-camera stream into a displayable frame while the project records odometry output.",
+            "相机订阅通路将模拟立体相机流转换为可显示画面，同时项目记录里程计输出。"
+          ]
+        }
+      ],
+      "demo": {
+        "src": "assets/projects/mur-simulation/ros2-sensor-twist-control-demo.mp4",
+        "poster": "assets/projects/mur-simulation/ros2-sensor-twist-control-poster-800.webp",
+        "width": 2000,
+        "height": 1600,
+        "caption": [
+          "Isaac Sim capture of the vehicle around cones alongside ROS 2 action-graph nodes and velocity-command output.",
+          "Isaac Sim 录屏展示车辆在锥桶间运行，并呈现 ROS 2 Action Graph 节点和速度指令输出。"
+        ]
+      },
       "boundary": [
-        "This case study focuses on simulation infrastructure, not ownership of the team's machine-learning models.",
-        "本案例聚焦仿真基础设施，不将团队机器学习模型作为个人独立成果。"
+        "This case study covers simulation and ROS2 infrastructure only. Reinforcement/imitation-learning models, model convergence, autonomous driving, and race performance were downstream goals, not results claimed here. Hao collaborated under mentorship and was not a formal MUR Motorsports software-team member.",
+        "本案例仅涵盖仿真与 ROS2 基础设施。强化/模仿学习模型、模型收敛、自动驾驶和比赛表现均为下游目标，并非本页面声称已实现的成果。Hao 在导师协作下参与项目，并非 MUR Motorsports 正式软件团队成员。"
       ],
       "team": [
-        "Melbourne University Racing",
-        "Melbourne University Racing"
+        "Mentored collaboration with Johnson Tong",
+        "与导师 Johnson Tong 协作"
+      ],
+      "sectionOrder": [
+        "background",
+        "architecture",
+        "product",
+        "contributions",
+        "engineering",
+        "demo",
+        "resources",
+        "scope"
       ],
       "keywords": [
         "robotics",
         "simulation",
         "sensors",
+        "reinforcement learning",
+        "imitation learning",
         "机器人",
-        "仿真"
+        "仿真",
+        "强化学习",
+        "模仿学习"
+      ],
+      "links": [
+        {
+          "label": [
+            "Public source repository",
+            "公开源代码仓库"
+          ],
+          "url": "https://github.com/JarrettChen217/MURSports-ROS"
+        }
       ]
     },
     {
       "id": "tetress",
       "name": [
-        "Tetress — Search & Game Agents",
-        "Tetress（搜索与博弈智能体）"
+        "Tetress — A* Search & MCTS Game Agent",
+        "Tetress — A* 搜索与 MCTS 博弈智能体"
       ],
       "date": [
-        "Mar 2024 – May 2024",
-        "2024年3月 – 2024年5月"
+        "March 2024 to May 2024 · University of Melbourne · COMP30024 Artificial Intelligence · Semester 1, 2024",
+        "2024年3月 – 2024年5月 · 墨尔本大学 · COMP30024 Artificial Intelligence · 2024年第一学期"
       ],
       "region": "au",
       "type": "academic",
-      "tech": "Python, A*, Monte Carlo Tree Search",
+      "tech": "Python 3.12, NumPy, A*, priority queue, heuristic search, Monte Carlo Tree Search, UCB, self-play testing",
       "summary": [
-        "Heuristic search and game-playing agents for single-player and two-player Tetress.",
-        "面向单人及双人 Tetress 的启发式搜索与博弈智能体。"
+        "Co-developed a two-stage AI project for Tetress: A*-based heuristic planning for a single-player task, followed by an MCTS game agent with heuristic move ordering and adaptive time allocation.",
+        "与 Jiayi Sun 共同完成的两阶段 AI 项目：先以基于 A* 的启发式搜索规划单人任务，再构建结合启发式落子排序与动态时间分配的 MCTS 博弈智能体。"
       ],
       "background": [
-        "A two-part AI coursework project covering search-space exploration and decisions under adversarial play.",
-        "两阶段 AI 课程项目，涵盖搜索空间探索与对抗博弈决策。"
+        "Tetress is an 11×11 toroidal strategy game in which players place tetrominoes and completed rows or columns clear. This two-person University of Melbourne COMP30024 Artificial Intelligence project by ByteBrainers connected a planning task with adversarial play on the same game model.",
+        "Tetress 是一款基于 11×11 环面棋盘的策略游戏：玩家放置四格骨牌，填满的行或列会被清除。ByteBrainers 在墨尔本大学 COMP30024 Artificial Intelligence 课程中以两人合作的形式，在同一游戏模型上衔接了规划任务与对抗博弈。"
       ],
       "work": [
         [
-          "Implemented an A* solver and iterated on heuristic estimates.",
-          "实现 A* 求解器并迭代启发式估计。"
+          "The overall project and reports were co-developed by Hao Chen and Jiayi Sun.",
+          "项目整体及两份报告由 Hao Chen 与 Jiayi Sun 共同完成。"
         ],
         [
-          "Built MCTS selection, backpropagation, time allocation, and tree-root reuse.",
-          "实现 MCTS 选择、回传、时间分配与树根复用。"
+          "Hao's repository history covers tetromino representation, legal-action generation, priority-queue search, A* heuristic iterations, major MCTS stages, tree reuse, and time-management experiments.",
+          "Hao 的仓库记录覆盖四格骨牌表示、合法动作生成、优先队列搜索、A* 启发函数迭代、MCTS 核心阶段、树复用与时间管理实验。"
+        ],
+        [
+          "Jiayi's recorded Part B work covers heuristic scoring, reducing self-elimination, opponent-mobility adjustments, and simulation-boost fixes.",
+          "Jiayi 记录在案的 Part B 工作涵盖启发式评分、减少自我淘汰、基于对手行动空间的调整，以及模拟加速修复。"
         ]
+      ],
+      "workHeading": [
+        "Collaboration & contribution",
+        "协作与贡献"
+      ],
+      "journey": [
+        {
+          "title": [
+            "Part A — Single-player heuristic search",
+            "Part A — 单人启发式搜索"
+          ],
+          "body": [
+            "Generated legal tetromino placements and used a priority queue with an f(n)=g(n)+h(n)-style score. The A*-based heuristic estimated the pieces needed to reach and fill a target row or column, searching for a low-cost sequence that clears a designated target token.",
+            "生成合法四格骨牌落子，并以带有 f(n)=g(n)+h(n) 风格评分的优先队列进行搜索。基于 A* 的启发函数估计到达并填满目标行或列所需的棋子数，从而寻找清除指定目标格的低成本步骤序列。"
+          ]
+        },
+        {
+          "title": [
+            "Part B — Two-player game agent",
+            "Part B — 双人博弈智能体"
+          ],
+          "body": [
+            "Built a competitive agent around MCTS selection, expansion, random simulation/rollout and backpropagation, with UCB-guided node selection. Heuristic move ordering considered opponent mobility; a heuristic/greedy opening fallback handled large branching factors, while tree reuse and dynamic time allocation included a mid-game weighting strategy.",
+            "围绕 MCTS 的选择、扩展、随机模拟（rollout）与回传构建竞争型智能体，并使用 UCB 引导的节点选择。启发式落子排序纳入对手行动空间；在分支因子较大时采用启发式/Greedy 开局回退，并通过树复用与动态时间分配实施中局加权策略。"
+          ]
+        },
+        {
+          "title": [
+            "Local self-play & course tournament",
+            "本地自对弈与课程锦标赛"
+          ],
+          "body": [
+            "Compared multiple local self-play variants and participated in the course tournament environment; no course leaderboard rank is claimed.",
+            "比较多个本地自对弈版本，并参加课程 tournament 环境；不声明任何课程排行榜名次。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/tetress/tetress-astar-reach-heuristic.webp",
+          "thumbnail": "assets/projects/tetress/tetress-astar-reach-heuristic-180.webp",
+          "width": 362,
+          "height": 391,
+          "thumbnailWidth": 167,
+          "group": "engineering",
+          "alt": [
+            "A* reach heuristic annotated on an 11×11 Tetress board",
+            "标注 A* 到达启发式的 11×11 Tetress 棋盘"
+          ],
+          "caption": [
+            "Team-report illustration of the reach component in the Part A heuristic.",
+            "团队报告中展示 Part A 启发函数到达部分的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-astar-fill-heuristic.webp",
+          "thumbnail": "assets/projects/tetress/tetress-astar-fill-heuristic-180.webp",
+          "width": 357,
+          "height": 354,
+          "thumbnailWidth": 180,
+          "group": "engineering",
+          "alt": [
+            "A* fill heuristic annotated on an 11×11 Tetress board",
+            "标注 A* 填充启发式的 11×11 Tetress 棋盘"
+          ],
+          "caption": [
+            "Team-report illustration of the fill component in the Part A heuristic.",
+            "团队报告中展示 Part A 启发函数填充部分的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-tree-selection.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-tree-selection-373.webp",
+          "width": 746,
+          "height": 623,
+          "thumbnailWidth": 373,
+          "group": "engineering",
+          "alt": [
+            "Hand-drawn MCTS tree showing selection and expanded nodes",
+            "展示选择与已扩展节点的手绘 MCTS 树"
+          ],
+          "caption": [
+            "Team-report illustration of MCTS tree selection and expansion.",
+            "团队报告中展示 MCTS 树选择与扩展的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-tree-simulation.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-tree-simulation-306.webp",
+          "width": 612,
+          "height": 517,
+          "thumbnailWidth": 306,
+          "group": "engineering",
+          "alt": [
+            "Hand-drawn MCTS tree showing the selected simulation branch",
+            "展示所选模拟分支的手绘 MCTS 树"
+          ],
+          "caption": [
+            "Team-report illustration of a selected simulation branch.",
+            "团队报告中展示所选模拟分支的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-astar-search-flow.webp",
+          "thumbnail": "assets/projects/tetress/tetress-astar-search-flow-700.webp",
+          "width": 1400,
+          "height": 900,
+          "thumbnailWidth": 700,
+          "group": "engineering",
+          "alt": [
+            "UML-style A* search flow from board and target through legal movement generation",
+            "展示棋盘与目标、合法动作生成、优先队列评分及清行过程的 UML 风格 A* 搜索流程图"
+          ],
+          "caption": [
+            "Self-drawn implementation map of the Part A search flow",
+            "根据项目代码重绘的 Part A 搜索流程实现图，不代表基准测试结果。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-class-model.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-class-model-700.webp",
+          "width": 1400,
+          "height": 900,
+          "thumbnailWidth": 700,
+          "group": "engineering",
+          "alt": [
+            "UML-style class model connecting Agent",
+            "连接 Agent、TreeNode、Tetrominos 与蒙特卡洛树搜索的 UML 风格类模型图"
+          ],
+          "caption": [
+            "Self-drawn Part B class model showing agent-owned tree reuse and TreeNode bookkeeping.",
+            "展示 Agent 持有的树复用和 TreeNode 记录机制的自绘 Part B 类模型图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-turn-sequence.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-turn-sequence-700.webp",
+          "width": 1400,
+          "height": 900,
+          "thumbnailWidth": 700,
+          "group": "engineering",
+          "alt": [
+            "UML-style MCTS turn sequence covering time budgeting",
+            "覆盖时间预算、选择、扩展、模拟、回传及根节点复用的 UML 风格 MCTS 回合时序图"
+          ],
+          "caption": [
+            "Self-drawn Part B turn sequence",
+            "包含动态模拟预算及下一回合根节点更新的自绘 Part B 回合时序图。"
+          ]
+        }
+      ],
+      "boundary": [
+        "The joint report recorded a 76% win rate over 200 color-balanced games against the team's local baseline; this portfolio pass did not rerun the experiment, and it is not a course leaderboard result. The A*-based search is not presented as a formally admissible or guaranteed-optimal shortest-path method.",
+        "联合报告记录了所选策略在 200 局颜色平衡对局中相对团队本地基线的 76% 胜率；本次作品集整理未复跑该实验，且这不是课程排行榜成绩。页面不将该基于 A* 的搜索表述为形式上可采纳、保证最优或保证最短路径的方法。"
+      ],
+      "team": [
+        "ByteBrainers",
+        "ByteBrainers"
+      ],
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Jiayi Sun",
+            "Jiayi Sun"
+          ],
+          "url": "https://github.com/JiayiSun666"
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "journey",
+        "engineering",
+        "scope"
       ],
       "keywords": [
         "AI",
-        "game",
-        "heuristic",
+        "Tetress",
+        "A*",
+        "heuristic search",
+        "priority queue",
+        "Monte Carlo Tree Search",
+        "UCB",
+        "self-play",
         "搜索",
-        "博弈"
+        "博弈",
+        "启发式"
       ]
     },
     {
@@ -1751,8 +2391,8 @@ const PROJECTS = {
       "type": "academic",
       "tech": "Python, Pygame, Jupyter Notebook, pandas",
       "summary": [
-        "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
-        "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
+        "A two-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+        "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的两人合作项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
       ],
       "background": [
         "SWEN90004 framed the assignment as a modelling exercise: teams reimplemented a selected NetLogo grid model, investigated its behaviour, and proposed an extension. Our Python version separates parameter configuration, simulation control, Pygame rendering, and notebook-based data inspection; black and white daisies, bare soil, local temperature, reproduction, ageing, and heat diffusion interact on a toroidal grid. Ant-colony shortest-path examples offer a useful analogy for the course's complex-systems lens: simple local pheromone feedback can accumulate into a collective route. DaisyWorld does not simulate ants or route finding; its system-level patterns arise instead from vegetation, albedo, and temperature feedback. The extension adds pollution zones and spread, pollution-dependent behaviour and visual overlays, plus a Lucky Clover mutation and pollution-mitigation pathway. These are implemented mechanisms, not reported experimental results.",
@@ -1778,6 +2418,22 @@ const PROJECTS = {
           "使用固定随机种子录制的扩展模型本机 macOS/Pygame 网格渲染画面。该画面仅用于功能演示，不代表实验结果。"
         ]
       },
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Junhao Zhu",
+            "Junhao Zhu"
+          ],
+          "url": "https://github.com/junhaozhu1"
+        }
+      ],
       "keywords": [
         "agent-based modelling",
         "complex systems",

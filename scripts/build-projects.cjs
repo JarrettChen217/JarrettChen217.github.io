@@ -37,6 +37,18 @@ function compile(source) {
       if(url.protocol!=='https:')fail(`${field}: URL must use HTTPS`);
       result.backgroundLink={label:bi(value.label,`${field}.label`),url:url.href};
     }
+    if(p.mechanics !== undefined){
+      const field=`${p.id}.mechanics`;const value=p.mechanics;
+      if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
+      if(!Array.isArray(value.steps)||!value.steps.length)fail(`${field}.steps: must be a non-empty list`);
+      const stepIds=new Set();
+      result.mechanics={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),steps:value.steps.map((step,index)=>{
+        const stepField=`${field}.steps[${index}]`;
+        if(!step||typeof step!=='object'||Array.isArray(step)||typeof step.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(step.id)||stepIds.has(step.id))fail(`${stepField}: invalid or duplicate step ID`);
+        stepIds.add(step.id);
+        return {id:step.id,title:bi(step.title,`${stepField}.title`),body:bi(step.body,`${stepField}.body`)};
+      })};
+    }
     if(p.process !== undefined){
       const field=`${p.id}.process`;const value=p.process;
       if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
@@ -57,7 +69,7 @@ function compile(source) {
         if(!demo||typeof demo!=='object'||Array.isArray(demo)||![demo.width,demo.height].every(n=>Number.isInteger(n)&&n>0))fail(`${demoField}: invalid dimensions`);
         return {src:localAsset(demo.src,'mp4',demoField),poster:localAsset(demo.poster,'webp',demoField),width:demo.width,height:demo.height,caption:bi(demo.caption,`${demoField}.caption`)};
       };
-      result.process={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),stages:value.stages.map((stage,index)=>{
+      const compiledProcess={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),stages:value.stages.map((stage,index)=>{
         const stageField=`${field}.stages[${index}]`;
         if(!stage||typeof stage!=='object'||Array.isArray(stage)||typeof stage.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(stage.id)||stageIds.has(stage.id))fail(`${stageField}: invalid or duplicate stage ID`);
         stageIds.add(stage.id);
@@ -68,6 +80,13 @@ function compile(source) {
         if(stage.demo!==undefined)compiled.demo=processDemo(stage.demo,`${stageField}.demo`);
         return compiled;
       })};
+      if(value.badge!==undefined){
+        const badgeField=`${field}.badge`;const badge=value.badge;
+        if(!badge||typeof badge!=='object'||Array.isArray(badge))fail(`${badgeField}: must be an object`);
+        if(![badge.width,badge.height].every(n=>Number.isInteger(n)&&n>0))fail(`${badgeField}: invalid dimensions`);
+        compiledProcess.badge={src:localAsset(badge.src,'webp',badgeField),width:badge.width,height:badge.height,alt:bi(badge.alt,`${badgeField}.alt`)};
+      }
+      result.process=compiledProcess;
     }
     if(p.journey !== undefined) {
       if(!Array.isArray(p.journey)) fail(`${p.id}.journey: must be a list`);
@@ -108,22 +127,75 @@ function compile(source) {
       result.demo={src:asset(d.src,'mp4'),poster:asset(d.poster,'webp'),width:d.width,height:d.height,caption:bi(d.caption,`${field}.caption`)};
     }
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
-    if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
-    if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
-    if(p.members!==undefined){
-      if(!Array.isArray(p.members)||!p.members.length)fail(`${p.id}.members: must be a non-empty list`);
-      result.members=p.members.map((member,i)=>{
-        const field=`${p.id}.members[${i}]`;
-        if(!member||typeof member!=='object'||Array.isArray(member))fail(`${field}: must be an object`);
-        const compiled={name:bi(member.name,`${field}.name`)};
+    if(p.team !== undefined) result.team=bi(p.team,`${p.id}.team`);
+    if(p.members !== undefined){
+      const field=`${p.id}.members`;
+      if(!Array.isArray(p.members)||!p.members.length)fail(`${field}: must be a non-empty list`);
+      const seenNames=new Set();const seenProfiles=new Set();
+      result.members=p.members.map((member,index)=>{
+        const itemField=`${field}[${index}]`;
+        if(!member||typeof member!=='object'||Array.isArray(member))fail(`${itemField}: must be an object`);
+        if(typeof member.name==='string'){
+          const name=member.name.trim();
+          if(!name||name.length>80||name.includes('@')||/\d{5,}/.test(name))fail(`${itemField}: must contain a public name only`);
+          if(typeof member.github!=='string'||!/^https:\/\/github\.com\/[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/.test(member.github))fail(`${itemField}: invalid GitHub profile`);
+          if(seenNames.has(name)||seenProfiles.has(member.github))fail(`${field}: duplicate member`);
+          seenNames.add(name);seenProfiles.add(member.github);
+          return {name,github:member.github};
+        }
+        const name=bi(member.name,`${itemField}.name`);
+        const nameKey=name.join('\u0000');
+        if(seenNames.has(nameKey))fail(`${field}: duplicate member`);
+        seenNames.add(nameKey);
+        const compiled={name};
         if(member.url!==undefined){
-          let url;try{url=new URL(member.url);}catch{fail(`${field}.url: invalid URL`);}
-          if(url.protocol!=='https:'||url.hostname!=='github.com')fail(`${field}.url: must be a GitHub HTTPS URL`);
-          compiled.url=url.href;
+          let url;try{url=new URL(member.url);}catch{fail(`${itemField}.url: invalid URL`);}
+          if(url.protocol!=='https:'||url.hostname!=='github.com'||!/^\/[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/.test(url.pathname))fail(`${itemField}.url: must be a GitHub HTTPS profile URL`);
+          if(seenProfiles.has(url.href))fail(`${field}: duplicate member`);
+          seenProfiles.add(url.href);compiled.url=url.href;
         }
         return compiled;
       });
     }
+    if(p.featuredVideo !== undefined){
+      const field=`${p.id}.featuredVideo`;const value=p.featuredVideo;
+      if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.youtubeId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.youtubeId))fail(`${field}: invalid YouTube ID`);
+      let watch;try{watch=new URL(value.watchUrl);}catch{fail(`${field}: invalid watch URL`);}
+      if(watch.protocol!=='https:'||!['youtube.com','www.youtube.com'].includes(watch.hostname)||watch.pathname!=='/watch'||watch.searchParams.get('v')!==value.youtubeId)fail(`${field}: watch URL must match the YouTube ID`);
+      let embed;
+      if(value.embedUrl!==undefined){
+        try{embed=new URL(value.embedUrl);}catch{fail(`${field}: invalid embed URL`);}
+        if(embed.protocol!=='https:'||!['youtube.com','www.youtube.com','youtube-nocookie.com','www.youtube-nocookie.com'].includes(embed.hostname)||embed.pathname!==`/embed/${value.youtubeId}`)fail(`${field}: embed URL must match the YouTube ID`);
+      }
+      if(typeof value.poster!=='string'||!new RegExp(`^assets/projects/${p.id}/[a-z0-9-]+\\.webp$`).test(value.poster))fail(`${field}: invalid poster path`);
+      const poster=path.join(ROOT,value.poster);
+      if(!fs.existsSync(poster)||!fs.statSync(poster).isFile()||!fs.realpathSync(poster).startsWith(fs.realpathSync(ROOT)+path.sep))fail(`${field}: poster missing or outside repository`);
+      if(![value.width,value.height].every(n=>Number.isInteger(n)&&n>0))fail(`${field}: invalid poster dimensions`);
+      result.featuredVideo={youtubeId:value.youtubeId,watchUrl:watch.href,...(embed?{embedUrl:embed.href}:{}),poster:value.poster,width:value.width,height:value.height,caption:bi(value.caption,`${field}.caption`)};
+    }
+    if(p.play !== undefined){
+      const field=`${p.id}.play`;const value=p.play;
+      if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.url!=='string'||!/^play\/[a-z0-9]+(?:-[a-z0-9]+)*\/index\.html$/.test(value.url))fail(`${field}: invalid repository-relative play URL`);
+      result.play={url:value.url,label:bi(value.label,`${field}.label`)};
+    }
+    if(p.sectionOrder !== undefined){
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
+      if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
+      result.sectionOrder=[...p.sectionOrder];
+    }
+    if(p.credits !== undefined){
+      const field=`${p.id}.credits`;
+      if(!Array.isArray(p.credits))fail(`${field}: must be a list`);
+      result.credits=p.credits.map((item,i)=>{
+        const itemField=`${field}[${i}]`;
+        if(!item||typeof item!=='object'||Array.isArray(item))fail(`${itemField}: must be an object`);
+        const credit={title:bi(item.title,`${itemField}.title`),body:bi(item.body,`${itemField}.body`)};
+        if(item.url!==undefined){let url;try{url=new URL(item.url);}catch{fail(`${itemField}: invalid URL`);}if(url.protocol!=='https:')fail(`${itemField}: URL must use HTTPS`);credit.url=url.href;}
+        return credit;
+      });
+    }
+    if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
+    if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
     return {published:p.published,data:result};
   });
   const live = projects.filter(p=>p.published).map(p=>p.data);

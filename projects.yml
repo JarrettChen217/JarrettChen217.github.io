@@ -429,6 +429,17 @@ projects:
     region: au
     type: team
     team: {en: Static Sound, zh: Static Sound}
+    members:
+      - name: {en: Hao Chen, zh: Hao Chen}
+        url: https://github.com/JarrettChen217
+      - name: {en: Ziyu Wang, zh: Ziyu Wang}
+        url: https://github.com/Lafinoon
+      - name: {en: Jiayi Sun, zh: Jiayi Sun}
+        url: https://github.com/JiayiSun666
+      - name: {en: Junhao Zhu, zh: Junhao Zhu}
+        url: https://github.com/junhaozhu1
+      - name: {en: Gaoyongle Zhang, zh: Gaoyongle Zhang}
+        url: https://github.com/XinMoZ
     tech: React, JavaScript, AVL trees
     keywords: [algorithms, animation, education, 算法, 可视化]
     summary:

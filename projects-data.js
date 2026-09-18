@@ -1149,6 +1149,43 @@ const PROJECTS = {
         "Static Sound",
         "Static Sound"
       ],
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Ziyu Wang",
+            "Ziyu Wang"
+          ],
+          "url": "https://github.com/Lafinoon"
+        },
+        {
+          "name": [
+            "Jiayi Sun",
+            "Jiayi Sun"
+          ],
+          "url": "https://github.com/JiayiSun666"
+        },
+        {
+          "name": [
+            "Junhao Zhu",
+            "Junhao Zhu"
+          ],
+          "url": "https://github.com/junhaozhu1"
+        },
+        {
+          "name": [
+            "Gaoyongle Zhang",
+            "Gaoyongle Zhang"
+          ],
+          "url": "https://github.com/XinMoZ"
+        }
+      ],
       "keywords": [
         "algorithms",
         "animation",

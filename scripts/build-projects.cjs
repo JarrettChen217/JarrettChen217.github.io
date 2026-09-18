@@ -57,7 +57,7 @@ function compile(source) {
         if(!demo||typeof demo!=='object'||Array.isArray(demo)||![demo.width,demo.height].every(n=>Number.isInteger(n)&&n>0))fail(`${demoField}: invalid dimensions`);
         return {src:localAsset(demo.src,'mp4',demoField),poster:localAsset(demo.poster,'webp',demoField),width:demo.width,height:demo.height,caption:bi(demo.caption,`${demoField}.caption`)};
       };
-      result.process={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),stages:value.stages.map((stage,index)=>{
+      const compiledProcess={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),stages:value.stages.map((stage,index)=>{
         const stageField=`${field}.stages[${index}]`;
         if(!stage||typeof stage!=='object'||Array.isArray(stage)||typeof stage.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(stage.id)||stageIds.has(stage.id))fail(`${stageField}: invalid or duplicate stage ID`);
         stageIds.add(stage.id);
@@ -68,6 +68,13 @@ function compile(source) {
         if(stage.demo!==undefined)compiled.demo=processDemo(stage.demo,`${stageField}.demo`);
         return compiled;
       })};
+      if(value.badge!==undefined){
+        const badgeField=`${field}.badge`;const badge=value.badge;
+        if(!badge||typeof badge!=='object'||Array.isArray(badge))fail(`${badgeField}: must be an object`);
+        if(![badge.width,badge.height].every(n=>Number.isInteger(n)&&n>0))fail(`${badgeField}: invalid dimensions`);
+        compiledProcess.badge={src:localAsset(badge.src,'webp',badgeField),width:badge.width,height:badge.height,alt:bi(badge.alt,`${badgeField}.alt`)};
+      }
+      result.process=compiledProcess;
     }
     if(p.journey !== undefined) {
       if(!Array.isArray(p.journey)) fail(`${p.id}.journey: must be a list`);
@@ -114,11 +121,16 @@ function compile(source) {
       if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.youtubeId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.youtubeId))fail(`${field}: invalid YouTube ID`);
       let watch;try{watch=new URL(value.watchUrl);}catch{fail(`${field}: invalid watch URL`);}
       if(watch.protocol!=='https:'||!['youtube.com','www.youtube.com'].includes(watch.hostname)||watch.pathname!=='/watch'||watch.searchParams.get('v')!==value.youtubeId)fail(`${field}: watch URL must match the YouTube ID`);
+      let embed;
+      if(value.embedUrl!==undefined){
+        try{embed=new URL(value.embedUrl);}catch{fail(`${field}: invalid embed URL`);}
+        if(embed.protocol!=='https:'||!['youtube.com','www.youtube.com','youtube-nocookie.com','www.youtube-nocookie.com'].includes(embed.hostname)||embed.pathname!==`/embed/${value.youtubeId}`)fail(`${field}: embed URL must match the YouTube ID`);
+      }
       if(typeof value.poster!=='string'||!new RegExp(`^assets/projects/${p.id}/[a-z0-9-]+\\.webp$`).test(value.poster))fail(`${field}: invalid poster path`);
       const poster=path.join(ROOT,value.poster);
       if(!fs.existsSync(poster)||!fs.statSync(poster).isFile()||!fs.realpathSync(poster).startsWith(fs.realpathSync(ROOT)+path.sep))fail(`${field}: poster missing or outside repository`);
       if(![value.width,value.height].every(n=>Number.isInteger(n)&&n>0))fail(`${field}: invalid poster dimensions`);
-      result.featuredVideo={youtubeId:value.youtubeId,watchUrl:watch.href,poster:value.poster,width:value.width,height:value.height,caption:bi(value.caption,`${field}.caption`)};
+      result.featuredVideo={youtubeId:value.youtubeId,watchUrl:watch.href,...(embed?{embedUrl:embed.href}:{}),poster:value.poster,width:value.width,height:value.height,caption:bi(value.caption,`${field}.caption`)};
     }
     if(p.play !== undefined){
       const field=`${p.id}.play`;const value=p.play;
@@ -126,7 +138,7 @@ function compile(source) {
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','process','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }

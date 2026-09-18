@@ -5,7 +5,7 @@ const demo=()=>({src:'assets/projects/avl-visualisation/avl-insertion-demo.mp4',
 const logo=()=>({src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Algorithms in Action project mark',zh:'Algorithms in Action 项目标识'}});
 const midasExtras=()=>({
  team:{en:'Cosmic Creators',zh:'Cosmic Creators'},
- featuredVideo:{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:{en:'Midas Curse gameplay demo',zh:'Midas Curse 游戏演示'}},
+ featuredVideo:{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',embedUrl:'https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:{en:'Midas Curse gameplay demo',zh:'Midas Curse 游戏演示'}},
  play:{url:'play/midas-curse/index.html',label:{en:'Play Game',zh:'在线试玩'}},
  sectionOrder:['video','background','product','contributions','journey','engineering','team','credits','resources','scope'],
  credits:[{title:{en:'Models and environments',zh:'模型与场景'},body:{en:'Third-party assets remain credited to their creators.',zh:'第三方素材版权归各自创作者所有。'},url:'https://assetstore.unity.com/'}]
@@ -14,7 +14,7 @@ test('project experience fields compile bilingual public data and strip research
  const doc=fixture();const source=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(source,midasExtras(),{researchNotes:'/private/report.pdf'});
  const project=run(doc).projects.find(item=>item.id==='avl-visualisation');
  assert.deepEqual(project.team,['Cosmic Creators','Cosmic Creators']);
- assert.deepEqual(project.featuredVideo,{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:['Midas Curse gameplay demo','Midas Curse 游戏演示']});
+ assert.deepEqual(project.featuredVideo,{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',embedUrl:'https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:['Midas Curse gameplay demo','Midas Curse 游戏演示']});
  assert.deepEqual(project.play,{url:'play/midas-curse/index.html',label:['Play Game','在线试玩']});
  assert.deepEqual(project.sectionOrder,midasExtras().sectionOrder);
  assert.deepEqual(project.credits,[{title:['Models and environments','模型与场景'],body:['Third-party assets remain credited to their creators.','第三方素材版权归各自创作者所有。'],url:'https://assetstore.unity.com/'}]);
@@ -24,6 +24,9 @@ test('project experience fields reject unsafe video, play, order and credit valu
  const changes=[
   {featuredVideo:{...midasExtras().featuredVideo,youtubeId:'not a youtube id'}},
   {featuredVideo:{...midasExtras().featuredVideo,watchUrl:'http://www.youtube.com/watch?v=_KGzpyql4ps'}},
+  {featuredVideo:{...midasExtras().featuredVideo,embedUrl:'http://www.youtube.com/embed/_KGzpyql4ps'}},
+  {featuredVideo:{...midasExtras().featuredVideo,embedUrl:'https://example.com/embed/_KGzpyql4ps'}},
+  {featuredVideo:{...midasExtras().featuredVideo,embedUrl:'https://www.youtube.com/embed/aaaaaaaaaaa'}},
   {featuredVideo:{...midasExtras().featuredVideo,caption:{en:'English only'}}},
   {featuredVideo:{...midasExtras().featuredVideo,poster:'../secret.webp'}},
   {featuredVideo:{...midasExtras().featuredVideo,width:0}},
@@ -53,6 +56,16 @@ const process=()=>({
   {id:'discover',label:{en:'Discover',zh:'探索'},title:{en:'Understand the need',zh:'理解需求'},body:{en:'Start with the classroom context.',zh:'从课堂场景出发。'},contribution:{en:'Structured interview questions.',zh:'整理访谈问题。'},findings:[{en:'Private check-ins matter.',zh:'私密签到很重要。'}],gallery:[{...media(),source:'/private/original.png'}]},
   {id:'validate',label:{en:'Validate',zh:'验证'},title:{en:'Review with the client',zh:'与客户验证'},body:{en:'Test the revised flow.',zh:'测试改进后的流程。'},demo:{...demo(),original:'/private/original.mov'}}
  ]
+});
+test('process badge and process section order compile as safe public data',()=>{
+ const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process={...process(),badge:{src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Built by hand in 2023',zh:'2023 年手工构建'}}};p.sectionOrder=['background','process','video'];
+ const compiled=run(doc).projects.find(p=>p.id==='avl-visualisation');
+ assert.deepEqual(compiled.process.badge,{src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:['Built by hand in 2023','2023 年手工构建']});
+ assert.deepEqual(compiled.sectionOrder,['background','process','video']);
+});
+test('process badge rejects unsafe paths, missing files, invalid dimensions and untranslated alt text',()=>{
+ const changes=[{src:'../secret.webp'},{src:'assets/projects/avl-visualisation/missing.webp'},{width:0},{height:1.5},{alt:{en:'English only'}}];
+ for(const change of changes){const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process={...process(),badge:{src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Built by hand in 2023',zh:'2023 年手工构建'},...change}};assert.throws(()=>run(doc),/process.*badge/);}
 });
 test('process chapters compile ordered bilingual evidence without leaking research metadata',()=>{
  const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process=process();

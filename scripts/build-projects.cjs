@@ -37,6 +37,18 @@ function compile(source) {
       if(url.protocol!=='https:')fail(`${field}: URL must use HTTPS`);
       result.backgroundLink={label:bi(value.label,`${field}.label`),url:url.href};
     }
+    if(p.mechanics !== undefined){
+      const field=`${p.id}.mechanics`;const value=p.mechanics;
+      if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
+      if(!Array.isArray(value.steps)||!value.steps.length)fail(`${field}.steps: must be a non-empty list`);
+      const stepIds=new Set();
+      result.mechanics={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),steps:value.steps.map((step,index)=>{
+        const stepField=`${field}.steps[${index}]`;
+        if(!step||typeof step!=='object'||Array.isArray(step)||typeof step.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(step.id)||stepIds.has(step.id))fail(`${stepField}: invalid or duplicate step ID`);
+        stepIds.add(step.id);
+        return {id:step.id,title:bi(step.title,`${stepField}.title`),body:bi(step.body,`${stepField}.body`)};
+      })};
+    }
     if(p.process !== undefined){
       const field=`${p.id}.process`;const value=p.process;
       if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
@@ -138,7 +150,7 @@ function compile(source) {
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','process','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','journey','architecture','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }

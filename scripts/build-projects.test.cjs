@@ -10,6 +10,34 @@ const midasExtras=()=>({
  sectionOrder:['video','background','product','contributions','journey','engineering','team','credits','resources','scope'],
  credits:[{title:{en:'Models and environments',zh:'模型与场景'},body:{en:'Third-party assets remain credited to their creators.',zh:'第三方素材版权归各自创作者所有。'},url:'https://assetstore.unity.com/'}]
 });
+const mechanics=()=>({
+ heading:{en:'How the game works',zh:'游戏机制'},
+ intro:{en:'The golden path is both a weapon and a risk.',zh:'黄金路径既是武器，也是风险。'},
+ source:'/private/game-design-notes.md',
+ steps:[
+  {id:'create',title:{en:'Leave a golden path',zh:'留下黄金路径'},body:{en:'Movement transforms the ground.',zh:'移动会转化脚下的地面。'},source:'/private/prototype.mov'},
+  {id:'survive',title:{en:'Manage the curse',zh:'控制黄金化'},body:{en:'Standing on gold raises the Goldenate meter.',zh:'站在黄金地面上会提高黄金化数值。'}}
+ ]
+});
+test('gameplay mechanics compile ordered bilingual public data and section placement',()=>{
+ const doc=fixture();const p=doc.projects.find(project=>project.id==='avl-visualisation');p.mechanics=mechanics();p.sectionOrder=['background','mechanics','process'];
+ const project=run(doc).projects.find(project=>project.id==='avl-visualisation');
+ assert.deepEqual(project.mechanics,{heading:['How the game works','游戏机制'],intro:['The golden path is both a weapon and a risk.','黄金路径既是武器，也是风险。'],steps:[{id:'create',title:['Leave a golden path','留下黄金路径'],body:['Movement transforms the ground.','移动会转化脚下的地面。']},{id:'survive',title:['Manage the curse','控制黄金化'],body:['Standing on gold raises the Goldenate meter.','站在黄金地面上会提高黄金化数值。']}]});
+ assert.deepEqual(project.sectionOrder,['background','mechanics','process']);
+ assert.ok(!JSON.stringify(project.mechanics).includes('/private/'));
+});
+test('gameplay mechanics reject unsafe or duplicate steps and incomplete translations',()=>{
+ const changes=[
+  value=>{value.steps[1].id='create'},
+  value=>{value.steps[0].id='Create now'},
+  value=>{delete value.heading.zh},
+  value=>{delete value.intro.en},
+  value=>{delete value.steps[0].title.zh},
+  value=>{delete value.steps[0].body.en},
+  value=>{value.steps=[]}
+ ];
+ for(const change of changes){const doc=fixture();const p=doc.projects.find(project=>project.id==='avl-visualisation');p.mechanics=mechanics();change(p.mechanics);assert.throws(()=>run(doc),/mechanics/);}
+});
 test('project experience fields compile bilingual public data and strip research metadata',()=>{
  const doc=fixture();const source=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(source,midasExtras(),{researchNotes:'/private/report.pdf'});
  const project=run(doc).projects.find(item=>item.id==='avl-visualisation');

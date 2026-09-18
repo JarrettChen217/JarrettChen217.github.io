@@ -21,6 +21,9 @@ const PROJECTS = {
       "id": "avl-visualisation"
     },
     {
+      "id": "midas-curse-unity"
+    },
+    {
       "id": "mur-simulation"
     },
     {
@@ -1085,6 +1088,462 @@ const PROJECTS = {
       ]
     },
     {
+      "id": "midas-curse-unity",
+      "name": [
+        "Midas Curse — Unity Survival Game",
+        "Midas Curse（Unity 生存游戏）"
+      ],
+      "date": [
+        "Aug 2023 – early Nov 2023",
+        "2023年8月 – 2023年11月初"
+      ],
+      "region": "au",
+      "type": "team",
+      "tech": "Unity, C#, ShaderLab, Git",
+      "summary": [
+        "A third-person maze, combat, and survival game built around a Midas-inspired golden-path mechanic.",
+        "以 Midas 神话为灵感、围绕黄金路径机制展开的第三人称迷宫战斗与生存游戏。"
+      ],
+      "background": [
+        "Project 1 established the concept and an initial playable prototype; Project 2 developed the same game into a fuller two-stage experience with a maze, enemies, skills, a shop, visual effects, and a boss encounter. This was my first experience with Unity and the starting point for systematically learning Unity, shader concepts, and game development through practice.",
+        "Project 1 建立游戏概念与初步可玩原型，Project 2 则在同一作品上继续开发，形成包含迷宫、敌人、技能、商店、视觉效果与 Boss 战的两阶段体验。这是我第一次接触 Unity，也是我通过实践系统学习 Unity、Shader 概念与游戏开发的起点。"
+      ],
+      "work": [
+        [
+          "Implemented and refined player movement and animation integration, including running states and Blend Tree adjustments.",
+          "实现并完善玩家移动与动画集成，包括跑步状态及 Blend Tree 调整。"
+        ],
+        [
+          "Worked on player-facing feedback and interaction flows, including health awareness, pause and shop controls, camera sensitivity, and audio behaviour.",
+          "参与玩家反馈与交互流程开发，包括生命值提示、暂停与商店控制、镜头灵敏度及音频行为。"
+        ],
+        [
+          "Contributed enemy spawning and animation adjustments, scene integration, and implementation debugging across the later development stage.",
+          "在后续开发阶段参与敌人生成与动画调整、场景集成及实现调试。"
+        ]
+      ],
+      "mechanics": {
+        "heading": [
+          "How the game works",
+          "游戏机制"
+        ],
+        "intro": [
+          "Every movement rewrites the arena: the golden path left behind can defeat enemies, but stepping onto it again also brings the curse closer to completion.",
+          "玩家每一次移动都会重塑战场：身后留下的黄金路径能够击败敌人，但自己再次踏上它，也会让诅咒更接近完成。"
+        ],
+        "steps": [
+          {
+            "id": "create-path",
+            "title": [
+              "Leave a golden path",
+              "留下黄金路径"
+            ],
+            "body": [
+              "As the Mage moves through the maze, traversed floor tiles turn into gold. Route choice therefore keeps changing the available safe space and the positions from which later encounters can be approached.",
+              "法师在迷宫中移动时，走过的地面会逐格转化为黄金。路线选择因此会持续改变可用的安全空间，以及后续战斗可以展开的位置。"
+            ]
+          },
+          {
+            "id": "manage-curse",
+            "title": [
+              "Manage the curse",
+              "控制黄金化风险"
+            ],
+            "body": [
+              "Both the player and enemies are slowed on active gold while their Goldenate meter—the game's measure of the curse—continues to rise. If the player's meter fills, the Mage turns completely to gold and the run ends.",
+              "玩家与敌人站在已激活的黄金地面上都会减速，并持续累积 Goldenate（黄金化）数值。玩家的计量条满后，法师会完全黄金化，本局游戏随之结束。"
+            ]
+          },
+          {
+            "id": "turn-danger",
+            "title": [
+              "Turn danger into offence",
+              "化陷阱为攻击"
+            ],
+            "body": [
+              "Careful routing can lure enemies onto the same trail. Filling an enemy's Goldenate meter defeats it and awards coins, while crystals gathered in the maze provide another resource for later upgrades.",
+              "玩家可以规划路线，将敌人引到同一条黄金路径上；敌人的 Goldenate 条满后即被击败并掉落金币，迷宫中收集的水晶也能为后续升级提供资源。"
+            ]
+          },
+          {
+            "id": "reshape-field",
+            "title": [
+              "Reshape the battlefield",
+              "用神器重塑战场"
+            ],
+            "body": [
+              "Two artifact loadouts provide skills that create, remove, or chain-react with golden ground, including area-clearing ultimate abilities. Shop upgrades improve armour, movement speed, skill damage, cooldown, range, and ultimate charging.",
+              "两套神器技能可以生成、移除或连锁引爆黄金地面，并通过范围型终极技能清出空间；商店升级涵盖护甲、移动速度、技能伤害、冷却、作用范围与终极技能充能。"
+            ]
+          }
+        ]
+      },
+      "process": {
+        "heading": [
+          "Engineering the Midas Curse",
+          "构建 Midas Curse 核心机制"
+        ],
+        "intro": [
+          "In 2023, before generative-AI coding assistants were part of our workflow, Cosmic Creators learned through Unity documentation, tutorials, prototypes, code review, and manual debugging. The result was not a single shader trick, but a connected system in which movement, ground state, combat, skills, and visual feedback all respond to the same golden-path mechanic.",
+          "2023 年，生成式 AI 编程助手尚未进入我们的开发流程。Cosmic Creators 通过阅读 Unity 文档、研究教程、制作原型、相互审阅代码并手动调试推进开发。最终成果并非单一的 Shader 技巧，而是一套将移动、地面状态、战斗、技能与视觉反馈连接到同一黄金路径机制的系统。"
+        ],
+        "stages": [
+          {
+            "id": "concept",
+            "label": [
+              "Concept",
+              "概念"
+            ],
+            "title": [
+              "Turn a myth into a playable rule",
+              "把神话转化为可玩的规则"
+            ],
+            "body": [
+              "The team translated the Midas myth into a rule the player could feel: movement turns traversed ground into gold, while that same path becomes a resource, a combat surface, and a growing survival constraint. Project 1 proved the rule in a playable prototype; Project 2 built the wider maze, skill, shop, enemy, and boss loop around it.",
+              "团队将 Midas 神话转化为玩家能够直接感受到的规则：移动会把经过的地面变成黄金，而同一条路径既是资源与战斗区域，也会逐渐成为生存限制。Project 1 先以可玩原型验证规则，Project 2 再围绕它扩展迷宫、技能、商店、敌人与 Boss 战循环。"
+            ],
+            "contribution": [
+              "I contributed to early concept and prototype documentation, then worked on player movement, animation integration, interaction feedback, and later scene debugging.",
+              "我参与早期概念与原型文档，并在后续开发中负责或参与玩家移动、动画集成、交互反馈及场景调试。"
+            ]
+          },
+          {
+            "id": "system-model",
+            "label": [
+              "System model",
+              "系统建模"
+            ],
+            "title": [
+              "Represent the floor as an interactive grid",
+              "将地面表示为可交互网格"
+            ],
+            "body": [
+              "The golden ground is a gameplay system rather than a painted trail. GoldManager maps world positions into a two-dimensional grid and uses raycasts to create cells only where valid floor geometry exists. As the player moves, GoldWalk identifies the corresponding cell and activates the tile, giving the rest of the game one consistent spatial model.",
+              "黄金地面并不是一条简单绘制的轨迹，而是一套玩法系统。GoldManager 将世界坐标映射到二维网格，并通过射线检测只在有效地面上创建单元格；玩家移动时，GoldWalk 找到对应单元并激活地块，让游戏中的其他机制共享同一套空间模型。"
+            ],
+            "findings": [
+              [
+                "World coordinates resolve to stable grid cells.",
+                "世界坐标被映射为稳定的网格单元。"
+              ],
+              [
+                "Raycasts prevent gold from appearing off the walkable floor.",
+                "射线检测避免黄金出现在不可行走区域。"
+              ],
+              [
+                "Movement becomes the shared input for path",
+                "移动成为路径、战斗与技能系统的共同输入。"
+              ]
+            ]
+          },
+          {
+            "id": "state-logic",
+            "label": [
+              "State logic",
+              "状态逻辑"
+            ],
+            "title": [
+              "Give every gold tile a lifecycle",
+              "为每块黄金地面建立生命周期"
+            ],
+            "body": [
+              "Each GoldInfo cell progresses through inactive, expanding, active, and dissolving states. Timers distinguish natural expiry from forced removal, material changes expose the transition visually, and nearby systems can query or remove gold for attacks, particles, and ultimate-charge behaviour. This lifecycle turns a visual trail into reusable game state.",
+              "每个 GoldInfo 地块都会依次经历未激活、扩张、激活与消散状态。计时逻辑区分自然到期与强制移除，材质切换把状态变化呈现出来；周边系统还能查询或移除黄金地块，用于攻击、粒子效果与终极技能充能。由此，视觉轨迹被转化为可复用的游戏状态。"
+            ],
+            "findings": [
+              [
+                "One tile state drives both rules and visual feedback.",
+                "同一地块状态同时驱动玩法规则与视觉反馈。"
+              ],
+              [
+                "Natural and forced dissolves support different interactions.",
+                "自然消散与强制移除支持不同交互。"
+              ],
+              [
+                "Range queries connect the path to skills and combat.",
+                "范围查询把黄金路径连接到技能与战斗。"
+              ]
+            ]
+          },
+          {
+            "id": "shader-feedback",
+            "label": [
+              "Shader feedback",
+              "Shader 反馈"
+            ],
+            "title": [
+              "Make system state readable in motion",
+              "用 Shader 呈现系统状态"
+            ],
+            "body": [
+              "The team studied documented examples and tutorials, then adapted them to the game's state model. GoldExpanding receives a world-space start point, current time, and expansion speed; comparing travelled distance with elapsed time reveals the gold effect outward from its origin. A separate dissolve treatment and material switching communicate when transformed ground or affected objects leave the active state.",
+              "团队先研究文档示例与教程，再把方法适配到游戏的状态模型中。GoldExpanding 接收世界空间起点、当前时间与扩张速度，并比较传播距离和经过时间，让黄金效果从起点向外展开；另一套消散效果与材质切换，则用来表达已转化地面或受影响物体离开激活状态的过程。"
+            ],
+            "findings": [
+              [
+                "_StartPos anchors the effect in world space.",
+                "_StartPos 将效果锚定在世界空间。"
+              ],
+              [
+                "Time and speed control the visible expansion boundary.",
+                "时间与速度共同控制可见的扩张边界。"
+              ],
+              [
+                "Material transitions keep gameplay state legible while moving.",
+                "材质过渡让玩家在移动中仍能读懂玩法状态。"
+              ]
+            ]
+          },
+          {
+            "id": "browser-delivery",
+            "label": [
+              "Browser delivery",
+              "浏览器交付"
+            ],
+            "title": [
+              "Adapt the effect for WebGL",
+              "为 WebGL 调整视觉实现"
+            ],
+            "body": [
+              "A geometry-shader experiment produced a stronger local death effect, but the browser target required a WebGL-compatible path. The team therefore retained the underlying dissolve idea while adapting the implementation for the final build, then verified the complete game loop in the exported browser version. The decision kept the visual intent while making the project directly playable online.",
+              "几何 Shader 实验在本地实现了更强的死亡效果，但浏览器目标需要兼容 WebGL 的实现路径。团队因此保留消散效果的核心思路，同时为最终构建调整实现，并在导出的浏览器版本中验证完整游戏循环，在保留视觉意图的同时让作品能够直接在线试玩。"
+            ],
+            "contribution": [
+              "I prototyped the geometry-shader enemy-death effect and contributed to later integration and debugging as the team prepared the browser build.",
+              "我制作了敌人死亡的几何 Shader 原型，并在团队准备浏览器构建时参与后续集成与调试。"
+            ]
+          }
+        ],
+        "badge": {
+          "src": "assets/projects/midas-curse-unity/built-by-hand-2023.webp",
+          "width": 760,
+          "height": 240,
+          "alt": [
+            "Built by hand in 2023",
+            "2023 年手工构建"
+          ]
+        }
+      },
+      "journey": [
+        {
+          "title": [
+            "Two stages of one game",
+            "同一游戏的两个开发阶段"
+          ],
+          "body": [
+            "Project 1 moved from the Midas-inspired premise to a playable prototype of movement, the golden path, the maze, and survival feedback. Project 2 carried the same foundation into a broader game loop with staged progression, combat, enemies, item upgrades, and a boss encounter.",
+            "Project 1 将 Midas 灵感推进为包含移动、黄金路径、迷宫与生存反馈的可玩原型；Project 2 延续同一基础，进一步形成带有阶段推进、战斗、敌人、道具升级与 Boss 战的完整玩法循环。"
+          ]
+        },
+        {
+          "title": [
+            "Refining feedback through playtesting",
+            "通过试玩反馈完善视觉提示"
+          ],
+          "body": [
+            "The team used face-to-face playtesting and a survey to guide the later iteration. One visible refinement made the affected ground easier to distinguish through stronger colour contrast and particle feedback, helping players read the golden-path state while moving.",
+            "团队通过面对面试玩与问卷反馈指导后续迭代。其中一项可见改进通过更鲜明的颜色对比与粒子反馈区分受影响地面，帮助玩家在移动过程中判断黄金路径状态。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/midas-curse-unity/maze-model-1280.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/maze-model-800.webp",
+          "width": 1280,
+          "height": 720,
+          "thumbnailWidth": 800,
+          "group": "product",
+          "alt": [
+            "Three-dimensional maze model in the Unity editor",
+            "Unity 编辑器中的三维迷宫模型"
+          ],
+          "caption": [
+            "The maze translated the level plan into a navigable Unity environment for exploration, item collection, and encounters.",
+            "团队将关卡平面设计转化为可在 Unity 中探索、收集道具并触发战斗的三维迷宫环境。"
+          ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/maze-plan-1400.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/maze-plan-800.webp",
+          "width": 1400,
+          "height": 1413,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Final two-dimensional maze plan",
+            "最终二维迷宫平面设计"
+          ],
+          "caption": [
+            "The final maze plan reduced unnecessary dead ends and established a clear route toward its central objective.",
+            "最终迷宫方案减少不必要的死路，并围绕中央目标形成更清晰的探索路线。"
+          ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/visual-feedback-before-1400.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/visual-feedback-before-800.webp",
+          "width": 1400,
+          "height": 1297,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Earlier golden-path visual feedback during playtesting",
+            "试玩阶段较早版本的黄金路径视觉反馈"
+          ],
+          "caption": [
+            "Earlier visual treatment used during the team's playtesting comparison.",
+            "团队在试玩对比中使用的较早版本视觉表现。"
+          ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/visual-feedback-after-1182.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/visual-feedback-after-800.webp",
+          "width": 1182,
+          "height": 1155,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Refined golden-path feedback with stronger colour and particles",
+            "使用更鲜明颜色与粒子效果完善后的黄金路径反馈"
+          ],
+          "caption": [
+            "The refined result gives the affected path stronger contrast and particle feedback so its state is easier to read in motion.",
+            "改进结果通过更强的颜色对比与粒子反馈突出受影响路径，使玩家在移动中更容易判断其状态。"
+          ]
+        }
+      ],
+      "demo": {
+        "src": "assets/projects/midas-curse-unity/gold-path-demo.mp4",
+        "poster": "assets/projects/midas-curse-unity/gold-path-800.webp",
+        "width": 960,
+        "height": 540,
+        "caption": [
+          "An early Unity prototype of the golden-path mechanic: movement leaves transformed ground that becomes both a resource and a hazard.",
+          "黄金路径机制的早期 Unity 原型：移动会在身后留下被转化的地面，使路径同时成为资源与风险。"
+        ]
+      },
+      "team": [
+        "Cosmic Creators",
+        "Cosmic Creators"
+      ],
+      "members": [
+        {
+          "name": "Hao Chen",
+          "github": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": "Chao Ma",
+          "github": "https://github.com/cmcbrm"
+        },
+        {
+          "name": "Gaoyongle Zhang",
+          "github": "https://github.com/XinMoZ"
+        },
+        {
+          "name": "Jiayi Sun",
+          "github": "https://github.com/JiayiSun666"
+        }
+      ],
+      "featuredVideo": {
+        "youtubeId": "_KGzpyql4ps",
+        "watchUrl": "https://www.youtube.com/watch?v=_KGzpyql4ps",
+        "poster": "assets/projects/midas-curse-unity/demo-poster-1280.webp",
+        "width": 1280,
+        "height": 720,
+        "caption": [
+          "Midas Curse gameplay demo by Cosmic Creators.",
+          "Cosmic Creators 的 Midas Curse 游戏演示。"
+        ]
+      },
+      "play": {
+        "url": "play/midas-curse/index.html",
+        "label": [
+          "Play Game",
+          "在线试玩"
+        ]
+      },
+      "sectionOrder": [
+        "background",
+        "mechanics",
+        "process",
+        "video",
+        "demo",
+        "product",
+        "contributions",
+        "journey",
+        "engineering",
+        "team",
+        "credits"
+      ],
+      "credits": [
+        {
+          "title": [
+            "Team production",
+            "团队制作"
+          ],
+          "body": [
+            "Game concept, systems integration, evaluation, and project presentation were completed collaboratively by Cosmic Creators.",
+            "游戏概念、系统集成、试玩评估与项目展示由 Cosmic Creators 团队协作完成。"
+          ]
+        },
+        {
+          "title": [
+            "Models",
+            "模型、场景、图标与特效"
+          ],
+          "body": [
+            "The compiled game uses credited third-party assets from the Unity Asset Store and other sources documented by the team; these assets are not presented as original personal artwork.",
+            "游戏构建使用来自 Unity Asset Store 及团队文档所列其他来源的第三方素材；这些素材不作为个人原创美术成果展示。"
+          ],
+          "url": "https://assetstore.unity.com/"
+        },
+        {
+          "title": [
+            "Character animation",
+            "角色动画"
+          ],
+          "body": [
+            "Character and creature animation sources include Mixamo, integrated and adjusted within the Unity project.",
+            "角色与生物动画素材包括 Mixamo 资源，并在 Unity 项目中进行集成与调整。"
+          ],
+          "url": "https://www.mixamo.com/"
+        },
+        {
+          "title": [
+            "Shader learning reference",
+            "Shader 学习参考"
+          ],
+          "body": [
+            "The team's dissolve-effect study referenced a tutorial and then adapted the approach for the game's visual direction.",
+            "团队的溶解效果学习参考了教程，并在此基础上结合游戏视觉方向进行调整。"
+          ],
+          "url": "https://www.youtube.com/watch?v=LIuLeCq5-qs"
+        },
+        {
+          "title": [
+            "Sound effects",
+            "音效素材"
+          ],
+          "body": [
+            "Sound-effect sources include Pixabay and remain subject to their respective source terms.",
+            "音效素材来源包括 Pixabay，并遵循相应来源的使用条款。"
+          ],
+          "url": "https://pixabay.com/sound-effects/"
+        }
+      ],
+      "keywords": [
+        "Unity",
+        "game development",
+        "survival game",
+        "shaders",
+        "animation",
+        "Blend Tree",
+        "游戏开发",
+        "生存游戏",
+        "动画"
+      ]
+    },
+    {
       "id": "mur-simulation",
       "name": [
         "Melbourne University Racing — Simulation",
@@ -1207,8 +1666,8 @@ const PROJECTS = {
     {
       "id": "daisyworld",
       "name": [
-        "DaisyWorld — Agent-Based Simulation",
-        "DaisyWorld（基于智能体的仿真）"
+        "DaisyWorld — Exploring Emergence",
+        "DaisyWorld（探索涌现与环境反馈）"
       ],
       "date": [
         "May 2025",
@@ -1216,35 +1675,44 @@ const PROJECTS = {
       ],
       "region": "au",
       "type": "academic",
-      "tech": "Python, Pygame, NetLogo, Jupyter",
+      "tech": "Python, Pygame, Jupyter Notebook, pandas",
       "summary": [
-        "A Python climate simulation extending DaisyWorld with environmental effects.",
-        "使用环境影响机制扩展 DaisyWorld 的 Python 气候仿真。"
+        "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+        "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
       ],
       "background": [
-        "The model explores feedback between organisms and their environment in a grid world. Separate original and extended models support comparison.",
-        "模型在网格世界中探索生物与环境之间的反馈，原始模型与扩展模型分别实现以支持对比。"
+        "SWEN90004 framed the assignment as a modelling exercise: teams reimplemented a selected NetLogo grid model, investigated its behaviour, and proposed an extension. Our Python version separates parameter configuration, simulation control, Pygame rendering, and notebook-based data inspection; black and white daisies, bare soil, local temperature, reproduction, ageing, and heat diffusion interact on a toroidal grid. Ant-colony shortest-path examples offer a useful analogy for the course's complex-systems lens: simple local pheromone feedback can accumulate into a collective route. DaisyWorld does not simulate ants or route finding; its system-level patterns arise instead from vegetation, albedo, and temperature feedback. The extension adds pollution zones and spread, pollution-dependent behaviour and visual overlays, plus a Lucky Clover mutation and pollution-mitigation pathway. These are implemented mechanisms, not reported experimental results.",
+        "SWEN90004 将作业设为一次建模练习：团队复现一个指定的 NetLogo 网格模型，考察其行为，并提出扩展。我们的 Python 版本分离了参数配置、仿真控制、Pygame 渲染与基于 notebook 的数据检查；黑、白雏菊、裸地、局部温度、繁殖、衰老与热扩散在环形网格中通过局部规则互动。蚂蚁群体寻找最短路径是理解这门课复杂系统视角的一个类比：简单的局部信息素反馈能够累积成群体路线。DaisyWorld 不模拟蚂蚁或路径寻优；它的系统层面模式来自植被、反照率与温度之间的反馈。扩展代码加入污染区域及其传播、受污染影响的行为与可视化覆盖层，以及 Lucky Clover 的变异和污染缓解路径。这些是已实现的机制，不是实验结果报告。"
       ],
       "work": [
         [
-          "Reimplemented the daisy albedo-feedback model in Python.",
-          "使用 Python 重新实现雏菊反照率反馈模型。"
+          "Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.",
+          "搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。"
         ],
         [
-          "Added pollution diffusion, mutation behaviour, and an additional species.",
-          "加入污染扩散、变异行为与新增物种。"
-        ],
-        [
-          "Visualised model states with Pygame and analysed simulation output in notebooks.",
-          "使用 Pygame 可视化模型状态，在 notebook 中分析仿真输出。"
+          "Added the notebook-based data-inspection workflow and implemented substantial parts of the pollution/Lucky Clover extension, including pollution zones and spread, visual overlays, and pollution-dependent mutation and ageing behaviour.",
+          "加入基于 notebook 的数据检查流程，并实现污染/Lucky Clover 扩展的重要部分，包括污染区域与传播、可视化覆盖层，以及受污染程度影响的变异和衰老逻辑。"
         ]
       ],
+      "demo": {
+        "src": "assets/projects/daisyworld/daisyworld-extension-local-demo.mp4",
+        "poster": "assets/projects/daisyworld/daisyworld-extension-local-poster.webp",
+        "width": 720,
+        "height": 760,
+        "caption": [
+          "A fixed-seed local macOS/Pygame capture of the extension model's grid renderer. It is a functional demonstration, not an experimental result.",
+          "使用固定随机种子录制的扩展模型本机 macOS/Pygame 网格渲染画面。该画面仅用于功能演示，不代表实验结果。"
+        ]
+      },
       "keywords": [
-        "simulation",
-        "climate",
-        "visualisation",
-        "仿真",
-        "气候"
+        "agent-based modelling",
+        "complex systems",
+        "emergence",
+        "environmental feedback",
+        "多智能体建模",
+        "复杂系统",
+        "涌现",
+        "环境反馈"
       ]
     },
     {

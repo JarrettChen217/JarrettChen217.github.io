@@ -33,3 +33,27 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 
 /* Optional company marks occupy a quiet identity rail; text-only entries keep the original flow. */
 .entry-with-logo{display:grid;grid-template-columns:minmax(0,1fr) 56px;gap:24px;align-items:start}.entry-body{min-width:0}.entry-logo{display:block;width:52px;height:42px;object-fit:contain;justify-self:end}.company-logo{display:block;flex:none;width:64px;height:56px;object-fit:contain}@media(max-width:640px){.entry-with-logo{grid-template-columns:minmax(0,1fr) 46px;gap:14px}.entry-logo{width:44px;height:36px}.company-logo{width:52px;height:44px}}
+
+/* One home link contains the avatar, a local pixel typeface, and decorative snow. */
+@font-face{font-family:HaoChenSilkscreen;src:url("assets/branding/silkscreen-latin-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+header .brand{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;line-height:1;padding:8px 0;text-decoration:none}
+.brand-avatar-frame{position:relative;display:block;width:48px;height:48px;flex:none}
+.brand-avatar{display:block;width:48px;height:48px;object-fit:cover;image-rendering:pixelated;border-radius:4px}
+.brand-wordmark{display:block;font-family:HaoChenSilkscreen,monospace;font-size:25px;font-weight:700;letter-spacing:-2.7px;line-height:1;color:#29475f;white-space:nowrap}
+.brand-snow{position:absolute;width:3px;height:3px;background:#eefaff;box-shadow:0 0 0 1px #79b9df;opacity:0;pointer-events:none;animation:brand-snow 3.2s steps(1,end) infinite}.brand-snow-one{left:-2px;top:8px}.brand-snow-two{right:-2px;top:20px;animation-delay:1.067s}.brand-snow-three{left:8px;bottom:-2px;animation-delay:2.134s}@keyframes brand-snow{0%,16%{opacity:1}17%,100%{opacity:0}}
+header .languages{flex-shrink:0}
+@media(max-width:760px){
+  header{flex-wrap:wrap;column-gap:16px;row-gap:0;padding-top:8px}
+  header nav{order:3;width:100%;flex-wrap:wrap;gap:0 24px}
+  header nav a{padding:9px 0;font-size:13px}
+  header .brand{gap:9px}
+  .brand-avatar-frame,.brand-avatar{width:44px;height:44px}
+  .brand-wordmark{font-size:22px;letter-spacing:-2.25px}
+}
+@media(max-width:360px){
+  header{column-gap:10px}
+  header .brand{gap:8px}
+  .brand-avatar-frame,.brand-avatar{width:40px;height:40px}
+  .brand-wordmark{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){.brand-snow{animation:none}}

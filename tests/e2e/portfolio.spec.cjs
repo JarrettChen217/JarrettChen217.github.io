@@ -224,3 +224,41 @@ test('keeps the content width stable when Contact does not need scrolling', asyn
     await expect(page.locator('html')).toHaveCSS('scrollbar-gutter', 'stable');
   }
 });
+
+test('pixel header stays separated and its animated brand returns home', async ({ page }) => {
+  await page.goto('/#contact');
+  const brand = page.getByRole('link', { name: 'Hao Chen', exact: true });
+  await expect(brand).toHaveAttribute('href', '#overview');
+  expect(await page.locator('.brand-avatar').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);
+  await expect(page.locator('.brand-wordmark')).toHaveText('Hao Chen');
+  await expect(page.locator('.brand-snow')).toHaveCount(3);
+  await expect(page.locator('.brand-snow').first()).toHaveAttribute('aria-hidden', 'true');
+  await expect(page.locator('.brand-wordmark')).toHaveCSS('font-family', /HaoChenSilkscreen/);
+  await page.locator('.brand-avatar').click();
+  await expect(page).toHaveURL(/#overview$/);
+  await page.goto('/#contact');
+  await brand.focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#overview$/);
+  for (const width of [320, 360, 390, 640, 760, 761, 900, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const language of ['en', 'zh']) {
+      await page.locator(`[data-lang="${language}"]`).click();
+      const layout = await page.evaluate(() => {
+        const boxes = ['.brand', '#topnav', '.languages'].map(selector => document.querySelector(selector).getBoundingClientRect());
+        const overlap = boxes.some((a, i) => boxes.slice(i + 1).some(b =>
+          Math.min(a.right, b.right) > Math.max(a.left, b.left) &&
+          Math.min(a.bottom, b.bottom) > Math.max(a.top, b.top)));
+        return { overlap, overflow: document.documentElement.scrollWidth > innerWidth };
+      });
+      expect(layout, `${width}px ${language}`).toEqual({ overlap: false, overflow: false });
+    }
+  }
+});
+
+test('stops decorative header snow when reduced motion is requested', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#overview');
+  await expect(page.locator('.brand-snow')).toHaveCount(3);
+  await expect(page.locator('.brand-snow').first()).toHaveCSS('animation-name', 'none');
+});

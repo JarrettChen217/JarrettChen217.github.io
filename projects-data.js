@@ -219,23 +219,10 @@ const PROJECTS = {
         "面向 iPad 教育应用的需求分析与交互设计。"
       ],
       "background": [
-        "A university client collaboration exploring digital support for trauma-informed education. The work focused on understanding stakeholders and turning needs into testable design requirements.",
-        "大学客户合作项目，探索支持创伤知情教育的数字工具，重点是理解利益相关方并将需求转化为可验证的设计要求。"
+        "This university–client collaboration was grounded in Trauma-Informed Positive Education (TIPE), a strengths-based approach that supports students’ regulation, relationships, wellbeing and engagement with learning. Students affected by stress or adversity may find it difficult to identify or communicate how they feel and whether they are ready to learn. Our project therefore explored a simple, non-judgemental digital check-in through which students could express their current readiness, while giving teachers a clearer view of the support their class might need.",
+        "这是一个以 Trauma-Informed Positive Education（TIPE，创伤知情积极教育）为背景的大学客户合作项目。TIPE 是一种以优势为基础的教育方法，关注学生的情绪调节、人际关系、身心健康与学习参与。受到压力或不利经历影响的学生，有时难以及时识别和表达自己的感受，以及自己是否已经准备好进入学习状态。因此，本项目探索了一种简单且非评判性的数字签到方式，让学生表达当下的学习准备度，同时帮助教师更清楚地了解班级可能需要的支持。"
       ],
-      "work": [
-        [
-          "Served as Scrum Master, coordinating discussions and sprint activities.",
-          "担任 Scrum Master，协调讨论与冲刺活动。"
-        ],
-        [
-          "Organised user stories, acceptance criteria, personas, and journey maps.",
-          "整理用户故事、验收标准、用户画像与旅程图。"
-        ],
-        [
-          "Contributed to prototype direction and privacy-related design discussions.",
-          "参与原型设计方向及隐私相关设计讨论。"
-        ]
-      ],
+      "work": [],
       "logo": {
         "src": "assets/projects/berry-street/wombat-mark.webp",
         "width": 380,
@@ -245,134 +232,315 @@ const PROJECTS = {
           "Wombat 团队标识"
         ]
       },
-      "journey": [
-        {
-          "title": [
-            "A clearer teacher dashboard",
-            "更清晰的教师仪表盘"
-          ],
-          "body": [
-            "The team added an enlarged chart view and switching between doughnut and bar charts to the readiness dashboard, making the distribution easier to compare. The later client walkthrough confirmed that the revised chart was easier to read. I facilitated the low-fidelity usability session that informed this refinement, helping connect user feedback with the next design iteration.",
-            "团队为学习准备度仪表盘增加放大视图及环形图与柱状图切换，让分布更便于比较；后续客户演示反馈确认，新图表更容易阅读。我主持了为这次改版提供依据的低保真可用性测试，帮助将用户反馈衔接到下一轮设计。"
-          ]
-        },
-        {
-          "title": [
-            "From requirements to a high-fidelity prototype",
-            "从需求梳理到高保真原型"
-          ],
-          "body": [
-            "Across the sprints, the team brought together user stories, acceptance criteria and an iPad-oriented high-fidelity prototype for handover. The student check-in was refined to a three-option design for primary-school users, which received positive feedback in the final walkthrough. My Scrum Master role supported coordination across requirements, testing and prototype refinement.",
-            "在多轮冲刺中，团队将用户故事、验收标准与面向 iPad 的高保真原型整理为交接成果。学生签到流程调整为适合小学生的三个选项，并在最终演示中获得积极反馈。我作为 Scrum Master，协助衔接需求、测试与原型改进工作。"
-          ]
-        }
-      ],
-      "gallery": [
-        {
-          "src": "assets/projects/berry-street/dashboard-1600.webp",
-          "thumbnail": "assets/projects/berry-street/dashboard-800.webp",
-          "width": 1440,
-          "height": 1044,
-          "thumbnailWidth": 800,
-          "group": "product",
-          "alt": [
-            "Classroom readiness dashboard prototype with enlarged bar chart",
-            "班级学习准备度仪表盘原型及放大的柱状图"
-          ],
-          "caption": [
-            "A closer view of classroom readiness, pairing labelled response counts with a bar chart for comparison.",
-            "将带标签的回答数量与柱状图并列呈现，方便教师比较班级学习准备度分布。"
-          ]
-        },
-        {
-          "src": "assets/projects/berry-street/goal-model-1600.webp",
-          "thumbnail": "assets/projects/berry-street/goal-model-800.webp",
-          "width": 1600,
-          "height": 368,
-          "thumbnailWidth": 800,
-          "group": "engineering",
-          "alt": [
-            "Goal model connecting stakeholder roles with functional and emotional goals",
-            "关联利益相关方角色、功能目标与情感目标的目标模型"
-          ],
-          "caption": [
-            "The goal model connects students, teachers, school administrators and support teams with the functions and experiences the prototype should support.",
-            "目标模型将学生、教师、学校管理者与支持团队关联到原型应支持的功能与体验目标。"
-          ]
-        },
-        {
-          "src": "assets/projects/berry-street/visual-palette-1600.webp",
-          "thumbnail": "assets/projects/berry-street/visual-palette-800.webp",
-          "width": 1024,
-          "height": 768,
-          "thumbnailWidth": 800,
-          "group": "engineering",
-          "alt": [
-            "Berry Street Education Model colour palette",
-            "Berry Street Education Model 视觉配色板"
-          ],
-          "caption": [
-            "A shared palette referencing the Berry Street Education Model identity supported visual consistency across the prototype.",
-            "参考 Berry Street Education Model 品牌视觉的统一配色板，支持原型各页面保持一致。"
-          ]
-        },
-        {
-          "src": "assets/projects/berry-street/usability-planning-1600.webp",
-          "thumbnail": "assets/projects/berry-street/usability-planning-800.webp",
-          "width": 1600,
-          "height": 1200,
-          "thumbnailWidth": 800,
-          "group": "engineering",
-          "alt": [
-            "Whiteboard mapping student and teacher usability tasks to prototype refinements",
-            "梳理学生及教师可用性任务与原型改进的白板"
-          ],
-          "caption": [
-            "Planning student check-in and teacher dashboard tasks, linking usability feedback to action items and high-fidelity refinements.",
-            "围绕学生签到与教师仪表盘规划测试任务，将可用性反馈衔接到行动项与高保真原型改进。"
-          ]
-        },
-        {
-          "src": "assets/projects/berry-street/presentation-planning-1600.webp",
-          "thumbnail": "assets/projects/berry-street/presentation-planning-800.webp",
-          "width": 1600,
-          "height": 1200,
-          "thumbnailWidth": 800,
-          "group": "engineering",
-          "alt": [
-            "Whiteboard organising the team presentation and handover",
-            "组织团队展示与交接内容的白板"
-          ],
-          "caption": [
-            "The team organised its presentation around the client context, usability testing, design refinements and handover deliverables.",
-            "团队围绕客户背景、可用性测试、设计改进与交接成果组织展示内容及分工。"
-          ]
-        },
-        {
-          "src": "assets/projects/berry-street/team-with-max-1600.webp",
-          "thumbnail": "assets/projects/berry-street/team-with-max-800.webp",
-          "width": 1600,
-          "height": 1067,
-          "thumbnailWidth": 800,
-          "group": "team",
-          "alt": [
-            "Berry Street project team with supervisor Max",
-            "Berry Street 项目团队与导师 Max 的合照"
-          ],
-          "caption": [
-            "The Wombat team with our supervisor Max.",
-            "Wombat 团队与导师 Max 合影。"
-          ]
-        }
-      ],
-      "demo": {
-        "src": "assets/projects/berry-street/dashboard-demo.mp4",
-        "poster": "assets/projects/berry-street/dashboard-poster.webp",
-        "width": 1440,
-        "height": 1044,
-        "caption": [
-          "The iPad-oriented prototype switches between doughnut and bar charts within an enlarged classroom readiness view.",
-          "面向 iPad 的交互原型，在放大的班级学习准备度视图中切换环形图与柱状图。"
+      "backgroundLink": {
+        "label": [
+          "Learn about the TIPE approach",
+          "了解 TIPE 教育方法"
+        ],
+        "url": "https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that"
+      },
+      "process": {
+        "heading": [
+          "From discovery to validation",
+          "从需求发现到方案验证"
+        ],
+        "intro": [
+          "The project moved through five connected stages. Each stage turned client context and user feedback into a more focused, testable design decision.",
+          "项目沿着五个彼此衔接的阶段推进；每一阶段都把客户背景与用户反馈进一步转化为更聚焦、可验证的设计决策。"
+        ],
+        "stages": [
+          {
+            "id": "discover",
+            "label": [
+              "Discover",
+              "探索"
+            ],
+            "title": [
+              "Start with the classroom need",
+              "从真实课堂需求出发"
+            ],
+            "body": [
+              "Early client conversations established the central need: a private, low-pressure way for students to communicate readiness to learn, paired with a teacher view that reveals class-level patterns without making the interaction difficult to use.",
+              "前期客户交流明确了核心需求：学生需要一种私密、低压力的方式表达自己的学习准备度；教师则需要看到班级层面的趋势，同时整个交互必须保持简单易用。"
+            ],
+            "contribution": [
+              "As Scrum Master, I coordinated discussions and sprint activities and helped turn client priorities into requirements the team could track.",
+              "作为 Scrum Master，我协调讨论与冲刺活动，并协助把客户重点转化为团队可持续跟踪的需求。"
+            ],
+            "findings": [
+              [
+                "Student check-ins should feel private and non-judgemental.",
+                "学生签到应当保持私密且不带评判。"
+              ],
+              [
+                "The interface needed to work for teachers with different levels of technical confidence.",
+                "界面需要适应不同技术熟练度的教师。"
+              ],
+              [
+                "Teachers needed both individual signals and class-level trends.",
+                "教师既需要个体提示，也需要班级整体趋势。"
+              ]
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/berry-street/goal-model-1600.webp",
+                "thumbnail": "assets/projects/berry-street/goal-model-800.webp",
+                "width": 1600,
+                "height": 368,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Goal model connecting stakeholder roles with functional and emotional goals",
+                  "关联利益相关方角色、功能目标与情感目标的目标模型"
+                ],
+                "caption": [
+                  "The goal model connects students, teachers, school administrators and support teams with the functions and experiences the product should support.",
+                  "目标模型将学生、教师、学校管理者与支持团队关联到产品应支持的功能与体验目标。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "define",
+            "label": [
+              "Define",
+              "定义"
+            ],
+            "title": [
+              "Translate needs into roles and stories",
+              "将需求整理为角色与用户故事"
+            ],
+            "body": [
+              "The team organised the problem around student, teacher and administrator roles, then connected their desired actions and feelings to epics, user stories and sprint tasks. This kept the design grounded in what each person needed to do and experience.",
+              "团队围绕学生、教师与管理者三类角色梳理问题，再把他们期望完成的行为与获得的感受对应到 Epic、用户故事和冲刺任务，使设计始终围绕各角色真实的使用目标展开。"
+            ],
+            "contribution": [
+              "I helped organise user stories, acceptance criteria, personas and journey materials so requirements could guide prototype and testing work.",
+              "我参与整理用户故事、验收标准、用户画像与旅程材料，使需求能够持续指导原型和测试工作。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/berry-street/role-do-be-feel-1600.webp",
+                "thumbnail": "assets/projects/berry-street/role-do-be-feel-800.webp",
+                "width": 1530,
+                "height": 1980,
+                "thumbnailWidth": 765,
+                "alt": [
+                  "Role–Do–Be–Feel model for the student",
+                  "面向学生、教师与管理者体验的 Role–Do–Be–Feel 模型"
+                ],
+                "caption": [
+                  "Role–Do–Be–Feel connected stakeholder actions with the qualities and feelings the interface should support.",
+                  "Role–Do–Be–Feel 模型将不同角色的行为，与界面应传达的特质和感受联系起来。"
+                ]
+              },
+              {
+                "src": "assets/projects/berry-street/user-story-map-1600.webp",
+                "thumbnail": "assets/projects/berry-street/user-story-map-800.webp",
+                "width": 1600,
+                "height": 1132,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "User story map arranging epics",
+                  "按 Epic、用户故事与冲刺任务组织的用户故事地图"
+                ],
+                "caption": [
+                  "The story map traces broad activities into prioritised work across three sprints.",
+                  "用户故事地图把整体活动拆解为跨三个冲刺逐步推进的优先任务。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "prototype",
+            "label": [
+              "Prototype",
+              "原型"
+            ],
+            "title": [
+              "Make the core flows tangible",
+              "把核心流程变成可讨论的原型"
+            ],
+            "body": [
+              "Low-fidelity screens made the student check-in and teacher dashboard concrete enough to review. The deliberately rough presentation kept attention on navigation, wording and information hierarchy before visual polish.",
+              "低保真页面把学生签到与教师仪表盘转化为可直接评审的流程。刻意保留的粗略视觉，让讨论先集中在导航、文案与信息层级，而不是过早进入视觉润色。"
+            ],
+            "contribution": [
+              "I contributed to prototype direction and privacy-related design discussions, helping prepare the student and teacher flows for usability testing.",
+              "我参与原型方向与隐私相关的设计讨论，并协助准备学生端和教师端流程进入可用性测试。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/berry-street/lofi-check-in-1600.webp",
+                "thumbnail": "assets/projects/berry-street/lofi-check-in-800.webp",
+                "width": 1600,
+                "height": 1104,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Low-fidelity student readiness check-in screen",
+                  "学生学习准备度签到的低保真页面"
+                ],
+                "caption": [
+                  "An early check-in explored how a primary-school student could report readiness with a single selection.",
+                  "早期签到页面探索了小学生通过一次选择表达学习准备度的方式。"
+                ]
+              },
+              {
+                "src": "assets/projects/berry-street/lofi-dashboard-1600.webp",
+                "thumbnail": "assets/projects/berry-street/lofi-dashboard-800.webp",
+                "width": 1600,
+                "height": 1104,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Low-fidelity teacher classroom readiness dashboard",
+                  "教师班级学习准备度仪表盘的低保真页面"
+                ],
+                "caption": [
+                  "The initial dashboard brought response counts, a chart, trend history and a notice area into one teacher view.",
+                  "初版仪表盘将回答数量、图表、历史趋势与提示区域整合到同一个教师视图中。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "test-and-learn",
+            "label": [
+              "Test & learn",
+              "测试与学习"
+            ],
+            "title": [
+              "Observe where the design caused hesitation",
+              "观察设计中引发犹豫的地方"
+            ],
+            "body": [
+              "During the 7 May usability session, the client worked through student and teacher tasks while the team recorded points of confidence and confusion. The session exposed which parts of the dashboard needed clearer visual and verbal cues.",
+              "在 5 月 7 日的可用性测试中，客户依次完成学生端与教师端任务，团队记录顺畅之处及产生困惑的环节。这次测试明确指出了仪表盘在视觉和文字提示上需要改进的部分。"
+            ],
+            "contribution": [
+              "I facilitated the low-fidelity usability session and helped connect the observations to the next iteration.",
+              "我主持了这次低保真可用性测试，并协助把观察结果衔接到下一轮迭代。"
+            ],
+            "findings": [
+              [
+                "The dashboard contained too much competing information at once.",
+                "仪表盘同时呈现的信息过多，视觉焦点不够清晰。"
+              ],
+              [
+                "Readiness scales and response counts were easy to confuse.",
+                "学习准备度等级与回答数量容易产生混淆。"
+              ],
+              [
+                "Trend labels needed clearer wording and context.",
+                "趋势图标签需要更明确的文案和语境。"
+              ]
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/berry-street/usability-dashboard-test-1600.webp",
+                "thumbnail": "assets/projects/berry-street/usability-dashboard-test-800.webp",
+                "width": 1600,
+                "height": 1280,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Privacy-cropped frame from the teacher dashboard usability task",
+                  "隐私裁切后的教师仪表盘可用性测试画面"
+                ],
+                "caption": [
+                  "A privacy-cropped session frame retains the tested dashboard and task context while excluding participant video feeds.",
+                  "经过隐私裁切的测试画面保留了被测试的仪表盘与任务场景，并移除了参与者的视频画面。"
+                ]
+              },
+              {
+                "src": "assets/projects/berry-street/usability-planning-1600.webp",
+                "thumbnail": "assets/projects/berry-street/usability-planning-800.webp",
+                "width": 1600,
+                "height": 1200,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Whiteboard mapping student and teacher usability tasks to prototype refinements",
+                  "梳理学生及教师可用性任务与原型改进的白板"
+                ],
+                "caption": [
+                  "The team linked student and teacher usability tasks to action items for the next prototype iteration.",
+                  "团队把学生端与教师端的测试任务衔接到下一轮原型的行动项。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "refine-and-validate",
+            "label": [
+              "Refine & validate",
+              "改进与验证"
+            ],
+            "title": [
+              "Turn feedback into a clearer handover",
+              "将反馈转化为更清晰的交付方案"
+            ],
+            "body": [
+              "The revised dashboard removed the wellbeing score, clarified labels and added a bar-chart option alongside the doughnut view. In the final client walkthrough, the histogram was considered easier to read, the three-option student scale suited primary users, and the central workflow was accepted for handover.",
+              "改进后的仪表盘移除了 wellbeing score，明确了标签，并在环形图之外增加柱状图选项。最终客户演示中，柱状图被认为更易阅读，三个选项的学生签到方式也更适合小学生，核心流程获得认可并进入交接。"
+            ],
+            "contribution": [
+              "I helped carry usability findings into the refinement work and, as Scrum Master, coordinated requirements, testing and handover activities across the sprint.",
+              "我协助把可用性测试结论落实到改进工作中，并以 Scrum Master 身份协调冲刺中的需求、测试与交接活动。"
+            ],
+            "findings": [
+              [
+                "A simpler three-option check-in better matched primary-school use.",
+                "更简洁的三个选项更符合小学阶段的使用场景。"
+              ],
+              [
+                "The bar chart made the response distribution easier to compare.",
+                "柱状图让回答分布更容易比较。"
+              ],
+              [
+                "Further reduction of visual clutter remained an accessibility opportunity.",
+                "继续减少视觉干扰仍是后续无障碍优化方向。"
+              ]
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/berry-street/hifi-dashboard-1600.webp",
+                "thumbnail": "assets/projects/berry-street/hifi-dashboard-800.webp",
+                "width": 1600,
+                "height": 1104,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Refined high-fidelity classroom readiness dashboard",
+                  "改进后的高保真班级学习准备度仪表盘"
+                ],
+                "caption": [
+                  "The high-fidelity dashboard uses clearer labels, a reduced readiness scale and a more approachable visual system.",
+                  "高保真仪表盘采用更明确的标签、更精简的准备度等级与更亲和的视觉系统。"
+                ]
+              },
+              {
+                "src": "assets/projects/berry-street/team-with-max-1600.webp",
+                "thumbnail": "assets/projects/berry-street/team-with-max-800.webp",
+                "width": 1600,
+                "height": 1067,
+                "thumbnailWidth": 800,
+                "alt": [
+                  "Berry Street project team with supervisor Max",
+                  "Berry Street 项目团队与导师 Max 的合照"
+                ],
+                "caption": [
+                  "The Wombat team with our supervisor Max.",
+                  "Wombat 团队与导师 Max 合影。"
+                ]
+              }
+            ],
+            "demo": {
+              "src": "assets/projects/berry-street/dashboard-demo.mp4",
+              "poster": "assets/projects/berry-street/dashboard-poster.webp",
+              "width": 1440,
+              "height": 1044,
+              "caption": [
+                "The refined prototype switches between doughnut and bar charts within an enlarged classroom readiness view.",
+                "改进后的交互原型可在放大的班级学习准备度视图中切换环形图与柱状图。"
+              ]
+            }
+          }
         ]
       },
       "keywords": [

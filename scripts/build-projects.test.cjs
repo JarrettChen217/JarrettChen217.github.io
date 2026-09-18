@@ -3,6 +3,55 @@ const fixture=()=>yaml.load(fs.readFileSync(path.join(__dirname,'../projects.yml
 const run=doc=>compile(yaml.dump(doc));
 const demo=()=>({src:'assets/projects/avl-visualisation/avl-insertion-demo.mp4',poster:'assets/projects/avl-visualisation/avl-insertion-poster.webp',width:1440,height:1022,caption:{en:'Insertion and rotation',zh:'插入与旋转'}});
 const logo=()=>({src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Algorithms in Action project mark',zh:'Algorithms in Action 项目标识'}});
+const backgroundLink=()=>({label:{en:'Learn about the <TIPE> approach',zh:'了解 TIPE 教育方法'},url:'https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that'});
+const process=()=>({
+ heading:{en:'From discovery to validation',zh:'从需求发现到验证'},
+ intro:{en:'A client-led design process.',zh:'以客户为中心的设计过程。'},
+ source:'/private/process-notes.md',
+ stages:[
+  {id:'discover',label:{en:'Discover',zh:'探索'},title:{en:'Understand the need',zh:'理解需求'},body:{en:'Start with the classroom context.',zh:'从课堂场景出发。'},contribution:{en:'Structured interview questions.',zh:'整理访谈问题。'},findings:[{en:'Private check-ins matter.',zh:'私密签到很重要。'}],gallery:[{...media(),source:'/private/original.png'}]},
+  {id:'validate',label:{en:'Validate',zh:'验证'},title:{en:'Review with the client',zh:'与客户验证'},body:{en:'Test the revised flow.',zh:'测试改进后的流程。'},demo:{...demo(),original:'/private/original.mov'}}
+ ]
+});
+test('process chapters compile ordered bilingual evidence without leaking research metadata',()=>{
+ const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process=process();
+ const compiled=run(doc).projects.find(p=>p.id==='avl-visualisation');
+ assert.deepEqual(compiled.process.heading,['From discovery to validation','从需求发现到验证']);
+ assert.deepEqual(compiled.process.intro,['A client-led design process.','以客户为中心的设计过程。']);
+ assert.deepEqual(compiled.process.stages.map(stage=>stage.id),['discover','validate']);
+ assert.deepEqual(compiled.process.stages[0].findings,[['Private check-ins matter.','私密签到很重要。']]);
+ assert.equal(compiled.process.stages[0].gallery[0].src,media().src);
+ assert.equal(compiled.process.stages[1].demo.src,demo().src);
+ assert.ok(!JSON.stringify(compiled.process).includes('/private/'));
+});
+test('process chapters reject duplicate or unsafe stages and incomplete translations',()=>{
+ const changes=[
+  value=>{value.stages[1].id='discover'},
+  value=>{value.stages[0].id='Discover now'},
+  value=>{delete value.stages[0].body.zh},
+  value=>{value.stages[0].findings=[{en:'English only'}]},
+  value=>{value.stages[0].gallery[0].src='../private.webp'},
+  value=>{value.stages[1].demo.width=0},
+ ];
+ for(const change of changes){const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process=process();change(p.process);assert.throws(()=>run(doc),/process/);}
+});
+test('process chapters render as the primary bilingual case-study narrative',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process=process();p.work=[{en:'Legacy contribution',zh:'旧贡献'}];p.journey=[{title:{en:'Legacy journey',zh:'旧过程'},body:{en:'Duplicated copy.',zh:'重复内容。'}}];p.gallery=[media()];p.demo=demo();
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('avl-visualisation')",context);
+ assert.match(html,/class="project-process"/);assert.ok(html.indexOf('Understand the need')<html.indexOf('Review with the client'));assert.match(html,/Structured interview questions/);assert.match(html,/Private check-ins matter/);assert.match(html,/loading="lazy"/);assert.match(html,/<video[^>]*controls[^>]*preload="none"/);assert.ok(!html.includes('Legacy contribution'));assert.ok(!html.includes('Legacy journey'));assert.equal((html.match(/<video/g)||[]).length,1);
+ html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/从需求发现到验证/);assert.match(html,/理解需求/);assert.match(html,/整理访谈问题/);assert.match(html,/私密签到很重要/);assert.ok(!html.includes('Understand the need'));
+});
+test('background source link compiles safely and renders within the bilingual background section',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='berry-street');p.backgroundLink={...backgroundLink(),source:'/private/research-notes.pdf'};
+ const result=run(doc);const compiled=result.projects.find(p=>p.id==='berry-street');assert.deepEqual(compiled.backgroundLink,{label:['Learn about the <TIPE> approach','了解 TIPE 教育方法'],url:backgroundLink().url});assert.ok(!JSON.stringify(compiled).includes('/private/research-notes.pdf'));
+ const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('berry-street')",context);assert.match(html,/<div class="detail-section"><h3>Background<\/h3><p>.*?<\/p><a class="background-link"/);assert.match(html,/Learn about the &lt;TIPE&gt; approach/);assert.match(html,/href="https:\/\/pursuit\.unimelb\.edu\.au\/articles\//);
+ html=vm.runInContext("language='zh';detail('berry-street')",context);assert.match(html,/了解 TIPE 教育方法/);assert.ok(!vm.runInContext("detail('online-ordering')",context).includes('background-link'));
+});
+test('background source link rejects insecure, malformed and untranslated values',()=>{
+ for(const backgroundLinkValue of [{...backgroundLink(),url:'http://example.com'},{...backgroundLink(),url:'not a url'},{...backgroundLink(),label:{en:'English only'}}]){const doc=fixture();doc.projects.find(p=>p.id==='berry-street').backgroundLink=backgroundLinkValue;assert.throws(()=>run(doc),/backgroundLink|Invalid URL/);}
+});
 test('project logo compiles validated local media and renders beside the bilingual detail title',()=>{
  const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.logo={...logo(),source:'/private/original-logo.png'};
  const result=run(doc);const compiled=result.projects.find(p=>p.id==='avl-visualisation');assert.deepEqual(compiled.logo,{src:logo().src,width:800,height:397,alt:['Algorithms in Action project mark','Algorithms in Action 项目标识']});assert.ok(!JSON.stringify(compiled).includes('/private/original-logo.png'));

@@ -9,13 +9,127 @@ selected:
   - id: online-ordering
   - id: vitalguard
   - id: avl-visualisation
+  - id: midas-curse-unity
   - id: mur-simulation
+  - id: dance-xr
+    description:
+      en: An immersive Meta Quest 3 dance-practice prototype combining floor guidance, rhythm feedback and optional Vive Tracker ankle tracking.
+      zh: 面向 Meta Quest 3 的沉浸式舞蹈练习原型，结合地面引导、节奏反馈与可选的 Vive Tracker 脚踝追踪。
 
 # Edit all project content here. Run npm run build after saving.
 # published:false excludes a draft from the generated browser data.
 # Never put secrets or private source documents in this public-repo file.
 # links: [{label: {en: Code, zh: 代码}, url: https://...}] is optional.
 projects:
+  - id: dance-xr
+    published: true
+    name: {en: Dance XR — VR Dance Practice System, zh: Dance XR（VR 舞蹈练习系统）}
+    date: {en: Apr 2026 – May 2026 · Columbia University team project · COMS W4172, zh: 2026年4月 – 2026年5月 · 哥伦比亚大学团队项目 · COMS W4172}
+    members:
+      - name: {en: Yihe An, zh: Yihe An}
+        url: https://github.com/YihAn011
+      - name: {en: Hao Chen, zh: Hao Chen}
+        url: https://github.com/JarrettChen217
+      - name: {en: Hiroyuki Akiyama, zh: Hiroyuki Akiyama}
+        url: https://github.com/Hi-ak
+      - name: {en: John Mitnik, zh: John Mitnik}
+        url: https://github.com/johnmitnik2
+    region: ny
+    type: team
+    tech: Unity 6.3.6f1, C#, Meta XR SDK, OpenXR, Meta Quest 3, SteamVR, HTC Vive Tracker, UDP, JSON, RenderTexture
+    keywords: [VR, Unity, Meta Quest 3, Vive Tracker, UDP, C#, virtual reality, 虚拟现实, 舞蹈]
+    summary:
+      en: An immersive dance-practice prototype for Meta Quest 3 that combines floor-based step guidance, rhythm scoring, a configurable minimap, and optional Vive Tracker ankle tracking.
+      zh: 面向 Meta Quest 3 的沉浸式舞蹈练习原型，通过地面脚步引导、节奏评分、可配置小地图与可选的 Vive Tracker 脚踝追踪帮助用户按自己的节奏练习。
+    background:
+      en: Dance XR explores how a standalone VR experience can provide spatial step guidance and playback control without requiring learners to keep watching an instructor. Users choose a style, difficulty and song, then follow virtual footprints while viewing score and position feedback. A floating control panel provides playback, discrete speed changes, footprint scaling, and minimap or camera options.
+      zh: Dance XR 探索如何让一套独立运行的 VR 体验在不要求用户持续注视真人教练的情况下，提供空间脚步引导与练习节奏控制。用户可选择舞种、难度与歌曲，再跟随虚拟脚印练习，并查看得分与位置反馈。悬浮控制面板提供播放控制、离散倍速调整、脚印大小设置，以及小地图与相机模式切换。
+    workHeading: {en: My contribution, zh: 我的贡献}
+    work:
+      - en: Led the initial project architecture and Unity 6.3 / Meta XR scaffolding, then maintained core application state and integration work.
+        zh: 主导项目初期架构与 Unity 6.3 / Meta XR 工程搭建，并持续维护核心应用状态与系统集成。
+      - en: Implemented the floating interaction menu and minimap system, including top-down rendering, drag and two-hand scaling, foot markers, follow/orientation modes, and camera controls.
+        zh: 实现悬浮交互菜单与小地图系统，包括俯视渲染、拖动与双手缩放、双脚标记、跟随/朝向模式和相机控制。
+      - en: 'Built the Quest-side Vive Tracker receiver and calibration pipeline: packet decoding, receiver states, two-point yaw-and-translation calibration, foot binding, telemetry, and lost-tracking warnings.'
+        zh: 实现 Quest 端 Vive Tracker 接收与校准管线，包括数据包解析、接收状态机、双点偏航角与平移校准、左右脚绑定、遥测及丢失追踪提示。
+      - en: Supported repeated merges, device builds, and integration fixes as the prototype iterated toward the final demonstration.
+        zh: 在原型迭代至最终演示的过程中承担多次合并、设备构建与集成修复。
+    journey:
+      - title: {en: A practice flow that stays in the learner’s space, zh: 让练习始终发生在用户的空间中}
+        body:
+          en: The session starts with a choice of dance style, difficulty and song. During practice, floor footprints provide the next spatial cue while score and position feedback remain available without asking the learner to follow a continuously visible instructor.
+          zh: 练习从选择舞种、难度与歌曲开始。过程中，地面虚拟脚印提供下一步的空间提示，得分与位置反馈也始终可见，用户无需持续注视真人教练。
+      - title: {en: Controls that adapt the routine to the learner, zh: 让用户按自己的节奏调整练习}
+        body:
+          en: The floating panel brings playback controls, discrete speed choices, footprint scaling, and minimap or camera modes into reach. The minimap adds a top-down view of the practice space and foot positions without displacing the primary guidance.
+          zh: 悬浮面板将播放控制、离散倍速选择、脚印缩放，以及小地图或相机模式集中在可触及的位置。小地图以俯视图呈现练习空间与双脚位置，同时不干扰主要引导。
+      - title: {en: AI-assisted development, grounded in device integration, zh: 大量使用 AI 工具，但核心仍是设备集成}
+        body:
+          en: This was a project where I used AI tools extensively for Unity experimentation and presentation work. The essential work remained adapting suggestions to the existing project, connecting unfamiliar VR packages and hardware, and iterating on real devices until the demonstration worked.
+          zh: 这是我首次在 Unity 实验与演示材料制作中大量使用 AI 工具的项目。关键工作仍然是将建议适配到已有工程，连接陌生的 VR 软件包与硬件，并在真实设备上持续迭代直至完成演示。
+    architecture:
+      - title: {en: Vive ankle trackers, zh: Vive 脚踝追踪器}
+        body:
+          en: HTC Vive Trackers mounted at the ankles provide the optional foot-pose input for the practice experience.
+          zh: 佩戴在脚踝上的 HTC Vive Tracker 为练习体验提供可选的脚部姿态输入。
+      - title: {en: Windows companion to local network packets, zh: Windows 伴随应用到局域网数据包}
+        body:
+          en: A companion Unity application on Windows reads tracker poses through SteamVR and sends them over the local network as UDP/JSON packets.
+          zh: Windows 上运行的伴随 Unity 应用通过 SteamVR 读取追踪器姿态，并以 UDP/JSON 数据包通过局域网发送。
+      - title: {en: Quest receiver, calibration and foot anchors, zh: Quest 接收、校准与脚部锚点}
+        body:
+          en: The Quest Unity application receives packets, calibrates the two coordinate spaces, binds left and right foot anchors, and handles stale or lost tracking states.
+          zh: Quest Unity 应用接收数据包、校准两个坐标空间、绑定左右脚锚点，并处理追踪过期或丢失状态。
+    gallery:
+      - group: product
+        src: assets/projects/dance-xr/dance-xr-minimap-controls-1600.webp
+        thumbnail: assets/projects/dance-xr/dance-xr-minimap-controls-800.webp
+        width: 1600
+        height: 900
+        thumbnailWidth: 800
+        alt: {en: In-headset minimap with score, music speed and footprint-size controls, zh: 头显内的小地图、得分、音乐速度与脚印大小控制}
+        caption:
+          en: The in-headset view combines a configurable minimap and score feedback with controls for music speed and footprint size.
+          zh: 头显内视图将可配置小地图与得分反馈结合，并提供音乐速度和脚印大小控制。
+      - group: product
+        src: assets/projects/dance-xr/dance-xr-session-menu-1600.webp
+        thumbnail: assets/projects/dance-xr/dance-xr-session-menu-800.webp
+        width: 1600
+        height: 900
+        thumbnailWidth: 800
+        alt: {en: Dance XR session menu for style, difficulty, song and calibration choices, zh: 用于选择舞种、难度、歌曲与校准的 Dance XR 练习菜单}
+        caption:
+          en: The session menu gathers style, difficulty, song and calibration choices before a practice run begins.
+          zh: 练习开始前，菜单集中呈现舞种、难度、歌曲与校准选项。
+      - group: engineering
+        src: assets/projects/dance-xr/dance-xr-vive-trackers-1600.webp
+        thumbnail: assets/projects/dance-xr/dance-xr-vive-trackers-800.webp
+        width: 1600
+        height: 1200
+        thumbnailWidth: 800
+        alt: {en: Two HTC Vive Trackers with ankle straps, zh: 两个配有脚踝绑带的 HTC Vive Tracker}
+        caption:
+          en: Optional ankle-mounted Vive Trackers supplied the foot-pose input carried through the companion and Quest applications.
+          zh: 可选的脚踝 Vive Tracker 提供脚部姿态输入，并由伴随应用传递至 Quest 应用。
+      - group: engineering
+        src: assets/projects/dance-xr/dance-xr-minimap-sketch-1600.webp
+        thumbnail: assets/projects/dance-xr/dance-xr-minimap-sketch-800.webp
+        width: 1600
+        height: 963
+        thumbnailWidth: 800
+        alt: {en: Team design sketch for a minimap and floating control panel, zh: 团队为小地图与悬浮控制面板绘制的设计草图}
+        caption:
+          en: A team design sketch exploring the relationship between the minimap and floating controls.
+          zh: 一张团队设计草图，探索小地图与悬浮控制面板之间的关系。
+    youtubeDemo:
+      videoId: eip1ze0U0Ns
+      embedUrl: https://www.youtube.com/embed/eip1ze0U0Ns?si=-dlLqAk-GLLG2Q_H
+      url: https://youtu.be/eip1ze0U0Ns
+      title: {en: Dance XR five-minute demo, zh: Dance XR 五分钟演示}
+      linkLabel: {en: Watch on YouTube, zh: 在 YouTube 观看}
+    boundary:
+      en: Educational prototype. Current public build availability was not verified; this page does not present hand tracking, an instructor avatar, multiplayer, or a downloadable Quest build as completed features.
+      zh: 教学原型。当前公开构建的可用性尚未核实；本页不将手部追踪、教练虚拟形象、多人功能或可下载的 Quest 构建描述为已完成特性。
   - id: agent-ai
     published: true
     name: {en: Agent AI, zh: Agent AI（文档问答助手）}
@@ -111,40 +225,210 @@ projects:
   - id: berry-street
     published: true
     name: {en: Berry Street Teachers App, zh: Berry Street Teachers App（教师应用设计）}
+    logo:
+      src: assets/projects/berry-street/wombat-mark.webp
+      width: 380
+      height: 236
+      alt: {en: Wombat team mark, zh: Wombat 团队标识}
     date: {en: 'Feb 2025 – Aug 2025', zh: '2025年2月 – 2025年8月'}
     region: au
     type: team
+    team: {en: Team025 Wombat, zh: Team025 Wombat}
     tech: Requirements engineering, Agile/Scrum, Figma
     keywords: [leadership, design, UX, 需求, 团队协作]
     summary:
       en: Requirements and interaction design for an iPad-oriented education application.
       zh: 面向 iPad 教育应用的需求分析与交互设计。
     background:
-      en: A university client collaboration exploring digital support for trauma-informed education. The work focused on understanding stakeholders and turning needs into testable design requirements.
-      zh: 大学客户合作项目，探索支持创伤知情教育的数字工具，重点是理解利益相关方并将需求转化为可验证的设计要求。
-    work:
-      - en: Served as Scrum Master, coordinating discussions and sprint activities.
-        zh: 担任 Scrum Master，协调讨论与冲刺活动。
-      - en: Organised user stories, acceptance criteria, personas, and journey maps.
-        zh: 整理用户故事、验收标准、用户画像与旅程图。
-      - en: Contributed to prototype direction and privacy-related design discussions.
-        zh: 参与原型设计方向及隐私相关设计讨论。
-    journey:
-      - title: {en: A clearer teacher dashboard, zh: 更清晰的教师仪表盘}
-        body:
-          en: The team refined the readiness dashboard from a pie chart to a histogram, making the distribution easier to compare. The later client walkthrough confirmed that the revised chart was easier to read. I facilitated the low-fidelity usability session that informed this refinement, helping connect user feedback with the next design iteration.
-          zh: 团队将学习准备度仪表盘的饼图改为柱状图，让分布更便于比较；后续客户演示反馈确认，新图表更容易阅读。我主持了为这次改版提供依据的低保真可用性测试，帮助将用户反馈衔接到下一轮设计。
-      - title: {en: From requirements to a high-fidelity prototype, zh: 从需求梳理到高保真原型}
-        body:
-          en: Across the sprints, the team brought together user stories, acceptance criteria and an iPad-oriented high-fidelity prototype for handover. The student check-in was refined to a three-option design for primary-school users, which received positive feedback in the final walkthrough. My Scrum Master role supported coordination across requirements, testing and prototype refinement.
-          zh: 在多轮冲刺中，团队将用户故事、验收标准与面向 iPad 的高保真原型整理为交接成果。学生签到流程调整为适合小学生的三个选项，并在最终演示中获得积极反馈。我作为 Scrum Master，协助衔接需求、测试与原型改进工作。
+      en: This university–client collaboration was grounded in Trauma-Informed Positive Education (TIPE), a strengths-based approach that supports students’ regulation, relationships, wellbeing and engagement with learning. Students affected by stress or adversity may find it difficult to identify or communicate how they feel and whether they are ready to learn. Our project therefore explored a simple, non-judgemental digital check-in through which students could express their current readiness, while giving teachers a clearer view of the support their class might need.
+      zh: 这是一个以 Trauma-Informed Positive Education（TIPE，创伤知情积极教育）为背景的大学客户合作项目。TIPE 是一种以优势为基础的教育方法，关注学生的情绪调节、人际关系、身心健康与学习参与。受到压力或不利经历影响的学生，有时难以及时识别和表达自己的感受，以及自己是否已经准备好进入学习状态。因此，本项目探索了一种简单且非评判性的数字签到方式，让学生表达当下的学习准备度，同时帮助教师更清楚地了解班级可能需要的支持。
+    backgroundLink:
+      label: {en: Learn about the TIPE approach, zh: 了解 TIPE 教育方法}
+      url: https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that
+    members:
+      - name: {en: Ziyu Wang, zh: Ziyu Wang}
+        url: https://github.com/Lafinoon
+      - name: {en: Hao Chen, zh: Hao Chen}
+        url: https://github.com/JarrettChen217
+      - name: {en: Zikun Qiu, zh: Zikun Qiu}
+      - name: {en: Gaoyongle Zhang, zh: Gaoyongle Zhang}
+        url: https://github.com/XinMoZ
+      - name: {en: Junhao Zhu, zh: Junhao Zhu}
+        url: https://github.com/junhaozhu1
+    work: []
+    process:
+      heading: {en: From discovery to validation, zh: 从需求发现到方案验证}
+      intro:
+        en: The project moved through five connected stages. Each stage turned client context and user feedback into a more focused, testable design decision.
+        zh: 项目沿着五个彼此衔接的阶段推进；每一阶段都把客户背景与用户反馈进一步转化为更聚焦、可验证的设计决策。
+      stages:
+        - id: discover
+          label: {en: Discover, zh: 探索}
+          title: {en: Start with the classroom need, zh: 从真实课堂需求出发}
+          body:
+            en: >-
+              Early client conversations established the central need: a private, low-pressure way for students to communicate readiness to learn, paired with a teacher view that reveals class-level patterns without making the interaction difficult to use.
+            zh: 前期客户交流明确了核心需求：学生需要一种私密、低压力的方式表达自己的学习准备度；教师则需要看到班级层面的趋势，同时整个交互必须保持简单易用。
+          contribution:
+            en: As Scrum Master, I coordinated discussions and sprint activities and helped turn client priorities into requirements the team could track.
+            zh: 作为 Scrum Master，我协调讨论与冲刺活动，并协助把客户重点转化为团队可持续跟踪的需求。
+          findings:
+            - {en: Student check-ins should feel private and non-judgemental., zh: 学生签到应当保持私密且不带评判。}
+            - {en: The interface needed to work for teachers with different levels of technical confidence., zh: 界面需要适应不同技术熟练度的教师。}
+            - {en: Teachers needed both individual signals and class-level trends., zh: 教师既需要个体提示，也需要班级整体趋势。}
+          gallery:
+            - src: assets/projects/berry-street/goal-model-1600.webp
+              thumbnail: assets/projects/berry-street/goal-model-800.webp
+              width: 1600
+              height: 368
+              thumbnailWidth: 800
+              alt: {en: Goal model connecting stakeholder roles with functional and emotional goals, zh: 关联利益相关方角色、功能目标与情感目标的目标模型}
+              caption:
+                en: The goal model connects students, teachers, school administrators and support teams with the functions and experiences the product should support.
+                zh: 目标模型将学生、教师、学校管理者与支持团队关联到产品应支持的功能与体验目标。
+
+        - id: define
+          label: {en: Define, zh: 定义}
+          title: {en: Translate needs into roles and stories, zh: 将需求整理为角色与用户故事}
+          body:
+            en: The team organised the problem around student, teacher and administrator roles, then connected their desired actions and feelings to epics, user stories and sprint tasks. This kept the design grounded in what each person needed to do and experience.
+            zh: 团队围绕学生、教师与管理者三类角色梳理问题，再把他们期望完成的行为与获得的感受对应到 Epic、用户故事和冲刺任务，使设计始终围绕各角色真实的使用目标展开。
+          contribution:
+            en: I helped organise user stories, acceptance criteria, personas and journey materials so requirements could guide prototype and testing work.
+            zh: 我参与整理用户故事、验收标准、用户画像与旅程材料，使需求能够持续指导原型和测试工作。
+          gallery:
+            - src: assets/projects/berry-street/role-do-be-feel-1600.webp
+              thumbnail: assets/projects/berry-street/role-do-be-feel-800.webp
+              width: 1530
+              height: 1980
+              thumbnailWidth: 765
+              alt: {en: Role–Do–Be–Feel model for the student, teacher and administrator experience, zh: 面向学生、教师与管理者体验的 Role–Do–Be–Feel 模型}
+              caption:
+                en: Role–Do–Be–Feel connected stakeholder actions with the qualities and feelings the interface should support.
+                zh: Role–Do–Be–Feel 模型将不同角色的行为，与界面应传达的特质和感受联系起来。
+            - src: assets/projects/berry-street/user-story-map-1600.webp
+              thumbnail: assets/projects/berry-street/user-story-map-800.webp
+              width: 1600
+              height: 1132
+              thumbnailWidth: 800
+              alt: {en: User story map arranging epics, stories and sprint tasks, zh: 按 Epic、用户故事与冲刺任务组织的用户故事地图}
+              caption:
+                en: The story map traces broad activities into prioritised work across three sprints.
+                zh: 用户故事地图把整体活动拆解为跨三个冲刺逐步推进的优先任务。
+
+        - id: prototype
+          label: {en: Prototype, zh: 原型}
+          title: {en: Make the core flows tangible, zh: 把核心流程变成可讨论的原型}
+          body:
+            en: Low-fidelity screens made the student check-in and teacher dashboard concrete enough to review. The deliberately rough presentation kept attention on navigation, wording and information hierarchy before visual polish.
+            zh: 低保真页面把学生签到与教师仪表盘转化为可直接评审的流程。刻意保留的粗略视觉，让讨论先集中在导航、文案与信息层级，而不是过早进入视觉润色。
+          contribution:
+            en: I contributed to prototype direction and privacy-related design discussions, helping prepare the student and teacher flows for usability testing.
+            zh: 我参与原型方向与隐私相关的设计讨论，并协助准备学生端和教师端流程进入可用性测试。
+          gallery:
+            - src: assets/projects/berry-street/lofi-check-in-1600.webp
+              thumbnail: assets/projects/berry-street/lofi-check-in-800.webp
+              width: 1600
+              height: 1104
+              thumbnailWidth: 800
+              alt: {en: Low-fidelity student readiness check-in screen, zh: 学生学习准备度签到的低保真页面}
+              caption:
+                en: An early check-in explored how a primary-school student could report readiness with a single selection.
+                zh: 早期签到页面探索了小学生通过一次选择表达学习准备度的方式。
+            - src: assets/projects/berry-street/lofi-dashboard-1600.webp
+              thumbnail: assets/projects/berry-street/lofi-dashboard-800.webp
+              width: 1600
+              height: 1104
+              thumbnailWidth: 800
+              alt: {en: Low-fidelity teacher classroom readiness dashboard, zh: 教师班级学习准备度仪表盘的低保真页面}
+              caption:
+                en: The initial dashboard brought response counts, a chart, trend history and a notice area into one teacher view.
+                zh: 初版仪表盘将回答数量、图表、历史趋势与提示区域整合到同一个教师视图中。
+
+        - id: test-and-learn
+          label: {en: Test & learn, zh: 测试与学习}
+          title: {en: Observe where the design caused hesitation, zh: 观察设计中引发犹豫的地方}
+          body:
+            en: During the 7 May usability session, the client worked through student and teacher tasks while the team recorded points of confidence and confusion. The session exposed which parts of the dashboard needed clearer visual and verbal cues.
+            zh: 在 5 月 7 日的可用性测试中，客户依次完成学生端与教师端任务，团队记录顺畅之处及产生困惑的环节。这次测试明确指出了仪表盘在视觉和文字提示上需要改进的部分。
+          contribution:
+            en: I facilitated the low-fidelity usability session and helped connect the observations to the next iteration.
+            zh: 我主持了这次低保真可用性测试，并协助把观察结果衔接到下一轮迭代。
+          findings:
+            - {en: The dashboard contained too much competing information at once., zh: 仪表盘同时呈现的信息过多，视觉焦点不够清晰。}
+            - {en: Readiness scales and response counts were easy to confuse., zh: 学习准备度等级与回答数量容易产生混淆。}
+            - {en: Trend labels needed clearer wording and context., zh: 趋势图标签需要更明确的文案和语境。}
+          gallery:
+            - src: assets/projects/berry-street/usability-dashboard-test-1600.webp
+              thumbnail: assets/projects/berry-street/usability-dashboard-test-800.webp
+              width: 1600
+              height: 1280
+              thumbnailWidth: 800
+              alt: {en: Privacy-cropped frame from the teacher dashboard usability task, zh: 隐私裁切后的教师仪表盘可用性测试画面}
+              caption:
+                en: A privacy-cropped session frame retains the tested dashboard and task context while excluding participant video feeds.
+                zh: 经过隐私裁切的测试画面保留了被测试的仪表盘与任务场景，并移除了参与者的视频画面。
+            - src: assets/projects/berry-street/usability-planning-1600.webp
+              thumbnail: assets/projects/berry-street/usability-planning-800.webp
+              width: 1600
+              height: 1200
+              thumbnailWidth: 800
+              alt: {en: Whiteboard mapping student and teacher usability tasks to prototype refinements, zh: 梳理学生及教师可用性任务与原型改进的白板}
+              caption:
+                en: The team linked student and teacher usability tasks to action items for the next prototype iteration.
+                zh: 团队把学生端与教师端的测试任务衔接到下一轮原型的行动项。
+
+        - id: refine-and-validate
+          label: {en: Refine & validate, zh: 改进与验证}
+          title: {en: Turn feedback into a clearer handover, zh: 将反馈转化为更清晰的交付方案}
+          body:
+            en: The revised dashboard removed the wellbeing score, clarified labels and added a bar-chart option alongside the doughnut view. In the final client walkthrough, the histogram was considered easier to read, the three-option student scale suited primary users, and the central workflow was accepted for handover.
+            zh: 改进后的仪表盘移除了 wellbeing score，明确了标签，并在环形图之外增加柱状图选项。最终客户演示中，柱状图被认为更易阅读，三个选项的学生签到方式也更适合小学生，核心流程获得认可并进入交接。
+          contribution:
+            en: I helped carry usability findings into the refinement work and, as Scrum Master, coordinated requirements, testing and handover activities across the sprint.
+            zh: 我协助把可用性测试结论落实到改进工作中，并以 Scrum Master 身份协调冲刺中的需求、测试与交接活动。
+          findings:
+            - {en: A simpler three-option check-in better matched primary-school use., zh: 更简洁的三个选项更符合小学阶段的使用场景。}
+            - {en: The bar chart made the response distribution easier to compare., zh: 柱状图让回答分布更容易比较。}
+            - {en: Further reduction of visual clutter remained an accessibility opportunity., zh: 继续减少视觉干扰仍是后续无障碍优化方向。}
+          gallery:
+            - src: assets/projects/berry-street/hifi-dashboard-1600.webp
+              thumbnail: assets/projects/berry-street/hifi-dashboard-800.webp
+              width: 1600
+              height: 1104
+              thumbnailWidth: 800
+              alt: {en: Refined high-fidelity classroom readiness dashboard, zh: 改进后的高保真班级学习准备度仪表盘}
+              caption:
+                en: The high-fidelity dashboard uses clearer labels, a reduced readiness scale and a more approachable visual system.
+                zh: 高保真仪表盘采用更明确的标签、更精简的准备度等级与更亲和的视觉系统。
+            - src: assets/projects/berry-street/team-with-max-1600.webp
+              thumbnail: assets/projects/berry-street/team-with-max-800.webp
+              width: 1600
+              height: 1067
+              thumbnailWidth: 800
+              alt: {en: Berry Street project team with supervisor Max, zh: Berry Street 项目团队与导师 Max 的合照}
+              caption: {en: The Wombat team with our supervisor Max., zh: Wombat 团队与导师 Max 合影。}
+          demo:
+            src: assets/projects/berry-street/dashboard-demo.mp4
+            poster: assets/projects/berry-street/dashboard-poster.webp
+            width: 1440
+            height: 1044
+            caption:
+              en: The refined prototype switches between doughnut and bar charts within an enlarged classroom readiness view.
+              zh: 改进后的交互原型可在放大的班级学习准备度视图中切换环形图与柱状图。
 
   - id: avl-visualisation
     published: true
     name: {en: 'Algorithms in Action — AVL Trees', zh: 'Algorithms in Action（AVL 树可视化）'}
+    logo:
+      src: assets/projects/avl-visualisation/aia-mark.webp
+      width: 300
+      height: 300
+      alt: {en: Algorithms in Action project mark, zh: Algorithms in Action 项目标识}
     date: {en: 'Aug 2024 – Oct 2024', zh: '2024年8月 – 2024年10月'}
     region: au
     type: team
+    team: {en: Static Sound, zh: Static Sound}
     tech: React, JavaScript, AVL trees
     keywords: [algorithms, animation, education, 算法, 可视化]
     summary:
@@ -298,12 +582,272 @@ projects:
         alt: {en: "Project team sharing a meal", zh: "项目团队聚餐合照"}
         caption: {en: "Time together beyond the project workspace.", zh: "项目工作之外的团队相聚。"}
 
+  - id: midas-curse-unity
+    published: true
+    name: {en: 'Midas Curse — Unity Survival Game', zh: 'Midas Curse（Unity 生存游戏）'}
+    date: {en: 'Aug 2023 – early Nov 2023', zh: '2023年8月 – 2023年11月初'}
+    region: au
+    type: team
+    team: {en: Cosmic Creators, zh: Cosmic Creators}
+    members:
+      - {name: Hao Chen, github: 'https://github.com/JarrettChen217'}
+      - {name: Chao Ma, github: 'https://github.com/cmcbrm'}
+      - {name: Gaoyongle Zhang, github: 'https://github.com/XinMoZ'}
+      - {name: Jiayi Sun, github: 'https://github.com/JiayiSun666'}
+    tech: Unity, C#, ShaderLab, Git
+    keywords: [Unity, game development, survival game, shaders, animation, Blend Tree, 游戏开发, 生存游戏, 动画]
+    summary:
+      en: A third-person maze, combat, and survival game built around a Midas-inspired golden-path mechanic.
+      zh: 以 Midas 神话为灵感、围绕黄金路径机制展开的第三人称迷宫战斗与生存游戏。
+    background:
+      en: Project 1 established the concept and an initial playable prototype; Project 2 developed the same game into a fuller two-stage experience with a maze, enemies, skills, a shop, visual effects, and a boss encounter. This was my first experience with Unity and the starting point for systematically learning Unity, shader concepts, and game development through practice.
+      zh: Project 1 建立游戏概念与初步可玩原型，Project 2 则在同一作品上继续开发，形成包含迷宫、敌人、技能、商店、视觉效果与 Boss 战的两阶段体验。这是我第一次接触 Unity，也是我通过实践系统学习 Unity、Shader 概念与游戏开发的起点。
+    mechanics:
+      heading: {en: How the game works, zh: 游戏机制}
+      intro:
+        en: >-
+          Every movement rewrites the arena: the golden path left behind can defeat
+          enemies, but stepping onto it again also brings the curse closer to completion.
+        zh: 玩家每一次移动都会重塑战场：身后留下的黄金路径能够击败敌人，但自己再次踏上它，也会让诅咒更接近完成。
+      steps:
+        - id: create-path
+          title: {en: Leave a golden path, zh: 留下黄金路径}
+          body:
+            en: >-
+              As the Mage moves through the maze, traversed floor tiles turn into gold.
+              Route choice therefore keeps changing the available safe space and the
+              positions from which later encounters can be approached.
+            zh: 法师在迷宫中移动时，走过的地面会逐格转化为黄金。路线选择因此会持续改变可用的安全空间，以及后续战斗可以展开的位置。
+        - id: manage-curse
+          title: {en: Manage the curse, zh: 控制黄金化风险}
+          body:
+            en: >-
+              Both the player and enemies are slowed on active gold while their
+              Goldenate meter—the game's measure of the curse—continues to rise. If the
+              player's meter fills, the Mage turns completely to gold and the run ends.
+            zh: 玩家与敌人站在已激活的黄金地面上都会减速，并持续累积 Goldenate（黄金化）数值。玩家的计量条满后，法师会完全黄金化，本局游戏随之结束。
+        - id: turn-danger
+          title: {en: Turn danger into offence, zh: 化陷阱为攻击}
+          body:
+            en: >-
+              Careful routing can lure enemies onto the same trail. Filling an enemy's
+              Goldenate meter defeats it and awards coins, while crystals gathered in
+              the maze provide another resource for later upgrades.
+            zh: 玩家可以规划路线，将敌人引到同一条黄金路径上；敌人的 Goldenate 条满后即被击败并掉落金币，迷宫中收集的水晶也能为后续升级提供资源。
+        - id: reshape-field
+          title: {en: Reshape the battlefield, zh: 用神器重塑战场}
+          body:
+            en: >-
+              Two artifact loadouts provide skills that create, remove, or chain-react
+              with golden ground, including area-clearing ultimate abilities. Shop
+              upgrades improve armour, movement speed, skill damage, cooldown, range,
+              and ultimate charging.
+            zh: 两套神器技能可以生成、移除或连锁引爆黄金地面，并通过范围型终极技能清出空间；商店升级涵盖护甲、移动速度、技能伤害、冷却、作用范围与终极技能充能。
+    process:
+      heading: {en: Engineering the Midas Curse, zh: 构建 Midas Curse 核心机制}
+      intro:
+        en: >-
+          In 2023, before generative-AI coding assistants were part of our workflow,
+          Cosmic Creators learned through Unity documentation, tutorials, prototypes,
+          code review, and manual debugging. The result was not a single shader trick,
+          but a connected system in which movement, ground state, combat, skills, and
+          visual feedback all respond to the same golden-path mechanic.
+        zh: 2023 年，生成式 AI 编程助手尚未进入我们的开发流程。Cosmic Creators 通过阅读 Unity 文档、研究教程、制作原型、相互审阅代码并手动调试推进开发。最终成果并非单一的 Shader 技巧，而是一套将移动、地面状态、战斗、技能与视觉反馈连接到同一黄金路径机制的系统。
+      badge:
+        src: assets/projects/midas-curse-unity/built-by-hand-2023.webp
+        width: 760
+        height: 240
+        alt: {en: Built by hand in 2023, zh: 2023 年手工构建}
+      stages:
+        - id: concept
+          label: {en: Concept, zh: 概念}
+          title: {en: Turn a myth into a playable rule, zh: 把神话转化为可玩的规则}
+          body:
+            en: >-
+              The team translated the Midas myth into a rule the player could feel:
+              movement turns traversed ground into gold, while that same path becomes a
+              resource, a combat surface, and a growing survival constraint. Project 1
+              proved the rule in a playable prototype; Project 2 built the wider maze,
+              skill, shop, enemy, and boss loop around it.
+            zh: 团队将 Midas 神话转化为玩家能够直接感受到的规则：移动会把经过的地面变成黄金，而同一条路径既是资源与战斗区域，也会逐渐成为生存限制。Project 1 先以可玩原型验证规则，Project 2 再围绕它扩展迷宫、技能、商店、敌人与 Boss 战循环。
+          contribution:
+            en: I contributed to early concept and prototype documentation, then worked on player movement, animation integration, interaction feedback, and later scene debugging.
+            zh: 我参与早期概念与原型文档，并在后续开发中负责或参与玩家移动、动画集成、交互反馈及场景调试。
+
+        - id: system-model
+          label: {en: System model, zh: 系统建模}
+          title: {en: Represent the floor as an interactive grid, zh: 将地面表示为可交互网格}
+          body:
+            en: >-
+              The golden ground is a gameplay system rather than a painted trail.
+              GoldManager maps world positions into a two-dimensional grid and uses
+              raycasts to create cells only where valid floor geometry exists. As the
+              player moves, GoldWalk identifies the corresponding cell and activates
+              the tile, giving the rest of the game one consistent spatial model.
+            zh: 黄金地面并不是一条简单绘制的轨迹，而是一套玩法系统。GoldManager 将世界坐标映射到二维网格，并通过射线检测只在有效地面上创建单元格；玩家移动时，GoldWalk 找到对应单元并激活地块，让游戏中的其他机制共享同一套空间模型。
+          findings:
+            - {en: World coordinates resolve to stable grid cells., zh: 世界坐标被映射为稳定的网格单元。}
+            - {en: Raycasts prevent gold from appearing off the walkable floor., zh: 射线检测避免黄金出现在不可行走区域。}
+            - {en: Movement becomes the shared input for path, combat, and skills., zh: 移动成为路径、战斗与技能系统的共同输入。}
+
+        - id: state-logic
+          label: {en: State logic, zh: 状态逻辑}
+          title: {en: Give every gold tile a lifecycle, zh: 为每块黄金地面建立生命周期}
+          body:
+            en: >-
+              Each GoldInfo cell progresses through inactive, expanding, active, and
+              dissolving states. Timers distinguish natural expiry from forced removal,
+              material changes expose the transition visually, and nearby systems can
+              query or remove gold for attacks, particles, and ultimate-charge behaviour.
+              This lifecycle turns a visual trail into reusable game state.
+            zh: 每个 GoldInfo 地块都会依次经历未激活、扩张、激活与消散状态。计时逻辑区分自然到期与强制移除，材质切换把状态变化呈现出来；周边系统还能查询或移除黄金地块，用于攻击、粒子效果与终极技能充能。由此，视觉轨迹被转化为可复用的游戏状态。
+          findings:
+            - {en: One tile state drives both rules and visual feedback., zh: 同一地块状态同时驱动玩法规则与视觉反馈。}
+            - {en: Natural and forced dissolves support different interactions., zh: 自然消散与强制移除支持不同交互。}
+            - {en: Range queries connect the path to skills and combat., zh: 范围查询把黄金路径连接到技能与战斗。}
+
+        - id: shader-feedback
+          label: {en: Shader feedback, zh: Shader 反馈}
+          title: {en: Make system state readable in motion, zh: 用 Shader 呈现系统状态}
+          body:
+            en: >-
+              The team studied documented examples and tutorials, then adapted them to
+              the game's state model. GoldExpanding receives a world-space start point,
+              current time, and expansion speed; comparing travelled distance with
+              elapsed time reveals the gold effect outward from its origin. A separate
+              dissolve treatment and material switching communicate when transformed
+              ground or affected objects leave the active state.
+            zh: 团队先研究文档示例与教程，再把方法适配到游戏的状态模型中。GoldExpanding 接收世界空间起点、当前时间与扩张速度，并比较传播距离和经过时间，让黄金效果从起点向外展开；另一套消散效果与材质切换，则用来表达已转化地面或受影响物体离开激活状态的过程。
+          findings:
+            - {en: _StartPos anchors the effect in world space., zh: _StartPos 将效果锚定在世界空间。}
+            - {en: Time and speed control the visible expansion boundary., zh: 时间与速度共同控制可见的扩张边界。}
+            - {en: Material transitions keep gameplay state legible while moving., zh: 材质过渡让玩家在移动中仍能读懂玩法状态。}
+
+        - id: browser-delivery
+          label: {en: Browser delivery, zh: 浏览器交付}
+          title: {en: Adapt the effect for WebGL, zh: 为 WebGL 调整视觉实现}
+          body:
+            en: >-
+              A geometry-shader experiment produced a stronger local death effect, but
+              the browser target required a WebGL-compatible path. The team therefore
+              retained the underlying dissolve idea while adapting the implementation
+              for the final build, then verified the complete game loop in the exported
+              browser version. The decision kept the visual intent while making the
+              project directly playable online.
+            zh: 几何 Shader 实验在本地实现了更强的死亡效果，但浏览器目标需要兼容 WebGL 的实现路径。团队因此保留消散效果的核心思路，同时为最终构建调整实现，并在导出的浏览器版本中验证完整游戏循环，在保留视觉意图的同时让作品能够直接在线试玩。
+          contribution:
+            en: I prototyped the geometry-shader enemy-death effect and contributed to later integration and debugging as the team prepared the browser build.
+            zh: 我制作了敌人死亡的几何 Shader 原型，并在团队准备浏览器构建时参与后续集成与调试。
+    work:
+      - en: Implemented and refined player movement and animation integration, including running states and Blend Tree adjustments.
+        zh: 实现并完善玩家移动与动画集成，包括跑步状态及 Blend Tree 调整。
+      - en: Worked on player-facing feedback and interaction flows, including health awareness, pause and shop controls, camera sensitivity, and audio behaviour.
+        zh: 参与玩家反馈与交互流程开发，包括生命值提示、暂停与商店控制、镜头灵敏度及音频行为。
+      - en: Contributed enemy spawning and animation adjustments, scene integration, and implementation debugging across the later development stage.
+        zh: 在后续开发阶段参与敌人生成与动画调整、场景集成及实现调试。
+    featuredVideo:
+      youtubeId: _KGzpyql4ps
+      watchUrl: https://www.youtube.com/watch?v=_KGzpyql4ps
+      poster: assets/projects/midas-curse-unity/demo-poster-1280.webp
+      width: 1280
+      height: 720
+      caption: {en: Midas Curse gameplay demo by Cosmic Creators., zh: Cosmic Creators 的 Midas Curse 游戏演示。}
+    play:
+      url: play/midas-curse/index.html
+      label: {en: Play Game, zh: 在线试玩}
+    sectionOrder: [background, mechanics, process, video, demo, product, contributions, journey, engineering, team, credits]
+    demo:
+      src: assets/projects/midas-curse-unity/gold-path-demo.mp4
+      poster: assets/projects/midas-curse-unity/gold-path-800.webp
+      width: 960
+      height: 540
+      caption:
+        en: >-
+          An early Unity prototype of the golden-path mechanic: movement leaves transformed ground that becomes both a resource and a hazard.
+        zh: 黄金路径机制的早期 Unity 原型：移动会在身后留下被转化的地面，使路径同时成为资源与风险。
+    journey:
+      - title: {en: Two stages of one game, zh: 同一游戏的两个开发阶段}
+        body:
+          en: Project 1 moved from the Midas-inspired premise to a playable prototype of movement, the golden path, the maze, and survival feedback. Project 2 carried the same foundation into a broader game loop with staged progression, combat, enemies, item upgrades, and a boss encounter.
+          zh: Project 1 将 Midas 灵感推进为包含移动、黄金路径、迷宫与生存反馈的可玩原型；Project 2 延续同一基础，进一步形成带有阶段推进、战斗、敌人、道具升级与 Boss 战的完整玩法循环。
+      - title: {en: Refining feedback through playtesting, zh: 通过试玩反馈完善视觉提示}
+        body:
+          en: The team used face-to-face playtesting and a survey to guide the later iteration. One visible refinement made the affected ground easier to distinguish through stronger colour contrast and particle feedback, helping players read the golden-path state while moving.
+          zh: 团队通过面对面试玩与问卷反馈指导后续迭代。其中一项可见改进通过更鲜明的颜色对比与粒子反馈区分受影响地面，帮助玩家在移动过程中判断黄金路径状态。
+    gallery:
+      - src: assets/projects/midas-curse-unity/maze-model-1280.webp
+        thumbnail: assets/projects/midas-curse-unity/maze-model-800.webp
+        width: 1280
+        height: 720
+        thumbnailWidth: 800
+        group: product
+        alt: {en: Three-dimensional maze model in the Unity editor, zh: Unity 编辑器中的三维迷宫模型}
+        caption:
+          en: The maze translated the level plan into a navigable Unity environment for exploration, item collection, and encounters.
+          zh: 团队将关卡平面设计转化为可在 Unity 中探索、收集道具并触发战斗的三维迷宫环境。
+      - src: assets/projects/midas-curse-unity/maze-plan-1400.webp
+        thumbnail: assets/projects/midas-curse-unity/maze-plan-800.webp
+        width: 1400
+        height: 1413
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Final two-dimensional maze plan, zh: 最终二维迷宫平面设计}
+        caption:
+          en: The final maze plan reduced unnecessary dead ends and established a clear route toward its central objective.
+          zh: 最终迷宫方案减少不必要的死路，并围绕中央目标形成更清晰的探索路线。
+      - src: assets/projects/midas-curse-unity/visual-feedback-before-1400.webp
+        thumbnail: assets/projects/midas-curse-unity/visual-feedback-before-800.webp
+        width: 1400
+        height: 1297
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Earlier golden-path visual feedback during playtesting, zh: 试玩阶段较早版本的黄金路径视觉反馈}
+        caption:
+          en: Earlier visual treatment used during the team's playtesting comparison.
+          zh: 团队在试玩对比中使用的较早版本视觉表现。
+      - src: assets/projects/midas-curse-unity/visual-feedback-after-1182.webp
+        thumbnail: assets/projects/midas-curse-unity/visual-feedback-after-800.webp
+        width: 1182
+        height: 1155
+        thumbnailWidth: 800
+        group: engineering
+        alt: {en: Refined golden-path feedback with stronger colour and particles, zh: 使用更鲜明颜色与粒子效果完善后的黄金路径反馈}
+        caption:
+          en: The refined result gives the affected path stronger contrast and particle feedback so its state is easier to read in motion.
+          zh: 改进结果通过更强的颜色对比与粒子反馈突出受影响路径，使玩家在移动中更容易判断其状态。
+    credits:
+      - title: {en: Team production, zh: 团队制作}
+        body:
+          en: Game concept, systems integration, evaluation, and project presentation were completed collaboratively by Cosmic Creators.
+          zh: 游戏概念、系统集成、试玩评估与项目展示由 Cosmic Creators 团队协作完成。
+      - title: {en: Models, environments, icons, and effects, zh: 模型、场景、图标与特效}
+        body:
+          en: The compiled game uses credited third-party assets from the Unity Asset Store and other sources documented by the team; these assets are not presented as original personal artwork.
+          zh: 游戏构建使用来自 Unity Asset Store 及团队文档所列其他来源的第三方素材；这些素材不作为个人原创美术成果展示。
+        url: https://assetstore.unity.com/
+      - title: {en: Character animation, zh: 角色动画}
+        body:
+          en: Character and creature animation sources include Mixamo, integrated and adjusted within the Unity project.
+          zh: 角色与生物动画素材包括 Mixamo 资源，并在 Unity 项目中进行集成与调整。
+        url: https://www.mixamo.com/
+      - title: {en: Shader learning reference, zh: Shader 学习参考}
+        body:
+          en: The team's dissolve-effect study referenced a tutorial and then adapted the approach for the game's visual direction.
+          zh: 团队的溶解效果学习参考了教程，并在此基础上结合游戏视觉方向进行调整。
+        url: https://www.youtube.com/watch?v=LIuLeCq5-qs
+      - title: {en: Sound effects, zh: 音效素材}
+        body:
+          en: Sound-effect sources include Pixabay and remain subject to their respective source terms.
+          zh: 音效素材来源包括 Pixabay，并遵循相应来源的使用条款。
+        url: https://pixabay.com/sound-effects/
+
   - id: mur-simulation
     published: true
     name: {en: 'Melbourne University Racing — Simulation', zh: 'Melbourne University Racing（机器人仿真）'}
     date: {en: 'Sep 2024 – Nov 2024', zh: '2024年9月 – 2024年11月'}
     region: au
     type: team
+    team: {en: Melbourne University Racing, zh: Melbourne University Racing}
     tech: ROS2, NVIDIA Isaac Sim, Python, OpenCV
     keywords: [robotics, simulation, sensors, 机器人, 仿真]
     summary:
@@ -363,25 +907,31 @@ projects:
 
   - id: daisyworld
     published: true
-    name: {en: 'DaisyWorld — Agent-Based Simulation', zh: 'DaisyWorld（基于智能体的仿真）'}
+    name: {en: 'DaisyWorld — Exploring Emergence', zh: 'DaisyWorld（探索涌现与环境反馈）'}
     date: {en: 'May 2025', zh: '2025年5月'}
     region: au
     type: academic
-    tech: Python, Pygame, NetLogo, Jupyter
-    keywords: [simulation, climate, visualisation, 仿真, 气候]
+    tech: Python, Pygame, Jupyter Notebook, pandas
+    keywords: [agent-based modelling, complex systems, emergence, environmental feedback, 多智能体建模, 复杂系统, 涌现, 环境反馈]
     summary:
-      en: A Python climate simulation extending DaisyWorld with environmental effects.
-      zh: 使用环境影响机制扩展 DaisyWorld 的 Python 气候仿真。
+      en: "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback."
+      zh: "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
     background:
-      en: The model explores feedback between organisms and their environment in a grid world. Separate original and extended models support comparison.
-      zh: 模型在网格世界中探索生物与环境之间的反馈，原始模型与扩展模型分别实现以支持对比。
+      en: "SWEN90004 framed the assignment as a modelling exercise: teams reimplemented a selected NetLogo grid model, investigated its behaviour, and proposed an extension. Our Python version separates parameter configuration, simulation control, Pygame rendering, and notebook-based data inspection; black and white daisies, bare soil, local temperature, reproduction, ageing, and heat diffusion interact on a toroidal grid. Ant-colony shortest-path examples offer a useful analogy for the course's complex-systems lens: simple local pheromone feedback can accumulate into a collective route. DaisyWorld does not simulate ants or route finding; its system-level patterns arise instead from vegetation, albedo, and temperature feedback. The extension adds pollution zones and spread, pollution-dependent behaviour and visual overlays, plus a Lucky Clover mutation and pollution-mitigation pathway. These are implemented mechanisms, not reported experimental results."
+      zh: "SWEN90004 将作业设为一次建模练习：团队复现一个指定的 NetLogo 网格模型，考察其行为，并提出扩展。我们的 Python 版本分离了参数配置、仿真控制、Pygame 渲染与基于 notebook 的数据检查；黑、白雏菊、裸地、局部温度、繁殖、衰老与热扩散在环形网格中通过局部规则互动。蚂蚁群体寻找最短路径是理解这门课复杂系统视角的一个类比：简单的局部信息素反馈能够累积成群体路线。DaisyWorld 不模拟蚂蚁或路径寻优；它的系统层面模式来自植被、反照率与温度之间的反馈。扩展代码加入污染区域及其传播、受污染影响的行为与可视化覆盖层，以及 Lucky Clover 的变异和污染缓解路径。这些是已实现的机制，不是实验结果报告。"
     work:
-      - en: Reimplemented the daisy albedo-feedback model in Python.
-        zh: 使用 Python 重新实现雏菊反照率反馈模型。
-      - en: Added pollution diffusion, mutation behaviour, and an additional species.
-        zh: 加入污染扩散、变异行为与新增物种。
-      - en: Visualised model states with Pygame and analysed simulation output in notebooks.
-        zh: 使用 Pygame 可视化模型状态，在 notebook 中分析仿真输出。
+      - en: Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.
+        zh: 搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。
+      - en: Added the notebook-based data-inspection workflow and implemented substantial parts of the pollution/Lucky Clover extension, including pollution zones and spread, visual overlays, and pollution-dependent mutation and ageing behaviour.
+        zh: 加入基于 notebook 的数据检查流程，并实现污染/Lucky Clover 扩展的重要部分，包括污染区域与传播、可视化覆盖层，以及受污染程度影响的变异和衰老逻辑。
+    demo:
+      src: assets/projects/daisyworld/daisyworld-extension-local-demo.mp4
+      poster: assets/projects/daisyworld/daisyworld-extension-local-poster.webp
+      width: 720
+      height: 760
+      caption:
+        en: A fixed-seed local macOS/Pygame capture of the extension model's grid renderer. It is a functional demonstration, not an experimental result.
+        zh: 使用固定随机种子录制的扩展模型本机 macOS/Pygame 网格渲染画面。该画面仅用于功能演示，不代表实验结果。
 
   - id: mini-spotify
     published: true
@@ -405,23 +955,95 @@ projects:
 
   - id: java-concurrency
     published: true
-    name: {en: Java Concurrency & Formal Verification, zh: Java Concurrency & Formal Verification（并发与形式化验证）}
-    date: {en: 'Oct 2025 – Dec 2025', zh: '2025年10月 – 2025年12月'}
+    name: {en: Mine Automation Verification — Java Concurrency, zh: 矿山自动化验证 — Java 并发、JBMC 与 Jazzer}
+    date: {en: 'Nov 2025 – Dec 2025', zh: '2025年11月 – 2025年12月'}
     region: ny
     type: academic
-    tech: Java, Jazzer, JBMC
-    keywords: [verification, testing, deadlock, 并发, 死锁, 测试]
+    tech: Java 17, Maven, JUnit 5, JBMC, Jazzer, JaCoCo
+    keywords: [verification, testing, deadlock, token-controlled scheduling, Java concurrency, 并发, 死锁, 测试, 形式化验证]
     summary:
-      en: Investigating Java concurrency failures through fuzz testing and model checking.
-      zh: 通过模糊测试与模型检查研究 Java 并发故障。
+      en: A two-person formal-verification project that extended an existing Java mine automation simulation with bounded safety checks, coverage-guided fuzzing, and token-controlled scheduling to investigate concurrency bugs and improve the reproducibility of selected thread interleavings.
+      zh: 一个两人合作的形式化验证项目：在既有 Java 矿山自动化并发模拟上，引入有界安全性检查、覆盖率引导模糊测试和 token 控制的线程调度，用于研究并发缺陷，并提升特定线程交错的可复现性。
     background:
-      en: The coursework examines how thread interleavings and circular lock dependencies can lead to deadlocks.
-      zh: 课程项目研究线程交错与循环锁依赖如何导致死锁。
+      en: For Columbia CSEE W6863 in Fall 2025, the team extended an existing mine simulation in which carts move through an elevator and single-capacity stations. Under contention, carts and engines can enter circular-wait states; the project added verification and testing capability rather than rebuilding the simulator from scratch.
+      zh: 在 Columbia CSEE W6863（2025年秋季）中，团队扩展了一个既有矿山模拟系统：矿车经过电梯和单容量站点。在资源竞争下，矿车与运输线程可能形成循环等待；项目重点是新增验证与测试能力，而非从零重建模拟器。
+    members:
+      - name: {en: Hao Chen, zh: Hao Chen}
+        url: https://github.com/JarrettChen217
+      - name: {en: Yinfeng Chai, zh: Yinfeng Chai}
+        url: https://github.com/chai-yinfeng
     work:
-      - en: Analysed lock contention and thread-safety behaviour.
-        zh: 分析锁竞争与线程安全行为。
-      - en: Used Jazzer and JBMC to investigate failing execution paths.
-        zh: 使用 Jazzer 与 JBMC 研究失败执行路径。
+      - en: Brought and adapted the mine simulation used as the verification subject from an earlier undergraduate course project.
+        zh: 提供并改造此前本科课程项目中的矿山模拟系统，作为本项目的验证对象。
+      - en: Led the core implementation and iterative debugging of the token-controlled scheduling extension.
+        zh: 主导 token-controlled scheduling 扩展的核心实现与迭代调试。
+      - en: Implemented or refined the injectable pause strategy, fuzz entry points, progress/deadlock monitoring, engine step granularity, and selected synchronization fixes.
+        zh: 实现或完善可注入暂停策略、fuzz 入口、进度与死锁监测、引擎步骤粒度及部分同步修复。
+      - en: Organized the repository and finalized architecture, fuzzing, and JBMC documentation.
+        zh: 整理仓库结构，并完成架构、fuzzing 与 JBMC 文档。
+    journey:
+      - title: {en: From timing to explicit scheduling, zh: 从时序依赖到显式调度}
+        body:
+          en: The fuzz input selects which thread role may advance by one logical step. This made selected interleavings explicit and replayable instead of relying only on JVM timing.
+          zh: fuzz 输入决定哪个线程角色可以推进一个逻辑步骤，使特定线程交错能够被明确控制与回放，而不只依赖 JVM 的时序随机性。
+      - title: {en: Reach the missing intermediate states, zh: 到达此前遗漏的中间状态}
+        body:
+          en: Iteration hooks, a progress/deadlock watcher, and splitting the Engine receive/deliver transition into two controllable steps let the harness exercise states a coarser model missed.
+          zh: 通过迭代 hook、进度与死锁监测，以及把 Engine 的 receive/deliver 转换拆成两个可控制步骤，测试框架能够覆盖较粗粒度模型遗漏的状态。
+      - title: {en: Evaluate with bounded checks and concurrent exploration, zh: 结合有界检查与并发探索进行评估}
+        body:
+          en: JBMC harnesses checked bounded safety properties of deterministic components, while Jazzer explored liveness failures in the concurrent composition with a progress/deadlock oracle.
+          zh: JBMC harness 检查确定性组件在有限边界内的安全性质；Jazzer 则结合进度与死锁 oracle 探索完整并发组合中的活性问题。
+    architecture:
+      - title: {en: JBMC bounded safety checks, zh: JBMC 有界安全性检查}
+        body: {en: Harnesses target deterministic components and selected safety properties within explicit bounds., zh: Harness 针对确定性组件与选定安全性质进行有限边界内的检查。}
+      - title: {en: Jazzer concurrency exploration, zh: Jazzer 并发探索}
+        body: {en: Coverage-guided inputs drive the concurrent composition and expose selected liveness failures., zh: 覆盖率引导输入驱动完整并发组合，并暴露选定的活性故障。}
+      - title: {en: Token-controlled scheduling, zh: Token 控制调度}
+        body: {en: A gated controller releases a chosen thread role for one logical step while monitoring progress., zh: gated controller 每次释放指定线程角色推进一个逻辑步骤，并持续监测进度。}
+    gallery:
+      - src: assets/projects/java-concurrency/java-concurrency-token-controller-1600.webp
+        thumbnail: assets/projects/java-concurrency/java-concurrency-token-controller-800.webp
+        width: 1600
+        height: 900
+        thumbnailWidth: 800
+        group: engineering
+        alt:
+          en: Fuzz input selects a thread token, and the controller opens one matching thread lane for a single iteration while other lanes wait.
+          zh: fuzz 输入选择线程 token；控制器只为匹配的线程通道开放一次迭代，其他通道保持等待。
+        caption:
+          en: Token-controlled scheduling made selected interleavings explicit and replayable.
+          zh: Token 控制调度让特定线程交错能够被明确控制与回放。
+      - src: assets/projects/java-concurrency/java-concurrency-system-model-1600.webp
+        thumbnail: assets/projects/java-concurrency/java-concurrency-system-model-800.webp
+        width: 1600
+        height: 976
+        thumbnailWidth: 800
+        group: engineering
+        alt:
+          en: Mine carts travel from an elevator through single-capacity stations connected by engine threads, then return to the elevator.
+          zh: 矿车从电梯出发，经过由运输线程连接的单容量站点后返回电梯。
+        caption:
+          en: Mine workflow context for investigating circular-wait states under contention.
+          zh: 用于研究资源竞争下循环等待状态的矿山工作流背景。
+      - src: assets/projects/java-concurrency/java-concurrency-coverage-summary-1600.webp
+        thumbnail: assets/projects/java-concurrency/java-concurrency-coverage-summary-800.webp
+        width: 1600
+        height: 341
+        thumbnailWidth: 800
+        group: engineering
+        alt:
+          en: JaCoCo summary reporting 66 percent instruction coverage and 65 percent branch coverage for the final project configuration.
+          zh: JaCoCo 汇总显示最终项目配置的 66% 指令覆盖率与 65% 分支覆盖率。
+        caption:
+          en: 'Final-report JaCoCo result: 66% instruction and 65% branch coverage; this portfolio pass did not rerun the experiment.'
+          zh: 最终报告记录的 JaCoCo 结果：66% 指令覆盖率、65% 分支覆盖率；本次作品集整理未重新运行实验。
+    links:
+      - label: {en: Code, zh: 代码}
+        url: https://github.com/chai-yinfeng/Mine-Automation-System
+    boundary:
+      en: The final report recorded 66% instruction coverage and 65% branch coverage across the project. These results describe structural reachability in that reported experiment, not a proof of whole-system deadlock freedom or exhaustive schedule exploration.
+      zh: 最终报告记录了项目整体 66% 的指令覆盖率和 65% 的分支覆盖率。这些结果描述的是该次实验中的结构可达性，不代表已证明整个系统无死锁，也不代表穷尽了所有调度交错。
 
   # Contribution ownership is unresolved; keep this draft off the website.
   - id: software-modelling

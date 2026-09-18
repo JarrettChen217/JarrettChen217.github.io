@@ -142,6 +142,13 @@ test('Accenture presents two evidence-backed applied machine-learning studies', 
   assert.equal((html.match(/class="internship-delivery-step"/g) || []).length, 4);
 });
 
+test('Accenture avoids the disputed classification accuracy figures', () => {
+  const context = appContext();
+  const publicRecord = vm.runInContext("JSON.stringify(CONTENT.internships.find(item => item.id === 'accenture'))", context);
+  assert.doesNotMatch(publicRecord, /85\.8%|84\.8%|85\.5%/);
+  assert.match(publicRecord, /RMSE 0\.173/);
+});
+
 test('Cummins Charleston presents three evidence-bounded manufacturing data studies', () => {
   const context = appContext();
   const record = "CONTENT.internships.find(item => item.id === 'cummins-us')";

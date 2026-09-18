@@ -21,3 +21,15 @@ test('Pages workflow uses current Node 24 actions and preserves .nojekyll', () =
   assert.equal(actionStep('deploy', 'actions/configure-pages').uses, 'actions/configure-pages@v6');
   assert.equal(actionStep('deploy', 'actions/deploy-pages').uses, 'actions/deploy-pages@v5');
 });
+
+test('dev pull requests run quality checks but only main can deploy', () => {
+  assert.deepEqual([...workflow.on.pull_request.branches].sort(), ['dev', 'main']);
+  assert.deepEqual(workflow.on.push.branches, ['main']);
+
+  const productionCondition = "${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}";
+  const pagesUpload = actionStep('quality-gate', 'actions/upload-pages-artifact');
+  assert.equal(pagesUpload.if, productionCondition);
+  assert.equal(workflow.jobs.deploy.if, productionCondition);
+  assert.equal(workflow.jobs['production-health'].if, productionCondition);
+  assert.equal(productionCondition.includes('refs/heads/dev'), false);
+});

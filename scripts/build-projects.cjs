@@ -128,6 +128,20 @@ function compile(source) {
     }
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
     if(p.team !== undefined) result.team=bi(p.team,`${p.id}.team`);
+    if(p.members !== undefined){
+      const field=`${p.id}.members`;
+      if(!Array.isArray(p.members)||!p.members.length)fail(`${field}: must be a non-empty list`);
+      const seenNames=new Set();const seenProfiles=new Set();
+      result.members=p.members.map((member,index)=>{
+        if(!member||typeof member!=='object'||Array.isArray(member))fail(`${field}[${index}]: must contain a name and GitHub profile`);
+        const name=typeof member.name==='string'?member.name.trim():'';
+        if(!name||name.length>80||name.includes('@')||/\d{5,}/.test(name))fail(`${field}[${index}]: must contain a public name only`);
+        if(typeof member.github!=='string'||!/^https:\/\/github\.com\/[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/.test(member.github))fail(`${field}[${index}]: invalid GitHub profile`);
+        if(seenNames.has(name)||seenProfiles.has(member.github))fail(`${field}: duplicate member`);
+        seenNames.add(name);seenProfiles.add(member.github);
+        return {name,github:member.github};
+      });
+    }
     if(p.featuredVideo !== undefined){
       const field=`${p.id}.featuredVideo`;const value=p.featuredVideo;
       if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.youtubeId!=='string'||!/^[A-Za-z0-9_-]{11}$/.test(value.youtubeId))fail(`${field}: invalid YouTube ID`);

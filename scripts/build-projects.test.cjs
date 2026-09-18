@@ -5,6 +5,12 @@ const demo=()=>({src:'assets/projects/avl-visualisation/avl-insertion-demo.mp4',
 const logo=()=>({src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Algorithms in Action project mark',zh:'Algorithms in Action 项目标识'}});
 const midasExtras=()=>({
  team:{en:'Cosmic Creators',zh:'Cosmic Creators'},
+ members:[
+  {name:'Hao Chen',github:'https://github.com/JarrettChen217'},
+  {name:'Chao Ma',github:'https://github.com/cmcbrm'},
+  {name:'Gaoyongle Zhang',github:'https://github.com/XinMoZ'},
+  {name:'Jiayi Sun',github:'https://github.com/JiayiSun666'}
+ ],
  featuredVideo:{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',embedUrl:'https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:{en:'Midas Curse gameplay demo',zh:'Midas Curse 游戏演示'}},
  play:{url:'play/midas-curse/index.html',label:{en:'Play Game',zh:'在线试玩'}},
  sectionOrder:['video','background','product','contributions','journey','engineering','team','credits','resources','scope'],
@@ -50,11 +56,20 @@ test('project experience fields compile bilingual public data and strip research
  const doc=fixture();const source=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(source,midasExtras(),{researchNotes:'/private/report.pdf'});
  const project=run(doc).projects.find(item=>item.id==='avl-visualisation');
  assert.deepEqual(project.team,['Cosmic Creators','Cosmic Creators']);
+ assert.deepEqual(project.members,midasExtras().members);
  assert.deepEqual(project.featuredVideo,{youtubeId:'_KGzpyql4ps',watchUrl:'https://www.youtube.com/watch?v=_KGzpyql4ps',embedUrl:'https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr',poster:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,caption:['Midas Curse gameplay demo','Midas Curse 游戏演示']});
  assert.deepEqual(project.play,{url:'play/midas-curse/index.html',label:['Play Game','在线试玩']});
  assert.deepEqual(project.sectionOrder,midasExtras().sectionOrder);
  assert.deepEqual(project.credits,[{title:['Models and environments','模型与场景'],body:['Third-party assets remain credited to their creators.','第三方素材版权归各自创作者所有。'],url:'https://assetstore.unity.com/'}]);
  assert.ok(!JSON.stringify(project).includes('/private/report.pdf'));
+});
+test('team members reject private contact data and render as a bilingual project byline',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(p,midasExtras());
+ const result=run(doc);const compiled=result.projects.find(project=>project.id==='avl-visualisation');assert.deepEqual(compiled.members,midasExtras().members);
+ const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('avl-visualisation')",context);assert.match(html,/Members: <span class="team-members"><a class="team-member-link" href="https:\/\/github\.com\/JarrettChen217" target="_blank" rel="noopener">Hao Chen<\/a> · .*Gaoyongle Zhang.*<\/span>/);
+ html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/成员：<span class="team-members">.*href="https:\/\/github\.com\/XinMoZ".*Gaoyongle Zhang.*<\/span>/);
+ for(const members of [[],[{name:'',github:'https://github.com/example'}],[{name:'Hao Chen',github:'mailto:hc4@student.unimelb.edu.au'}],[{name:'Hao Chen',github:'https://example.com/Hao'}],[{name:'Hao Chen',github:'https://github.com/Hao/repos'}],[{name:'1234567',github:'https://github.com/example'}]]){const invalid=fixture();invalid.projects.find(project=>project.id==='avl-visualisation').members=members;assert.throws(()=>run(invalid),/members/);}
 });
 test('project experience fields reject unsafe video, play, order and credit values',()=>{
  const changes=[

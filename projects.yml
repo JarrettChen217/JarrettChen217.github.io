@@ -464,6 +464,11 @@ projects:
     region: au
     type: team
     team: {en: Cosmic Creators, zh: Cosmic Creators}
+    members:
+      - {name: Hao Chen, github: 'https://github.com/JarrettChen217'}
+      - {name: Chao Ma, github: 'https://github.com/cmcbrm'}
+      - {name: Gaoyongle Zhang, github: 'https://github.com/XinMoZ'}
+      - {name: Jiayi Sun, github: 'https://github.com/JiayiSun666'}
     tech: Unity, C#, ShaderLab, Git
     keywords: [Unity, game development, survival game, shaders, animation, Blend Tree, 游戏开发, 生存游戏, 动画]
     summary:

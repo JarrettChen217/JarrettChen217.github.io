@@ -1213,6 +1213,24 @@ const PROJECTS = {
         "Cosmic Creators",
         "Cosmic Creators"
       ],
+      "members": [
+        {
+          "name": "Hao Chen",
+          "github": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": "Chao Ma",
+          "github": "https://github.com/cmcbrm"
+        },
+        {
+          "name": "Gaoyongle Zhang",
+          "github": "https://github.com/XinMoZ"
+        },
+        {
+          "name": "Jiayi Sun",
+          "github": "https://github.com/JiayiSun666"
+        }
+      ],
       "featuredVideo": {
         "youtubeId": "_KGzpyql4ps",
         "watchUrl": "https://www.youtube.com/watch?v=_KGzpyql4ps",

@@ -46,8 +46,8 @@ After editing:
 ```sh
 npm ci --ignore-scripts
 npm run build
-npm run check
-npm test
+npx playwright install chromium
+npm run verify
 ```
 
 Refresh the local page after building. Commit `projects.yml` and its generated `projects-data.js` together when ready to publish. The browser requires neither Node.js nor a YAML parser, so GitHub Pages can serve the generated files directly.
@@ -59,6 +59,27 @@ Routes use URL fragments (for example `#project/agent-ai`), so direct links and 
 Calendar progress uses July 1, 2025 through January 1, 2027 as month boundaries for the master's program. It is clamped to 0–100% and refreshed on page load and every minute. The completed bachelor's timeline is fixed at 100%. These are calendar visualizations, not academic credit calculations.
 
 Language follows the browser on the first visit and retains explicit language choices locally. No analytics, database, or external scripts are used.
+
+## Quality gate and deployment
+
+The public site is hosted at [jarrettchen217.github.io](https://jarrettchen217.github.io/). Pull requests targeting either `dev` or `main` must pass the required `quality-gate`, which verifies the dependency audit, generated project data, unit tests, the public deployment allowlist, and the portfolio in Chromium. Pull-request checks never deploy the site; only a verified revision accepted into `main` can publish to GitHub Pages.
+
+```text
+project branch -> dev PR quality-gate -> main PR quality-gate -> main deployment and health check
+```
+
+Run the same gate locally:
+
+```sh
+npm ci --ignore-scripts
+npm audit --audit-level=high
+npx playwright install chromium
+npm run verify
+```
+
+After a verified pull request is merged, GitHub Actions rebuilds the allowlisted `_site/` artifact, deploys it to GitHub Pages, and checks the live HTML, CSS, application script, and generated project data. The deployment artifact contains only the runtime files and `assets/`; repository documents, YAML sources, tests, dependencies, and `photo-inbox` are excluded.
+
+When a browser test fails, open that workflow run in GitHub Actions and download `playwright-failure-<run-id>`. It contains the HTML report and the available failure screenshot, trace, and video, and is retained for seven days. Successful runs do not upload browser diagnostics.
 
 ## Current status
 
@@ -76,6 +97,6 @@ journey:
 
 Both languages are required. Only title/body are compiled; do not put private research in this public YAML. Homepage selection and excerpt overrides remain independent of this detail content. Photo candidates go in `photo-inbox/<project-id>/`; they are not automatically published or rendered. Selected AVL images are now explicitly listed in the gallery. Documents can be linked after individual review.
 
-Local preview only. The catalogue contains 12 visible project overviews and one unpublished software-modelling draft. The draft needs confirmation of individual contributions. Dance XR and other Unity projects await source materials. Industrial internship details and personal contact information remain outside the catalogue pending confirmation. GitHub Pages has not been activated; this workspace has not been committed or pushed.
+The catalogue contains 12 visible project overviews and one unpublished software-modelling draft. The draft needs confirmation of individual contributions. Dance XR and other Unity projects await source materials. Industrial internship details and personal contact information remain outside the catalogue pending confirmation.
 
 Keep private source documents and internal employer assets out of this repository.

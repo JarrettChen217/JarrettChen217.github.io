@@ -2,6 +2,7 @@ const test=require('node:test');const assert=require('node:assert/strict');const
 const fixture=()=>yaml.load(fs.readFileSync(path.join(__dirname,'../projects.yml'),'utf8'));
 const run=doc=>compile(yaml.dump(doc));
 const demo=()=>({src:'assets/projects/avl-visualisation/avl-insertion-demo.mp4',poster:'assets/projects/avl-visualisation/avl-insertion-poster.webp',width:1440,height:1022,caption:{en:'Insertion and rotation',zh:'插入与旋转'}});
+const youtubeDemo=()=>({videoId:'eip1ze0U0Ns',embedUrl:'https://www.youtube.com/embed/eip1ze0U0Ns?si=-dlLqAk-GLLG2Q_H',url:'https://youtu.be/eip1ze0U0Ns',title:{en:'Dance XR five-minute demo',zh:'Dance XR 五分钟演示'},linkLabel:{en:'Watch on YouTube',zh:'在 YouTube 观看'}});
 const logo=()=>({src:'assets/projects/avl-visualisation/avl-interface-800.webp',width:800,height:397,alt:{en:'Algorithms in Action project mark',zh:'Algorithms in Action 项目标识'}});
 const midasExtras=()=>({
  team:{en:'Cosmic Creators',zh:'Cosmic Creators'},
@@ -197,12 +198,44 @@ test('demo compiles public fields and rejects unsafe or incomplete media',()=>{
  const result=run(doc).projects.find(p=>p.id==='avl-visualisation');assert.equal(result.demo.src,demo().src);assert.ok(!JSON.stringify(result).includes('/private/original.mov'));
  for(const change of [{src:'../secret.mp4'},{src:'https://example.com/a.mp4'},{src:'assets/projects/avl-visualisation/missing.mp4'},{poster:'../secret.webp'},{width:0},{height:1.5},{caption:{en:'Only English'}}]){p.demo={...demo(),...change};assert.throws(()=>run(doc),/demo/);}
 });
+test('youtube demo compiles the approved public metadata only',()=>{
+ const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.youtubeDemo={...youtubeDemo(),internal:'/private/final.mov'};
+ const value=run(doc).projects.find(p=>p.id==='avl-visualisation').youtubeDemo;
+ assert.deepEqual(value,{videoId:'eip1ze0U0Ns',embedUrl:'https://www.youtube.com/embed/eip1ze0U0Ns?si=-dlLqAk-GLLG2Q_H',url:'https://youtu.be/eip1ze0U0Ns',title:['Dance XR five-minute demo','Dance XR 五分钟演示'],linkLabel:['Watch on YouTube','在 YouTube 观看']});
+ assert.ok(!JSON.stringify(value).includes('/private/'));
+});
+test('youtube demo rejects untrusted URLs, mismatched IDs and incomplete translations',()=>{
+ for(const change of [{videoId:'bad id'},{embedUrl:'https://evil.example/embed/eip1ze0U0Ns'},{embedUrl:'https://www.youtube.com/embed/_Nbhr87wm8I'},{url:'http://youtu.be/eip1ze0U0Ns'},{url:'https://youtu.be/_Nbhr87wm8I'},{title:{en:'English only'}},{linkLabel:{zh:'仅中文'}}]){
+  const doc=fixture();doc.projects.find(p=>p.id==='avl-visualisation').youtubeDemo={...youtubeDemo(),...change};assert.throws(()=>run(doc),/youtubeDemo/);
+ }
+});
+test('team credit and custom work heading compile and render in the detail metadata',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');
+ p.teamCredit={en:'Four-person team: Yihe An, Hao Chen, Hiroyuki Akiyama, and John Mitnik',zh:'四人团队：Yihe An、Hao Chen、Hiroyuki Akiyama 和 John Mitnik'};
+ p.workHeading={en:'My contribution',zh:'我的贡献'};
+ const result=run(doc);const compiled=result.projects.find(p=>p.id==='avl-visualisation');
+ assert.deepEqual(compiled.teamCredit,['Four-person team: Yihe An, Hao Chen, Hiroyuki Akiyama, and John Mitnik','四人团队：Yihe An、Hao Chen、Hiroyuki Akiyama 和 John Mitnik']);
+ assert.deepEqual(compiled.workHeading,['My contribution','我的贡献']);
+ const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('avl-visualisation')",context);assert.match(html,/class="team-credit"/);assert.match(html,/<h3>My contribution<\/h3>/);assert.ok(html.indexOf('Four-person team:')<html.indexOf('Visualising AVL insertion'));
+ html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/四人团队：/);assert.match(html,/<h3>我的贡献<\/h3>/);
+ for(const change of [value=>{delete value.teamCredit.zh},value=>{value.workHeading={en:'My contribution'}}]){const invalid=fixture();const project=invalid.projects.find(p=>p.id==='avl-visualisation');project.teamCredit=p.teamCredit;project.workHeading=p.workHeading;change(project);assert.throws(()=>run(invalid),/teamCredit|workHeading/);}
+});
 test('detail renders controllable bilingual demo without autoplay and a clear back link',()=>{
  const vm=require('node:vm');const doc=fixture();doc.projects.find(p=>p.id==='avl-visualisation').demo=demo();
  const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
  vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
  let html=vm.runInContext("detail('avl-visualisation')",context);assert.match(html,/<video[^>]*controls[^>]*preload="none"/);assert.ok(!html.includes('autoplay'));assert.match(html,/Insertion and rotation/);assert.match(html,/<a class="back" href="#projects"><svg/);
  html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/插入与旋转/);assert.ok(!vm.runInContext("detail('online-ordering')",context).includes('<video'));
+});
+test('detail renders a responsive five-minute YouTube demo with a link fallback',()=>{
+ const vm=require('node:vm');const doc=fixture();doc.projects.find(p=>p.id==='avl-visualisation').youtubeDemo=youtubeDemo();
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('avl-visualisation')",context);
+ assert.match(html,/class="[^\"]*project-youtube-demo/);assert.match(html,/src="https:\/\/www\.youtube\.com\/embed\/eip1ze0U0Ns\?si=-dlLqAk-GLLG2Q_H"/);assert.match(html,/title="Dance XR five-minute demo"/);assert.match(html,/allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"/);assert.match(html,/referrerpolicy="strict-origin-when-cross-origin"/);assert.match(html,/allowfullscreen/);assert.match(html,/href="https:\/\/youtu\.be\/eip1ze0U0Ns"/);assert.ok(!/\sautoplay(?:\s|=|>)/.test(html));
+ html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/Dance XR 五分钟演示/);assert.match(html,/在 YouTube 观看/);
 });
 const media=()=>({src:'assets/projects/avl-visualisation/avl-interface-1600.webp',thumbnail:'assets/projects/avl-visualisation/avl-interface-800.webp',width:1600,height:793,thumbnailWidth:800,group:'product',alt:{en:'AVL interface',zh:'AVL 界面'},caption:{en:'Synchronized tree and pseudocode.',zh:'同步呈现树图与伪代码。'}});
 test('media renderer provides responsive lazy images, bilingual captions and architecture',()=>{
@@ -220,7 +253,7 @@ test('journey preserves bilingual order without leaking research metadata',()=>{
 test('journey rejects malformed entries and missing translations',()=>{for(const journey of [null,{},[null],[{title:{en:'Title',zh:'标题'},body:{en:'English only'}}]]){const doc=fixture();doc.projects[0].journey=journey;assert.throws(()=>run(doc),/journey/);}});
 test('journey is optional and can be empty',()=>{const doc=fixture();delete doc.projects[0].journey;assert.equal(run(doc).projects[0].journey,undefined);doc.projects[0].journey=[];assert.deepEqual(run(doc).projects[0].journey,[]);});
 test('selected order and overrides do not mutate canonical summaries',()=>{const doc=fixture();const result=run(doc);assert.deepEqual(result.selected.map(x=>x.id),doc.selected.map(x=>x.id));const item=result.selected.find(x=>x.description);assert.ok(item);assert.deepEqual(result.projects.find(x=>x.id===item.id).summary,[doc.projects.find(x=>x.id===item.id).summary.en,doc.projects.find(x=>x.id===item.id).summary.zh]);});
-test('draft projects and editor metadata are excluded',()=>{const doc=fixture();doc.projects.push({...doc.projects[0],id:'private-draft',published:false});doc.projects[0].editor_notes='PRIVATE_SENTINEL';const result=run(doc);assert.ok(!result.projects.some(x=>x.id==='private-draft'));assert.ok(!JSON.stringify(result).includes('PRIVATE_SENTINEL'));});
+test('draft projects and editor metadata are excluded',()=>{const doc=fixture();const source=doc.projects.find(p=>p.id==='agent-ai');doc.projects.push({...source,id:'private-draft',published:false});source.editor_notes='PRIVATE_SENTINEL';const result=run(doc);assert.ok(!result.projects.some(x=>x.id==='private-draft'));assert.ok(!JSON.stringify(result).includes('PRIVATE_SENTINEL'));});
 test('broken selections, duplicates, and missing translations fail',()=>{let doc=fixture();doc.selected.push({id:'missing'});assert.throws(()=>run(doc),/missing or unpublished/);doc=fixture();doc.projects.push(doc.projects[0]);assert.throws(()=>run(doc),/duplicate/);doc=fixture();delete doc.projects[0].summary.zh;assert.throws(()=>run(doc),/en and zh/);doc=fixture();doc.projects.find(p=>p.id===doc.selected[0].id).published=false;assert.throws(()=>run(doc),/unpublished/);});
 test('DaisyWorld publishes a verified bilingual course case study with a local native-window demo',()=>{
  const doc=fixture();

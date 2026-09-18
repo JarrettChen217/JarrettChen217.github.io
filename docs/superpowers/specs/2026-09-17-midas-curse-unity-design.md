@@ -11,7 +11,7 @@ The case study is evidence-led. It foregrounds the playable result, core mechani
 - Stable project ID: `midas-curse-unity`.
 - `projects.yml` remains the source of truth for English and Chinese copy, media references, section order, video, play link, team name, credits, and Overview selection.
 - Overview adds only `{id: midas-curse-unity}`. It reuses the canonical project summary and does not copy project content.
-- The detail sequence is: summary, background/core gameplay, the numbered process narrative, embedded gameplay video and actions, early-mechanic media, product media, personal contributions, brief design iteration, supporting design media, team record, credits, and resources.
+- The detail sequence is: summary, background/core gameplay, the numbered process narrative, gameplay preview and actions, early-mechanic media, product media, personal contributions, brief design iteration, supporting design media, team record, credits, and resources.
 - Existing projects keep their current default section order. An optional validated `sectionOrder` field changes order only where explicitly configured.
 - Reuse the generic `process` structure and numbered-stage presentation introduced for the Berry Street case study on `dev`. Do not create a parallel Midas-only narrative component.
 - The Midas process explains the team's 2023 path from concept to implementation before generative-AI coding assistants were part of its workflow. It covers documentation/tutorial-led learning, prototyping, manual debugging, the golden-ground grid and state model, shader integration, and the WebGL-driven rendering decision without turning the section into a defect log.
@@ -30,8 +30,9 @@ The case study is evidence-led. It foregrounds the playable result, core mechani
 
 ## Media and interaction
 
-- Embed the gameplay video in a responsive 16:9 YouTube iframe using the user-provided `https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr` URL. Keep a visible **Watch Demo / 观看演示** link because YouTube may still reject playback according to owner or referrer policy.
-- The iframe is non-autoplaying, lazy-loaded, titled bilingually, fullscreen-capable, and restricted to the permissions in the provided embed markup.
+- The confirmed YouTube IFrame API result for `_KGzpyql4ps` is error `150`, which YouTube defines as the video's owner not allowing embedded playback. The public Midas configuration therefore omits `featuredVideo.embedUrl` instead of presenting a broken player.
+- Render the existing responsive poster preview with a visible play treatment, **Watch Demo / 观看演示**, and **Play Game / 在线试玩**. The watch action opens the confirmed YouTube watch URL in a new tab.
+- Keep the shared optional iframe renderer and validated `embedUrl` contract for other videos that permit embedding; do not special-case the Midas project in JavaScript.
 - Provide **Play Game / 在线试玩** to a standalone `play/midas-curse/` page.
 - The play page copies only the outer Unity WebGL runtime set: one loader, one data archive, one framework file, and one WebAssembly file. It does not copy duplicate nested builds.
 - Rename runtime files to stable lowercase names and use relative URLs so the page works both locally and at the GitHub Pages root.
@@ -51,14 +52,14 @@ The surrounding site remains academic and restrained. Midas uses its own media r
 - **Game action accent:** muted ochre `#8a641d`, reserved for the demo/play actions
 - **Type:** the site's existing system sans-serif stack and heading scale
 - **Layout:** left-aligned reading column, hairline section rules, two-column supporting media on desktop and one column on mobile
-- **Memorable element:** a compact kawaii lettering badge introduces the hand-built engineering narrative; the gameplay iframe and paired actions follow the narrative.
+- **Memorable element:** a compact kawaii lettering badge introduces the hand-built engineering narrative; the gameplay preview and paired actions follow the narrative.
 
 ## Data contracts
 
 Optional project fields introduced by this case study:
 
 - `team`: bilingual non-empty string.
-- `featuredVideo`: YouTube ID, canonical HTTPS watch URL, validated HTTPS embed URL whose `/embed/<id>` path matches the ID, validated local poster dimensions, and bilingual caption.
+- `featuredVideo`: YouTube ID, canonical HTTPS watch URL, optional validated HTTPS embed URL whose `/embed/<id>` path matches the ID, validated local poster dimensions, and bilingual caption. When `embedUrl` is absent, the shared renderer uses the poster preview.
 - `process`: reuse Berry Street's bilingual heading, introduction, and ordered `stages`; Midas stages use the same label/title/body contract and omit individual-contribution callouts unless authorship is verified.
 - `process.badge`: optional validated local WebP asset with dimensions and bilingual alt text. Existing process projects do not need to provide it.
 - `play`: safe repository-relative `.html` URL and bilingual label.
@@ -69,7 +70,7 @@ The compiler strips research paths and unrecognized metadata, validates all new 
 
 ## Accessibility and responsive behavior
 
-- Video iframe has a bilingual title, a fixed aspect ratio, lazy loading, and a fallback watch link.
+- The poster preview has bilingual alternative text, a direct watch link, and responsive dimensions. Embeddable videos retain the iframe accessibility contract in the shared component.
 - The decorative lettering badge has meaningful bilingual alt text while the full engineering explanation remains selectable HTML.
 - Actions have visible keyboard focus and remain full-width tap targets on small screens.
 - Images retain dimensions, alt text, lazy loading, and in-page preview behavior.
@@ -81,7 +82,7 @@ The compiler strips research paths and unrecognized metadata, validates all new 
 - TDD covers compiler validation, Overview identity reuse, bilingual rendering, process ordering and escaping, optional process-badge validation, safe embed URLs, section ordering, safe relative play paths, and YouTube output.
 - Merge the latest `dev` process implementation into the isolated Midas branch before implementation. Resolve the two render paths into one section-based renderer rather than copying Berry Street's component or changing its visible output.
 - `npm test`, `npm run check`, and `git diff --check` must pass before each implementation-phase commit.
-- Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths. Confirm the numbered process appears before the gameplay iframe and that the badge remains legible without affecting text accessibility.
-- Attempt playback in the real iframe environment. If YouTube rejects the embed, record the observed error and verify that the visible watch link still opens the confirmed working watch page.
+- Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths. Confirm the numbered process appears before the gameplay poster, no iframe is emitted for Midas, and the badge remains legible without affecting text accessibility.
+- Retain the diagnostic record that YouTube returned error `150`; do not restore the Midas embed unless the owner enables embedding and playback is reverified.
 - Open the standalone WebGL page over HTTP, verify all four runtime resources return successfully, and confirm the loader reaches Unity initialization rather than a missing-path error.
 - After branch push, verify the branch contents and public-page path assumptions without changing the repository's configured Pages source.

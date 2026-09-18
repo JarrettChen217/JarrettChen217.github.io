@@ -8,6 +8,16 @@ Run `python3 -m http.server 54839 --bind 127.0.0.1` in this directory, then open
 
 ## Editing
 
+### Header brand
+
+The upper-left home link combines `assets/branding/hao-chen-header-96.png` (48px display avatar) with locally bundled Silkscreen lettering in `assets/branding/silkscreen-latin-700.woff2`. Three CSS-only pixel snowflakes animate around the avatar without moving the layout; they stop when the visitor requests reduced motion. The single `#overview` link remains keyboard-accessible and keeps the whole lockup clickable. At narrow widths, navigation occupies a separate row. The source avatar is kept in `photo-inbox/profile/hao-chen-pixel-header-source.png`.
+
+### Browser tab icon assets
+
+The favicon is the blue-hood pixel avatar on a transparent background. Public 16 / 32 / 48 px PNGs and the multi-size ICO live in `assets/branding/`; the active editable source stays in `photo-inbox/profile/hao-chen-pixel-favicon-transparent-source.png`. The earlier blue-background source remains alongside it as a preserved alternative.
+
+To replace it, run `node scripts/prepare-favicon.cjs PATH_TO_SQUARE_IMAGE` (requires macOS `sips`), then increment the favicon `?v=` values together in `index.html` to refresh browser caches. The public build copies these assets automatically. Browser page titles and the header name are independent of the favicon.
+
 ### Project images
 
 `projects.yml` now supports optional `gallery` and `architecture` lists. Gallery groups are `product`, `engineering` and `team`; each entry requires `src`, `thumbnail`, `width`, `height`, `thumbnailWidth`, and bilingual `alt`/`caption`. Both image paths must be existing WebP files inside `assets/projects/<project-id>/`. The browser uses responsive sources, deferred loading, and links to the larger compressed image. Architecture entries use bilingual `title`/`body` fields.

@@ -11,9 +11,11 @@ The case study is evidence-led. It foregrounds the playable result, core mechani
 - Stable project ID: `midas-curse-unity`.
 - `projects.yml` remains the source of truth for English and Chinese copy, media references, section order, video, play link, team name, credits, and Overview selection.
 - Overview adds only `{id: midas-curse-unity}`. It reuses the canonical project summary and does not copy project content.
-- The detail sequence is: summary, background/core gameplay, an engineering narrative, embedded gameplay video and actions, early-mechanic media, product media, personal contributions, brief design iteration, supporting design media, team record, credits, and resources.
+- The detail sequence is: summary, background/core gameplay, the numbered process narrative, embedded gameplay video and actions, early-mechanic media, product media, personal contributions, brief design iteration, supporting design media, team record, credits, and resources.
 - Existing projects keep their current default section order. An optional validated `sectionOrder` field changes order only where explicitly configured.
-- The engineering narrative explains the team's 2023 path from concept to implementation before generative-AI coding assistants were part of its workflow. It covers documentation/tutorial-led learning, prototyping, manual debugging, the golden-ground grid and state model, shader integration, and the WebGL-driven rendering decision without turning the section into a defect log.
+- Reuse the generic `process` structure and numbered-stage presentation introduced for the Berry Street case study on `dev`. Do not create a parallel Midas-only narrative component.
+- The Midas process explains the team's 2023 path from concept to implementation before generative-AI coding assistants were part of its workflow. It covers documentation/tutorial-led learning, prototyping, manual debugging, the golden-ground grid and state model, shader integration, and the WebGL-driven rendering decision without turning the section into a defect log.
+- Extend the common section-order renderer so `process` can be placed between `background` and `video`. Berry Street keeps its current presentation and content; Midas can continue to use its video, early-mechanic demo, galleries, contributions, and credits after the process section.
 
 ## Content boundaries
 
@@ -36,7 +38,7 @@ The case study is evidence-led. It foregrounds the playable result, core mechani
 - Keep WebGL loading user-triggered to avoid a roughly 59 MB download when someone only reads the case study.
 - Convert selected source images and GIFs into web-friendly WebP derivatives. Preserve originals in their read-only source locations.
 - Preferred media: project cover, gold-path mechanic, maze design/model, visual-feedback improvement, and—after permission—the team photo.
-- Add a small baked WebP lettering badge reading **Built by hand · 2023** beside the engineering narrative. The badge uses a restrained kawaii treatment in muted gold and soft cream so every visitor sees the same lettering without depending on an installed font. All substantive technical content remains live bilingual HTML with accessible text; the badge is decorative emphasis only.
+- Add a small baked WebP lettering badge reading **Built by hand · 2023** to the common process header. The optional badge is used by Midas and omitted by Berry Street. It uses a restrained kawaii treatment in muted gold and soft cream so every visitor sees the same lettering without depending on an installed font. All substantive technical content remains live bilingual HTML with accessible text; the badge is decorative emphasis only.
 
 ## Visual direction
 
@@ -57,7 +59,8 @@ Optional project fields introduced by this case study:
 
 - `team`: bilingual non-empty string.
 - `featuredVideo`: YouTube ID, canonical HTTPS watch URL, validated HTTPS embed URL whose `/embed/<id>` path matches the ID, validated local poster dimensions, and bilingual caption.
-- `engineeringNarrative`: bilingual heading and introduction, a validated local WebP badge with dimensions and bilingual alt text, and an ordered list of bilingual engineering steps.
+- `process`: reuse Berry Street's bilingual heading, introduction, and ordered `stages`; Midas stages use the same label/title/body contract and omit individual-contribution callouts unless authorship is verified.
+- `process.badge`: optional validated local WebP asset with dimensions and bilingual alt text. Existing process projects do not need to provide it.
 - `play`: safe repository-relative `.html` URL and bilingual label.
 - `sectionOrder`: unique values from the renderer's documented section keys.
 - `credits`: bilingual title/body plus an optional HTTPS source URL.
@@ -75,9 +78,10 @@ The compiler strips research paths and unrecognized metadata, validates all new 
 
 ## Verification
 
-- TDD covers compiler validation, Overview identity reuse, bilingual rendering, engineering-narrative ordering and escaping, safe embed URLs, section ordering, safe relative play paths, and YouTube output.
+- TDD covers compiler validation, Overview identity reuse, bilingual rendering, process ordering and escaping, optional process-badge validation, safe embed URLs, section ordering, safe relative play paths, and YouTube output.
+- Merge the latest `dev` process implementation into the isolated Midas branch before implementation. Resolve the two render paths into one section-based renderer rather than copying Berry Street's component or changing its visible output.
 - `npm test`, `npm run check`, and `git diff --check` must pass before each implementation-phase commit.
-- Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths. Confirm the engineering narrative appears before the gameplay iframe and that the badge remains legible without affecting text accessibility.
+- Run a local HTTP server and verify the case study in English and Chinese at desktop and mobile widths. Confirm the numbered process appears before the gameplay iframe and that the badge remains legible without affecting text accessibility.
 - Attempt playback in the real iframe environment. If YouTube rejects the embed, record the observed error and verify that the visible watch link still opens the confirmed working watch page.
 - Open the standalone WebGL page over HTTP, verify all four runtime resources return successfully, and confirm the loader reaches Unity initialization rather than a missing-path error.
 - After branch push, verify the branch contents and public-page path assumptions without changing the repository's configured Pages source.

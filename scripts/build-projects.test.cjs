@@ -92,3 +92,29 @@ test('journey is optional and can be empty',()=>{const doc=fixture();delete doc.
 test('selected order and overrides do not mutate canonical summaries',()=>{const doc=fixture();const result=run(doc);assert.deepEqual(result.selected.map(x=>x.id),doc.selected.map(x=>x.id));const item=result.selected.find(x=>x.description);assert.ok(item);assert.deepEqual(result.projects.find(x=>x.id===item.id).summary,[doc.projects.find(x=>x.id===item.id).summary.en,doc.projects.find(x=>x.id===item.id).summary.zh]);});
 test('draft projects and editor metadata are excluded',()=>{const doc=fixture();doc.projects.push({...doc.projects[0],id:'private-draft',published:false});doc.projects[0].editor_notes='PRIVATE_SENTINEL';const result=run(doc);assert.ok(!result.projects.some(x=>x.id==='private-draft'));assert.ok(!JSON.stringify(result).includes('PRIVATE_SENTINEL'));});
 test('broken selections, duplicates, and missing translations fail',()=>{let doc=fixture();doc.selected.push({id:'missing'});assert.throws(()=>run(doc),/missing or unpublished/);doc=fixture();doc.projects.push(doc.projects[0]);assert.throws(()=>run(doc),/duplicate/);doc=fixture();delete doc.projects[0].summary.zh;assert.throws(()=>run(doc),/en and zh/);doc=fixture();doc.projects.find(p=>p.id===doc.selected[0].id).published=false;assert.throws(()=>run(doc),/unpublished/);});
+test('DaisyWorld publishes only the verified bilingual course case study',()=>{
+ const doc=fixture();
+ const source=doc.projects.find(project=>project.id==='daisyworld');
+ const project=run(doc).projects.find(project=>project.id==='daisyworld');
+ assert.ok(project);
+ assert.deepEqual(project.name,['DaisyWorld — Exploring Emergence','DaisyWorld（探索涌现与环境反馈）']);
+ assert.deepEqual(project.date,['May 2025','2025年5月']);
+ assert.equal(project.region,'au');
+ assert.equal(project.type,'academic');
+ assert.deepEqual(project.summary,[
+  "A three-person agent-based modelling project that reimplemented NetLogo's DaisyWorld in Python to explore how local plant–environment interactions can produce system-level climate feedback.",
+  '一个三人合作的多智能体建模项目：用 Python 复现 NetLogo 的 DaisyWorld，探索植物与局部环境的简单互动如何形成系统层面的气候反馈。',
+ ]);
+ assert.deepEqual(project.work,[
+  ['Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.','搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。'],
+  ['Added the notebook-based data-inspection workflow and implemented substantial parts of the pollution/Lucky Clover extension, including pollution zones and spread, visual overlays, and pollution-dependent mutation and ageing behaviour.','加入基于 notebook 的数据检查流程，并实现污染/Lucky Clover 扩展的重要部分，包括污染区域与传播、可视化覆盖层，以及受污染程度影响的变异和衰老逻辑。'],
+ ]);
+ assert.ok(project.tech.includes('Python'));
+ assert.ok(project.tech.includes('Pygame'));
+ assert.ok(project.tech.includes('Jupyter Notebook'));
+ assert.ok(project.tech.includes('pandas'));
+ assert.ok(project.keywords.includes('agent-based modelling'));
+ assert.ok(project.keywords.includes('complex systems'));
+ assert.ok(!doc.selected.some(item=>item.id==='daisyworld'));
+ for(const field of ['logo','gallery','demo','links','process','journey','architecture']) assert.equal(source[field],undefined);
+});

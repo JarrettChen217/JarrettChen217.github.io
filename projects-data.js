@@ -994,8 +994,8 @@ const PROJECTS = {
     {
       "id": "daisyworld",
       "name": [
-        "DaisyWorld — Agent-Based Simulation",
-        "DaisyWorld（基于智能体的仿真）"
+        "DaisyWorld — Exploring Emergence",
+        "DaisyWorld（探索涌现与环境反馈）"
       ],
       "date": [
         "May 2025",
@@ -1003,35 +1003,34 @@ const PROJECTS = {
       ],
       "region": "au",
       "type": "academic",
-      "tech": "Python, Pygame, NetLogo, Jupyter",
+      "tech": "Python, Pygame, Jupyter Notebook, pandas",
       "summary": [
-        "A Python climate simulation extending DaisyWorld with environmental effects.",
-        "使用环境影响机制扩展 DaisyWorld 的 Python 气候仿真。"
+        "A three-person agent-based modelling project that reimplemented NetLogo's DaisyWorld in Python to explore how local plant–environment interactions can produce system-level climate feedback.",
+        "一个三人合作的多智能体建模项目：用 Python 复现 NetLogo 的 DaisyWorld，探索植物与局部环境的简单互动如何形成系统层面的气候反馈。"
       ],
       "background": [
-        "The model explores feedback between organisms and their environment in a grid world. Separate original and extended models support comparison.",
-        "模型在网格世界中探索生物与环境之间的反馈，原始模型与扩展模型分别实现以支持对比。"
+        "Developed for the University of Melbourne's SWEN90004 Modelling Complex Software Systems course, the project modelled black and white daisies, bare soil, local temperature, reproduction, ageing, and heat diffusion on a toroidal grid. We used the model to investigate whether plant populations with different albedos could buffer temperature change relative to bare ground. A Pygame view made the evolving world visible, while Jupyter notebooks supported data inspection. The extension code introduced spreading pollution and a Lucky Clover mutation mechanism, but the final experimental conclusions have not yet been recovered from the report, so no quantitative result is claimed here.",
+        "这是墨尔本大学 SWEN90004“复杂软件系统建模”课程中的团队项目。模型在环形网格中表示黑、白雏菊、裸地、局部温度、繁殖、衰老与热扩散，并围绕“不同反照率的植物群体能否相对裸地缓冲温度变化”展开研究。项目用 Pygame 展示世界状态，并通过 Jupyter notebook 检查仿真数据；扩展代码加入了污染扩散和 Lucky Clover 变异机制。由于最终报告中的实验结论尚未找回，这里不写定量结果。"
       ],
       "work": [
         [
-          "Reimplemented the daisy albedo-feedback model in Python.",
-          "使用 Python 重新实现雏菊反照率反馈模型。"
+          "Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.",
+          "搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。"
         ],
         [
-          "Added pollution diffusion, mutation behaviour, and an additional species.",
-          "加入污染扩散、变异行为与新增物种。"
-        ],
-        [
-          "Visualised model states with Pygame and analysed simulation output in notebooks.",
-          "使用 Pygame 可视化模型状态，在 notebook 中分析仿真输出。"
+          "Added the notebook-based data-inspection workflow and implemented substantial parts of the pollution/Lucky Clover extension, including pollution zones and spread, visual overlays, and pollution-dependent mutation and ageing behaviour.",
+          "加入基于 notebook 的数据检查流程，并实现污染/Lucky Clover 扩展的重要部分，包括污染区域与传播、可视化覆盖层，以及受污染程度影响的变异和衰老逻辑。"
         ]
       ],
       "keywords": [
-        "simulation",
-        "climate",
-        "visualisation",
-        "仿真",
-        "气候"
+        "agent-based modelling",
+        "complex systems",
+        "emergence",
+        "environmental feedback",
+        "多智能体建模",
+        "复杂系统",
+        "涌现",
+        "环境反馈"
       ]
     },
     {

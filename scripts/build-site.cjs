@@ -9,6 +9,7 @@ const PUBLIC_FILES = [
   'projects-data.js',
   'styles.css',
 ];
+const PUBLIC_DIRECTORIES = ['assets', 'play'];
 
 function buildSite({ root = ROOT, output = path.join(root, '_site') } = {}) {
   const resolvedRoot = path.resolve(root);
@@ -18,9 +19,11 @@ function buildSite({ root = ROOT, output = path.join(root, '_site') } = {}) {
   for (const file of PUBLIC_FILES) {
     fs.copyFileSync(path.join(resolvedRoot, file), path.join(resolvedOutput, file));
   }
-  fs.cpSync(path.join(resolvedRoot, 'assets'), path.join(resolvedOutput, 'assets'), {
-    recursive: true,
-  });
+  for (const directory of PUBLIC_DIRECTORIES) {
+    fs.cpSync(path.join(resolvedRoot, directory), path.join(resolvedOutput, directory), {
+      recursive: true,
+    });
+  }
   fs.writeFileSync(path.join(resolvedOutput, '.nojekyll'), '');
   return resolvedOutput;
 }
@@ -29,4 +32,4 @@ if (require.main === module) {
   console.log(`Built static site at ${buildSite()}`);
 }
 
-module.exports = { buildSite, PUBLIC_FILES };
+module.exports = { buildSite, PUBLIC_FILES, PUBLIC_DIRECTORIES };

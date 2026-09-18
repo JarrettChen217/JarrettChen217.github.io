@@ -1792,41 +1792,195 @@ const PROJECTS = {
     {
       "id": "java-concurrency",
       "name": [
-        "Java Concurrency & Formal Verification",
-        "Java Concurrency & Formal Verification（并发与形式化验证）"
+        "Mine Automation Verification — Java Concurrency",
+        "矿山自动化验证 — Java 并发、JBMC 与 Jazzer"
       ],
       "date": [
-        "Oct 2025 – Dec 2025",
-        "2025年10月 – 2025年12月"
+        "Nov 2025 – Dec 2025",
+        "2025年11月 – 2025年12月"
       ],
       "region": "ny",
       "type": "academic",
-      "tech": "Java, Jazzer, JBMC",
+      "tech": "Java 17, Maven, JUnit 5, JBMC, Jazzer, JaCoCo",
       "summary": [
-        "Investigating Java concurrency failures through fuzz testing and model checking.",
-        "通过模糊测试与模型检查研究 Java 并发故障。"
+        "A two-person formal-verification project that extended an existing Java mine automation simulation with bounded safety checks, coverage-guided fuzzing, and token-controlled scheduling to investigate concurrency bugs and improve the reproducibility of selected thread interleavings.",
+        "一个两人合作的形式化验证项目：在既有 Java 矿山自动化并发模拟上，引入有界安全性检查、覆盖率引导模糊测试和 token 控制的线程调度，用于研究并发缺陷，并提升特定线程交错的可复现性。"
       ],
       "background": [
-        "The coursework examines how thread interleavings and circular lock dependencies can lead to deadlocks.",
-        "课程项目研究线程交错与循环锁依赖如何导致死锁。"
+        "For Columbia CSEE W6863 in Fall 2025, the team extended an existing mine simulation in which carts move through an elevator and single-capacity stations. Under contention, carts and engines can enter circular-wait states; the project added verification and testing capability rather than rebuilding the simulator from scratch.",
+        "在 Columbia CSEE W6863（2025年秋季）中，团队扩展了一个既有矿山模拟系统：矿车经过电梯和单容量站点。在资源竞争下，矿车与运输线程可能形成循环等待；项目重点是新增验证与测试能力，而非从零重建模拟器。"
       ],
       "work": [
         [
-          "Analysed lock contention and thread-safety behaviour.",
-          "分析锁竞争与线程安全行为。"
+          "Brought and adapted the mine simulation used as the verification subject from an earlier undergraduate course project.",
+          "提供并改造此前本科课程项目中的矿山模拟系统，作为本项目的验证对象。"
         ],
         [
-          "Used Jazzer and JBMC to investigate failing execution paths.",
-          "使用 Jazzer 与 JBMC 研究失败执行路径。"
+          "Led the core implementation and iterative debugging of the token-controlled scheduling extension.",
+          "主导 token-controlled scheduling 扩展的核心实现与迭代调试。"
+        ],
+        [
+          "Implemented or refined the injectable pause strategy, fuzz entry points, progress/deadlock monitoring, engine step granularity, and selected synchronization fixes.",
+          "实现或完善可注入暂停策略、fuzz 入口、进度与死锁监测、引擎步骤粒度及部分同步修复。"
+        ],
+        [
+          "Organized the repository and finalized architecture, fuzzing, and JBMC documentation.",
+          "整理仓库结构，并完成架构、fuzzing 与 JBMC 文档。"
         ]
+      ],
+      "journey": [
+        {
+          "title": [
+            "From timing to explicit scheduling",
+            "从时序依赖到显式调度"
+          ],
+          "body": [
+            "The fuzz input selects which thread role may advance by one logical step. This made selected interleavings explicit and replayable instead of relying only on JVM timing.",
+            "fuzz 输入决定哪个线程角色可以推进一个逻辑步骤，使特定线程交错能够被明确控制与回放，而不只依赖 JVM 的时序随机性。"
+          ]
+        },
+        {
+          "title": [
+            "Reach the missing intermediate states",
+            "到达此前遗漏的中间状态"
+          ],
+          "body": [
+            "Iteration hooks, a progress/deadlock watcher, and splitting the Engine receive/deliver transition into two controllable steps let the harness exercise states a coarser model missed.",
+            "通过迭代 hook、进度与死锁监测，以及把 Engine 的 receive/deliver 转换拆成两个可控制步骤，测试框架能够覆盖较粗粒度模型遗漏的状态。"
+          ]
+        },
+        {
+          "title": [
+            "Evaluate with bounded checks and concurrent exploration",
+            "结合有界检查与并发探索进行评估"
+          ],
+          "body": [
+            "JBMC harnesses checked bounded safety properties of deterministic components, while Jazzer explored liveness failures in the concurrent composition with a progress/deadlock oracle.",
+            "JBMC harness 检查确定性组件在有限边界内的安全性质；Jazzer 则结合进度与死锁 oracle 探索完整并发组合中的活性问题。"
+          ]
+        }
+      ],
+      "architecture": [
+        {
+          "title": [
+            "JBMC bounded safety checks",
+            "JBMC 有界安全性检查"
+          ],
+          "body": [
+            "Harnesses target deterministic components and selected safety properties within explicit bounds.",
+            "Harness 针对确定性组件与选定安全性质进行有限边界内的检查。"
+          ]
+        },
+        {
+          "title": [
+            "Jazzer concurrency exploration",
+            "Jazzer 并发探索"
+          ],
+          "body": [
+            "Coverage-guided inputs drive the concurrent composition and expose selected liveness failures.",
+            "覆盖率引导输入驱动完整并发组合，并暴露选定的活性故障。"
+          ]
+        },
+        {
+          "title": [
+            "Token-controlled scheduling",
+            "Token 控制调度"
+          ],
+          "body": [
+            "A gated controller releases a chosen thread role for one logical step while monitoring progress.",
+            "gated controller 每次释放指定线程角色推进一个逻辑步骤，并持续监测进度。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/java-concurrency/java-concurrency-token-controller-1600.webp",
+          "thumbnail": "assets/projects/java-concurrency/java-concurrency-token-controller-800.webp",
+          "width": 1600,
+          "height": 900,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Fuzz input selects a thread token, and the controller opens one matching thread lane for a single iteration while other lanes wait.",
+            "fuzz 输入选择线程 token；控制器只为匹配的线程通道开放一次迭代，其他通道保持等待。"
+          ],
+          "caption": [
+            "Token-controlled scheduling made selected interleavings explicit and replayable.",
+            "Token 控制调度让特定线程交错能够被明确控制与回放。"
+          ]
+        },
+        {
+          "src": "assets/projects/java-concurrency/java-concurrency-system-model-1600.webp",
+          "thumbnail": "assets/projects/java-concurrency/java-concurrency-system-model-800.webp",
+          "width": 1600,
+          "height": 976,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "Mine carts travel from an elevator through single-capacity stations connected by engine threads, then return to the elevator.",
+            "矿车从电梯出发，经过由运输线程连接的单容量站点后返回电梯。"
+          ],
+          "caption": [
+            "Mine workflow context for investigating circular-wait states under contention.",
+            "用于研究资源竞争下循环等待状态的矿山工作流背景。"
+          ]
+        },
+        {
+          "src": "assets/projects/java-concurrency/java-concurrency-coverage-summary-1600.webp",
+          "thumbnail": "assets/projects/java-concurrency/java-concurrency-coverage-summary-800.webp",
+          "width": 1600,
+          "height": 341,
+          "thumbnailWidth": 800,
+          "group": "engineering",
+          "alt": [
+            "JaCoCo summary reporting 66 percent instruction coverage and 65 percent branch coverage for the final project configuration.",
+            "JaCoCo 汇总显示最终项目配置的 66% 指令覆盖率与 65% 分支覆盖率。"
+          ],
+          "caption": [
+            "Final-report JaCoCo result: 66% instruction and 65% branch coverage; this portfolio pass did not rerun the experiment.",
+            "最终报告记录的 JaCoCo 结果：66% 指令覆盖率、65% 分支覆盖率；本次作品集整理未重新运行实验。"
+          ]
+        }
+      ],
+      "boundary": [
+        "The final report recorded 66% instruction coverage and 65% branch coverage across the project. These results describe structural reachability in that reported experiment, not a proof of whole-system deadlock freedom or exhaustive schedule exploration.",
+        "最终报告记录了项目整体 66% 的指令覆盖率和 65% 的分支覆盖率。这些结果描述的是该次实验中的结构可达性，不代表已证明整个系统无死锁，也不代表穷尽了所有调度交错。"
+      ],
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Yinfeng Chai",
+            "Yinfeng Chai"
+          ],
+          "url": "https://github.com/chai-yinfeng"
+        }
       ],
       "keywords": [
         "verification",
         "testing",
         "deadlock",
+        "token-controlled scheduling",
+        "Java concurrency",
         "并发",
         "死锁",
-        "测试"
+        "测试",
+        "形式化验证"
+      ],
+      "links": [
+        {
+          "label": [
+            "Code",
+            "代码"
+          ],
+          "url": "https://github.com/chai-yinfeng/Mine-Automation-System"
+        }
       ]
     }
   ]

@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 design/archive/
+_site/
+playwright-report/
+test-results/

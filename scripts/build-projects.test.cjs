@@ -38,6 +38,14 @@ test('gameplay mechanics reject unsafe or duplicate steps and incomplete transla
  ];
  for(const change of changes){const doc=fixture();const p=doc.projects.find(project=>project.id==='avl-visualisation');p.mechanics=mechanics();change(p.mechanics);assert.throws(()=>run(doc),/mechanics/);}
 });
+test('gameplay mechanics render safely in bilingual section order and remain optional',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(project=>project.id==='avl-visualisation');p.mechanics=mechanics();p.mechanics.steps[0].body.en='Movement creates <gold> tiles.';p.process=process();p.sectionOrder=['background','mechanics','process'];
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('avl-visualisation')",context);
+ assert.match(html,/class="project-mechanics"/);assert.match(html,/class="mechanics-flow"/);assert.match(html,/id="mechanic-create"/);assert.match(html,/Movement creates &lt;gold&gt; tiles\./);assert.ok(html.indexOf('Background')<html.indexOf('project-mechanics'));assert.ok(html.indexOf('project-mechanics')<html.indexOf('project-process'));
+ html=vm.runInContext("language='zh';detail('avl-visualisation')",context);assert.match(html,/游戏机制/);assert.match(html,/留下黄金路径/);assert.match(html,/移动会转化脚下的地面。/);assert.ok(!html.includes('Leave a golden path'));
+ assert.ok(!vm.runInContext("detail('online-ordering')",context).includes('project-mechanics'));
+});
 test('project experience fields compile bilingual public data and strip research metadata',()=>{
  const doc=fixture();const source=doc.projects.find(project=>project.id==='avl-visualisation');Object.assign(source,midasExtras(),{researchNotes:'/private/report.pdf'});
  const project=run(doc).projects.find(item=>item.id==='avl-visualisation');

@@ -306,8 +306,12 @@ test('DaisyWorld publishes a verified bilingual course case study with a local n
  assert.equal(project.region,'au');
  assert.equal(project.type,'academic');
  assert.deepEqual(project.summary,[
-  "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
-  '墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。',
+  "A two-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+  '墨尔本大学 SWEN90004“复杂软件系统建模”课程中的两人合作项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。',
+ ]);
+ assert.deepEqual(project.members,[
+  {name:['Hao Chen','Hao Chen'],url:'https://github.com/JarrettChen217'},
+  {name:['Junhao Zhu','Junhao Zhu'],url:'https://github.com/junhaozhu1'},
  ]);
  assert.deepEqual(project.work,[
   ['Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.','搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。'],

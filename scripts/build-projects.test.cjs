@@ -325,3 +325,38 @@ test('DaisyWorld publishes a verified bilingual course case study with a local n
  assert.match(project.background[1],/污染区域/);
  for(const field of ['logo','gallery','links','process','journey','architecture']) assert.equal(source[field],undefined);
 });
+test('Tetress publishes a bounded bilingual two-stage course case study with linked members',()=>{
+ const vm=require('node:vm');const doc=fixture();const project=run(doc).projects.find(item=>item.id==='tetress');
+ assert.ok(project);
+ assert.deepEqual(project.name,['Tetress — A* Search & MCTS Game Agent','Tetress — A* 搜索与 MCTS 博弈智能体']);
+ assert.deepEqual(project.date,['March 2024 to May 2024 · University of Melbourne · COMP30024 Artificial Intelligence · Semester 1, 2024','2024年3月 – 2024年5月 · 墨尔本大学 · COMP30024 Artificial Intelligence · 2024年第一学期']);
+ assert.deepEqual(project.team,['ByteBrainers','ByteBrainers']);
+ assert.deepEqual(project.members,[
+  {name:['Hao Chen','Hao Chen'],url:'https://github.com/JarrettChen217'},
+  {name:['Jiayi Sun','Jiayi Sun'],url:'https://github.com/JiayiSun666'}
+ ]);
+ assert.match(project.tech,/Python 3\.12/);assert.match(project.tech,/NumPy/);assert.match(project.tech,/priority queue/);assert.match(project.tech,/self-play testing/);
+ assert.equal(project.work.length,3);
+ assert.deepEqual(project.journey.map(item=>item.title),[
+  ['Part A — Single-player heuristic search','Part A — 单人启发式搜索'],
+  ['Part B — Two-player game agent','Part B — 双人博弈智能体'],
+  ['Local self-play & course tournament','本地自对弈与课程锦标赛']
+ ]);
+ assert.match(project.boundary[0],/not a course leaderboard result/);assert.match(project.boundary[1],/课程排行榜成绩/);
+ assert.ok(!doc.selected.some(item=>item.id==='tetress'));
+ assert.equal(project.gallery.length,7);
+ assert.deepEqual(project.gallery.map(item=>item.group),['engineering','engineering','engineering','engineering','engineering','engineering','engineering']);
+ assert.ok(project.gallery.every(item=>item.src.startsWith('assets/projects/tetress/')&&item.thumbnail.startsWith('assets/projects/tetress/')&&item.alt.every(Boolean)&&item.caption.every(Boolean)));
+ assert.deepEqual(project.gallery.slice(-3).map(item=>item.src),[
+  'assets/projects/tetress/tetress-astar-search-flow.webp',
+  'assets/projects/tetress/tetress-mcts-class-model.webp',
+  'assets/projects/tetress/tetress-mcts-turn-sequence.webp'
+ ]);
+ for(const field of ['links','process','architecture']) assert.equal(project[field],undefined);
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('tetress')",context);
+ assert.match(html,/href="https:\/\/github\.com\/JarrettChen217" target="_blank" rel="noopener">Hao Chen<\/a>/);assert.match(html,/href="https:\/\/github\.com\/JiayiSun666" target="_blank" rel="noopener">Jiayi Sun<\/a>/);assert.match(html,/MCTS selection, expansion, random simulation\/rollout and backpropagation/);assert.match(html,/class="detail-section project-gallery"/);assert.match(html,/A\* reach heuristic/);assert.match(html,/tetress-astar-search-flow\.webp/);assert.match(html,/tetress-mcts-class-model\.webp/);assert.match(html,/tetress-mcts-turn-sequence\.webp/);
+ html=vm.runInContext("language='zh';detail('tetress')",context);
+ assert.match(html,/Tetress — A\* 搜索与 MCTS 博弈智能体/);assert.match(html,/UCB 引导的节点选择/);assert.ok(!html.includes('MCTS selection, expansion'));
+});

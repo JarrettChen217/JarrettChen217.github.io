@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Tetress MCTS turn sequence</title>
+  <desc id="desc">A UML-style sequence diagram showing an agent call, time-budgeted Monte Carlo tree search loop, selected action, and tree-root reuse after game-state update.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#527288"/></marker>
+    <style>
+      .bg{fill:#f7fafb}.title{font:700 36px Arial,sans-serif;fill:#1d3443}.sub{font:400 18px Arial,sans-serif;fill:#657986}.head{font:700 20px Arial,sans-serif;fill:#1d3443}.text{font:400 16px Arial,sans-serif;fill:#46606f}.note{font:600 15px Arial,sans-serif;fill:#527288}.box{fill:#fff;stroke:#a9c0cc;stroke-width:2}.loop{fill:#edf7f4;stroke:#4c957b;stroke-width:2}.line{fill:none;stroke:#527288;stroke-width:2.5;marker-end:url(#arrow)}.return{fill:none;stroke:#7893a2;stroke-width:2;stroke-dasharray:7 7;marker-end:url(#arrow)}.life{stroke:#b7cbd5;stroke-width:2;stroke-dasharray:5 7}.activation{fill:#dbeef2;stroke:#4a91a2;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect class="bg" width="1400" height="900" rx="24"/>
+  <text class="title" x="72" y="82">Part B · MCTS turn sequence</text><text class="sub" x="72" y="116">One decision cycle, including dynamic budgeting and tree-root reuse</text>
+  <rect class="box" x="120" y="165" width="180" height="62" rx="12"/><text class="head" x="177" y="204">Agent</text>
+  <rect class="box" x="470" y="165" width="220" height="62" rx="12"/><text class="head" x="511" y="204">MCTS function</text>
+  <rect class="box" x="850" y="165" width="205" height="62" rx="12"/><text class="head" x="897" y="204">TreeNode</text>
+  <rect class="box" x="1165" y="165" width="170" height="62" rx="12"/><text class="head" x="1195" y="204">Board state</text>
+  <path class="life" d="M210 227 V810"/><path class="life" d="M580 227 V810"/><path class="life" d="M952 227 V810"/><path class="life" d="M1250 227 V810"/>
+  <path class="line" d="M210 275 H580"/><text class="text" x="280" y="264">action(time_remaining)</text><rect class="activation" x="568" y="275" width="24" height="455" rx="6"/>
+  <path class="line" d="M580 326 H952"/><text class="text" x="636" y="315">reuse prior root or create root</text><rect class="activation" x="940" y="326" width="24" height="350" rx="6"/>
+  <rect class="loop" x="440" y="370" width="620" height="256" rx="16"/><text class="note" x="466" y="402">loop · simulation budget from time remaining, prior rollout depth, and branching factor</text>
+  <path class="line" d="M952 444 H1250"/><text class="text" x="1026" y="431">evaluate legal actions</text>
+  <path class="return" d="M1250 490 H952"/><text class="text" x="1024" y="478">legal actions + board score</text>
+  <text class="note" x="510" y="544">TreeNode iteration</text><text class="text" x="510" y="578">1. select by UCB   2. expand next action</text><text class="text" x="510" y="608">3. random rollout   4. backpropagate wins / playouts</text>
+  <path class="return" d="M952 670 H580"/><text class="text" x="654" y="658">best child + simulation count</text>
+  <path class="return" d="M580 734 H210"/><text class="text" x="292" y="722">selected PlaceAction</text>
+  <path class="line" d="M210 770 H1250"/><text class="text" x="530" y="758">update(color, action) · apply piece and clear completed line</text>
+  <path class="return" d="M1250 810 H210"/><text class="text" x="510" y="838">reuse matching child as next root; otherwise reset tree</text>
+</svg>

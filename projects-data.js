@@ -1804,40 +1804,231 @@ const PROJECTS = {
     {
       "id": "tetress",
       "name": [
-        "Tetress — Search & Game Agents",
-        "Tetress（搜索与博弈智能体）"
+        "Tetress — A* Search & MCTS Game Agent",
+        "Tetress — A* 搜索与 MCTS 博弈智能体"
       ],
       "date": [
-        "Mar 2024 – May 2024",
-        "2024年3月 – 2024年5月"
+        "March 2024 to May 2024 · University of Melbourne · COMP30024 Artificial Intelligence · Semester 1, 2024",
+        "2024年3月 – 2024年5月 · 墨尔本大学 · COMP30024 Artificial Intelligence · 2024年第一学期"
       ],
       "region": "au",
       "type": "academic",
-      "tech": "Python, A*, Monte Carlo Tree Search",
+      "tech": "Python 3.12, NumPy, A*, priority queue, heuristic search, Monte Carlo Tree Search, UCB, self-play testing",
       "summary": [
-        "Heuristic search and game-playing agents for single-player and two-player Tetress.",
-        "面向单人及双人 Tetress 的启发式搜索与博弈智能体。"
+        "Co-developed a two-stage AI project for Tetress: A*-based heuristic planning for a single-player task, followed by an MCTS game agent with heuristic move ordering and adaptive time allocation.",
+        "与 Jiayi Sun 共同完成的两阶段 AI 项目：先以基于 A* 的启发式搜索规划单人任务，再构建结合启发式落子排序与动态时间分配的 MCTS 博弈智能体。"
       ],
       "background": [
-        "A two-part AI coursework project covering search-space exploration and decisions under adversarial play.",
-        "两阶段 AI 课程项目，涵盖搜索空间探索与对抗博弈决策。"
+        "Tetress is an 11×11 toroidal strategy game in which players place tetrominoes and completed rows or columns clear. This two-person University of Melbourne COMP30024 Artificial Intelligence project by ByteBrainers connected a planning task with adversarial play on the same game model.",
+        "Tetress 是一款基于 11×11 环面棋盘的策略游戏：玩家放置四格骨牌，填满的行或列会被清除。ByteBrainers 在墨尔本大学 COMP30024 Artificial Intelligence 课程中以两人合作的形式，在同一游戏模型上衔接了规划任务与对抗博弈。"
       ],
       "work": [
         [
-          "Implemented an A* solver and iterated on heuristic estimates.",
-          "实现 A* 求解器并迭代启发式估计。"
+          "The overall project and reports were co-developed by Hao Chen and Jiayi Sun.",
+          "项目整体及两份报告由 Hao Chen 与 Jiayi Sun 共同完成。"
         ],
         [
-          "Built MCTS selection, backpropagation, time allocation, and tree-root reuse.",
-          "实现 MCTS 选择、回传、时间分配与树根复用。"
+          "Hao's repository history covers tetromino representation, legal-action generation, priority-queue search, A* heuristic iterations, major MCTS stages, tree reuse, and time-management experiments.",
+          "Hao 的仓库记录覆盖四格骨牌表示、合法动作生成、优先队列搜索、A* 启发函数迭代、MCTS 核心阶段、树复用与时间管理实验。"
+        ],
+        [
+          "Jiayi's recorded Part B work covers heuristic scoring, reducing self-elimination, opponent-mobility adjustments, and simulation-boost fixes.",
+          "Jiayi 记录在案的 Part B 工作涵盖启发式评分、减少自我淘汰、基于对手行动空间的调整，以及模拟加速修复。"
         ]
+      ],
+      "workHeading": [
+        "Collaboration & contribution",
+        "协作与贡献"
+      ],
+      "journey": [
+        {
+          "title": [
+            "Part A — Single-player heuristic search",
+            "Part A — 单人启发式搜索"
+          ],
+          "body": [
+            "Generated legal tetromino placements and used a priority queue with an f(n)=g(n)+h(n)-style score. The A*-based heuristic estimated the pieces needed to reach and fill a target row or column, searching for a low-cost sequence that clears a designated target token.",
+            "生成合法四格骨牌落子，并以带有 f(n)=g(n)+h(n) 风格评分的优先队列进行搜索。基于 A* 的启发函数估计到达并填满目标行或列所需的棋子数，从而寻找清除指定目标格的低成本步骤序列。"
+          ]
+        },
+        {
+          "title": [
+            "Part B — Two-player game agent",
+            "Part B — 双人博弈智能体"
+          ],
+          "body": [
+            "Built a competitive agent around MCTS selection, expansion, random simulation/rollout and backpropagation, with UCB-guided node selection. Heuristic move ordering considered opponent mobility; a heuristic/greedy opening fallback handled large branching factors, while tree reuse and dynamic time allocation included a mid-game weighting strategy.",
+            "围绕 MCTS 的选择、扩展、随机模拟（rollout）与回传构建竞争型智能体，并使用 UCB 引导的节点选择。启发式落子排序纳入对手行动空间；在分支因子较大时采用启发式/Greedy 开局回退，并通过树复用与动态时间分配实施中局加权策略。"
+          ]
+        },
+        {
+          "title": [
+            "Local self-play & course tournament",
+            "本地自对弈与课程锦标赛"
+          ],
+          "body": [
+            "Compared multiple local self-play variants and participated in the course tournament environment; no course leaderboard rank is claimed.",
+            "比较多个本地自对弈版本，并参加课程 tournament 环境；不声明任何课程排行榜名次。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/tetress/tetress-astar-reach-heuristic.webp",
+          "thumbnail": "assets/projects/tetress/tetress-astar-reach-heuristic-180.webp",
+          "width": 362,
+          "height": 391,
+          "thumbnailWidth": 167,
+          "group": "engineering",
+          "alt": [
+            "A* reach heuristic annotated on an 11×11 Tetress board",
+            "标注 A* 到达启发式的 11×11 Tetress 棋盘"
+          ],
+          "caption": [
+            "Team-report illustration of the reach component in the Part A heuristic.",
+            "团队报告中展示 Part A 启发函数到达部分的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-astar-fill-heuristic.webp",
+          "thumbnail": "assets/projects/tetress/tetress-astar-fill-heuristic-180.webp",
+          "width": 357,
+          "height": 354,
+          "thumbnailWidth": 180,
+          "group": "engineering",
+          "alt": [
+            "A* fill heuristic annotated on an 11×11 Tetress board",
+            "标注 A* 填充启发式的 11×11 Tetress 棋盘"
+          ],
+          "caption": [
+            "Team-report illustration of the fill component in the Part A heuristic.",
+            "团队报告中展示 Part A 启发函数填充部分的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-tree-selection.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-tree-selection-373.webp",
+          "width": 746,
+          "height": 623,
+          "thumbnailWidth": 373,
+          "group": "engineering",
+          "alt": [
+            "Hand-drawn MCTS tree showing selection and expanded nodes",
+            "展示选择与已扩展节点的手绘 MCTS 树"
+          ],
+          "caption": [
+            "Team-report illustration of MCTS tree selection and expansion.",
+            "团队报告中展示 MCTS 树选择与扩展的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-tree-simulation.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-tree-simulation-306.webp",
+          "width": 612,
+          "height": 517,
+          "thumbnailWidth": 306,
+          "group": "engineering",
+          "alt": [
+            "Hand-drawn MCTS tree showing the selected simulation branch",
+            "展示所选模拟分支的手绘 MCTS 树"
+          ],
+          "caption": [
+            "Team-report illustration of a selected simulation branch.",
+            "团队报告中展示所选模拟分支的示意图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-astar-search-flow.webp",
+          "thumbnail": "assets/projects/tetress/tetress-astar-search-flow-700.webp",
+          "width": 1400,
+          "height": 900,
+          "thumbnailWidth": 700,
+          "group": "engineering",
+          "alt": [
+            "UML-style A* search flow from board and target through legal movement generation",
+            "展示棋盘与目标、合法动作生成、优先队列评分及清行过程的 UML 风格 A* 搜索流程图"
+          ],
+          "caption": [
+            "Self-drawn implementation map of the Part A search flow",
+            "根据项目代码重绘的 Part A 搜索流程实现图，不代表基准测试结果。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-class-model.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-class-model-700.webp",
+          "width": 1400,
+          "height": 900,
+          "thumbnailWidth": 700,
+          "group": "engineering",
+          "alt": [
+            "UML-style class model connecting Agent",
+            "连接 Agent、TreeNode、Tetrominos 与蒙特卡洛树搜索的 UML 风格类模型图"
+          ],
+          "caption": [
+            "Self-drawn Part B class model showing agent-owned tree reuse and TreeNode bookkeeping.",
+            "展示 Agent 持有的树复用和 TreeNode 记录机制的自绘 Part B 类模型图。"
+          ]
+        },
+        {
+          "src": "assets/projects/tetress/tetress-mcts-turn-sequence.webp",
+          "thumbnail": "assets/projects/tetress/tetress-mcts-turn-sequence-700.webp",
+          "width": 1400,
+          "height": 900,
+          "thumbnailWidth": 700,
+          "group": "engineering",
+          "alt": [
+            "UML-style MCTS turn sequence covering time budgeting",
+            "覆盖时间预算、选择、扩展、模拟、回传及根节点复用的 UML 风格 MCTS 回合时序图"
+          ],
+          "caption": [
+            "Self-drawn Part B turn sequence",
+            "包含动态模拟预算及下一回合根节点更新的自绘 Part B 回合时序图。"
+          ]
+        }
+      ],
+      "boundary": [
+        "The joint report recorded a 76% win rate over 200 color-balanced games against the team's local baseline; this portfolio pass did not rerun the experiment, and it is not a course leaderboard result. The A*-based search is not presented as a formally admissible or guaranteed-optimal shortest-path method.",
+        "联合报告记录了所选策略在 200 局颜色平衡对局中相对团队本地基线的 76% 胜率；本次作品集整理未复跑该实验，且这不是课程排行榜成绩。页面不将该基于 A* 的搜索表述为形式上可采纳、保证最优或保证最短路径的方法。"
+      ],
+      "team": [
+        "ByteBrainers",
+        "ByteBrainers"
+      ],
+      "members": [
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Jiayi Sun",
+            "Jiayi Sun"
+          ],
+          "url": "https://github.com/JiayiSun666"
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "journey",
+        "engineering",
+        "scope"
       ],
       "keywords": [
         "AI",
-        "game",
-        "heuristic",
+        "Tetress",
+        "A*",
+        "heuristic search",
+        "priority queue",
+        "Monte Carlo Tree Search",
+        "UCB",
+        "self-play",
         "搜索",
-        "博弈"
+        "博弈",
+        "启发式"
       ]
     },
     {

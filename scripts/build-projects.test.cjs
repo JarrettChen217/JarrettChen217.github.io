@@ -13,6 +13,28 @@ const process=()=>({
   {id:'validate',label:{en:'Validate',zh:'验证'},title:{en:'Review with the client',zh:'与客户验证'},body:{en:'Test the revised flow.',zh:'测试改进后的流程。'},demo:{...demo(),original:'/private/original.mov'}}
  ]
 });
+test('team metadata compiles only safe optional member names and HTTPS profile links',()=>{
+ const doc=fixture();const p=doc.projects.find(p=>p.id==='java-concurrency');
+ p.team=[{name:'Hao Chen'},{name:'Yinfeng Chai',url:'https://github.com/chai-yinfeng',research:'/private/team-notes.md'}];
+ const compiled=run(doc).projects.find(p=>p.id==='java-concurrency');
+ assert.deepEqual(compiled.team,[{name:'Hao Chen'},{name:'Yinfeng Chai',url:'https://github.com/chai-yinfeng'}]);
+ assert.ok(!JSON.stringify(compiled).includes('/private/'));
+ for(const team of [null,{},[{name:''}],[{name:'Hao Chen',url:'http://example.com'}],[{name:'Hao Chen',url:'not a URL'}]]){
+   const invalid=fixture();invalid.projects.find(p=>p.id==='java-concurrency').team=team;
+   assert.throws(()=>run(invalid),/team/);
+ }
+});
+test('detail renders optional bilingual team metadata with a safe external profile link',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='java-concurrency');
+ p.team=[{name:'Hao Chen'},{name:'Yinfeng Chai',url:'https://github.com/chai-yinfeng'}];
+ const context=vm.createContext({CONTENT:{projects:run(doc).projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('java-concurrency')",context);
+ assert.match(html,/class="detail-team"/);assert.match(html,/Team/);assert.match(html,/Hao Chen/);assert.match(html,/<a href="https:\/\/github\.com\/chai-yinfeng" target="_blank" rel="noopener noreferrer">Yinfeng Chai/);
+ assert.ok(!vm.runInContext("detail('online-ordering')",context).includes('detail-team'));
+ html=vm.runInContext("language='zh';detail('java-concurrency')",context);
+ assert.match(html,/团队/);assert.match(html,/Yinfeng Chai/);
+});
 test('process chapters compile ordered bilingual evidence without leaking research metadata',()=>{
  const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.process=process();
  const compiled=run(doc).projects.find(p=>p.id==='avl-visualisation');

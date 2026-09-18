@@ -108,6 +108,20 @@ function compile(source) {
       result.demo={src:asset(d.src,'mp4'),poster:asset(d.poster,'webp'),width:d.width,height:d.height,caption:bi(d.caption,`${field}.caption`)};
     }
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
+    if(p.team !== undefined){
+      if(!Array.isArray(p.team)||!p.team.length)fail(`${p.id}.team: must be a non-empty list`);
+      result.team=p.team.map((member,index)=>{
+        const field=`${p.id}.team[${index}]`;
+        if(!member||typeof member!=='object'||Array.isArray(member)||typeof member.name!=='string'||!member.name.trim())fail(`${field}: name is required`);
+        const compiled={name:member.name.trim()};
+        if(member.url!==undefined){
+          let url;try{url=new URL(member.url);}catch{fail(`${field}: invalid URL`);}
+          if(url.protocol!=='https:')fail(`${field}: URL must use HTTPS`);
+          compiled.url=url.href;
+        }
+        return compiled;
+      });
+    }
     if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
     if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
     return {published:p.published,data:result};

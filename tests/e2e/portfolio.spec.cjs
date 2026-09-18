@@ -37,11 +37,87 @@ test('switches the overview between complete English and Chinese modes', async (
   const assertClean = monitorBrowser(page);
   await page.goto('/#overview');
   await expect(page.getByRole('heading', { name: 'About me' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Selected internships' })).toBeVisible();
+  await expect(page.locator('#selected-internships article.entry')).toHaveCount(3);
+  await expect(page.locator('#selected-internships')).toHaveAttribute('id', 'selected-internships');
   await page.getByRole('button', { name: '中文' }).click();
   await expect(page.getByRole('heading', { name: '关于我' })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh');
   await page.getByRole('button', { name: 'EN' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  assertClean();
+});
+
+test('searches the Internship catalogue and opens bilingual detail routes', async ({ page }) => {
+  const assertClean = monitorBrowser(page);
+  await page.goto('/#internships');
+  await expect(page).toHaveTitle('Internship | Hao Chen');
+  await expect(page.getByRole('heading', { name: 'Internship experience' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Internship', exact: true })).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('status')).toHaveText('3 of 3 internships');
+  await expect(page.locator('.internship-gallery img')).toHaveCount(0);
+  await page.getByLabel('Search internships').fill('Cummins');
+  await expect(page.getByRole('status')).toHaveText('2 of 3 internships');
+  await page.getByLabel('Location').selectOption('remote');
+  await expect(page.getByText('No matching internships. Try another keyword or clear the filters.')).toBeVisible();
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await page.getByLabel('Search internships').fill('Cummins');
+  await page.getByRole('heading', { name: 'Cummins Inc. — Turbo Technologies' }).getByRole('link').click();
+  await expect(page).toHaveURL(/#internship\/cummins-us$/);
+  await expect(page).toHaveTitle('Cummins Inc. — Turbo Technologies | Hao Chen');
+  await expect(page.getByRole('link', { name: 'Internship', exact: true })).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('link', { name: 'Back to all internships' })).toBeVisible();
+  await expect(page.locator('.internship-gallery img')).toHaveCount(4);
+  await expect(page.locator('.internship-gallery img').first()).toHaveAttribute('loading', 'lazy');
+  await page.getByRole('link', { name: 'Back to all internships' }).click();
+  await expect(page.getByLabel('Search internships')).toHaveValue('Cummins');
+  await expect(page.getByRole('status')).toHaveText('2 of 3 internships');
+  await page.getByRole('heading', { name: 'Cummins Inc. — Turbo Technologies' }).getByRole('link').click();
+  await page.getByRole('button', { name: '中文' }).click();
+  await expect(page).toHaveURL(/#internship\/cummins-us$/);
+  await expect(page).toHaveTitle('康明斯公司 — 涡轮增压技术 | Hao Chen');
+  await expect(page.getByRole('heading', { name: '康明斯公司 — 涡轮增压技术' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '实习经历', exact: true })).toHaveAttribute('aria-current', 'page');
+  assertClean();
+});
+
+test('loads every Internship detail directly and avoids mobile overflow', async ({ page }) => {
+  const assertClean = monitorBrowser(page);
+  for (const [id, heading, imageCount] of [
+    ['cummins-us', 'Cummins Inc. — Turbo Technologies', 4],
+    ['accenture', 'Accenture Co., Ltd.', 0],
+    ['cummins-china', 'Cummins (China) Investment Co., Ltd.', 2],
+  ]) {
+    await page.goto(`/#internship/${id}`);
+    await expect(page.locator('h2.detail-heading')).toHaveText(heading);
+    await expect(page.locator('.internship-gallery img')).toHaveCount(imageCount);
+  }
+  await page.goto('/#internship/cummins-china');
+  await expect(page.getByRole('heading', { name: 'Selected work' })).toBeVisible();
+  await expect(page.locator('.internship-work-item')).toHaveCount(2);
+  await expect(page.getByRole('heading', { name: 'Mining haul-truck fuel comparison' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Heartbeat cumulative-data pipeline' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Two sprints, one delivery practice' })).toBeVisible();
+  await expect(page.locator('.process-stage')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: 'How the Digital Team moved work' })).toBeVisible();
+  await expect(page.locator('.internship-delivery-step')).toHaveCount(5);
+  await expect(page.getByRole('heading', { name: 'What I learned' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Public case-study scope' })).toBeVisible();
+  await page.goto('/#internship/unknown');
+  await expect(page.getByRole('heading', { name: 'Internship not found' })).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const route of ['#internships', '#internship/cummins-us', '#internship/cummins-china']) {
+    await page.goto(`/${route}`);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), route).toBe(true);
+  }
+  await page.goto('/#internship/cummins-china');
+  const mobileImages = page.locator('.internship-gallery img');
+  for (let index = 0; index < await mobileImages.count(); index += 1) {
+    const image = mobileImages.nth(index);
+    await image.scrollIntoViewIfNeeded();
+    await expect(image).toHaveJSProperty('complete', true);
+    expect(await image.evaluate(node => node.naturalWidth)).toBeGreaterThan(0);
+  }
   assertClean();
 });
 

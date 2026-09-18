@@ -86,3 +86,11 @@ test('renders contact and avoids horizontal overflow on mobile routes', async ({
   }
   assertClean();
 });
+
+test('keeps the content width stable when Contact does not need scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  for (const route of ['#overview', '#projects', '#contact']) {
+    await page.goto(`/${route}`);
+    await expect(page.locator('html')).toHaveCSS('scrollbar-gutter', 'stable');
+  }
+});

@@ -69,6 +69,13 @@ test('the Internship catalogue mirrors Projects without embedding gallery photos
   assert.doesNotMatch(context.__nodes['#internship-results'].innerHTML, /<p>0<\/p>/);
 });
 
+test('the Internship catalogue explains its public-content boundary in both languages', () => {
+  const context = appContext();
+  assert.match(vm.runInContext('internships()', context), /internal code, customer information, and proprietary materials are intentionally excluded/);
+  vm.runInContext("language='zh'", context);
+  assert.match(vm.runInContext('internships()', context), /内部代码、客户信息与专有资料均不展示/);
+});
+
 test('optional internship logos render in catalogue, overview, and detail without empty placeholders', () => {
   const context = appContext();
   assert.equal(vm.runInContext('CONTENT.internships.every(item => item.logo?.src && item.logo?.width > 0 && item.logo?.height > 0 && item.logo?.alt.length === 2)', context), true);

@@ -30,6 +30,45 @@ function compile(source) {
       if(![value.width,value.height].every(n=>Number.isInteger(n)&&n>0))fail(`${field}: invalid dimensions`);
       result.logo={src:value.src,width:value.width,height:value.height,alt:bi(value.alt,`${field}.alt`)};
     }
+    if(p.backgroundLink !== undefined){
+      const field=`${p.id}.backgroundLink`;const value=p.backgroundLink;
+      if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
+      let url;try{url=new URL(value.url);}catch{fail(`${field}: invalid URL`);}
+      if(url.protocol!=='https:')fail(`${field}: URL must use HTTPS`);
+      result.backgroundLink={label:bi(value.label,`${field}.label`),url:url.href};
+    }
+    if(p.process !== undefined){
+      const field=`${p.id}.process`;const value=p.process;
+      if(!value||typeof value!=='object'||Array.isArray(value))fail(`${field}: must be an object`);
+      if(!Array.isArray(value.stages)||!value.stages.length)fail(`${field}.stages: must be a non-empty list`);
+      const stageIds=new Set();
+      const localAsset=(assetPath,extension,assetField)=>{
+        if(typeof assetPath!=='string'||!new RegExp(`^assets/projects/${p.id}/[a-z0-9-]+\.${extension}$`).test(assetPath))fail(`${assetField}: invalid asset path`);
+        const file=path.join(ROOT,assetPath);
+        if(!fs.existsSync(file)||!fs.statSync(file).isFile()||!fs.realpathSync(file).startsWith(fs.realpathSync(ROOT)+path.sep))fail(`${assetField}: asset missing or outside repository`);
+        return assetPath;
+      };
+      const processImage=(item,imageField)=>{
+        if(!item||typeof item!=='object'||Array.isArray(item))fail(`${imageField}: must be an object`);
+        if(![item.width,item.height,item.thumbnailWidth].every(n=>Number.isInteger(n)&&n>0)||item.thumbnailWidth>item.width)fail(`${imageField}: invalid dimensions`);
+        return {src:localAsset(item.src,'webp',imageField),thumbnail:localAsset(item.thumbnail,'webp',imageField),width:item.width,height:item.height,thumbnailWidth:item.thumbnailWidth,alt:bi(item.alt,`${imageField}.alt`),caption:bi(item.caption,`${imageField}.caption`)};
+      };
+      const processDemo=(demo,demoField)=>{
+        if(!demo||typeof demo!=='object'||Array.isArray(demo)||![demo.width,demo.height].every(n=>Number.isInteger(n)&&n>0))fail(`${demoField}: invalid dimensions`);
+        return {src:localAsset(demo.src,'mp4',demoField),poster:localAsset(demo.poster,'webp',demoField),width:demo.width,height:demo.height,caption:bi(demo.caption,`${demoField}.caption`)};
+      };
+      result.process={heading:bi(value.heading,`${field}.heading`),intro:bi(value.intro,`${field}.intro`),stages:value.stages.map((stage,index)=>{
+        const stageField=`${field}.stages[${index}]`;
+        if(!stage||typeof stage!=='object'||Array.isArray(stage)||typeof stage.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(stage.id)||stageIds.has(stage.id))fail(`${stageField}: invalid or duplicate stage ID`);
+        stageIds.add(stage.id);
+        const compiled={id:stage.id,label:bi(stage.label,`${stageField}.label`),title:bi(stage.title,`${stageField}.title`),body:bi(stage.body,`${stageField}.body`)};
+        if(stage.contribution!==undefined)compiled.contribution=bi(stage.contribution,`${stageField}.contribution`);
+        if(stage.findings!==undefined){if(!Array.isArray(stage.findings))fail(`${stageField}.findings: must be a list`);compiled.findings=stage.findings.map((finding,i)=>bi(finding,`${stageField}.findings[${i}]`));}
+        if(stage.gallery!==undefined){if(!Array.isArray(stage.gallery))fail(`${stageField}.gallery: must be a list`);compiled.gallery=stage.gallery.map((item,i)=>processImage(item,`${stageField}.gallery[${i}]`));}
+        if(stage.demo!==undefined)compiled.demo=processDemo(stage.demo,`${stageField}.demo`);
+        return compiled;
+      })};
+    }
     if(p.journey !== undefined) {
       if(!Array.isArray(p.journey)) fail(`${p.id}.journey: must be a list`);
       result.journey=p.journey.map((entry,i)=>{

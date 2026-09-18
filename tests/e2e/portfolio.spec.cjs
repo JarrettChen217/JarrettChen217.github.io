@@ -24,7 +24,12 @@ function monitorBrowser(page) {
   return () => expect(errors, errors.join('\n')).toEqual([]);
 }
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, context }) => {
+  await context.route('https://www.youtube.com/embed/**', route => route.fulfill({
+    status: 204,
+    contentType: 'text/html',
+    body: '',
+  }));
   await page.addInitScript(() => localStorage.clear());
 });
 

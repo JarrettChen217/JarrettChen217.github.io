@@ -39,6 +39,7 @@ test('switches the overview between complete English and Chinese modes', async (
   await expect(page.getByRole('heading', { name: 'About me' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Selected internships' })).toBeVisible();
   await expect(page.locator('#selected-internships article.entry')).toHaveCount(3);
+  await expect(page.locator('#selected-internships .entry-logo')).toHaveCount(3);
   await expect(page.locator('#selected-internships')).toHaveAttribute('id', 'selected-internships');
   await page.getByRole('button', { name: '中文' }).click();
   await expect(page.getByRole('heading', { name: '关于我' })).toBeVisible();
@@ -55,6 +56,7 @@ test('searches the Internship catalogue and opens bilingual detail routes', asyn
   await expect(page.getByRole('heading', { name: 'Internship experience' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Internship', exact: true })).toHaveAttribute('aria-current', 'page');
   await expect(page.getByRole('status')).toHaveText('3 of 3 internships');
+  await expect(page.locator('#internship-results .entry-logo')).toHaveCount(3);
   await expect(page.locator('.internship-gallery img')).toHaveCount(0);
   await page.getByLabel('Search internships').fill('Cummins');
   await expect(page.getByRole('status')).toHaveText('2 of 3 internships');
@@ -90,6 +92,7 @@ test('loads every Internship detail directly and avoids mobile overflow', async 
   ]) {
     await page.goto(`/#internship/${id}`);
     await expect(page.locator('h2.detail-heading')).toHaveText(heading);
+    await expect(page.locator('.company-logo')).toBeVisible();
     await expect(page.locator('.internship-gallery img')).toHaveCount(imageCount);
   }
   await page.goto('/#internship/cummins-us');

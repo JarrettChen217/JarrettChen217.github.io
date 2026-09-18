@@ -58,7 +58,7 @@ test('the Internship catalogue mirrors Projects without embedding gallery photos
   const html = vm.runInContext('internships()', context);
   assert.match(entry, /href="#internship\/cummins-us"/);
   assert.match(entry, /Evidence-led manufacturing analytics/);
-  assert.doesNotMatch(entry, /<img/);
+  assert.doesNotMatch(entry, /assets\/internships\//);
   assert.match(html, /id="internship-search"/);
   assert.match(html, /id="internship-region"/);
   assert.match(html, /id="internship-role"/);
@@ -67,6 +67,32 @@ test('the Internship catalogue mirrors Projects without embedding gallery photos
   vm.runInContext('updateInternshipResults()', context);
   assert.match(context.__nodes['#internship-results'].innerHTML, /Evidence-led manufacturing analytics/);
   assert.doesNotMatch(context.__nodes['#internship-results'].innerHTML, /<p>0<\/p>/);
+});
+
+test('optional internship logos render in catalogue, overview, and detail without empty placeholders', () => {
+  const context = appContext();
+  assert.equal(vm.runInContext('CONTENT.internships.every(item => item.logo?.src && item.logo?.width > 0 && item.logo?.height > 0 && item.logo?.alt.length === 2)', context), true);
+
+  const entry = vm.runInContext("internshipEntry(CONTENT.internships.find(item => item.id === 'accenture'))", context);
+  assert.match(entry, /class="entry entry-with-logo"/);
+  assert.match(entry, /class="entry-logo"/);
+  assert.match(entry, /alt="Accenture logo"/);
+
+  const overviewHtml = vm.runInContext('overview()', context);
+  assert.equal((overviewHtml.match(/class="entry-logo"/g) || []).length, 3);
+
+  vm.runInContext('updateInternshipResults()', context);
+  assert.equal((context.__nodes['#internship-results'].innerHTML.match(/class="entry-logo"/g) || []).length, 3);
+
+  const detail = vm.runInContext("internshipDetail('cummins-us')", context);
+  assert.match(detail, /class="detail-title-row"/);
+  assert.match(detail, /class="company-logo"/);
+  assert.match(detail, /alt="Cummins logo"/);
+
+  const noLogoEntry = vm.runInContext("internshipEntry({...CONTENT.internships[0], logo: undefined})", context);
+  const noLogoDetail = vm.runInContext("(() => { const item = CONTENT.internships[0]; const logo = item.logo; delete item.logo; const html = internshipDetail(item.id); item.logo = logo; return html; })()", context);
+  assert.doesNotMatch(noLogoEntry, /entry-with-logo|entry-logo|<img/);
+  assert.doesNotMatch(noLogoDetail, /detail-title-row|company-logo/);
 });
 
 test('internship filters are independent and search bilingual detail content', () => {
@@ -85,11 +111,11 @@ test('individual Internship details include the right content and galleries', ()
   const missing = vm.runInContext("internshipDetail('missing')", context);
   assert.match(us, /Back to all internships/);
   assert.match(us, /Kappa DAT-reading skill/);
-  assert.equal((us.match(/<img/g) || []).length, 6);
+  assert.equal((us.match(/data-gallery-preview/g) || []).length, 6);
   assert.match(us, /Global Manufacturing colleagues in Charleston/);
-  assert.equal((accenture.match(/<img/g) || []).length, 3);
+  assert.equal((accenture.match(/data-gallery-preview/g) || []).length, 3);
   assert.match(accenture, /internship-highlights/);
-  assert.equal((china.match(/<img/g) || []).length, 2);
+  assert.equal((china.match(/data-gallery-preview/g) || []).length, 2);
   assert.match(missing, /Internship not found/);
   assert.match(missing, /href="#internships"/);
 });

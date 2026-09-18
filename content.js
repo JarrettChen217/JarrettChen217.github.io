@@ -93,3 +93,12 @@ const CONTENT = {
   selected: PROJECTS.selected,
   projects: PROJECTS.projects
 };
+
+// Company marks are optional. An internship without a matching entry keeps the
+// original text-only layout and does not reserve any visual space.
+const INTERNSHIP_LOGOS = Object.freeze({
+  'cummins-us':{src:'assets/brands/cummins-mark.svg',width:114,height:100,alt:['Cummins logo','康明斯标志']},
+  accenture:{src:'assets/brands/accenture-mark.svg',width:32,height:32,alt:['Accenture logo','埃森哲标志']},
+  'cummins-china':{src:'assets/brands/cummins-mark.svg',width:114,height:100,alt:['Cummins logo','康明斯标志']}
+});
+CONTENT.internships.forEach(internship=>{if(INTERNSHIP_LOGOS[internship.id])internship.logo=INTERNSHIP_LOGOS[internship.id];});

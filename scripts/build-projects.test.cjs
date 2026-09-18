@@ -52,6 +52,19 @@ test('background source link compiles safely and renders within the bilingual ba
 test('background source link rejects insecure, malformed and untranslated values',()=>{
  for(const backgroundLinkValue of [{...backgroundLink(),url:'http://example.com'},{...backgroundLink(),url:'not a url'},{...backgroundLink(),label:{en:'English only'}}]){const doc=fixture();doc.projects.find(p=>p.id==='berry-street').backgroundLink=backgroundLinkValue;assert.throws(()=>run(doc),/backgroundLink|Invalid URL/);}
 });
+test('members compile public bilingual names and render only verified GitHub links',()=>{
+ const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='berry-street');p.members=[
+  {name:{en:'Ziyu Wang',zh:'Ziyu Wang'}},
+  {name:{en:'Hao Chen',zh:'Hao Chen'},url:'https://github.com/JarrettChen217',source:'/private/readme.md'},
+  {name:{en:'Zikun Qiu',zh:'Zikun Qiu'}},
+  {name:{en:'Gaoyongle Zhang',zh:'Gaoyongle Zhang'},url:'https://github.com/XinMoZ'},
+  {name:{en:'Junhao Zhu',zh:'Junhao Zhu'},url:'https://github.com/junhaozhu1'}
+ ];
+ const result=run(doc);const compiled=result.projects.find(p=>p.id==='berry-street');assert.equal(JSON.stringify(compiled).includes('/private/'),false);
+ const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('berry-street')",context);assert.match(html,/Members/);assert.match(html,/Ziyu Wang/);assert.match(html,/Zikun Qiu/);assert.equal((html.match(/target="_blank" rel="noopener"/g)||[]).length,4);assert.ok(!html.includes('student.unimelb.edu.au'));
+ html=vm.runInContext("language='zh';detail('berry-street')",context);assert.match(html,/项目成员/);assert.match(html,/Ziyu Wang/);
+});
 test('project logo compiles validated local media and renders beside the bilingual detail title',()=>{
  const vm=require('node:vm');const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.logo={...logo(),source:'/private/original-logo.png'};
  const result=run(doc);const compiled=result.projects.find(p=>p.id==='avl-visualisation');assert.deepEqual(compiled.logo,{src:logo().src,width:800,height:397,alt:['Algorithms in Action project mark','Algorithms in Action 项目标识']});assert.ok(!JSON.stringify(compiled).includes('/private/original-logo.png'));

@@ -549,6 +549,41 @@ const PROJECTS = {
         "UX",
         "需求",
         "团队协作"
+      ],
+      "members": [
+        {
+          "name": [
+            "Ziyu Wang",
+            "Ziyu Wang"
+          ]
+        },
+        {
+          "name": [
+            "Hao Chen",
+            "Hao Chen"
+          ],
+          "url": "https://github.com/JarrettChen217"
+        },
+        {
+          "name": [
+            "Zikun Qiu",
+            "Zikun Qiu"
+          ]
+        },
+        {
+          "name": [
+            "Gaoyongle Zhang",
+            "Gaoyongle Zhang"
+          ],
+          "url": "https://github.com/XinMoZ"
+        },
+        {
+          "name": [
+            "Junhao Zhu",
+            "Junhao Zhu"
+          ],
+          "url": "https://github.com/junhaozhu1"
+        }
       ]
     },
     {

@@ -110,6 +110,20 @@ function compile(source) {
     if(p.boundary) result.boundary=bi(p.boundary,`${p.id}.boundary`);
     if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
     if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
+    if(p.members!==undefined){
+      if(!Array.isArray(p.members)||!p.members.length)fail(`${p.id}.members: must be a non-empty list`);
+      result.members=p.members.map((member,i)=>{
+        const field=`${p.id}.members[${i}]`;
+        if(!member||typeof member!=='object'||Array.isArray(member))fail(`${field}: must be an object`);
+        const compiled={name:bi(member.name,`${field}.name`)};
+        if(member.url!==undefined){
+          let url;try{url=new URL(member.url);}catch{fail(`${field}.url: invalid URL`);}
+          if(url.protocol!=='https:'||url.hostname!=='github.com')fail(`${field}.url: must be a GitHub HTTPS URL`);
+          compiled.url=url.href;
+        }
+        return compiled;
+      });
+    }
     return {published:p.published,data:result};
   });
   const live = projects.filter(p=>p.published).map(p=>p.data);

@@ -909,6 +909,62 @@ const PROJECTS = {
           "在后续开发阶段参与敌人生成与动画调整、场景集成及实现调试。"
         ]
       ],
+      "mechanics": {
+        "heading": [
+          "How the game works",
+          "游戏机制"
+        ],
+        "intro": [
+          "Every movement rewrites the arena: the golden path left behind can defeat enemies, but stepping onto it again also brings the curse closer to completion.",
+          "玩家每一次移动都会重塑战场：身后留下的黄金路径能够击败敌人，但自己再次踏上它，也会让诅咒更接近完成。"
+        ],
+        "steps": [
+          {
+            "id": "create-path",
+            "title": [
+              "Leave a golden path",
+              "留下黄金路径"
+            ],
+            "body": [
+              "As the Mage moves through the maze, traversed floor tiles turn into gold. Route choice therefore keeps changing the available safe space and the positions from which later encounters can be approached.",
+              "法师在迷宫中移动时，走过的地面会逐格转化为黄金。路线选择因此会持续改变可用的安全空间，以及后续战斗可以展开的位置。"
+            ]
+          },
+          {
+            "id": "manage-curse",
+            "title": [
+              "Manage the curse",
+              "控制黄金化风险"
+            ],
+            "body": [
+              "Both the player and enemies are slowed on active gold while their Goldenate meter—the game's measure of the curse—continues to rise. If the player's meter fills, the Mage turns completely to gold and the run ends.",
+              "玩家与敌人站在已激活的黄金地面上都会减速，并持续累积 Goldenate（黄金化）数值。玩家的计量条满后，法师会完全黄金化，本局游戏随之结束。"
+            ]
+          },
+          {
+            "id": "turn-danger",
+            "title": [
+              "Turn danger into offence",
+              "化陷阱为攻击"
+            ],
+            "body": [
+              "Careful routing can lure enemies onto the same trail. Filling an enemy's Goldenate meter defeats it and awards coins, while crystals gathered in the maze provide another resource for later upgrades.",
+              "玩家可以规划路线，将敌人引到同一条黄金路径上；敌人的 Goldenate 条满后即被击败并掉落金币，迷宫中收集的水晶也能为后续升级提供资源。"
+            ]
+          },
+          {
+            "id": "reshape-field",
+            "title": [
+              "Reshape the battlefield",
+              "用神器重塑战场"
+            ],
+            "body": [
+              "Two artifact loadouts provide skills that create, remove, or chain-react with golden ground, including area-clearing ultimate abilities. Shop upgrades improve armour, movement speed, skill damage, cooldown, range, and ultimate charging.",
+              "两套神器技能可以生成、移除或连锁引爆黄金地面，并通过范围型终极技能清出空间；商店升级涵盖护甲、移动速度、技能伤害、冷却、作用范围与终极技能充能。"
+            ]
+          }
+        ]
+      },
       "process": {
         "heading": [
           "Engineering the Midas Curse",
@@ -1177,6 +1233,7 @@ const PROJECTS = {
       },
       "sectionOrder": [
         "background",
+        "mechanics",
         "process",
         "video",
         "demo",

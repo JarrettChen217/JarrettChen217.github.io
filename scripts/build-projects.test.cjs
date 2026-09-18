@@ -95,6 +95,15 @@ test('Midas uses the poster fallback when YouTube embedding is disabled',()=>{
  assert.match(html,/Watch Demo/);
  assert.match(html,/Play Game/);
 });
+test('Midas publishes the approved bilingual gameplay loop before its engineering process',()=>{
+ const result=run(fixture());const midas=result.projects.find(project=>project.id==='midas-curse-unity');
+ assert.deepEqual(midas.mechanics.steps.map(step=>step.id),['create-path','manage-curse','turn-danger','reshape-field']);
+ assert.deepEqual(midas.sectionOrder.slice(0,3),['background','mechanics','process']);
+ assert.match(midas.mechanics.steps[1].body[0],/Goldenate/);assert.match(midas.mechanics.steps[1].body[1],/黄金化/);assert.match(midas.mechanics.steps[2].body[0],/coins/);assert.match(midas.mechanics.steps[3].body[1],/终极技能/);
+ const vm=require('node:vm');const context=vm.createContext({CONTENT:{projects:result.projects},localStorage:{getItem:()=> 'en'},navigator:{language:'en'},document:{querySelectorAll(){return []},addEventListener(){},querySelector(){return {addEventListener(){}};}},window:{addEventListener(){}},setInterval(){}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\nrender\(\);\s*$/,''),context);
+ let html=vm.runInContext("detail('midas-curse-unity')",context);assert.match(html,/How the game works/);assert.match(html,/Leave a golden path/);assert.ok(html.indexOf('project-mechanics')<html.indexOf('project-process'));
+ html=vm.runInContext("language='zh';detail('midas-curse-unity')",context);assert.match(html,/游戏机制/);assert.match(html,/用神器重塑战场/);
+});
 const backgroundLink=()=>({label:{en:'Learn about the <TIPE> approach',zh:'了解 TIPE 教育方法'},url:'https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that'});
 const process=()=>({
  heading:{en:'From discovery to validation',zh:'从需求发现到验证'},

@@ -994,8 +994,8 @@ const PROJECTS = {
     {
       "id": "daisyworld",
       "name": [
-        "DaisyWorld — Agent-Based Simulation",
-        "DaisyWorld（基于智能体的仿真）"
+        "DaisyWorld — Exploring Emergence",
+        "DaisyWorld（探索涌现与环境反馈）"
       ],
       "date": [
         "May 2025",
@@ -1003,35 +1003,44 @@ const PROJECTS = {
       ],
       "region": "au",
       "type": "academic",
-      "tech": "Python, Pygame, NetLogo, Jupyter",
+      "tech": "Python, Pygame, Jupyter Notebook, pandas",
       "summary": [
-        "A Python climate simulation extending DaisyWorld with environmental effects.",
-        "使用环境影响机制扩展 DaisyWorld 的 Python 气候仿真。"
+        "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+        "墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。"
       ],
       "background": [
-        "The model explores feedback between organisms and their environment in a grid world. Separate original and extended models support comparison.",
-        "模型在网格世界中探索生物与环境之间的反馈，原始模型与扩展模型分别实现以支持对比。"
+        "SWEN90004 framed the assignment as a modelling exercise: teams reimplemented a selected NetLogo grid model, investigated its behaviour, and proposed an extension. Our Python version separates parameter configuration, simulation control, Pygame rendering, and notebook-based data inspection; black and white daisies, bare soil, local temperature, reproduction, ageing, and heat diffusion interact on a toroidal grid. Ant-colony shortest-path examples offer a useful analogy for the course's complex-systems lens: simple local pheromone feedback can accumulate into a collective route. DaisyWorld does not simulate ants or route finding; its system-level patterns arise instead from vegetation, albedo, and temperature feedback. The extension adds pollution zones and spread, pollution-dependent behaviour and visual overlays, plus a Lucky Clover mutation and pollution-mitigation pathway. These are implemented mechanisms, not reported experimental results.",
+        "SWEN90004 将作业设为一次建模练习：团队复现一个指定的 NetLogo 网格模型，考察其行为，并提出扩展。我们的 Python 版本分离了参数配置、仿真控制、Pygame 渲染与基于 notebook 的数据检查；黑、白雏菊、裸地、局部温度、繁殖、衰老与热扩散在环形网格中通过局部规则互动。蚂蚁群体寻找最短路径是理解这门课复杂系统视角的一个类比：简单的局部信息素反馈能够累积成群体路线。DaisyWorld 不模拟蚂蚁或路径寻优；它的系统层面模式来自植被、反照率与温度之间的反馈。扩展代码加入污染区域及其传播、受污染影响的行为与可视化覆盖层，以及 Lucky Clover 的变异和污染缓解路径。这些是已实现的机制，不是实验结果报告。"
       ],
       "work": [
         [
-          "Reimplemented the daisy albedo-feedback model in Python.",
-          "使用 Python 重新实现雏菊反照率反馈模型。"
+          "Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.",
+          "搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。"
         ],
         [
-          "Added pollution diffusion, mutation behaviour, and an additional species.",
-          "加入污染扩散、变异行为与新增物种。"
-        ],
-        [
-          "Visualised model states with Pygame and analysed simulation output in notebooks.",
-          "使用 Pygame 可视化模型状态，在 notebook 中分析仿真输出。"
+          "Added the notebook-based data-inspection workflow and implemented substantial parts of the pollution/Lucky Clover extension, including pollution zones and spread, visual overlays, and pollution-dependent mutation and ageing behaviour.",
+          "加入基于 notebook 的数据检查流程，并实现污染/Lucky Clover 扩展的重要部分，包括污染区域与传播、可视化覆盖层，以及受污染程度影响的变异和衰老逻辑。"
         ]
       ],
+      "demo": {
+        "src": "assets/projects/daisyworld/daisyworld-extension-local-demo.mp4",
+        "poster": "assets/projects/daisyworld/daisyworld-extension-local-poster.webp",
+        "width": 720,
+        "height": 760,
+        "caption": [
+          "A fixed-seed local macOS/Pygame capture of the extension model's grid renderer. It is a functional demonstration, not an experimental result.",
+          "使用固定随机种子录制的扩展模型本机 macOS/Pygame 网格渲染画面。该画面仅用于功能演示，不代表实验结果。"
+        ]
+      },
       "keywords": [
-        "simulation",
-        "climate",
-        "visualisation",
-        "仿真",
-        "气候"
+        "agent-based modelling",
+        "complex systems",
+        "emergence",
+        "environmental feedback",
+        "多智能体建模",
+        "复杂系统",
+        "涌现",
+        "环境反馈"
       ]
     },
     {

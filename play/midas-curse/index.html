@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Play Midas Curse, a Unity survival game by Cosmic Creators.">
+  <title>Midas Curse | Play</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <a href="../../#project/midas-curse-unity" data-en="Back to case study" data-zh="返回项目详情">Back to case study</a>
+    <span>Cosmic Creators</span>
+  </header>
+  <main>
+    <div class="intro">
+      <div>
+        <h1>Midas Curse</h1>
+        <p data-en="A Unity maze, combat, and survival game." data-zh="一款使用 Unity 开发的迷宫战斗与生存游戏。">A Unity maze, combat, and survival game.</p>
+      </div>
+      <button id="start-game" type="button" data-en="Load game (about 59 MB)" data-zh="加载游戏（约 59 MB）">Load game (about 59 MB)</button>
+    </div>
+    <p class="note" data-en="Desktop keyboard and mouse are recommended. The game loads only after you choose to start." data-zh="建议使用桌面端键盘与鼠标。只有点击开始后才会下载游戏资源。">Desktop keyboard and mouse are recommended. The game loads only after you choose to start.</p>
+    <section id="player" class="player" aria-label="Midas Curse Unity player" hidden>
+      <canvas id="unity-canvas" width="960" height="540" tabindex="0"></canvas>
+      <div id="loading" class="loading">
+        <div class="progress" role="progressbar" aria-label="Game loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+        <p id="status" aria-live="polite" data-en="Preparing the Unity player…" data-zh="正在准备 Unity 播放器……">Preparing the Unity player…</p>
+      </div>
+      <div class="player-actions">
+        <button id="fullscreen" type="button" disabled data-en="Full screen" data-zh="全屏">Full screen</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    const language=navigator.language.toLowerCase().startsWith('zh')?'zh':'en';
+    document.documentElement.lang=language;
+    document.querySelectorAll('[data-en][data-zh]').forEach(element=>{element.textContent=element.dataset[language];});
+    const canvas=document.querySelector('#unity-canvas');
+    const player=document.querySelector('#player');
+    const startButton=document.querySelector('#start-game');
+    const fullscreenButton=document.querySelector('#fullscreen');
+    const progress=document.querySelector('.progress');
+    const progressFill=progress.querySelector('span');
+    const status=document.querySelector('#status');
+    let unityInstance;
+    function setStatus(en,zh){status.textContent=language==='zh'?zh:en;}
+    function startGame(){
+      startButton.disabled=true;
+      player.hidden=false;
+      player.scrollIntoView({behavior:'smooth',block:'start'});
+      const loader=document.createElement('script');
+      loader.src='Build/midas-curse.loader.js';
+      loader.onload=()=>{
+        const config={
+          dataUrl:'Build/midas-curse.data.unityweb',
+          frameworkUrl:'Build/midas-curse.framework.js.unityweb',
+          codeUrl:'Build/midas-curse.wasm.unityweb',
+          streamingAssetsUrl:'StreamingAssets',
+          companyName:'Cosmic Creators',
+          productName:'Midas Curse',
+          productVersion:'0.1',
+          showBanner:(message,type)=>{if(type==='error')setStatus(`Unable to load the game: ${message}`,`游戏加载失败：${message}`);}
+        };
+        createUnityInstance(canvas,config,value=>{
+          const percent=Math.round(value*100);
+          progress.setAttribute('aria-valuenow',String(percent));
+          progressFill.style.width=percent+'%';
+          setStatus(`Loading game… ${percent}%`,`正在加载游戏……${percent}%`);
+        }).then(instance=>{
+          unityInstance=instance;
+          document.querySelector('#loading').hidden=true;
+          fullscreenButton.disabled=false;
+          canvas.focus();
+        }).catch(error=>{
+          startButton.disabled=false;
+          setStatus(`Unable to load the game: ${error}`,`游戏加载失败：${error}`);
+        });
+      };
+      loader.onerror=()=>{
+        startButton.disabled=false;
+        setStatus('Unable to load the Unity player. Please refresh and try again.','Unity 播放器加载失败，请刷新页面后重试。');
+      };
+      document.body.appendChild(loader);
+    }
+    startButton.addEventListener('click',startGame);
+    fullscreenButton.addEventListener('click',()=>unityInstance?.SetFullscreen(1));
+  </script>
+</body>
+</html>

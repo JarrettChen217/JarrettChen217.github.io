@@ -92,7 +92,7 @@ test('journey is optional and can be empty',()=>{const doc=fixture();delete doc.
 test('selected order and overrides do not mutate canonical summaries',()=>{const doc=fixture();const result=run(doc);assert.deepEqual(result.selected.map(x=>x.id),doc.selected.map(x=>x.id));const item=result.selected.find(x=>x.description);assert.ok(item);assert.deepEqual(result.projects.find(x=>x.id===item.id).summary,[doc.projects.find(x=>x.id===item.id).summary.en,doc.projects.find(x=>x.id===item.id).summary.zh]);});
 test('draft projects and editor metadata are excluded',()=>{const doc=fixture();doc.projects.push({...doc.projects[0],id:'private-draft',published:false});doc.projects[0].editor_notes='PRIVATE_SENTINEL';const result=run(doc);assert.ok(!result.projects.some(x=>x.id==='private-draft'));assert.ok(!JSON.stringify(result).includes('PRIVATE_SENTINEL'));});
 test('broken selections, duplicates, and missing translations fail',()=>{let doc=fixture();doc.selected.push({id:'missing'});assert.throws(()=>run(doc),/missing or unpublished/);doc=fixture();doc.projects.push(doc.projects[0]);assert.throws(()=>run(doc),/duplicate/);doc=fixture();delete doc.projects[0].summary.zh;assert.throws(()=>run(doc),/en and zh/);doc=fixture();doc.projects.find(p=>p.id===doc.selected[0].id).published=false;assert.throws(()=>run(doc),/unpublished/);});
-test('DaisyWorld publishes only the verified bilingual course case study',()=>{
+test('DaisyWorld publishes a verified bilingual course case study with a local native-window demo',()=>{
  const doc=fixture();
  const source=doc.projects.find(project=>project.id==='daisyworld');
  const project=run(doc).projects.find(project=>project.id==='daisyworld');
@@ -102,8 +102,8 @@ test('DaisyWorld publishes only the verified bilingual course case study',()=>{
  assert.equal(project.region,'au');
  assert.equal(project.type,'academic');
  assert.deepEqual(project.summary,[
-  "A three-person agent-based modelling project that reimplemented NetLogo's DaisyWorld in Python to explore how local plant–environment interactions can produce system-level climate feedback.",
-  '一个三人合作的多智能体建模项目：用 Python 复现 NetLogo 的 DaisyWorld，探索植物与局部环境的简单互动如何形成系统层面的气候反馈。',
+  "A three-person Python reimplementation and extension of NetLogo's DaisyWorld for SWEN90004 Modelling Complex Software Systems, exploring how simple local rules can accumulate into system-level environmental feedback.",
+  '墨尔本大学 SWEN90004“复杂软件系统建模”课程中的三人团队项目：用 Python 复现并扩展 NetLogo 的 DaisyWorld，探索简单的局部规则如何累积为系统层面的环境反馈。',
  ]);
  assert.deepEqual(project.work,[
   ['Built and refined core Python model infrastructure, including parameter configuration, the grid-patch abstraction, toroidal-neighbour handling, and temperature diffusion.','搭建并完善 Python 模型的核心基础，包括参数配置、网格单元抽象、环形邻域处理和温度扩散。'],
@@ -116,5 +116,23 @@ test('DaisyWorld publishes only the verified bilingual course case study',()=>{
  assert.ok(project.keywords.includes('agent-based modelling'));
  assert.ok(project.keywords.includes('complex systems'));
  assert.ok(!doc.selected.some(item=>item.id==='daisyworld'));
- for(const field of ['logo','gallery','demo','links','process','journey','architecture']) assert.equal(source[field],undefined);
+ assert.deepEqual(project.demo,{
+  src:'assets/projects/daisyworld/daisyworld-extension-local-demo.mp4',
+  poster:'assets/projects/daisyworld/daisyworld-extension-local-poster.webp',
+  width:720,
+  height:760,
+  caption:[
+   "A fixed-seed local macOS/Pygame capture of the extension model's grid renderer. It is a functional demonstration, not an experimental result.",
+   '使用固定随机种子录制的扩展模型本机 macOS/Pygame 网格渲染画面。该画面仅用于功能演示，不代表实验结果。',
+  ],
+ });
+ assert.match(project.summary[0],/SWEN90004/);
+ assert.match(project.summary[1],/SWEN90004/);
+ assert.match(project.background[0],/Ant-colony shortest-path/);
+ assert.match(project.background[0],/does not simulate ants or route finding/);
+ assert.match(project.background[1],/蚂蚁群体寻找最短路径/);
+ assert.match(project.background[1],/不模拟蚂蚁或路径寻优/);
+ assert.match(project.background[0],/pollution zones/);
+ assert.match(project.background[1],/污染区域/);
+ for(const field of ['logo','gallery','links','process','journey','architecture']) assert.equal(source[field],undefined);
 });

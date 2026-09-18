@@ -1,12 +1,22 @@
 # Personal website preview
 
-A bilingual, responsive academic-style website with Overview, Projects, project detail views, and Contact.
+A bilingual, responsive academic-style website with Overview, searchable Internship and Projects catalogues, individual detail views, and Contact.
 
 ## Local preview
 
 Run `python3 -m http.server 54839 --bind 127.0.0.1` in this directory, then open `http://localhost:54839`.
 
 ## Editing
+
+### Header brand
+
+The upper-left home link combines `assets/branding/hao-chen-header-96.png` (48px display avatar) with locally bundled Silkscreen lettering in `assets/branding/silkscreen-latin-700.woff2`. Three CSS-only pixel snowflakes animate around the avatar without moving the layout; they stop when the visitor requests reduced motion. The single `#overview` link remains keyboard-accessible and keeps the whole lockup clickable. At narrow widths, navigation occupies a separate row. The source avatar is kept in `photo-inbox/profile/hao-chen-pixel-header-source.png`.
+
+### Browser tab icon assets
+
+The favicon is the blue-hood pixel avatar on a transparent background. Public 16 / 32 / 48 px PNGs and the multi-size ICO live in `assets/branding/`; the active editable source stays in `photo-inbox/profile/hao-chen-pixel-favicon-transparent-source.png`. The earlier blue-background source remains alongside it as a preserved alternative.
+
+To replace it, run `node scripts/prepare-favicon.cjs PATH_TO_SQUARE_IMAGE` (requires macOS `sips`), then increment the favicon `?v=` values together in `index.html` to refresh browser caches. The public build copies these assets automatically. Browser page titles and the header name are independent of the favicon.
 
 ### Project images
 
@@ -39,6 +49,10 @@ selected:
   - id: social-ai
 ```
 
+Internships are configured in `content.js`. Each item has a stable `id`, bilingual company, place, role, date, excerpt and summary fields, plus `region`, `roleKey`, and `tech` values used by the Internship catalogue search and filters. Optional `team`, `background`, `work`, `process`, `delivery`, `highlights`, `boundary`, and `gallery` content appears only on `#internship/<id>` detail routes. Work entries can add public problem, role, contribution, validation, and outcome fields; all public case-study text is searchable from the catalogue. The `selectedInternships` list controls the Overview order; all three current internships are selected.
+
+Internship photos use responsive WebP derivatives in `assets/internships/`. Public derivatives can be regenerated from reviewed originals with `scripts/prepare-image.cjs`; source photos kept in internship-specific folders such as `photo-inbox/cummins-china/` remain ignored and unpublished. Catalogue entries remain text-only, while detail galleries use lazy loading and the shared accessible image preview.
+
 Projects have stable `id` values, bilingual names/descriptions/dates, `region`, `type`, `tech`, `keywords`, and `published` status. `published: false` keeps a draft out of the generated browser data. It does NOT make the YAML private if this repository is published, so never store secrets or private documents there.
 
 After editing:
@@ -54,7 +68,7 @@ Refresh the local page after building. Commit `projects.yml` and its generated `
 
 The build rejects duplicate IDs, missing translations, unknown categories, and selected IDs that are missing or unpublished. Search matches both languages, keywords, descriptions, technologies, places, and project types. Space-separated terms must all match; location and type filters combine with the query.
 
-Routes use URL fragments (for example `#project/agent-ai`), so direct links and reloads work on static hosting without server routing.
+Routes use URL fragments (for example `#project/agent-ai` and `#internship/cummins-us`), so direct links and reloads work on static hosting without server routing.
 
 Calendar progress uses July 1, 2025 through January 1, 2027 as month boundaries for the master's program. It is clamped to 0–100% and refreshed on page load and every minute. The completed bachelor's timeline is fixed at 100%. These are calendar visualizations, not academic credit calculations.
 

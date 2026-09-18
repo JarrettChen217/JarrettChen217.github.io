@@ -120,6 +120,18 @@ test('Midas publishes the approved bilingual gameplay loop before its engineerin
  let html=vm.runInContext("detail('midas-curse-unity')",context);assert.match(html,/How the game works/);assert.match(html,/Leave a golden path/);assert.ok(html.indexOf('project-mechanics')<html.indexOf('project-process'));
  html=vm.runInContext("language='zh';detail('midas-curse-unity')",context);assert.match(html,/游戏机制/);assert.match(html,/用神器重塑战场/);
 });
+test('Midas publishes the Cosmic Creators team photo with concise bilingual copy',()=>{
+ const midas=run(fixture()).projects.find(project=>project.id==='midas-curse-unity');
+ const teamPhotos=midas.gallery.filter(item=>item.group==='team');
+ assert.equal(teamPhotos.length,1);
+ assert.deepEqual(teamPhotos[0],{
+  src:'assets/projects/midas-curse-unity/team-cosmic-creators-reunion-1600.webp',
+  thumbnail:'assets/projects/midas-curse-unity/team-cosmic-creators-reunion-800.webp',
+  width:1600,height:1067,thumbnailWidth:800,group:'team',
+  alt:['Four members of Cosmic Creators at a team gathering in Melbourne','Cosmic Creators 四位成员在墨尔本小聚合照'],
+  caption:['Cosmic Creators team photo.','Cosmic Creators 团队合照。']
+ });
+});
 const backgroundLink=()=>({label:{en:'Learn about the <TIPE> approach',zh:'了解 TIPE 教育方法'},url:'https://pursuit.unimelb.edu.au/articles/Trauma-follows-children-into-the-classroom.-A-new-teaching-model-is-changing-that'});
 const process=()=>({
  heading:{en:'From discovery to validation',zh:'从需求发现到验证'},

@@ -909,6 +909,152 @@ const PROJECTS = {
           "在后续开发阶段参与敌人生成与动画调整、场景集成及实现调试。"
         ]
       ],
+      "process": {
+        "heading": [
+          "Engineering the Midas Curse",
+          "构建 Midas Curse 核心机制"
+        ],
+        "intro": [
+          "In 2023, before generative-AI coding assistants were part of our workflow, Cosmic Creators learned through Unity documentation, tutorials, prototypes, code review, and manual debugging. The result was not a single shader trick, but a connected system in which movement, ground state, combat, skills, and visual feedback all respond to the same golden-path mechanic.",
+          "2023 年，生成式 AI 编程助手尚未进入我们的开发流程。Cosmic Creators 通过阅读 Unity 文档、研究教程、制作原型、相互审阅代码并手动调试推进开发。 最终成果并非单一的 Shader 技巧，而是一套将移动、地面状态、战斗、技能与 视觉反馈连接到同一黄金路径机制的系统。"
+        ],
+        "stages": [
+          {
+            "id": "concept",
+            "label": [
+              "Concept",
+              "概念"
+            ],
+            "title": [
+              "Turn a myth into a playable rule",
+              "把神话转化为可玩的规则"
+            ],
+            "body": [
+              "The team translated the Midas myth into a rule the player could feel: movement turns traversed ground into gold, while that same path becomes a resource, a combat surface, and a growing survival constraint. Project 1 proved the rule in a playable prototype; Project 2 built the wider maze, skill, shop, enemy, and boss loop around it.",
+              "团队将 Midas 神话转化为玩家能够直接感受到的规则：移动会把经过的地面 变成黄金，而同一条路径既是资源与战斗区域，也会逐渐成为生存限制。 Project 1 先以可玩原型验证规则，Project 2 再围绕它扩展迷宫、技能、 商店、敌人与 Boss 战循环。"
+            ],
+            "contribution": [
+              "I contributed to early concept and prototype documentation, then worked on player movement, animation integration, interaction feedback, and later scene debugging.",
+              "我参与早期概念与原型文档，并在后续开发中负责或参与玩家移动、动画集成、交互反馈及场景调试。"
+            ]
+          },
+          {
+            "id": "system-model",
+            "label": [
+              "System model",
+              "系统建模"
+            ],
+            "title": [
+              "Represent the floor as an interactive grid",
+              "将地面表示为可交互网格"
+            ],
+            "body": [
+              "The golden ground is a gameplay system rather than a painted trail. GoldManager maps world positions into a two-dimensional grid and uses raycasts to create cells only where valid floor geometry exists. As the player moves, GoldWalk identifies the corresponding cell and activates the tile, giving the rest of the game one consistent spatial model.",
+              "黄金地面并不是一条简单绘制的轨迹，而是一套玩法系统。GoldManager 将 世界坐标映射到二维网格，并通过射线检测只在有效地面上创建单元格； 玩家移动时，GoldWalk 找到对应单元并激活地块，让游戏中的其他机制 共享同一套空间模型。"
+            ],
+            "findings": [
+              [
+                "World coordinates resolve to stable grid cells.",
+                "世界坐标被映射为稳定的网格单元。"
+              ],
+              [
+                "Raycasts prevent gold from appearing off the walkable floor.",
+                "射线检测避免黄金出现在不可行走区域。"
+              ],
+              [
+                "Movement becomes the shared input for path",
+                "移动成为路径、战斗与技能系统的共同输入。"
+              ]
+            ]
+          },
+          {
+            "id": "state-logic",
+            "label": [
+              "State logic",
+              "状态逻辑"
+            ],
+            "title": [
+              "Give every gold tile a lifecycle",
+              "为每块黄金地面建立生命周期"
+            ],
+            "body": [
+              "Each GoldInfo cell progresses through inactive, expanding, active, and dissolving states. Timers distinguish natural expiry from forced removal, material changes expose the transition visually, and nearby systems can query or remove gold for attacks, particles, and ultimate-charge behaviour. This lifecycle turns a visual trail into reusable game state.",
+              "每个 GoldInfo 地块都会依次经历未激活、扩张、激活与消散状态。计时逻辑 区分自然到期与强制移除，材质切换把状态变化呈现出来；周边系统还能查询 或移除黄金地块，用于攻击、粒子效果与终极技能充能。由此，视觉轨迹被 转化为可复用的游戏状态。"
+            ],
+            "findings": [
+              [
+                "One tile state drives both rules and visual feedback.",
+                "同一地块状态同时驱动玩法规则与视觉反馈。"
+              ],
+              [
+                "Natural and forced dissolves support different interactions.",
+                "自然消散与强制移除支持不同交互。"
+              ],
+              [
+                "Range queries connect the path to skills and combat.",
+                "范围查询把黄金路径连接到技能与战斗。"
+              ]
+            ]
+          },
+          {
+            "id": "shader-feedback",
+            "label": [
+              "Shader feedback",
+              "Shader 反馈"
+            ],
+            "title": [
+              "Make system state readable in motion",
+              "用 Shader 呈现系统状态"
+            ],
+            "body": [
+              "The team studied documented examples and tutorials, then adapted them to the game's state model. GoldExpanding receives a world-space start point, current time, and expansion speed; comparing travelled distance with elapsed time reveals the gold effect outward from its origin. A separate dissolve treatment and material switching communicate when transformed ground or affected objects leave the active state.",
+              "团队先研究文档示例与教程，再把方法适配到游戏的状态模型中。GoldExpanding 接收世界空间起点、当前时间与扩张速度，并比较传播距离和经过时间，让 黄金效果从起点向外展开；另一套消散效果与材质切换，则用来表达已转化 地面或受影响物体离开激活状态的过程。"
+            ],
+            "findings": [
+              [
+                "_StartPos anchors the effect in world space.",
+                "_StartPos 将效果锚定在世界空间。"
+              ],
+              [
+                "Time and speed control the visible expansion boundary.",
+                "时间与速度共同控制可见的扩张边界。"
+              ],
+              [
+                "Material transitions keep gameplay state legible while moving.",
+                "材质过渡让玩家在移动中仍能读懂玩法状态。"
+              ]
+            ]
+          },
+          {
+            "id": "browser-delivery",
+            "label": [
+              "Browser delivery",
+              "浏览器交付"
+            ],
+            "title": [
+              "Adapt the effect for WebGL",
+              "为 WebGL 调整视觉实现"
+            ],
+            "body": [
+              "A geometry-shader experiment produced a stronger local death effect, but the browser target required a WebGL-compatible path. The team therefore retained the underlying dissolve idea while adapting the implementation for the final build, then verified the complete game loop in the exported browser version. The decision kept the visual intent while making the project directly playable online.",
+              "几何 Shader 实验在本地实现了更强的死亡效果，但浏览器目标需要兼容 WebGL 的实现路径。团队因此保留消散效果的核心思路，同时为最终构建调整 实现，并在导出的浏览器版本中验证完整游戏循环，在保留视觉意图的同时 让作品能够直接在线试玩。"
+            ],
+            "contribution": [
+              "I prototyped the geometry-shader enemy-death effect and contributed to later integration and debugging as the team prepared the browser build.",
+              "我制作了敌人死亡的几何 Shader 原型，并在团队准备浏览器构建时参与后续集成与调试。"
+            ]
+          }
+        ],
+        "badge": {
+          "src": "assets/projects/midas-curse-unity/built-by-hand-2023.webp",
+          "width": 760,
+          "height": 240,
+          "alt": [
+            "Built by hand in 2023",
+            "2023 年手工构建"
+          ]
+        }
+      },
       "journey": [
         {
           "title": [
@@ -1014,6 +1160,7 @@ const PROJECTS = {
       "featuredVideo": {
         "youtubeId": "_KGzpyql4ps",
         "watchUrl": "https://www.youtube.com/watch?v=_KGzpyql4ps",
+        "embedUrl": "https://www.youtube.com/embed/_KGzpyql4ps?si=UOvL9itUuzPHptUr",
         "poster": "assets/projects/midas-curse-unity/demo-poster-1280.webp",
         "width": 1280,
         "height": 720,
@@ -1030,8 +1177,9 @@ const PROJECTS = {
         ]
       },
       "sectionOrder": [
-        "video",
         "background",
+        "process",
+        "video",
         "demo",
         "product",
         "contributions",

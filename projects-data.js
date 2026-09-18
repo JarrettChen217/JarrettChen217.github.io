@@ -1826,6 +1826,22 @@ const PROJECTS = {
             "The refined result gives the affected path stronger contrast and particle feedback so its state is easier to read in motion.",
             "改进结果通过更强的颜色对比与粒子反馈突出受影响路径，使玩家在移动中更容易判断其状态。"
           ]
+        },
+        {
+          "src": "assets/projects/midas-curse-unity/team-cosmic-creators-reunion-1600.webp",
+          "thumbnail": "assets/projects/midas-curse-unity/team-cosmic-creators-reunion-800.webp",
+          "width": 1600,
+          "height": 1067,
+          "thumbnailWidth": 800,
+          "group": "team",
+          "alt": [
+            "Four members of Cosmic Creators at a team gathering in Melbourne",
+            "Cosmic Creators 四位成员在墨尔本小聚合照"
+          ],
+          "caption": [
+            "Cosmic Creators team photo.",
+            "Cosmic Creators 团队合照。"
+          ]
         }
       ],
       "demo": {

@@ -217,6 +217,25 @@ test('youtube demo compiles the approved public metadata only',()=>{
  assert.deepEqual(value,{videoId:'eip1ze0U0Ns',embedUrl:'https://www.youtube.com/embed/eip1ze0U0Ns?si=-dlLqAk-GLLG2Q_H',url:'https://youtu.be/eip1ze0U0Ns',title:['Dance XR five-minute demo','Dance XR 五分钟演示'],linkLabel:['Watch on YouTube','在 YouTube 观看']});
  assert.ok(!JSON.stringify(value).includes('/private/'));
 });
+test('youtube demo accepts a clean official embed URL',()=>{
+ const doc=fixture();const p=doc.projects.find(p=>p.id==='avl-visualisation');p.youtubeDemo={...youtubeDemo(),embedUrl:'https://www.youtube.com/embed/eip1ze0U0Ns'};
+ const value=run(doc).projects.find(p=>p.id==='avl-visualisation').youtubeDemo;
+ assert.equal(value.embedUrl,'https://www.youtube.com/embed/eip1ze0U0Ns');
+});
+test('section order accepts the YouTube demo section',()=>{
+ const doc=fixture();const source=doc.projects.find(p=>p.id==='vitalguard');source.sectionOrder=['youtube'];
+ const vitalguard=run(doc).projects.find(p=>p.id==='vitalguard');
+ assert.deepEqual(vitalguard.sectionOrder,['youtube']);
+});
+test('VitalGuard publishes the proposal-to-prototype journey with verified media',()=>{
+ const vitalguard=run(fixture()).projects.find(p=>p.id==='vitalguard');
+ assert.deepEqual(vitalguard.sectionOrder,['background','contributions','architecture','process','youtube','resources','scope']);
+ assert.equal(vitalguard.architecture.length,5);
+ assert.equal(vitalguard.process.stages.length,4);
+ assert.equal(vitalguard.process.stages.flatMap(stage=>stage.gallery||[]).length,7);
+ assert.match(vitalguard.process.stages[0].body[0],/proposal|initial/i);
+ assert.match(vitalguard.boundary[0],/prototype/i);
+});
 test('youtube demo rejects untrusted URLs, mismatched IDs and incomplete translations',()=>{
  for(const change of [{videoId:'bad id'},{embedUrl:'https://evil.example/embed/eip1ze0U0Ns'},{embedUrl:'https://www.youtube.com/embed/_Nbhr87wm8I'},{url:'http://youtu.be/eip1ze0U0Ns'},{url:'https://youtu.be/_Nbhr87wm8I'},{title:{en:'English only'}},{linkLabel:{zh:'仅中文'}}]){
   const doc=fixture();doc.projects.find(p=>p.id==='avl-visualisation').youtubeDemo={...youtubeDemo(),...change};assert.throws(()=>run(doc),/youtubeDemo/);

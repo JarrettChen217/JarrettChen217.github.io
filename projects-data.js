@@ -427,6 +427,10 @@ const PROJECTS = {
           "云端后端、前端与数据管道。"
         ],
         [
+          "Built the ESP32 sensor prototype with a hardware teammate and wrote the device-side MicroPython that reads the sensors and uploads batches over Wi-Fi HTTP.",
+          "与硬件队友一起完成 ESP32 传感器原型，并编写设备端 MicroPython：读取传感器、通过 Wi-Fi HTTP 批量上传。"
+        ],
+        [
           "Worked on the ESP32-to-Flask path and the browser-facing service workflow.",
           "参与 ESP32 到 Flask 的数据链路与面向浏览器的服务流程。"
         ]

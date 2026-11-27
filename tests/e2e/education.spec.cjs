@@ -48,6 +48,13 @@ for (const width of [390, 1440]) {
         await expect(main).toContainText('3.75/4.0');
         await expect(main).not.toContainText('WES');
         await expect(main).toContainText('GPIO 32');
+        const photos = main.locator('.school-photo img');
+        await expect(photos).toHaveCount(4);
+        for (const photo of await photos.all()) {
+          await photo.scrollIntoViewIfNeeded();
+          await expect.poll(() => photo.evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+        }
+        await expect(main.locator('.school-story figcaption').last()).toContainText(language === 'en' ? 'New York' : '纽约');
         await expect(main.locator('.school-course-group li')).toHaveCount(10);
         await expect(main.locator('.school-semester').filter({hasText: language === 'en' ? 'In progress' : '在读'})).toHaveCount(2);
         await expect(main.getByText('Artificial Intelligence', {exact: true})).toHaveCount(0);

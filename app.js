@@ -36,11 +36,14 @@ function education(){const pct=progress().toFixed(1);const {columbia,unimelb:sch
 function schoolDetail(school){
  const back=`<a class="back" href="#overview/education"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to education','返回教育经历')}</a>`;
  if(!school)return `${back}<h2 tabindex="-1">${label('School not found','未找到学校')}</h2>`;
- const stories=school.stories.map(({title,body,link})=>`
-  <article class="school-story">
+ const stories=school.stories.map(({title,body,link,photo})=>`
+  <article class="school-story${photo?' school-story-illustrated':''}">
+   <div>
    <h4>${esc(t(title))}</h4>
    <p>${esc(t(body))}</p>
    ${link?`<a class="school-link" href="${esc(link.href)}">${esc(t(link.label))}</a>`:''}
+   </div>
+   ${photo?`<div class="school-photo">${internshipImage(photo)}</div>`:''}
   </article>`).join('');
  const courses=school.courseGroups.map(({title,courses})=>`
   <div class="school-course-group">

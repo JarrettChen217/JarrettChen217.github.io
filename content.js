@@ -10,6 +10,18 @@ const CONTENT = {
       grade: '3.75/4.0',
       gradeLabel: ['GPA', 'GPA'],
       courseworkHeading: ['Graduate coursework', '硕士课程'],
+      entrancePhoto: {
+        src: 'assets/education/columbia/library-1024.webp', thumbnail: 'assets/education/columbia/library-800.webp',
+        width: 1024, height: 683, thumbnailWidth: 800,
+        alt: ['Stone columns beneath the inscription “The Library of Columbia University”', '石柱上方刻着“The Library of Columbia University”'],
+        caption: ['Looking up at the library inscription on campus.', '在校园里抬头看图书馆柱廊上的刻字。']
+      },
+      cityPhoto: {
+        src: 'assets/education/columbia/campus-walk-1024.webp', thumbnail: 'assets/education/columbia/campus-walk-800.webp',
+        width: 1024, height: 576, thumbnailWidth: 800,
+        alt: ['Paths cross a long lawn leading to a columned building', '几条步道穿过长方形草坪，通向一栋有柱廊的建筑'],
+        caption: ['Across the lawn on Columbia’s campus.', '从草坪这一头望向哥大校园。']
+      },
       terms: {
         fall25: ['Fall 2025', '2025 年秋季'],
         spring26: ['Spring 2026', '2026 年春季'],
@@ -18,6 +30,12 @@ const CONTENT = {
       focus: ["While working on a racing simulator in Melbourne, I heard a mentor describe a subway gate that would fail on a cold start. By the time the equipment had warmed up, the problem was hard to reproduce. That detail stayed with me. As an undergraduate, I focused on delivering software with a team. At Columbia, I wanted to understand more about the machines running that software. I studied computer architecture and heterogeneous computing, and followed the storage stack from physical devices to file systems.", "在墨尔本做赛车模拟时，一位导师跟我讲过地铁闸机的故事：清晨刚开机时容易出错，等机器热起来，再去查就很难复现。我一直记得这个细节。本科时，我更关心怎样和队友把软件做出来；到 Columbia 读计算机工程，我想多了解程序运行的那台机器。我选了计算机体系结构和异构计算，也从存储设备一路学到文件系统。"],
       stories: [
         {
+          photo: {
+            src: 'assets/projects/vitalguard/vitalguard-prototype-tabletop-960.webp', thumbnail: 'assets/projects/vitalguard/vitalguard-prototype-tabletop-480.webp',
+            width: 960, height: 1280, thumbnailWidth: 480,
+            alt: ['Glove-mounted sensors wired to the VitalGuard prototype on a table', '桌面上的 VitalGuard 原型，导线连接着手套上的传感器'],
+            caption: ['Our VitalGuard prototype with the sensors and ESP32 connected.', '我们把传感器接到 ESP32 后的 VitalGuard 原型。']
+          },
           title: ["VitalGuard · Testing the sensors with Wi-Fi on", "VitalGuard · 在 Wi-Fi 开启时测试传感器"],
           body: ["On VitalGuard, my electrical engineering teammate wired the sensors and checked each one with a small test script. I integrated them into the MicroPython firmware that collected their readings and uploaded them over Wi-Fi. During integration, one reading disappeared. I disabled features one at a time; the reading came back when I skipped Wi-Fi initialization. My teammate and I checked the pins on the board and moved the force sensor’s analog input from GPIO 25 to GPIO 32. We could then read it with Wi-Fi running. That experience changed what I considered a complete hardware test: I wanted to see the sensors working together with the radio on.", "做 VitalGuard 时，学电气工程的队友负责接线，用小脚本逐个确认传感器能读出数据。我负责把它们接进同一套 MicroPython 固件，将读数打包、通过 Wi-Fi 上传。整机联调时，一路原本正常的读数消失了。我逐项关掉功能，直到跳过 Wi-Fi 初始化，读数才重新出现。我在固件里缩小排查范围，队友和我一起在板子上核对引脚。最后我们把压力传感器的模拟输入从 GPIO 25 换到 GPIO 32，才让采集和上传一起工作。这次我记住了：单个模块测通之后，还得在所有模块同时运行时再测一次。"],
           link: {href: "#project/vitalguard", label: ["See the VitalGuard prototype", "查看 VitalGuard 原型"]},
@@ -32,6 +50,12 @@ const CONTENT = {
           link: {href: "#project/java-concurrency", label: ["Explore the mine simulation and verification project", "查看矿车模拟与验证项目"]},
         },
         {
+          photo: {
+            src: 'assets/education/columbia/avenue-683.webp', thumbnail: 'assets/education/columbia/avenue-420.webp',
+            width: 683, height: 1024, thumbnailWidth: 420,
+            alt: ['Traffic on a New York avenue stretching uphill between brick buildings', '纽约一条大道上的车流沿坡道延伸，两侧是砖楼'],
+            caption: ['A frame from my New York street photography.', '我在纽约拍的一张街景。']
+          },
           title: ["Computer storage · Keeping a second copy", "计算机存储 · 给照片留一份备份"],
           body: ["As a photographer, I sometimes get just one chance to take a picture. Studying RAID and backups made me ask where I could recover those photos if a drive failed, or if something happened to the place where I kept my copies. After the course, I started backing up my Mac to two drives with Time Machine. I keep an 8 TB drive at home for backups. Next, I’d like to build a NAS so I can open the same video files from either my Windows PC or my Mac.", "我平时拍照，有些瞬间只有一次机会。学 RAID 和备份时，我开始想：一块盘坏了，我还能从哪儿找回这些照片？如果备份都放在同一个地方呢？上完课后，我开始用两块硬盘给 Mac 做 Time Machine 备份，家里有一块 8 TB 的盘专门用来备份。下一步我想自己搭一台 NAS，这样在 Windows 和 Mac 之间换着用时，两边都能打开同一份视频。"],
         },

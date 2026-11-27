@@ -957,6 +957,144 @@ const PROJECTS = {
           ]
         }
       ],
+      "sequence": {
+        "actors": [
+          [
+            "Player",
+            "玩家"
+          ],
+          [
+            "SpireSight",
+            "桌面助手"
+          ],
+          [
+            "Run State",
+            "牌库摘要"
+          ],
+          [
+            "Card index",
+            "卡牌索引"
+          ],
+          [
+            "Vision model",
+            "视觉模型"
+          ]
+        ],
+        "phases": [
+          {
+            "title": [
+              "Before the question · Inspect the deck",
+              "提问之前 · 用 Inspect 记录牌库"
+            ],
+            "messages": [
+              {
+                "from": 0,
+                "to": 1,
+                "label": [
+                  "Capture the deck screen and finish Inspect.",
+                  "捕获牌库画面，完成 Inspect。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 4,
+                "label": [
+                  "Send the captured frames and the JSON extraction instructions.",
+                  "发送牌库截图和 JSON 提取指令。"
+                ]
+              },
+              {
+                "from": 4,
+                "to": 1,
+                "label": [
+                  "Return card names, counts, relics and an assessment of the deck.",
+                  "返回牌名、数量、遗物和牌库评估。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 2,
+                "label": [
+                  "Validate the JSON and save the current run. Bash is among the key cards.",
+                  "校验 JSON，保存本局状态。这副牌的关键牌里有痛击。"
+                ]
+              }
+            ]
+          },
+          {
+            "title": [
+              "At the reward screen · Ask for a recommendation",
+              "来到奖励界面 · 询问三张牌怎么选"
+            ],
+            "messages": [
+              {
+                "from": 0,
+                "to": 1,
+                "label": [
+                  "Click Card Selection Guide with the reward screen open.",
+                  "打开奖励界面，点击「选牌建议」。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 2,
+                "label": [
+                  "Read the most recent Inspect summary, if available.",
+                  "读取最近一次 Inspect 保存的本局摘要（如有）。"
+                ]
+              },
+              {
+                "from": 2,
+                "to": 1,
+                "label": [
+                  "Supply the known deck as text alongside the strategy instructions.",
+                  "把已知牌库作为文字上下文附在策略指令后。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 3,
+                "label": [
+                  "Optional lookup: match the question text against local card data.",
+                  "可选检索：用本轮问题的文字匹配本地卡牌资料。"
+                ]
+              },
+              {
+                "from": 3,
+                "to": 1,
+                "label": [
+                  "On a match, add card facts and their source. Otherwise continue without them.",
+                  "命中时附上卡牌资料和出处；未命中则继续请求。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 4,
+                "label": [
+                  "The provider adapter sends the instructions, available context, question and reward screenshot.",
+                  "服务适配器发送策略指令、已有上下文、本轮问题和奖励截图。"
+                ]
+              },
+              {
+                "from": 4,
+                "to": 1,
+                "label": [
+                  "Stream the recommendation and its reasons in text fragments.",
+                  "逐段返回推荐和理由。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 0,
+                "label": [
+                  "Display each fragment. In this run: play Bash, then Sword Boomerang; its random targeting matters against groups.",
+                  "收到一段就显示一段。这局的建议是先打痛击，再用飞剑回旋镖；遇到多个敌人时要考虑随机目标。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "prompts": [
         {
           "title": [
@@ -1092,6 +1230,7 @@ const PROJECTS = {
       "sectionOrder": [
         "process",
         "architecture",
+        "sequence",
         "prompts",
         "background",
         "journey",

@@ -98,6 +98,21 @@ function compile(source) {
         return {title:bi(entry.title,`${field}.title`),body:bi(entry.body,`${field}.body`)};
       });
     }
+    if(p.sequence !== undefined){
+      const {actors,phases}=p.sequence;
+      const field=p.id+'.sequence';
+      if(!Array.isArray(actors)||actors.length<2||!Array.isArray(phases)||!phases.length)fail(field+': expected actors and phases');
+      result.sequence={
+        actors:actors.map(actor=>bi(actor,field+'.actors')),
+        phases:phases.map(phase=>({
+          title:bi(phase.title,field+'.title'),
+          messages:phase.messages.map(({from,to,label})=>{
+            if(![from,to].every(i=>Number.isInteger(i)&&i>=0&&i<actors.length)||from===to)fail(field+': invalid message endpoints');
+            return {from,to,label:bi(label,field+'.label')};
+          })
+        }))
+      };
+    }
     if(p.prompts !== undefined){
       if(!Array.isArray(p.prompts))fail(`${p.id}.prompts: must be a list`);
       result.prompts=p.prompts.map((item,i)=>{
@@ -199,7 +214,7 @@ function compile(source) {
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','prompts','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','sequence','prompts','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }

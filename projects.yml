@@ -377,7 +377,7 @@ projects:
       en: I specified a single interface for sending screenshots to models from OpenAI, Anthropic and Gemini. I ran the app to check its streamed answers against the specification and used the CI results when deciding whether to accept a release.
       zh: 我在规格中要求通过同一个接口把截图发给 OpenAI、Anthropic 和 Gemini 的模型。我运行应用，对照规格验收流式回答，再结合 CI 结果决定是否接受发布。
     work: []
-    sectionOrder: [process, architecture, prompts, background, journey, resources]
+    sectionOrder: [process, architecture, sequence, prompts, background, journey, resources]
     process:
       kicker: {en: Gameplay walkthrough, zh: 实机演示}
       heading: {en: Why Sword Boomerang fits this deck, zh: 这副牌为什么选飞剑回旋镖？}
@@ -449,6 +449,25 @@ projects:
               thumbnailWidth: 597
               alt: {en: General tab showing the screenshot hotkey and Latest only follow-up policy, zh: General 页显示截图快捷键和追问时的 Latest only 选项}
               caption: {en: The capture shortcut here is Ctrl + Shift + S. The follow-up screenshot policy is the last control in the same window., zh: 图中设置的截图快捷键是 Ctrl + Shift + S。同一窗口最下面一项控制追问时携带的截图。}
+    sequence:
+      actors: [{"en": "Player", "zh": "玩家"}, {"en": "SpireSight", "zh": "桌面助手"}, {"en": "Run State", "zh": "牌库摘要"}, {"en": "Card index", "zh": "卡牌索引"}, {"en": "Vision model", "zh": "视觉模型"}]
+      phases:
+        - title: {"en": "Before the question · Inspect the deck", "zh": "提问之前 · 用 Inspect 记录牌库"}
+          messages:
+            - {"from": 0, "to": 1, "label": {"en": "Capture the deck screen and finish Inspect.", "zh": "捕获牌库画面，完成 Inspect。"}}
+            - {"from": 1, "to": 4, "label": {"en": "Send the captured frames and the JSON extraction instructions.", "zh": "发送牌库截图和 JSON 提取指令。"}}
+            - {"from": 4, "to": 1, "label": {"en": "Return card names, counts, relics and an assessment of the deck.", "zh": "返回牌名、数量、遗物和牌库评估。"}}
+            - {"from": 1, "to": 2, "label": {"en": "Validate the JSON and save the current run. Bash is among the key cards.", "zh": "校验 JSON，保存本局状态。这副牌的关键牌里有痛击。"}}
+        - title: {"en": "At the reward screen · Ask for a recommendation", "zh": "来到奖励界面 · 询问三张牌怎么选"}
+          messages:
+            - {"from": 0, "to": 1, "label": {"en": "Click Card Selection Guide with the reward screen open.", "zh": "打开奖励界面，点击「选牌建议」。"}}
+            - {"from": 1, "to": 2, "label": {"en": "Read the most recent Inspect summary, if available.", "zh": "读取最近一次 Inspect 保存的本局摘要（如有）。"}}
+            - {"from": 2, "to": 1, "label": {"en": "Supply the known deck as text alongside the strategy instructions.", "zh": "把已知牌库作为文字上下文附在策略指令后。"}}
+            - {"from": 1, "to": 3, "label": {"en": "Optional lookup: match the question text against local card data.", "zh": "可选检索：用本轮问题的文字匹配本地卡牌资料。"}}
+            - {"from": 3, "to": 1, "label": {"en": "On a match, add card facts and their source. Otherwise continue without them.", "zh": "命中时附上卡牌资料和出处；未命中则继续请求。"}}
+            - {"from": 1, "to": 4, "label": {"en": "The provider adapter sends the instructions, available context, question and reward screenshot.", "zh": "服务适配器发送策略指令、已有上下文、本轮问题和奖励截图。"}}
+            - {"from": 4, "to": 1, "label": {"en": "Stream the recommendation and its reasons in text fragments.", "zh": "逐段返回推荐和理由。"}}
+            - {"from": 1, "to": 0, "label": {"en": "Display each fragment. In this run: play Bash, then Sword Boomerang; its random targeting matters against groups.", "zh": "收到一段就显示一段。这局的建议是先打痛击，再用飞剑回旋镖；遇到多个敌人时要考虑随机目标。"}}
     architecture:
       - title:
           en: One request interface

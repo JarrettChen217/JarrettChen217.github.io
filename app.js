@@ -52,6 +52,21 @@ function matches(p){const tokens=filters.query.normalize('NFKC').toLowerCase().t
 function updateResults(){const found=CONTENT.projects.filter(matches);document.querySelector('#result-count').textContent=t([`${found.length} of ${CONTENT.projects.length} projects`,`${found.length} / ${CONTENT.projects.length} 个项目`]);document.querySelector('#project-results').innerHTML=found.map(p=>entry(p)).join('')||`<p class="empty">${label('No matching projects. Try another keyword or clear the filters.','没有匹配的项目，请更换关键词或清除筛选。')}</p>`;}
 function journey(p){if(!p.journey?.length)return '';return `<section class="detail-section project-journey"><h3>${label('Highlights & development','成果与实现')}</h3>${p.journey.map(item=>`<article class="journey-entry"><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></article>`).join('')}</section>`;}
 function memberByline(p){if(!p.members?.length)return '';return `<br>${label('Members: ','成员：')}<span class="team-members">${p.members.map(member=>{const name=esc(t(member.name));const url=member.github||member.url;return url?`<a class="team-member-link" href="${esc(url)}" target="_blank" rel="noopener">${name}</a>`:name}).join(' · ')}</span>`;}
+function requestSequence(p){
+ const diagram=p.sequence;
+ if(!diagram)return '';
+ const actors=diagram.actors.map(actor=>esc(t(actor)));
+ const tracks=actors.map(()=>'<i></i>').join('');
+ const messages=phase=>phase.messages.map(({from,to,label:message})=>{
+   const route=actors[from]+' → '+actors[to];
+   const start=Math.min(from,to), span=Math.abs(to-from);
+   return `<li><div class="seq-path">${route}</div><div class="seq-message">${esc(t(message))}</div>
+     <div class="seq-track" aria-hidden="true">${tracks}<b class="seq-arrow ${to<from?'seq-left':''}" style="left:${(start+.5)*100/actors.length}%;width:${span*100/actors.length}%"></b></div></li>`;
+ }).join('');
+ return `<section class="detail-section request-sequence" style="--actors:${actors.length}"><h3>${label('One card recommendation, end to end','一次选牌请求的时序图')}</h3>
+   ${diagram.phases.map(phase=>`<section class="seq-phase"><h4>${esc(t(phase.title))}</h4>
+     <div class="seq-actors" aria-hidden="true">${actors.map(a=>`<strong>${a}</strong>`).join('')}</div><ol>${messages(phase)}</ol></section>`).join('')}</section>`;
+}
 function promptLibrary(p){
  if(!p.prompts?.length)return '';
  return `<section class="detail-section prompt-library"><h3>${label('Inside the prompts','展开看提示词')}</h3>${p.prompts.map(item=>`<details><summary>${esc(t(item.title))}</summary><p>${esc(t(item.why))}</p><pre dir="auto">${esc(item.original)}</pre></details>`).join('')}</section>`;
@@ -69,7 +84,7 @@ function detailSections(p){
  const sections={
   video:()=>featuredVideo(p),background:()=>`<div class="detail-section"><h3>${label('Background','项目背景')}</h3><p>${esc(t(p.background))}</p>${p.backgroundLink?`<a class="background-link" href="${esc(p.backgroundLink.url)}" target="_blank" rel="noopener">${esc(t(p.backgroundLink.label))}<span aria-hidden="true"> ↗</span></a>`:''}</div>`,mechanics:()=>projectMechanics(p),process:()=>projectProcess(p),
   product:()=>gallery(p,'product'),contributions:()=>p.work.length?`<div class="detail-section"><h3>${esc(t(p.workHeading||['Work & contribution','工作与贡献']))}</h3><ul>${p.work.map(w=>`<li>${esc(t(w))}</li>`).join('')}</ul></div>`:'',
-  demo:()=>demoVideo(p),youtube:()=>youtubeDemo(p),journey:()=>journey(p),architecture:()=>architecture(p),prompts:()=>promptLibrary(p),engineering:()=>gallery(p,'engineering'),team:()=>gallery(p,'team'),credits:()=>credits(p),
+  demo:()=>demoVideo(p),youtube:()=>youtubeDemo(p),journey:()=>journey(p),architecture:()=>architecture(p),sequence:()=>requestSequence(p),prompts:()=>promptLibrary(p),engineering:()=>gallery(p,'engineering'),team:()=>gallery(p,'team'),credits:()=>credits(p),
   resources:()=>p.links?.length?`<div class="detail-section"><h3>${label('Resources','项目资源')}</h3>${p.links.map(link=>`<a href="${esc(link.url)}" target="_blank" rel="noopener">${esc(t(link.label))}</a>`).join(' · ')}</div>`:'',
   scope:()=>p.boundary?`<div class="detail-section"><h3>${label('Scope','展示范围')}</h3><p>${esc(t(p.boundary))}</p></div>`:''
  };

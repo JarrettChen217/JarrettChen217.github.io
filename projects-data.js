@@ -2398,6 +2398,64 @@ const PROJECTS = {
       ]
     },
     {
+      "id": "autonomous-delivery",
+      "name": [
+        "Autonomous Delivery App",
+        "自主配送应用"
+      ],
+      "date": [
+        "Mar 2026 – Apr 2026",
+        "2026年3月 – 2026年4月"
+      ],
+      "region": "ny",
+      "type": "academic",
+      "tech": "React, TypeScript, Google Places, Google Maps, Spring Boot, Spring Security",
+      "summary": [
+        "I led a course team developing an app for placing and tracking delivery orders.",
+        "我担任课程项目队长，带领团队开发用于下单和追踪配送的应用。"
+      ],
+      "background": [
+        "The project brought address entry during checkout and route tracking after an order into one app.",
+        "这个项目把下单时填写配送地址和下单后查看配送路线放在同一个应用里。"
+      ],
+      "work": [
+        [
+          "I built the address input and tracking page in React and TypeScript. The input used Google Places to suggest addresses within the delivery area, and the tracking page displayed the delivery route on Google Maps.",
+          "我用 React 和 TypeScript 实现了地址输入组件和配送追踪页面。地址输入通过 Google Places 提供配送范围内的地址建议，追踪页面在 Google 地图上绘制配送路线。"
+        ],
+        [
+          "I migrated the existing JWT authentication in the Spring Boot backend to Spring Security.",
+          "我将 Spring Boot 后端已有的 JWT 认证迁移到 Spring Security。"
+        ],
+        [
+          "As team lead, I turned proposed features into backlog items with acceptance criteria, planned sprints, and merged teammates’ pull requests.",
+          "作为队长，我把拟议功能整理成带有验收标准的待办事项，制定迭代计划，并合并队友的拉取请求。"
+        ]
+      ],
+      "workHeading": [
+        "My contributions",
+        "我的贡献"
+      ],
+      "keywords": [
+        "address autocomplete",
+        "delivery tracking",
+        "JWT",
+        "team lead",
+        "地址自动补全",
+        "配送追踪",
+        "队长"
+      ],
+      "links": [
+        {
+          "label": [
+            "Course team repository",
+            "课程团队仓库"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team"
+        }
+      ]
+    },
+    {
       "id": "daisyworld",
       "name": [
         "DaisyWorld — Exploring Emergence",

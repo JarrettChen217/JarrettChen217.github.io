@@ -362,6 +362,38 @@ projects:
       en: Columbia AIoT course prototype. The proposal graphics document the design process, while the page distinguishes them from the final reviewed firmware and service path. The prototype does not claim clinical validation, medical-device capability, diagnosis, emergency dispatch, or measured real-time performance.
       zh: Columbia AIoT 课程原型。提案图用于记录设计过程，本页将其与经核对的最终固件和服务链路区分开来。该原型不主张临床验证、医疗器械能力、诊断、紧急调度或可量化的实时性能。
 
+  - id: spiresight
+    published: true
+    name: {en: SpireSight, zh: SpireSight（桌面截图助手）}
+    date: {en: May 2026 – Jun 2026, zh: 2026年5月 – 2026年6月}
+    region: ny
+    type: personal
+    tech: Python
+    keywords: [vision LLM, OpenAI, Anthropic, Gemini, request logs, Claude Code, Cursor, 视觉模型, 截图, 请求日志]
+    summary:
+      en: SpireSight is a desktop assistant that sends screenshots to a vision model and displays the answer as it streams in. Claude Code and Cursor wrote nearly all the code.
+      zh: SpireSight 是一款桌面助手，将截图发给视觉模型，并实时显示模型陆续返回的回答。代码几乎全部由 Claude Code 和 Cursor 编写。
+    background:
+      en: I specified a single interface for sending screenshots to models from OpenAI, Anthropic and Gemini. I ran the app to check its streamed answers against the specification and used the CI results when deciding whether to accept a release.
+      zh: 我在规格中要求通过同一个接口把截图发给 OpenAI、Anthropic 和 Gemini 的模型。我运行应用，对照规格验收流式回答，再结合 CI 结果决定是否接受发布。
+    work: []
+    journey:
+      - title: {en: How I specified request logging, zh: 我如何定义请求日志的规格}
+        body:
+          en: To investigate unexpected answers, I specified one log entry per request. The entry records the prompt, request settings and image metadata when the call starts. When it ends, the same entry records the answer or error.
+          zh: 为了排查不符合预期的回答，我要求每次请求对应一条日志。调用开始时，日志记录提示词、请求设置和图像元数据。调用结束后，再在同一条日志中补上回答或错误信息。
+      - title: {en: How I checked the streamed response, zh: 我如何验收流式回答}
+        body:
+          en: I ran the desktop app and checked its streamed answers against the specification, including whether the response appeared on screen as the model returned it.
+          zh: 我亲自运行桌面应用，把流式回答与规格逐项对照，检查模型返回的内容是否随生成过程逐步显示在屏幕上。
+      - title: {en: How I accepted a release, zh: 我如何决定是否接受发布}
+        body:
+          en: Before accepting a tagged release, I checked the GitHub Actions results for Ruff linting, mypy type checking and pytest.
+          zh: 接受带版本标签的发布前，我在 GitHub Actions 中查看 Ruff 代码检查、mypy 类型检查和 pytest 测试的结果。
+    links:
+      - label: {en: SpireSight source on GitHub, zh: 在 GitHub 查看 SpireSight 源码}
+        url: https://github.com/JarrettChen217/SpireSight
+
   - id: berry-street
     published: true
     name: {en: Berry Street Teachers App, zh: Berry Street Teachers App（教师应用设计）}

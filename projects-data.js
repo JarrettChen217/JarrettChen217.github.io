@@ -756,6 +756,82 @@ const PROJECTS = {
       ]
     },
     {
+      "id": "spiresight",
+      "name": [
+        "SpireSight",
+        "SpireSight（桌面截图助手）"
+      ],
+      "date": [
+        "May 2026 – Jun 2026",
+        "2026年5月 – 2026年6月"
+      ],
+      "region": "ny",
+      "type": "personal",
+      "tech": "Python",
+      "summary": [
+        "SpireSight is a desktop assistant that sends screenshots to a vision model and displays the answer as it streams in. Claude Code and Cursor wrote nearly all the code.",
+        "SpireSight 是一款桌面助手，将截图发给视觉模型，并实时显示模型陆续返回的回答。代码几乎全部由 Claude Code 和 Cursor 编写。"
+      ],
+      "background": [
+        "I specified a single interface for sending screenshots to models from OpenAI, Anthropic and Gemini. I ran the app to check its streamed answers against the specification and used the CI results when deciding whether to accept a release.",
+        "我在规格中要求通过同一个接口把截图发给 OpenAI、Anthropic 和 Gemini 的模型。我运行应用，对照规格验收流式回答，再结合 CI 结果决定是否接受发布。"
+      ],
+      "work": [],
+      "journey": [
+        {
+          "title": [
+            "How I specified request logging",
+            "我如何定义请求日志的规格"
+          ],
+          "body": [
+            "To investigate unexpected answers, I specified one log entry per request. The entry records the prompt, request settings and image metadata when the call starts. When it ends, the same entry records the answer or error.",
+            "为了排查不符合预期的回答，我要求每次请求对应一条日志。调用开始时，日志记录提示词、请求设置和图像元数据。调用结束后，再在同一条日志中补上回答或错误信息。"
+          ]
+        },
+        {
+          "title": [
+            "How I checked the streamed response",
+            "我如何验收流式回答"
+          ],
+          "body": [
+            "I ran the desktop app and checked its streamed answers against the specification, including whether the response appeared on screen as the model returned it.",
+            "我亲自运行桌面应用，把流式回答与规格逐项对照，检查模型返回的内容是否随生成过程逐步显示在屏幕上。"
+          ]
+        },
+        {
+          "title": [
+            "How I accepted a release",
+            "我如何决定是否接受发布"
+          ],
+          "body": [
+            "Before accepting a tagged release, I checked the GitHub Actions results for Ruff linting, mypy type checking and pytest.",
+            "接受带版本标签的发布前，我在 GitHub Actions 中查看 Ruff 代码检查、mypy 类型检查和 pytest 测试的结果。"
+          ]
+        }
+      ],
+      "keywords": [
+        "vision LLM",
+        "OpenAI",
+        "Anthropic",
+        "Gemini",
+        "request logs",
+        "Claude Code",
+        "Cursor",
+        "视觉模型",
+        "截图",
+        "请求日志"
+      ],
+      "links": [
+        {
+          "label": [
+            "SpireSight source on GitHub",
+            "在 GitHub 查看 SpireSight 源码"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight"
+        }
+      ]
+    },
+    {
       "id": "berry-street",
       "name": [
         "Berry Street Teachers App",

@@ -777,6 +777,107 @@ const PROJECTS = {
         "我在规格中要求通过同一个接口把截图发给 OpenAI、Anthropic 和 Gemini 的模型。我运行应用，对照规格验收流式回答，再结合 CI 结果决定是否接受发布。"
       ],
       "work": [],
+      "process": {
+        "heading": [
+          "Why Sword Boomerang fits this deck",
+          "这副牌为什么选飞剑回旋镖？"
+        ],
+        "intro": [
+          "In this Slay the Spire run, I used Inspect to capture my deck before asking for help at a card reward. SpireSight carried the deck summary into the next prompt, so the answer could refer to cards I already held.",
+          "这局《杀戮尖塔》里，我先用 Inspect 记录牌库，再问三张奖励牌该选哪一张。SpireSight 会把牌库摘要放进后续提示词，回答时就能结合我手里已经有的牌。"
+        ],
+        "stages": [
+          {
+            "id": "inspect-deck",
+            "label": [
+              "Inspect",
+              "记录牌库"
+            ],
+            "title": [
+              "From the deck screen to Run State",
+              "从牌库画面到本局摘要"
+            ],
+            "body": [
+              "With the deck open, I used the Inspect controls in the lower left of SpireSight. In Run State I could check what it had picked up. It listed five Strikes and four Defends and identified Bash as my only source of Vulnerable.",
+              "我打开游戏里的牌库，用 SpireSight 左下角的 Inspect 控件捕获画面，再到 Run State 核对识别结果。摘要里有五张打击、四张防御，还指出 Bash（痛击）是这副牌里唯一能施加易伤的牌。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/spiresight/deck.webp",
+                "thumbnail": "assets/projects/spiresight/deck-thumb.webp",
+                "width": 1440,
+                "height": 588,
+                "thumbnailWidth": 680,
+                "alt": [
+                  "Ironclad deck open in the game with rows of attack and skill cards",
+                  "游戏中展开的铁甲战士牌库，攻击牌和技能牌分行排列"
+                ],
+                "caption": [
+                  "The deck I captured during the run.",
+                  "我在这一局里捕获的牌库画面。"
+                ]
+              },
+              {
+                "src": "assets/projects/spiresight/run-state.webp",
+                "thumbnail": "assets/projects/spiresight/run-state-thumb.webp",
+                "width": 870,
+                "height": 570,
+                "thumbnailWidth": 680,
+                "alt": [
+                  "SpireSight Run State showing Bash above the Strike and Defend counts",
+                  "SpireSight 的 Run State 在打击和防御的数量上方单独列出了 Bash"
+                ],
+                "caption": [
+                  "Run State highlights Bash and explains what it contributes to the deck.",
+                  "Run State 把 Bash 单独列出，并说明它在这副牌里的作用。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "card-reward",
+            "label": [
+              "Card selection",
+              "选牌建议"
+            ],
+            "title": [
+              "A recommendation that refers back to Bash",
+              "把新牌和已有的痛击连起来"
+            ],
+            "body": [
+              "At the reward screen, the assistant recommended the middle card, Sword Boomerang. Its reasoning referred back to Bash. With three energy I could play Bash first to apply Vulnerable, then spend the last energy on Sword Boomerang. It also pointed out the drawback of random targeting against several enemies.",
+              "三选一时，助手推荐了中间的飞剑回旋镖。理由接上了刚才的牌库：有三点能量时，可以先用痛击施加易伤，再花最后一点打出飞剑回旋镖。回答也提醒我，面对多个敌人时，随机攻击很难集中在想击倒的目标上。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/spiresight/rewards.webp",
+                "thumbnail": "assets/projects/spiresight/rewards-thumb.webp",
+                "width": 1008,
+                "height": 608,
+                "thumbnailWidth": 680,
+                "alt": [
+                  "Three reward cards with Sword Boomerang in the middle",
+                  "三张奖励牌，中间是飞剑回旋镖"
+                ],
+                "caption": [
+                  "The three choices on screen when I asked for a recommendation.",
+                  "我询问选牌建议时，游戏给出的三个选项。"
+                ]
+              }
+            ],
+            "demo": {
+              "src": "assets/projects/spiresight/shop-advice.mp4",
+              "poster": "assets/projects/spiresight/shop-poster.webp",
+              "width": 876,
+              "height": 568,
+              "caption": [
+                "The clip opens on the Sword Boomerang answer. At the next shop request, watch the new answer appear line by line in the same chat.",
+                "录屏开头保留了飞剑回旋镖的推荐理由。接着我在商店再次提问，可以看到同一聊天窗口里逐步出现新的建议。"
+              ]
+            }
+          }
+        ]
+      },
       "journey": [
         {
           "title": [
@@ -808,6 +909,12 @@ const PROJECTS = {
             "接受带版本标签的发布前，我在 GitHub Actions 中查看 Ruff 代码检查、mypy 类型检查和 pytest 测试的结果。"
           ]
         }
+      ],
+      "sectionOrder": [
+        "process",
+        "background",
+        "journey",
+        "resources"
       ],
       "keywords": [
         "vision LLM",

@@ -14,7 +14,7 @@ icons.instagram='M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-
 const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${icons[name]}"/></svg>`;
 const label=(en,zh)=>esc(t([en,zh]));
 const bilingual=(en,zh)=>esc(en)+(language==='zh'?` <span class="annotation">（${esc(zh)}）</span>`:'');
-function route(){const [page='overview',id]=location.hash.slice(1).split('/');return {page:['overview','internships','internship','projects','project','contact'].includes(page)?page:'overview',id};}
+function route(){const [page='overview',id]=location.hash.slice(1).split('/');return {page:['overview','education','internships','internship','projects','project','contact'].includes(page)?page:'overview',id};}
 function profile(){document.querySelector('#profile').innerHTML=`<div class="avatar"><img src="assets/profile/hao-chen-avatar-512.webp" srcset="assets/profile/hao-chen-avatar-512.webp 512w, assets/profile/hao-chen-avatar-1024.webp 1024w" sizes="(max-width: 640px) 96px, (max-width: 900px) 145px, 165px" alt="${label('Portrait of Hao Chen','Hao Chen 的个人头像')}"></div><h1>Hao Chen</h1><div class="pronouns">he / him</div><div class="identity">${label('M.S. student','理学硕士在读')}<br>${bilingual('Computer Engineering','计算机工程')}<br>${bilingual('Columbia University','哥伦比亚大学')}</div><div class="contact-line">${label('New York, United States','纽约，美国')}${CONTENT.email?`<br><a href="mailto:${esc(CONTENT.email)}">${esc(CONTENT.email)}</a>`:''}</div><div class="socials">${CONTENT.linkedin?`<a href="${esc(CONTENT.linkedin)}" aria-label="LinkedIn" target="_blank" rel="noopener">${icon('linkedin')}</a>`:''}<a href="${esc(CONTENT.github)}" aria-label="GitHub" target="_blank" rel="noopener">${icon('github')}</a><div class="wechat"><button id="wechat-toggle" aria-label="WeChat" aria-controls="wechat-info" aria-expanded="false">${icon('wechat')}</button><div class="popover" id="wechat-info"><strong>WeChat</strong><br>${CONTENT.wechat?`${esc(CONTENT.wechat)} <button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`:label('ID to be confirmed','微信号待确认')}</div></div></div><nav class="section-nav" aria-label="Overview sections">${[['about','About me','关于我'],['education','Education','教育经历'],['selected-internships','Selected internships','精选实习'],['selected','Selected projects','精选项目']].map(([id,en,zh])=>`<a href="#overview/${id}">${label(en,zh)}</a>`).join('')}</nav>`;
 document.querySelector('#wechat-toggle').addEventListener('click',e=>{const open=e.currentTarget.parentElement.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',String(open));});}
 const renderProfile=profile;
@@ -32,7 +32,44 @@ profile=()=>{
  socials.insertBefore(instagram,wechat);
 };
 function progress(){const now=new Date();const day=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());return Math.max(0,Math.min(100,100*(day-Date.UTC(2025,6,1))/(Date.UTC(2027,0,1)-Date.UTC(2025,6,1))));}
-function education(){const pct=progress().toFixed(1);return `<section id="education"><h2>${label('Education','教育经历')}</h2><div class="degree"><div class="row"><h3>${bilingual('Columbia University','哥伦比亚大学')}</h3><span class="meta">${label('New York, United States','纽约，美国')}</span></div><div class="degree-title">${bilingual('Master of Science in Computer Engineering','计算机工程理学硕士')}</div><div class="progress-labels"><span>${label('Jul 2025','2025年7月')}</span><span>${label('Dec 2026 · Expected','2026年12月 · 预计毕业')}</span></div><div class="track" role="progressbar" aria-label="${label('Master’s program timeline','硕士学习时间进度')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div id="ms-fill" class="fill" style="width:${pct}%"></div></div><div class="progress-labels"><span>${label('Program timeline','学习时间进度')}</span><span id="ms-pct">${pct}%</span></div></div><div class="degree"><div class="row"><h3>${bilingual('The University of Melbourne','墨尔本大学')}</h3><span class="meta">${label('Melbourne, Australia','墨尔本，澳大利亚')}</span></div><div class="degree-title">${bilingual('Bachelor of Science','理学学士')}<br>${bilingual('Major in Computing and Software Systems','计算与软件系统专业')}</div><div class="progress-labels"><span>${label('Feb 2022','2022年2月')}</span><span>${label('Dec 2024','2024年12月')}</span></div><div class="track" role="progressbar" aria-label="${label('Bachelor’s program timeline','本科学习时间进度')}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:100%;background:#a9bcc8"></div></div><div class="progress-labels"><span>${label('Completed','已完成')}</span><span>100%</span></div></div></section>`;}
+function education(){const pct=progress().toFixed(1);const school=CONTENT.education.unimelb;return `<section id="education"><h2>${label('Education','教育经历')}</h2><div class="degree"><div class="row"><h3>${bilingual('Columbia University','哥伦比亚大学')}</h3><span class="meta">${label('New York, United States','纽约，美国')}</span></div><div class="degree-title">${bilingual('Master of Science in Computer Engineering','计算机工程理学硕士')}</div><div class="progress-labels"><span>${label('Jul 2025','2025年7月')}</span><span>${label('Dec 2026 · Expected','2026年12月 · 预计毕业')}</span></div><div class="track" role="progressbar" aria-label="${label('Master’s program timeline','硕士学习时间进度')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div id="ms-fill" class="fill" style="width:${pct}%"></div></div><div class="progress-labels"><span>${label('Program timeline','学习时间进度')}</span><span id="ms-pct">${pct}%</span></div></div><div class="degree"><div class="row"><h3><a class="school-link" href="#education/unimelb">${bilingual(...school.name)}</a></h3><span class="meta">${label('Melbourne, Australia','墨尔本，澳大利亚')}</span></div><div class="degree-title">${bilingual(...school.degree)}<br>${bilingual(`Major in ${school.major[0]}`,`${school.major[1]}专业`)}</div><div class="progress-labels"><span>${label(...school.start)}</span><span>${label(...school.end)}</span></div><div class="track" role="progressbar" aria-label="${label('Bachelor’s program timeline','本科学习时间进度')}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:100%;background:#a9bcc8"></div></div><div class="progress-labels"><span>${label('Completed','已完成')}</span><span>100%</span></div></div></section>`;}
+function schoolDetail(school){
+ const back=`<a class="back" href="#overview/education"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to education','返回教育经历')}</a>`;
+ if(!school)return `${back}<h2 tabindex="-1">${label('School not found','未找到学校')}</h2>`;
+ const stories=school.stories.map(({title,body,link})=>`
+  <article class="school-story">
+   <h4>${esc(t(title))}</h4>
+   <p>${esc(t(body))}</p>
+   ${link?`<a class="school-link" href="${esc(link.href)}">${esc(t(link.label))}</a>`:''}
+  </article>`).join('');
+ const courses=school.courseGroups.map(({title,courses})=>`
+  <div class="school-course-group">
+   <h4>${esc(t(title))}</h4>
+   <ul role="list">${courses.map(({name,year,semester})=>`
+    <li><span lang="en">${esc(name)}</span><span class="school-semester">${label(`${year} Semester ${semester}`,`${year} 年第 ${semester} 学期`)}</span></li>`).join('')}
+   </ul>
+  </div>`).join('');
+ return `
+  <article class="school-detail">
+   ${back}
+   <h2 class="detail-heading" tabindex="-1">${bilingual(...school.name)}</h2>
+   <dl class="school-credentials">
+    <div><dt>${label('Degree','学位')}</dt><dd>${bilingual(...school.degree)}</dd></div>
+    <div><dt>${label('Major','主修')}</dt><dd>${bilingual(...school.major)}</dd></div>
+    <div><dt>${label('Dates','就读时间')}</dt><dd>${label(...school.start)}–${label(...school.end)}</dd></div>
+    <div><dt>${label('WES-converted GPA','WES 换算成绩')}</dt><dd>${esc(school.grade)}</dd></div>
+   </dl>
+   <p class="school-focus">${esc(t(school.focus))}</p>
+   <section class="detail-section school-stories">
+    <h3>${label('Learning experiences','学习经历')}</h3>
+    ${stories}
+   </section>
+   <section class="detail-section school-courses">
+    <h3>${label('Undergraduate coursework','本科课程')}</h3>
+    ${courses}
+   </section>
+  </article>`;
+}
 function entry(p, description=p.summary){return `<article class="entry"><div class="row"><h3><a href="#project/${esc(p.id)}">${esc(t(p.name))}</a></h3><span class="meta">${esc(t(p.date))}</span></div><div class="meta">${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}</div><p>${esc(t(description))}</p><div class="tech">${esc(p.tech)}</div><a class="entry-link" href="#project/${esc(p.id)}">${label('Project overview','项目详情')}</a></article>`;}
 function companyLogo(logo,className,{lazy=false}={}){if(!logo)return '';return `<img class="${className}" src="${esc(logo.src)}" width="${logo.width}" height="${logo.height}" alt="${esc(t(logo.alt))}" decoding="async"${lazy?' loading="lazy"':''}>`;}
 function internshipEntry(i,description=i.excerpt){const body=`<div class="row"><h3><a href="#internship/${esc(i.id)}">${esc(t(i.company))}</a></h3><span class="meta">${esc(t(i.date))}</span></div><div class="meta">${esc(t(i.place))} · ${esc(t(i.role))}</div><p>${esc(t(description))}</p><div class="tech">${esc(i.tech)}</div><a class="entry-link" href="#internship/${esc(i.id)}">${label('Internship overview','实习详情')}</a>`;return i.logo?`<article class="entry entry-with-logo"><div class="entry-body">${body}</div>${companyLogo(i.logo,'entry-logo',{lazy:true})}</article>`:`<article class="entry">${body}</article>`;}
@@ -76,16 +113,17 @@ function detail(id){const p=CONTENT.projects.find(x=>x.id===id);if(!p)return `<h
 function contact(){const items=[['Email',CONTENT.email,CONTENT.email?'mailto:'+CONTENT.email:''],['LinkedIn',CONTENT.linkedin,CONTENT.linkedin],['GitHub',CONTENT.github,CONTENT.github],['Instagram',CONTENT.instagram,CONTENT.instagram,CONTENT.instagramHandle||'@jarrettchen7'],['WeChat',CONTENT.wechat,'']];return `<section><h2>${label('Contact','联系我')}</h2><p>${label('Feel free to get in touch about software engineering, AI applications, or opportunities to collaborate.','欢迎就软件工程、AI 应用或合作机会与我联系。')}</p><div class="contact-list">${items.map(([name,value,url,display])=>`<div class="contact-item"><strong>${name}</strong><div>${value?(url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(display||value.replace('https://www.','').replace('https://',''))}</a>`:`${esc(value)}<button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`):label('To be added','待补充')}</div></div>`).join('')}</div></section>`;}
 function render({focusRoute=false}={}){
  const {page,id}=route();
+ const school=page==='education'&&Object.hasOwn(CONTENT.education,id)?CONTENT.education[id]:undefined;
  const projectTitle=CONTENT.projects.find(p=>p.id===id)?.name||['Project','项目'];
  const internshipTitle=CONTENT.internships.find(i=>i.id===id)?.company||['Internship','实习经历'];
- const pageTitles={overview:['Overview','个人概览'],internships:['Internship','实习经历'],projects:['Projects','项目作品'],contact:['Contact','联系我']};
+ const pageTitles={overview:['Overview','个人概览'],education:school?.name||['School not found','未找到学校'],internships:['Internship','实习经历'],projects:['Projects','项目作品'],contact:['Contact','联系我']};
  document.documentElement.lang=language;
  document.title=`${t(page==='project'?projectTitle:page==='internship'?internshipTitle:pageTitles[page])} | Hao Chen`;
- document.querySelector('#topnav').innerHTML=[['overview','Overview','个人概览'],['internships','Internship','实习经历'],['projects','Projects','项目作品'],['contact','Contact','联系我']].map(([key,en,zh])=>`<a href="#${key}" ${page===key||(key==='projects'&&page==='project')||(key==='internships'&&page==='internship')?'aria-current="page"':''}>${label(en,zh)}</a>`).join('');
+ document.querySelector('#topnav').innerHTML=[['overview','Overview','个人概览'],['internships','Internship','实习经历'],['projects','Projects','项目作品'],['contact','Contact','联系我']].map(([key,en,zh])=>`<a href="#${key}" ${page===key||(key==='overview'&&page==='education')||(key==='projects'&&page==='project')||(key==='internships'&&page==='internship')?'aria-current="page"':''}>${label(en,zh)}</a>`).join('');
  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===language)));
  document.querySelector('.skip').textContent=t(['Skip to content','跳至正文']);
  profile();
- document.querySelector('#main').innerHTML=page==='internships'?internships():page==='internship'?internshipDetail(id):page==='projects'?projects():page==='project'?detail(id):page==='contact'?contact():overview();
+ document.querySelector('#main').innerHTML=page==='education'?schoolDetail(school):page==='internships'?internships():page==='internship'?internshipDetail(id):page==='projects'?projects():page==='project'?detail(id):page==='contact'?contact():overview();
  document.querySelector('#footer').textContent=t(['Hao Chen · Personal website preview','Hao Chen · 个人网站预览']);
  if(page==='internships'){
   updateInternshipResults();
@@ -96,7 +134,7 @@ function render({focusRoute=false}={}){
  }
  if(page==='projects'){updateResults();document.querySelector('#project-search').addEventListener('input',e=>{filters.query=e.target.value;updateResults()});for(const key of ['region','type'])document.querySelector('#'+key).addEventListener('change',e=>{filters[key]=e.target.value;updateResults()});document.querySelector('#reset-filters').addEventListener('click',()=>{Object.assign(filters,{query:'',region:'all',type:'all'});render();document.querySelector('#project-search').focus()});}
  if(page==='overview'&&id)requestAnimationFrame(()=>{const target=document.getElementById(id);target?.scrollIntoView();if(focusRoute){target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}});
- if(focusRoute&&(page==='internship'||page==='internships'))requestAnimationFrame(()=>document.querySelector('#main h2')?.focus({preventScroll:true}));
+ if(focusRoute&&(page==='education'||page==='internship'||page==='internships'))requestAnimationFrame(()=>document.querySelector('#main h2')?.focus({preventScroll:page!=='education'}));
 }
 document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{language=b.dataset.lang;try{localStorage.setItem('hao-language',language)}catch{}render()}));
 document.addEventListener('click',async e=>{const copy=e.target.closest('[data-copy]');if(copy&&CONTENT.wechat){try{await navigator.clipboard.writeText(CONTENT.wechat);copy.textContent=t(['Copied','已复制'])}catch{copy.textContent=t(['Select and copy the ID','请选中微信号复制'])}}});

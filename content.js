@@ -1,6 +1,88 @@
 // Profile content is separate from the project catalogue.
 const CONTENT = {
   email:'hao.chen1281@gmail.com', github:'https://github.com/JarrettChen217', linkedin:'https://www.linkedin.com/in/chen-hao-j33625/', instagram:'https://www.instagram.com/jarrettchen7/', instagramHandle:'@jarrettchen7', wechat:'Che8147',
+  education: {
+    unimelb: {
+      name: ['The University of Melbourne', '墨尔本大学'],
+      degree: ['Bachelor of Science', '理学学士'],
+      major: ['Computing and Software Systems', '计算与软件系统'],
+      start: ['Feb 2022', '2022年2月'],
+      end: ['Dec 2024', '2024年12月'],
+      grade: '3.63/4.0 (WES)',
+      focus: ['At Melbourne, I first enjoyed the moment when a program finally worked. Later, I found that I also liked the work of finishing a project with a team. That experience drew me toward software engineering.', '我在墨尔本学计算机，最初喜欢的是把一道题写通。后来我发现，我也喜欢和一组人把一个项目做完。本科时，我的选课逐渐偏向了软件工程。'],
+      stories: [
+        {
+          title: ["Design of Algorithms · Finding a memory leak", "Design of Algorithms · 找出内存泄漏"],
+          body: ["I remember getting the algorithm for an assignment worked out and still having a memory leak in my C program. A tutor sat down with me, and we kept debugging until we found it. What stayed with me was the relief of seeing it run.", "我记得一道算法作业，解题思路已经有了，C 程序却一直有内存泄漏。我和助教一起调了很久，终于找出问题。比起最后交上去的答案，我更记得程序跑通时那种一下子松了口气的感觉。"],
+        },
+        {
+          title: ["Graphics and Interaction · Leading my first game team", "Graphics and Interaction · 第一次带队交付游戏"],
+          body: ["Midas Curse was my first Unity project and my first time leading a team. I thought the lead’s job was to hand out tasks and collect everyone’s work at the end. Close to our deadline, some teammates wanted to add new abilities for the wizard. Another teammate and I wanted to see how the game played for someone new. I brought the group together, and we agreed on a cutoff for new mechanics and booked a playtest. One player tried to fill the gold meter, expecting a reward. A full meter actually turned the character to gold and ended the game. We made the meter flash red as it rose and added a red warning across the screen. That experience changed how I thought about leading a team: I had to make time for us to see our work through a player’s eyes.", "Midas Curse 是我第一次用 Unity，也是我第一次带小组交付一个作品。起初，我以为组长就是把任务分下去，最后再把大家做的东西收回来。临近交付，有队友想给巫师加新玩法，我和另一位队友想留时间给第一次玩的玩家试一试。我把大家叫到一起，约定了加机制的截止时间，也约好了试玩。试玩时，有人竟然主动去攒满金条，以为会得到奖励。可在我们的游戏里，金条一满，角色就会变成金子，游戏也就结束了。我们让金条上涨时跟着闪红，屏幕上也出现红色警示。我第一次体会到，带队还得给大家留出时间，看一看玩家究竟是怎么理解我们做的东西的。"],
+          link: {href: "#project/midas-curse-unity", label: ["Explore Midas Curse", "看看我们做的游戏"]},
+        },
+        {
+          title: ["IT Project · Learning from weekly client feedback", "IT Project · 按周跟进客户反馈"],
+          body: ["On the AVL visualisation project for Algorithms in Action, I served as Scrum Master for the first time and worked with a teammate on the algorithms. We tracked client feedback week by week. To help students see when a rotation was needed, we displayed subtree heights above the nodes. When our client tried the animation, they liked the heights but asked for smaller text because the labels overlapped. We reduced the font size. By the time we handed over the project, our client had already seen how their feedback shaped it.", "在 Algorithms in Action 的 AVL 可视化项目里，我第一次担任 Scrum Master，也和队友结对做算法开发。我们按周记录和跟进客户反馈。为了让学生看出什么时候需要旋转，我们在节点上方显示子树高度。客户试玩后觉得这个信息有用，但标签容易重叠，希望字号再小一些。我们就把字调小了。到交付时，客户已经亲眼看过自己的反馈怎样改变了作品。"],
+          link: {href: "#project/avl-visualisation", label: ["See the AVL rotation animation", "看我们怎样把 AVL 旋转做成分步动画"]},
+        },
+        {
+          title: ["Making Movies 2 · Following the eyeline", "Making Movies 2 · 镜头里的视线"],
+          body: ["Working from a script, I made a shot list and planned where to put the camera during a conversation. I still watch the eyelines when a film cuts between two people. Keeping the camera on one side of the line between them makes it feel as though they are looking at each other.", "我从剧本列出镜头清单，规划两个人对话时摄影机该放在哪里。到现在看电影，我还会留意剪辑前后两个人的视线。如果镜头一直留在对话轴线的同一侧，即使切换人物，我也能感觉他们在看着彼此。"],
+        },
+      ],
+      courseGroups: [
+        {
+          title: ["Programming and algorithms", "编程与算法"],
+          courses: [
+            {name: "Foundations of Computing", year: 2022, semester: 1},
+            {name: "Foundations of Algorithms", year: 2022, semester: 2},
+            {name: "Design of Algorithms", year: 2023, semester: 1},
+            {name: "Declarative Programming", year: 2024, semester: 2},
+            {name: "Models of Computation", year: 2024, semester: 2},
+          ],
+        },
+        {
+          title: ["Software engineering and team projects", "软件工程与团队项目"],
+          courses: [
+            {name: "Object Oriented Software Development", year: 2023, semester: 1},
+            {name: "Software Modelling and Design", year: 2024, semester: 1},
+            {name: "IT Project", year: 2024, semester: 2},
+            {name: "Engineering Modelling and Design", year: 2023, semester: 2},
+          ],
+        },
+        {
+          title: ["Systems, data and AI", "系统、数据与人工智能"],
+          courses: [
+            {name: "Computer Systems", year: 2024, semester: 1},
+            {name: "Database Systems", year: 2023, semester: 2},
+            {name: "Elements of Data Processing", year: 2023, semester: 2},
+            {name: "Artificial Intelligence", year: 2024, semester: 1},
+          ],
+        },
+        {
+          title: ["Interaction, film and breadth studies", "交互、影像与人文选修"],
+          courses: [
+            {name: "Graphics and Interaction", year: 2023, semester: 2},
+            {name: "Making Movies 1", year: 2023, semester: 1},
+            {name: "Making Movies 2", year: 2024, semester: 1},
+            {name: "The Business of Music", year: 2022, semester: 2},
+            {name: "Japanese 1", year: 2022, semester: 1},
+          ],
+        },
+        {
+          title: ["Mathematics and science", "数学与科学"],
+          courses: [
+            {name: "Calculus 1", year: 2022, semester: 1},
+            {name: "Calculus 2", year: 2022, semester: 2},
+            {name: "Linear Algebra", year: 2022, semester: 2},
+            {name: "Engineering Mathematics", year: 2023, semester: 1},
+            {name: "Today's Science, Tomorrow's World", year: 2022, semester: 1},
+            {name: "Thinking Scientifically", year: 2024, semester: 2},
+          ],
+        },
+      ],
+    },
+  },
   internships:[
     {id:'cummins-us',region:'us',roleKey:'data-analytics',company:['Cummins Inc. — Turbo Technologies','康明斯公司 — 涡轮增压技术'],place:['Charleston, SC, United States','美国南卡罗来纳州查尔斯顿'],role:['Data Analytics Intern','数据分析实习生'],team:['Manufacturing Engineering & Data Analytics','制造工程与数据分析'],date:['June 2026 – Sep 2026','2026年6月 – 2026年9月'],excerpt:['Evidence-led manufacturing analytics spanning balancing-system validation, reviewable decision tools, and a read-only production-data pipeline for BI.','以证据为导向开展制造数据分析，覆盖动平衡系统验证、可评审决策工具，以及面向 BI 的只读生产数据管道。'],tech:'Python · pandas · scikit-learn · React · Flask · Docker · Parquet · Power BI · Codex · GitHub Copilot · Claude Code',summary:['At Cummins Turbo Technologies in Charleston, I worked across manufacturing engineering, data analytics, and software delivery. I built reproducible studies for a balancing-system discrepancy, translated the analysis into a containerized demonstrator, and developed read-only archive tooling and BI foundations for production-test data. I also used high-intensity vibe coding with Codex, GitHub Copilot, and Claude Code to turn repeated engineering tasks into reusable agent skills and durable scripts, while keeping outputs reviewable through tests and evidence checks.','在康明斯涡轮增压技术查尔斯顿团队实习期间，我的工作横跨制造工程、数据分析与软件交付。我为动平衡系统差异建立可复现研究流程，将分析转化为容器化演示工具，并为生产测试数据开发只读归档工具与 BI 数据基础。我也使用 Codex、GitHub Copilot 与 Claude Code 高强度开展 vibe coding，将重复工程任务沉淀为可复用的 Agent Skills 与持久脚本，同时通过测试和证据检查保持输出可评审。'],background:['The internship began with a practical manufacturing question: two independent measurement chains could observe the same production event yet return different correction guidance. That question expanded into three connected needs—build evidence that engineers could reproduce, make the analysis reviewable without notebook knowledge, and create a trustworthy path from a large test archive to operational reporting. Agent-assisted development became a core delivery method: I used Codex, GitHub Copilot, and Claude Code to explore quickly, then converted successful workflows into versioned skills, persistent scripts, tests, and handoff documentation rather than leaving them as one-off prompts.','这段实习从一个实际制造问题开始：两条独立测量链路观察同一生产事件时，可能给出不同的修正建议。由此延伸出三项相互关联的需求——建立工程师可复现的证据、让不熟悉 notebook 的评审者也能检查分析过程，以及为大规模测试归档建立通往运营报表的可信数据路径。Agent 辅助开发成为核心交付方式：我使用 Codex、GitHub Copilot 与 Claude Code 快速探索，再将有效工作流固化为版本化 Skills、持久脚本、测试与交接文档，而不是停留在一次性提示词。'],highlights:[
       ['Evidence boundaries are part of the result. I separated established observations, directional findings, untested hypotheses, and follow-up tests instead of forcing a single root-cause claim.','证据边界本身就是结果的一部分。我将已确认现象、方向性发现、未经验证的假设与后续测试分开记录，而不是强行给出单一根因。'],

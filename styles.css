@@ -57,3 +57,8 @@ header .languages{flex-shrink:0}
   .brand-wordmark{font-size:20px}
 }
 @media(prefers-reduced-motion:reduce){.brand-snow{animation:none}}
+
+.process-diagram { margin: 0 0 2rem; }
+.process-diagram img { display: block; width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.process-diagram a span { display: inline-block; margin-top: .6rem; }
+.process-diagram figcaption { margin-top: .4rem; }

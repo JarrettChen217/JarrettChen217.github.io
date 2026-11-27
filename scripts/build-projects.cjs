@@ -88,6 +88,14 @@ function compile(source) {
         if(![badge.width,badge.height].every(n=>Number.isInteger(n)&&n>0))fail(`${badgeField}: invalid dimensions`);
         compiledProcess.badge={src:localAsset(badge.src,'webp',badgeField),width:badge.width,height:badge.height,alt:bi(badge.alt,`${badgeField}.alt`)};
       }
+      if (value.diagram !== undefined) {
+        const diagram = value.diagram;
+        compiledProcess.diagram = {
+          src: ['en', 'zh'].map(lang => localAsset(`assets/projects/${p.id}/pipeline-${lang}.svg`, 'svg', `${field}.diagram`)),
+          alt: bi(diagram?.alt, `${field}.diagram.alt`),
+          caption: bi(diagram?.caption, `${field}.diagram.caption`)
+        };
+      }
       result.process=compiledProcess;
     }
     if(p.journey !== undefined) {

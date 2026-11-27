@@ -268,6 +268,162 @@ const PROJECTS = {
       ]
     },
     {
+      "id": "zooxr",
+      "name": [
+        "ZooXR",
+        "ZooXR（跨设备动物园）"
+      ],
+      "date": [
+        "Spring 2026 · Columbia University · COMS W4172",
+        "2026 年春季 · 哥伦比亚大学 · COMS W4172"
+      ],
+      "region": "ny",
+      "type": "academic",
+      "tech": "Unity, ARKit, iOS, JSON, Meta Quest 3",
+      "summary": [
+        "Lay out a zoo in augmented reality on an iPhone, then put on a Quest 3 and visit the zoo you just designed.",
+        "先在 iPhone 的增强现实画面里搭一座动物园，再戴上 Quest 3，走进自己刚刚布置的园区。"
+      ],
+      "background": [
+        "ZooXR began as a Columbia University 3D user interfaces assignment. It gives the designer and the visitor different views of one place. The phone shows the layout against the real surroundings while the headset puts the visitor inside it.",
+        "ZooXR 是哥伦比亚大学三维用户界面课程的作业。设计者和游客看到的是同一座园区的两个视角。拿起手机时，可以对照眼前的真实空间安排布局；戴上头显后，就能从游客的视角看这座动物园。"
+      ],
+      "work": [],
+      "process": {
+        "heading": [
+          "How the phone-built zoo reaches the headset",
+          "手机里搭的动物园怎样进入头显"
+        ],
+        "intro": [
+          "Two Unity applications share a layout file. The iOS builder writes it when the design is ready. The Quest explorer reads it to open that design in VR.",
+          "两个 Unity 应用通过一份布局文件交接。园区搭好后，iOS 搭建器把布局写入文件，Quest 游览器再读取它，让这座园区出现在 VR 里。"
+        ],
+        "stages": [
+          {
+            "id": "build",
+            "label": [
+              "iOS · ARKit",
+              "iOS · ARKit"
+            ],
+            "title": [
+              "Arrange the zoo on the phone",
+              "在手机上布置园区"
+            ],
+            "body": [
+              "The builder runs on iOS. Looking through the phone camera, the designer places enclosures and animals in AR and can see where they sit relative to each other before saving.",
+              "搭建器运行在 iOS 上。透过手机摄像头，设计者可以在增强现实画面里摆放围栏和动物，保存前就能看到它们彼此的位置。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/zooxr/builder.webp",
+                "thumbnail": "assets/projects/zooxr/builder-thumb.webp",
+                "width": 1280,
+                "height": 960,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "iOS AR view of a deer with a green checklist and the layout menu open",
+                  "iOS 增强现实画面里的一头鹿、绿色检查表和打开的布局菜单"
+                ],
+                "caption": [
+                  "The builder shows the placement checks in green. With the layout ready, the designer can choose “Export layout (share)” from the open menu.",
+                  "搭建检查表上的项目已变绿。在打开的菜单中点「Export layout (share)」，就能分享搭好的布局。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "transfer",
+            "label": [
+              "JSON",
+              "JSON"
+            ],
+            "title": [
+              "Pass the layout from one device to the other",
+              "把园区布局交给另一台设备"
+            ],
+            "body": [
+              "The iOS share sheet exports the layout as JSON. A Mac copies the file into the Quest app’s storage with Android Debug Bridge (ADB). Each record identifies an object and gives its position, rotation and scale relative to the zoo. One animal in the saved layout is a deer in enclosure 1. The headset can place that deer without knowing where the phone was in the room.",
+              "通过 iOS 分享面板导出 JSON 布局后，在 Mac 上用 Android 调试桥（ADB）把文件传入 Quest 应用的存储目录。文件逐项记录物体的类型，以及相对于园区的位置、朝向和缩放。实际保存的布局里有一头鹿属于 1 号围栏。有了这条记录，头显就能把鹿放回园区里的位置，无需知道当时手机在房间的哪一处。"
+            ]
+          },
+          {
+            "id": "explore",
+            "label": [
+              "Meta Quest 3",
+              "Meta Quest 3"
+            ],
+            "title": [
+              "Step inside the saved design",
+              "走进刚才保存的动物园"
+            ],
+            "body": [
+              "On startup, the Quest app reads each record, looks up the matching Unity prefab and places an instance at the saved pose. It restores the deer’s enclosure assignment, then rebuilds the navigation mesh around the placed enclosures and obstacles. The visitor can approach the enclosure in VR and see it from the gate.",
+              "Quest 应用启动时逐条读取布局，按标识找到对应的 Unity 预制件，在保存的位置和朝向上放置实例，并恢复鹿与 1 号围栏的关联。围栏和障碍物全部就位后，应用再重建标示可行走区域的导航网格。游客可以走近围栏，从门边向里看。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/zooxr/explorer.webp",
+                "thumbnail": "assets/projects/zooxr/explorer-thumb.webp",
+                "width": 1280,
+                "height": 720,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "First-person Quest view through a wooden gate towards a dog standing on sand",
+                  "Quest 第一人称视角，透过木栏门可以看到站在沙地上的狗"
+                ],
+                "caption": [
+                  "From the gate, the visitor can see a dog inside the enclosure and the fences of other enclosures in the distance.",
+                  "从门边望进去，能看到围栏里的一只狗，远处还有其他围栏。"
+                ]
+              }
+            ]
+          }
+        ],
+        "diagram": {
+          "src": [
+            "assets/projects/zooxr/pipeline-en.svg",
+            "assets/projects/zooxr/pipeline-zh.svg"
+          ],
+          "alt": [
+            "Sequence diagram showing the designer placing zoo objects on iOS, exporting their layout as JSON, transferring the file to Quest 3 and opening the reconstructed zoo in VR.",
+            "时序图从上到下展示设计者在 iOS 摆放园区物体、导出 JSON 布局、将文件传到 Quest 3，以及游览器读取布局并在 VR 中还原园区的过程。"
+          ],
+          "caption": [
+            "Follow a layout from the moment the designer saves it on the phone to the moment a visitor sees it in the headset.",
+            "从设计者在手机上保存布局，到游客在头显里看到园区，图中的箭头标出每一步由谁完成。"
+          ]
+        }
+      },
+      "sectionOrder": [
+        "background",
+        "process",
+        "credits"
+      ],
+      "credits": [
+        {
+          "title": [
+            "Course project screenshots",
+            "课程项目截图"
+          ],
+          "body": [
+            "Captured by Hao Chen. The deer and dog models are from Animals FREE by ithappy.",
+            "截图由 Hao Chen 提供。鹿和狗的模型出自 ithappy 的 Animals FREE 素材包。"
+          ]
+        }
+      ],
+      "keywords": [
+        "AR",
+        "VR",
+        "XR",
+        "zoo",
+        "augmented reality",
+        "virtual reality",
+        "动物园",
+        "增强现实",
+        "虚拟现实"
+      ]
+    },
+    {
       "id": "agent-ai",
       "name": [
         "Agent AI",

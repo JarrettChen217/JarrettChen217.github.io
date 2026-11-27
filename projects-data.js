@@ -347,14 +347,61 @@ const PROJECTS = {
       ],
       "process": {
         "heading": [
-          "Finding the garden bridge",
-          "找回花园里的那座桥"
+          "Create a reaction image and find a saved photo",
+          "生成一张表情包，再找回一张配图"
         ],
         "intro": [
-          "Of the three sample posts, only “Garden bridge” mentions a bridge in its text. The first three images show the local React app with sample responses. The diagrams that follow trace the backend path from the source code.",
-          "三条示例帖子中，只有「Garden bridge」的正文含有 bridge。前三张图来自本地 React 前端，使用示例响应；后面两张图依据源码，展示实际服务如何处理同一类请求。"
+          "In Create, I described the feeling of finishing an assignment and opened the generated image. In a separate Collection demo, I searched three sample posts for a photo I remembered.",
+          "在 Create 里，我把写完作业时的心情描述成一个画面，生成后点开看效果。另一次 Collection 演示则用了三条示例帖子，试着用记得的关键词找回一张照片。"
         ],
         "stages": [
+          {
+            "id": "create",
+            "label": [
+              "Create",
+              "创作"
+            ],
+            "title": [
+              "Give “Finally finished” a face",
+              "给「终于写完了」配张图"
+            ],
+            "body": [
+              "I pictured a tired cat resting on a keyboard beside its finished homework. I entered that scene in Create, then opened the preview to see whether the picture conveyed the relief I had in mind.",
+              "我想到一只累瘫在键盘上的猫，旁边就是刚写完的作业。我在 Create 里描述这个场景，再点开预览，看它有没有画出那种终于能松口气的感觉。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/create-prompt.webp",
+                "thumbnail": "assets/projects/social-ai/create-prompt-thumb.webp",
+                "width": 1100,
+                "height": 435,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Scene description entered in the SocialAI Create form",
+                  "SocialAI 的 Create 表单中填入了想生成的画面"
+                ],
+                "caption": [
+                  "The prompt in the original Create form before generation.",
+                  "生成前，原版 Create 页面中的画面描述。"
+                ]
+              },
+              {
+                "src": "assets/projects/social-ai/create-preview.webp",
+                "thumbnail": "assets/projects/social-ai/create-preview-thumb.webp",
+                "width": 1100,
+                "height": 900,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Generated orange cat resting on a keyboard beside finished homework in warm light",
+                  "暖光下，橘猫趴在键盘上，身旁放着写完的作业"
+                ],
+                "caption": [
+                  "The generated image opened for review before posting.",
+                  "点开本次实际生成的图，在发布前查看效果。"
+                ]
+              }
+            ]
+          },
           {
             "id": "keyword",
             "label": [

@@ -1220,6 +1220,16 @@ const PROJECTS = {
             "The team used Confluence for requirements, sprint reports and handover notes, while Jira linked implementation tasks to commits and deployment status. Separate stable and development previews supported client reviews. Controller tests checked tree outputs across rotation cases, and the handover documented the interfaces needed for continued development.",
             "团队使用 Confluence 整理需求、冲刺报告和交接说明，通过 Jira 将实现任务关联到提交与部署状态；稳定版和开发版预览支持客户评审。控制器测试检查不同旋转场景下的树输出，交接文档则记录后续开发所需的接口。"
           ]
+        },
+        {
+          "title": [
+            "From the course project to Algorithms in Action",
+            "从课程项目到 Algorithms in Action"
+          ],
+          "body": [
+            "Our team's AVL changes were merged into Algorithms in Action. Later maintainers rewrote parts of the module in 2025. The team repository records our course work, and the live demo shows the version maintained upstream.",
+            "我们团队的 AVL 改动已合入 Algorithms in Action。2025 年，后续维护者重写了部分模块。小组仓库保留了课程期间的工作记录，在线演示展示的是上游维护的版本。"
+          ]
         }
       ],
       "architecture": [
@@ -1505,6 +1515,29 @@ const PROJECTS = {
         "education",
         "算法",
         "可视化"
+      ],
+      "links": [
+        {
+          "label": [
+            "Course team repository",
+            "课程小组仓库"
+          ],
+          "url": "https://github.com/JarrettChen217/ITP_team025_staticsound"
+        },
+        {
+          "label": [
+            "Algorithms in Action upstream repository",
+            "Algorithms in Action 上游仓库"
+          ],
+          "url": "https://github.com/algorithms-in-action/algorithms-in-action.github.io"
+        },
+        {
+          "label": [
+            "Current AVL tree demo",
+            "当前 AVL 树在线演示"
+          ],
+          "url": "https://dev-aia.vercel.app/animation/?alg=AVLTree&mode=operations"
+        }
       ]
     },
     {

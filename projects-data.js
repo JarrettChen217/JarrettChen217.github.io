@@ -368,34 +368,228 @@ const PROJECTS = {
         "2025年12月 – 2026年2月"
       ],
       "region": "ny",
-      "type": "personal",
-      "tech": "Java, Spring Boot, React, PostgreSQL, Spring Security, Docker",
+      "type": "academic",
+      "tech": "Java, Spring Boot, Spring Security, Spring Data JDBC, PostgreSQL, Caffeine, React, Docker Compose",
       "summary": [
-        "A restaurant and ordering application with a React client and a layered Java backend.",
-        "使用 React 客户端与分层 Java 后端的餐厅浏览及订餐应用。"
+        "Add an item from a restaurant menu and open the cart to see what you ordered. Behind the plus button, a Spring service updates both the line item and the total.",
+        "在餐厅菜单上选一道菜，点加号，再打开购物车就能看到刚点的菜和总价。点一次加号，背后的 Spring 服务要完成两处相关的写入。"
       ],
       "background": [
-        "The application connects restaurant and menu browsing to customer and cart services. The backend separates controllers, services, and data access around a PostgreSQL database.",
-        "应用将餐厅、菜单浏览与客户及购物车服务连接起来。后端围绕 PostgreSQL 数据库分离控制器、服务与数据访问。"
+        "I built this ordering app during a full-stack development course. A React client handles menu browsing and the cart. The Java backend uses Spring Security sessions to identify each diner and Spring Data JDBC to store cart data in PostgreSQL.",
+        "我在全栈开发课程中搭建了这款点餐应用。顾客通过 React 界面浏览菜单、查看购物车。Java 后端以 Spring Security 会话识别登录顾客，并通过 Spring Data JDBC 将购物车数据写入 PostgreSQL。"
       ],
       "work": [
         [
-          "Implemented Spring Boot endpoints for customer, restaurant, menu, and cart workflows.",
-          "使用 Spring Boot 实现客户、餐厅、菜单与购物车流程接口。"
+          "I connected the React menu and cart to Spring Boot endpoints that resolve the customer from the signed-in session.",
+          "我把 React 菜单和购物车接到 Spring Boot 接口上，后端根据登录会话确定这是谁的购物车。"
         ],
         [
-          "Used Spring Data JDBC for persistence and Spring Security for session-based authentication.",
-          "使用 Spring Data JDBC 实现持久化，以 Spring Security 实现会话认证。"
-        ],
-        [
-          "Integrated the React interface and prepared Docker application configuration.",
-          "集成 React 界面并配置应用 Docker 环境。"
+          "I put the line-item update and the total-price update in one transaction. A successful write also evicts the customer’s cached cart so the next read returns the updated contents.",
+          "我把菜品明细和总价的修改放进同一个事务。写入成功后，服务会使该顾客的购物车缓存失效，让下一次读取拿到更新后的内容。"
         ]
       ],
+      "workHeading": [
+        "My work on the cart",
+        "我的购物车实现"
+      ],
+      "process": {
+        "heading": [
+          "Add one order of Chicken Fries",
+          "加购一份 Chicken Fries"
+        ],
+        "intro": [
+          "This walkthrough follows a signed-in diner in the local app. Chrome recorded the cart requests and responses. The two diagrams explain the server-side behavior from the source code.",
+          "这次在本地应用中用已登录账号走了一遍加购流程。Chrome 记录了购物车的请求和响应，后面两张图依据源码说明服务端怎样处理它们。"
+        ],
+        "stages": [
+          {
+            "id": "menu",
+            "label": [
+              "Restaurant menu",
+              "餐厅菜单"
+            ],
+            "title": [
+              "Pick Chicken Fries from the Burger King menu",
+              "在 Burger King 菜单里找到 Chicken Fries"
+            ],
+            "body": [
+              "Find Chicken Fries - 9 Pc, priced at $4.89. The plus button beside that item adds one serving to the signed-in diner’s cart.",
+              "找到标价 $4.89 的 Chicken Fries - 9 Pc，点它右侧的「＋」，把一份菜品加入当前顾客的购物车。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/menu.webp",
+                "thumbnail": "assets/projects/online-ordering/menu-thumb.webp",
+                "width": 1100,
+                "height": 760,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Burger King menu listing Chicken Fries - 9 Pc at 4.89 beside an add button",
+                  "Burger King 菜单列出标价 4.89 的 Chicken Fries - 9 Pc，右侧有加号按钮"
+                ],
+                "caption": [
+                  "The Chicken Fries row has its own plus button. The local menu shows text in place of the food photos.",
+                  "Chicken Fries 这一行右侧有加号。本地菜单的菜图位置显示替代文字。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "added",
+            "label": [
+              "Add to cart",
+              "加购"
+            ],
+            "title": [
+              "Get confirmation on the menu",
+              "在菜单上看到加购反馈"
+            ],
+            "body": [
+              "React sends POST /cart with the selected menu item’s ID. In the recorded run the server returned HTTP 200, and the menu displayed “Add to cart successfully.”",
+              "React 通过 POST /cart 提交所选菜品的 ID。本次操作中，服务端返回 HTTP 200，菜单上方随即出现加购成功提示。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/added.webp",
+                "thumbnail": "assets/projects/online-ordering/added-thumb.webp",
+                "width": 1100,
+                "height": 760,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Restaurant menu with an “Add to cart successfully” confirmation",
+                  "餐厅菜单上方显示「Add to cart successfully」提示"
+                ],
+                "caption": [
+                  "The menu stays open after POST /cart succeeds.",
+                  "POST /cart 成功后，顾客仍停留在菜单上。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "cart",
+            "label": [
+              "Cart drawer",
+              "购物车抽屉"
+            ],
+            "title": [
+              "Open Cart and check the total",
+              "打开 Cart 核对总价"
+            ],
+            "body": [
+              "Opening Cart triggers a separate GET /cart request. The response returned HTTP 200 with one line item and a total of 4.89. The drawer shows the same item and $4.89 total.",
+              "点击 Cart 会另外发出 GET /cart。此次响应状态为 HTTP 200，内容包含一条明细，总价为 4.89。购物车抽屉也显示了同一份菜品和 $4.89 的总价。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/cart.webp",
+                "thumbnail": "assets/projects/online-ordering/cart-thumb.webp",
+                "width": 1100,
+                "height": 760,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Open cart drawer showing Chicken Fries - 9 Pc and a total price of $4.89",
+                  "购物车抽屉内有一份 Chicken Fries - 9 Pc，总价为 $4.89"
+                ],
+                "caption": [
+                  "One serving appears in the drawer. Its subtotal matches the $4.89 total.",
+                  "抽屉里有一份菜品，菜品小计与底部总价均为 $4.89。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "architecture",
+            "label": [
+              "Local system architecture",
+              "本地系统架构"
+            ],
+            "title": [
+              "From the browser to the customer’s cart",
+              "从浏览器找到顾客的购物车"
+            ],
+            "body": [
+              "In the local Docker Compose setup, Nginx serves the React app and proxies API calls to Spring Boot. Spring Security supplies the signed-in identity, and the controller resolves the customer through CustomerService. CartService uses Spring Data JDBC to reach PostgreSQL and keeps a Caffeine cart cache keyed by customer ID in the backend process.",
+              "本地通过 Docker Compose 启动应用。Nginx 提供 React 静态资源，并把 API 请求转发到 Spring Boot。Spring Security 提供登录身份，控制器再通过 CustomerService 找到顾客。CartService 通过 Spring Data JDBC 读写 PostgreSQL，并在后端进程内使用 Caffeine 按顾客 ID 缓存购物车。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/architecture.webp",
+                "thumbnail": "assets/projects/online-ordering/architecture-thumb.webp",
+                "width": 1330,
+                "height": 1665,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "React reaches Spring Boot through Nginx. The cart service uses PostgreSQL via Spring Data JDBC and a per-customer Caffeine cache.",
+                  "React 通过 Nginx 访问 Spring Boot。购物车服务经 Spring Data JDBC 读写 PostgreSQL，并在 Caffeine 中按顾客缓存购物车。"
+                ],
+                "caption": [
+                  "The diagram shows the local deployment used for the walkthrough. The course app was also deployed on AWS App Runner with managed PostgreSQL on AWS.",
+                  "图中是本次演示使用的本地部署。这款课程应用也曾部署到 AWS App Runner，并使用 AWS 托管的 PostgreSQL。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sequence",
+            "label": [
+              "Request sequence",
+              "请求时序"
+            ],
+            "title": [
+              "Save an item",
+              "写入菜品，再读回购物车"
+            ],
+            "body": [
+              "On a write, CartService reads the menu price and any matching cart line. It inserts the line or increments its quantity, then updates the total in the same transaction. After a successful write, the customer’s cache entry is evicted. On the next cache miss, the service reads the cart, its lines and menu details from PostgreSQL and caches the assembled result.",
+              "加购时，CartService 读取菜品价格并查找对应明细。它新增一条明细或增加已有数量，接着在同一事务中更新总价。写入成功后，该顾客的缓存条目失效。下次读取未命中缓存时，服务从 PostgreSQL 取出购物车、明细和菜品资料，组装结果并重新缓存。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/sequence.webp",
+                "thumbnail": "assets/projects/online-ordering/sequence-thumb.webp",
+                "width": 1330,
+                "height": 1382,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "A POST updates the cart and evicts its cache entry. A subsequent GET reads the cart and returns its single item and total.",
+                  "POST 更新购物车并使其缓存失效，随后的 GET 读取购物车并返回一条明细和总价。"
+                ],
+                "caption": [
+                  "Chrome recorded both HTTP responses. The database transaction and cache operations shown between them follow the service implementation.",
+                  "两次 HTTP 响应由 Chrome 实测记录，其间的数据库事务和缓存操作依据服务实现绘制。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "journey": [
+        {
+          "title": [
+            "What the cart taught me about transactions",
+            "从购物车理解事务"
+          ],
+          "body": [
+            "Building the cart made transactions click for me. If the item were saved but the total stayed at its old value, the diner would see a cart that didn’t add up. Following a single click helped me see where each part of Spring fits. Security identifies the diner, the service sets the transaction boundary, and JDBC writes both changes.",
+            "写购物车时，我才具体理解事务为什么有用。如果菜品已经加进去了，总价却停在原来的数字，顾客眼前的账就对不上。沿着这一次点击往下看，Spring 各层的分工也清楚了。Security 提供身份，服务层划定事务边界，JDBC 负责把两处修改写入数据库。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "process",
+        "journey"
+      ],
       "keywords": [
+        "cart",
+        "transaction",
         "backend",
         "REST",
         "SQL",
+        "购物车",
+        "事务",
         "订餐",
         "后端"
       ]

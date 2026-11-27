@@ -149,3 +149,23 @@ header .languages{flex-shrink:0}
   .brand-wordmark{font-size:20px}
 }
 @media(prefers-reduced-motion:reduce){.brand-snow{animation:none}}
+
+.project-link-bar {display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px}
+.project-link-bar a {display:inline-flex;align-items:center;gap:7px;padding:7px 12px;min-height:36px;border:1px solid var(--accent);border-radius:5px;color:var(--accent);font-weight:600;text-decoration:none}
+.project-link-bar a:first-child {background:var(--accent);color:white}
+.project-link-bar a:hover {text-decoration:underline}
+.project-link-bar a:focus-visible {outline:2px solid var(--accent);outline-offset:3px}
+
+.prompt-library details { border-bottom: 1px solid var(--line); padding: 10px 0; }
+.prompt-library summary { cursor: pointer; font-weight: 600; }
+.prompt-library pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; border-left: 2px solid var(--line); font-size: 0.88em; line-height: 1.6; }
+
+.request-sequence img { display: block; width: 100%; height: auto; background: white; }
+.sequence-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: .75rem 0; }
+.request-sequence summary { cursor: pointer; font-weight: 600; }
+.request-sequence li { margin-bottom: .5rem; }
+
+.process-diagram { margin: 0 0 2rem; }
+.process-diagram img { display: block; width: 100%; height: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.process-diagram a span { display: inline-block; margin-top: .6rem; }
+.process-diagram figcaption { margin-top: .4rem; }

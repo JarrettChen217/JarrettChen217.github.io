@@ -32,7 +32,8 @@ test('a viewed transcription scene stays complete on return and translation', as
 
 test('reduced motion presents the complete example without animated text', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/play/meeting-transcribe/index.html');
+  await page.goto('/#project/meeting-transcribe');
+  await expect(page.locator('a[href*="play/meeting-transcribe/"], iframe')).toHaveCount(0);
   const minutes = page.locator('[data-scene="minutes"]');
   await minutes.scrollIntoViewIfNeeded();
   await expect(minutes).toHaveAttribute('data-phase', 'done');

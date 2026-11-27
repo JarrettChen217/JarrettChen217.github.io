@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor P as Player
+    participant A as SpireSight
+    participant R as Run State
+    participant K as Card index
+    participant M as Vision model
+    Note over P,M: Before the reward · Inspect the deck
+    P->>A: Capture deck screens
+    A->>M: Screens + JSON extraction prompt
+    M-->>A: Cards, relics and deck assessment
+    A->>R: Validate and save
+    Note over P,M: At the reward screen · Which card fits?
+    P->>A: Ask for a card recommendation
+    opt Saved deck available
+        A->>R: Read latest inspection
+        R-->>A: Deck context, including Bash
+    end
+    opt Local lookup enabled and index available
+        A->>K: Search question text
+        K-->>A: Card facts on a match
+    end
+    A->>M: Strategy prompt + context + reward screenshot + question
+    loop As the answer arrives
+        M-->>A: Text fragment
+        A-->>P: Append to chat
+    end

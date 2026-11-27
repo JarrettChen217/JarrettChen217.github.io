@@ -858,6 +858,42 @@ const PROJECTS = {
           "文档检索与网页搜索"
         ]
       },
+      "journey": [
+        {
+          "title": [
+            "Which source should answer a study question?",
+            "一道复习题，该用哪份资料回答？"
+          ],
+          "body": [
+            "When I revise for an exam, I want to know what my lecturer said and what I can find elsewhere. I kept the PDF and web answers side by side. Both use an OpenAI chat model, but each receives different evidence. On the PDF side, an embedding model first finds passages with a similar meaning. On the web side, the MCP search server I wrote sends the question to a search tool. I can then read each answer against the material that went into it.",
+            "期末复习时，我既想知道老师在讲义里怎么讲，也想看看其他资料怎么解释。所以我把讲义回答和网页回答并排放在页面上。两边都用 OpenAI 对话模型整理答案，给它的依据各不相同。讲义这边先用嵌入模型找语义相近的段落；网页这边由我编写的 MCP 搜索服务把同一道题交给搜索工具。读答案时，我能分清它各自依据哪一份材料。"
+          ]
+        },
+        {
+          "title": [
+            "What would justify changing the embedding model?",
+            "有什么证据值得我换一个嵌入模型？"
+          ],
+          "body": [
+            "I compared the local MiniLM baseline with text-embedding-3-small and text-embedding-ada-002 on the same twelve physics questions. At four passages per question, all three found every marked passage, although their rankings differed. That left me with a more useful question than which model ranked first overall. When the notes said nothing about copper wire resistance, all three still filled four slots. For a study assistant, recognizing that gap matters as much as finding a passage when one exists.",
+            "我用同一组十二道物理题，对照了本地 MiniLM、text-embedding-3-small 和 text-embedding-ada-002。每题取四段时，三者都找齐了预先标出的依据，段落的先后次序却有差别。有一道题问铜线电阻，笔记里根本没有答案，三个模型还是都交出了四段。对复习助手来说，这个例子比选出一个总分第一更有意义：找得到依据时要找全，找不到时也要能提醒我。"
+          ]
+        },
+        {
+          "title": [
+            "What still needs checking after retrieval?",
+            "找齐依据以后，还要检查什么？"
+          ],
+          "body": [
+            "The prototype builds an in-memory index for the question. That kept the course setup small, at the cost of embedding the notes again on a later question. I also checked an actual answer. The document and web replies both explained how mass affects the oscillators, yet both omitted the small-angle condition on the pendulum formula. Passage recall and the accuracy of the final explanation need separate checks.",
+            "原型在内存里建索引，课程演示少了一项需要部署的服务，代价是下次提问还要重新为讲义计算嵌入。我也核对了实际答案：讲义和网页两路都解释了质量怎样影响振子的周期，却都漏掉了单摆公式的「小角度」前提。检索有没有找全、回答有没有把条件讲全，需要分开检查。"
+          ]
+        }
+      ],
+      "journeyHeading": [
+        "Design decisions",
+        "设计取舍"
+      ],
       "boundary": [
         "The main prototype uses a shared upload path and rebuilds its in-memory document index with each question.",
         "主分支原型使用共享上传路径，每次提问都会重建文档的内存索引。"
@@ -871,6 +907,7 @@ const PROJECTS = {
       },
       "sectionOrder": [
         "background",
+        "journey",
         "contributions",
         "process",
         "scope"
@@ -1154,20 +1191,44 @@ const PROJECTS = {
       "journey": [
         {
           "title": [
-            "June 2026 · Image generation",
-            "2026年6月 · 图像生成维护"
+            "What should a search for “bridge” return?",
+            "搜 bridge 时，究竟要找什么？"
           ],
           "body": [
-            "During later maintenance, I designed and verified a Go interface for image generation with assistance from a coding agent. I checked that configuration could switch the provider between OpenAI and Gemini and tested how the service handled invalid prompts and provider errors.",
-            "后续维护时，我在编码助手协助下设计并验证了 Go 图像生成接口。我检查了服务端能否通过配置切换 OpenAI 和 Gemini，并测试了无效提示词和供应商报错时服务的处理方式。"
+            "I indexed the post text and author in Elasticsearch so readers could find a post by a word they remembered or by who wrote it. The matching post carries the media URL. React uses that URL to load the photo from Google Cloud Storage, which keeps the image bytes out of the search response. The trade-off appears at publication time. The Go service uploads the file first, so if indexing fails afterwards, the file can exist without a searchable post.",
+            "用户记得正文里写过 bridge，或者记得是谁发的，就应该能把帖子找回来。我把正文和作者放进 Elasticsearch 索引，搜索结果带回帖子的媒体地址，React 再按这个地址向 Google Cloud Storage 加载照片。搜索响应只需传帖子信息。拆开存也有代价：Go 服务先上传文件，再写索引；如果第二步失败，照片已经存好了，却还没有能搜到的帖子。"
+          ]
+        },
+        {
+          "title": [
+            "Who checks the reader’s identity?",
+            "用户带着令牌，谁来核验身份？"
+          ],
+          "body": [
+            "React sends a bearer token with a protected search request. The Go middleware verifies the JWT before the handler runs. This gives the API a way to check identity on each request while the browser handles presenting the token. Loading the image is a separate request to the media URL. A search token and permission to read a storage object are two different decisions.",
+            "React 向受保护的搜索接口发请求时会带上 Bearer 令牌。Go 中间件先核验 JWT，请求才进入搜索处理函数。浏览器负责出示令牌，身份是否可信仍由服务端判断。随后浏览器按媒体地址取图，是另一次请求；搜索接口认可用户身份，与对象存储是否允许读取那张图，是两件事。"
+          ]
+        },
+        {
+          "title": [
+            "How did image generation change providers?",
+            "为什么把生图模型做成可替换的？"
+          ],
+          "body": [
+            "I first deployed image generation with DALL·E, then tried Google’s Nano Banana. In the later portfolio run, I used the OpenAI model configured as gpt-image-2.6-sunburst to generate the cat pictured below. Across those changes, the author’s decision stayed the same: describe a scene, inspect the preview, then decide whether to post. In June 2026, with help from a coding agent, I designed and checked a Go provider interface so that changing the configured provider would preserve that interaction. I also checked invalid prompts and provider errors.",
+            "最早部署生图时，我用的是 DALL·E，后来试过 Google 的 Nano Banana。这次复现时，我用配置名为 gpt-image-2.6-sunburst 的 OpenAI 模型，生成了下方截图里趴在键盘上的猫。换了几次模型，发帖的人要做的决定始终一样：描述画面，看过预览，再决定发不发。2026 年 6 月维护时，我在编码助手协助下设计并验证了 Go 的生图接口，让后台能通过配置切换提供方，前端仍沿用这套操作。我也检查了提示词无效和提供方报错时的处理。"
           ]
         }
       ],
+      "journeyHeading": [
+        "Design decisions",
+        "设计取舍"
+      ],
       "sectionOrder": [
         "background",
+        "journey",
         "contributions",
-        "process",
-        "journey"
+        "process"
       ],
       "keywords": [
         "search",
@@ -1408,20 +1469,44 @@ const PROJECTS = {
       "journey": [
         {
           "title": [
-            "What the cart taught me about transactions",
-            "从购物车理解事务"
+            "What happens when a diner taps +?",
+            "顾客点一下「＋」，这次请求走哪三层？"
           ],
           "body": [
-            "Building the cart made transactions click for me. If the item were saved but the total stayed at its old value, the diner would see a cart that didn’t add up. Following a single click helped me see where each part of Spring fits. Security identifies the diner, the service sets the transaction boundary, and JDBC writes both changes.",
-            "写购物车时，我才具体理解事务为什么有用。如果菜品已经加进去了，总价却停在原来的数字，顾客眼前的账就对不上。沿着这一次点击往下看，Spring 各层的分工也清楚了。Security 提供身份，服务层划定事务边界，JDBC 负责把两处修改写入数据库。"
+            "React sends the menu item to a single Spring Boot backend. Spring Security identifies the diner from the session. CartController resolves the customer and passes the request to CartService, which decides whether to add a line or increase its quantity. The repository layer uses Spring Data JDBC to save the line and update the total in PostgreSQL. This division let me put the rule about what must change together in one service method.",
+            "React 把选中的菜品发给一个 Spring Boot 后端。Spring Security 从会话识别顾客；控制器 CartController 找到对应的顾客，把请求交给服务层 CartService，由它决定新增一行还是给已有菜品加一份。最后是数据访问层 Repository，通过 Spring Data JDBC 把明细和总价写进 PostgreSQL。这样一来，哪些修改必须一起完成，就能在同一个服务方法里说清楚。"
+          ]
+        },
+        {
+          "title": [
+            "Why keep one database for the cart?",
+            "为什么购物车共用一个数据库？"
+          ],
+          "body": [
+            "If I add the $4.89 Chicken Fries, the item and the extra $4.89 should appear together. I kept both records in one PostgreSQL database and updated them in one transaction. If either write fails, the transaction can roll back both. With separate writable databases per region, I would first need a rule for where a returning diner’s cart lives and how to reconcile changes. For this course app, one place to commit a cart update was a better fit.",
+            "一份 Chicken Fries 是 4.89 美元。点完「＋」，明细多一份，总价也应同时多 4.89 美元。我把两项都放在同一个 PostgreSQL 数据库里，用一个事务更新；任何一步写入失败，都可以一起回滚。我们也讨论过按地区分库存储：顾客出差后再登录，该去哪里找原来的购物车？如果两地都允许修改，回来又以哪份为准？对这个课程项目，把一次加购集中在一处提交，更贴合当时的需要。"
+          ]
+        },
+        {
+          "title": [
+            "What if two diners want the last serving?",
+            "两位顾客同时点最后一份，会怎样？"
+          ],
+          "body": [
+            "Limited stock was a design question we discussed. A shared database gives a restaurant one place to record how many servings remain. To accept an order for the last serving, a checkout would still have to check and reserve it atomically and handle a retried request. The implemented transaction covers cart items and totals. The course checkout clears the cart, so the demo demonstrates cart consistency and leaves stock reservation as a separate design problem.",
+            "餐厅的菜会售罄，这是我们讨论过的设计问题。共用一个数据库，让餐厅有一处记录剩余份数。真要卖出最后一份，结账时仍得把「检查余量、扣减库存」作为一次不可分开的操作，还要处理顾客重复提交的请求。这个项目实际做的是购物车明细与总价的事务，课程版结账会清空购物车；最后一份菜归谁，是往真实订单系统再走一步时要解决的问题。"
           ]
         }
       ],
+      "journeyHeading": [
+        "Design decisions",
+        "设计取舍"
+      ],
       "sectionOrder": [
         "background",
+        "journey",
         "contributions",
-        "process",
-        "journey"
+        "process"
       ],
       "keywords": [
         "cart",

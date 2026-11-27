@@ -133,7 +133,7 @@ projects:
   - id: zooxr
     published: true
     name: {en: ZooXR, zh: ZooXR（跨设备动物园）}
-    date: {en: Spring 2026 · Columbia University · COMS W4172, zh: 2026 年春季 · 哥伦比亚大学 · COMS W4172}
+    date: {en: Feb – Apr 2026 · Columbia University · COMS W4172, zh: 2026 年 2 月至 4 月 · 哥伦比亚大学 · COMS W4172}
     region: ny
     type: academic
     tech: Unity, ARKit, iOS, JSON, Meta Quest 3

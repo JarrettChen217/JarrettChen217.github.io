@@ -274,8 +274,8 @@ const PROJECTS = {
         "ZooXR（跨设备动物园）"
       ],
       "date": [
-        "Spring 2026 · Columbia University · COMS W4172",
-        "2026 年春季 · 哥伦比亚大学 · COMS W4172"
+        "Feb – Apr 2026 · Columbia University · COMS W4172",
+        "2026 年 2 月至 4 月 · 哥伦比亚大学 · COMS W4172"
       ],
       "region": "ny",
       "type": "academic",

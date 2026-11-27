@@ -875,6 +875,53 @@ const PROJECTS = {
                 "录屏开头保留了飞剑回旋镖的推荐理由。接着我在商店再次提问，可以看到同一聊天窗口里逐步出现新的建议。"
               ]
             }
+          },
+          {
+            "id": "settings",
+            "label": [
+              "Settings",
+              "设置"
+            ],
+            "title": [
+              "What goes into the next request?",
+              "下一次追问会带上什么？"
+            ],
+            "body": [
+              "In Providers, I can configure a service and refresh its list of models. In General, I can choose which screenshots accompany a follow-up. With “Latest only”, earlier chat messages keep their text and only the current message can include an image. The deck summary from Inspect still goes into the prompt as text. That lets me ask about a new reward screen while keeping the same deck in context.",
+              "我可以在 Providers 里配置服务、刷新可选模型，再到 General 里决定追问时带哪些截图。选「Latest only」时，之前的聊天保留文字，只有本次消息可以附图。Inspect 整理出的牌库摘要仍然以文字放进提示词。这样换到新的奖励画面时，模型既能看眼前的选项，也能参考刚才那副牌。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/spiresight/settings-providers.webp",
+                "thumbnail": "assets/projects/spiresight/settings-providers.webp",
+                "width": 597,
+                "height": 397,
+                "thumbnailWidth": 597,
+                "alt": [
+                  "Providers tab with the OpenAI service selected and a Refresh models button",
+                  "Providers 页选中了 OpenAI 服务，下方有刷新模型列表的按钮"
+                ],
+                "caption": [
+                  "Each provider has its own settings tab. Refresh models updates the list for the selected service.",
+                  "每个模型服务都有独立的设置页。「Refresh models」刷新当前服务的模型列表。"
+                ]
+              },
+              {
+                "src": "assets/projects/spiresight/settings-general.webp",
+                "thumbnail": "assets/projects/spiresight/settings-general.webp",
+                "width": 597,
+                "height": 397,
+                "thumbnailWidth": 597,
+                "alt": [
+                  "General tab showing the screenshot hotkey and Latest only follow-up policy",
+                  "General 页显示截图快捷键和追问时的 Latest only 选项"
+                ],
+                "caption": [
+                  "The capture shortcut here is Ctrl + Shift + S. The follow-up screenshot policy is the last control in the same window.",
+                  "图中设置的截图快捷键是 Ctrl + Shift + S。同一窗口最下面一项控制追问时携带的截图。"
+                ]
+              }
+            ]
           }
         ]
       },

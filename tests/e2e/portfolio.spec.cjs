@@ -293,3 +293,26 @@ test('stops decorative header snow when reduced motion is requested', async ({ p
   await expect(page.locator('.brand-snow')).toHaveCount(3);
   await expect(page.locator('.brand-snow').first()).toHaveCSS('animation-name', 'none');
 });
+
+for (const project of ['agent-ai', 'social-ai', 'online-ordering']) {
+  test(`${project} switches both inline and enlarged diagrams with the language`, async ({ page }) => {
+    const diagrams = ['architecture', 'sequence'];
+    if (project === 'agent-ai') diagrams.push('retrieval-matrix');
+    await page.goto('/#project/' + project);
+    for (const language of ['zh', 'en']) {
+      await page.locator(`[data-lang="${language}"]`).click();
+      for (const diagram of diagrams) {
+        const base = `assets/projects/${project}/${diagram}${language === 'en' ? '-en' : ''}`;
+        const link = page.locator(`a[data-gallery-preview][href="${base}.webp"]`);
+        const image = link.locator('img');
+        await expect(image).toHaveAttribute('src', base + '-thumb.webp');
+        await expect(image).toHaveAttribute('srcset', new RegExp(base + '-thumb\\.webp \\d+w, ' + base + '\\.webp \\d+w'));
+        await link.click();
+        const enlarged = page.locator('dialog[open] img');
+        await expect(enlarged).toHaveAttribute('src', base + '.webp');
+        await enlarged.evaluate(img => img.decode());
+        await page.keyboard.press('Escape');
+      }
+    }
+  });
+}

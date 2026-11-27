@@ -1,0 +1,25 @@
+sequenceDiagram
+    accTitle: Agent AI · A successful request in source
+    accDescr: On main, Express completes the PDF answer before starting the web answer. The document answer and web answer are returned in separate fields.
+    participant U as React
+    participant A as Express
+    participant L as OpenAI
+    participant M as MCP server
+    participant W as SerpAPI
+    U->>A: POST /upload · PDF
+    U->>A: GET /chat · Question
+    Note over A,L: Document path first
+    A->>A: Extract + split
+    A->>L: Embed text + query
+    L-->>A: Vectors
+    A->>A: Retrieve passages
+    A->>L: Question + passages
+    L-->>A: Document answer
+    Note over A,W: Then search the web
+    A->>M: search_web · stdio
+    M->>W: Same question
+    W-->>M: Search results
+    M-->>A: Tool result
+    A->>L: Summarize web results
+    L-->>A: Web answer
+    A-->>U: ragAnswer + mcpAnswer

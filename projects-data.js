@@ -710,6 +710,13 @@ const PROJECTS = {
                 "width": 1330,
                 "height": 2029,
                 "thumbnailWidth": 660,
+                "englishImage": {
+                  "src": "assets/projects/agent-ai/architecture-en.webp",
+                  "thumbnail": "assets/projects/agent-ai/architecture-en-thumb.webp",
+                  "width": 1330,
+                  "height": 1808,
+                  "thumbnailWidth": 660
+                },
                 "alt": [
                   "React, Express, PDF retrieval and the MCP web-search service",
                   "React、Express、PDF 检索和 MCP 网页搜索服务"
@@ -742,6 +749,13 @@ const PROJECTS = {
                 "width": 1330,
                 "height": 1299,
                 "thumbnailWidth": 660,
+                "englishImage": {
+                  "src": "assets/projects/agent-ai/sequence-en.webp",
+                  "thumbnail": "assets/projects/agent-ai/sequence-en-thumb.webp",
+                  "width": 1330,
+                  "height": 1476,
+                  "thumbnailWidth": 660
+                },
                 "alt": [
                   "Sequence diagram of the successful main-branch request",
                   "主分支成功路径的 UML 时序图"
@@ -788,6 +802,13 @@ const PROJECTS = {
                 "width": 1100,
                 "height": 736,
                 "thumbnailWidth": 640,
+                "englishImage": {
+                  "src": "assets/projects/agent-ai/retrieval-matrix-en.webp",
+                  "thumbnail": "assets/projects/agent-ai/retrieval-matrix-en-thumb.webp",
+                  "width": 1100,
+                  "height": 675,
+                  "thumbnailWidth": 640
+                },
                 "alt": [
                   "Retrieval matrix for 144 question–passage pairs. Retrieved and relevant 13, retrieved and unrelated 35, missed relevant 0, correctly excluded 96.",
                   "144 个问题与段落配对的检索四格图。找回相关段落 13 对，带入无关段落 35 对，漏掉相关段落 0 对，正确排除无关段落 96 对。"
@@ -1067,6 +1088,13 @@ const PROJECTS = {
                 "width": 1330,
                 "height": 1030,
                 "thumbnailWidth": 660,
+                "englishImage": {
+                  "src": "assets/projects/social-ai/architecture-en.webp",
+                  "thumbnail": "assets/projects/social-ai/architecture-en-thumb.webp",
+                  "width": 1330,
+                  "height": 1072,
+                  "thumbnailWidth": 660
+                },
                 "alt": [
                   "Create previews a generated image before publication. Collection searches indexed posts and loads their media by URL.",
                   "Create 在发布前预览生成的配图。Collection 从帖子索引中搜索，再按 URL 加载图片。"
@@ -1099,6 +1127,13 @@ const PROJECTS = {
                 "width": 1330,
                 "height": 1212,
                 "thumbnailWidth": 660,
+                "englishImage": {
+                  "src": "assets/projects/social-ai/sequence-en.webp",
+                  "thumbnail": "assets/projects/social-ai/sequence-en-thumb.webp",
+                  "width": 1330,
+                  "height": 1156,
+                  "thumbnailWidth": 660
+                },
                 "alt": [
                   "Sequence of a keyword search, from the React request through JWT validation and an Elasticsearch match query to a bridge thumbnail and the open image viewer",
                   "关键词查询时序，从 React 请求、JWT 校验和 Elasticsearch 匹配，到桥梁缩略图和展开的大图查看器"
@@ -1307,6 +1342,13 @@ const PROJECTS = {
                 "width": 1330,
                 "height": 1665,
                 "thumbnailWidth": 660,
+                "englishImage": {
+                  "src": "assets/projects/online-ordering/architecture-en.webp",
+                  "thumbnail": "assets/projects/online-ordering/architecture-en-thumb.webp",
+                  "width": 1330,
+                  "height": 1666,
+                  "thumbnailWidth": 660
+                },
                 "alt": [
                   "React reaches Spring Boot through Nginx. The cart service uses PostgreSQL via Spring Data JDBC and a per-customer Caffeine cache.",
                   "React 通过 Nginx 访问 Spring Boot。购物车服务经 Spring Data JDBC 读写 PostgreSQL，并在 Caffeine 中按顾客缓存购物车。"
@@ -1339,6 +1381,13 @@ const PROJECTS = {
                 "width": 1330,
                 "height": 1382,
                 "thumbnailWidth": 660,
+                "englishImage": {
+                  "src": "assets/projects/online-ordering/sequence-en.webp",
+                  "thumbnail": "assets/projects/online-ordering/sequence-en-thumb.webp",
+                  "width": 1330,
+                  "height": 1424,
+                  "thumbnailWidth": 660
+                },
                 "alt": [
                   "A POST updates the cart and evicts its cache entry. A subsequent GET reads the cart and returns its single item and total.",
                   "POST 更新购物车并使其缓存失效，随后的 GET 读取购物车并返回一条明细和总价。"

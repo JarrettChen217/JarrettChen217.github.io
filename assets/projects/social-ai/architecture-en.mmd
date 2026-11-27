@@ -1,0 +1,22 @@
+flowchart TB
+    accTitle: SocialAI · Create, publish and search
+    accDescr: Create sends a scene description to Go and previews the generated image before the user decides whether to publish. Collection searches indexed posts and fetches the image by URL.
+    create["React · Create<br/>Describe a scene"]
+    collection["React · Collection<br/>Search posts"]
+    api["Go HTTP<br/>Router + services<br/>One process"]
+    provider["OpenAI / Gemini<br/>Configured provider"]
+    es[("Elasticsearch<br/>Post index")]
+    gcs[("Google Cloud Storage<br/>Media files")]
+    create -->|"Send prompt"| api
+    api -->|"Preview, then choose to post"| create
+    collection <-->|"Query + results"| api
+    api <-->|"Generate image"| provider
+    api <-->|"Index + query"| es
+    api -->|"Save on publish"| gcs
+    collection -->|"Load by URL"| gcs
+    classDef client fill:#e8f1ed,stroke:#3f705a,color:#183c2e,stroke-width:2px;
+    classDef service fill:#faf1d9,stroke:#a18b50,color:#493d20,stroke-width:2px;
+    classDef store fill:#edf1f6,stroke:#648091,color:#263c49,stroke-width:2px;
+    class create,collection client
+    class api service
+    class es,gcs,provider store

@@ -102,7 +102,8 @@ test('loads every Internship detail directly and avoids mobile overflow', async 
   await expect(page.getByRole('heading', { name: 'Decision-support web demonstrator' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Read-only production-data and BI pipeline' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'From repeated prompt to shared engineering capability' })).toBeVisible();
-  await expect(page.locator('.agent-skill-example')).toHaveCount(4);
+  await expect(page.locator('.agent-skill-example')).toHaveCount(3);
+  await expect(page.getByRole('heading', { name: 'Portable meeting transcription' })).toHaveCount(0);
   await expect(page.locator('.agent-skill-stage')).toHaveCount(4);
   await expect(page.getByRole('heading', { name: 'Make all three coding agents work from the same contract' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Evidence-led manufacturing analytics' })).toBeVisible();
@@ -179,6 +180,33 @@ test('renders every published project route and keeps AVL media controlled', asy
   const video = page.locator('video[controls]');
   await expect(video).toBeVisible();
   await expect(video).not.toHaveAttribute('autoplay', /.*/);
+  assertClean();
+});
+
+test('publishes the bilingual Meeting Transcribe workflow through the project catalogue', async ({ page }) => {
+  const assertClean = monitorBrowser(page);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/#overview');
+  await expect(page.locator('#selected a[href="#project/meeting-transcribe"]')).toHaveCount(0);
+  await page.goto('/#projects');
+  await page.getByLabel('Search projects').fill('Meeting Transcribe');
+  await page.getByRole('link', { name: /Meeting Transcribe/ }).click();
+
+  await expect(page).toHaveURL(/#project\/meeting-transcribe$/);
+  await expect(page.getByRole('heading', { name: 'Transcription workflow' })).toBeVisible();
+  const flow = page.locator('.project-workflow').getByRole('list');
+  await expect(flow.getByRole('listitem')).toHaveCount(5);
+  await expect(flow.getByRole('listitem').nth(3).getByText('Needs review', { exact: true })).toBeVisible();
+  await expect(flow).toHaveCSS('grid-auto-flow', 'column');
+  await expect(page.getByRole('heading', { name: 'A fabricated continuation' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'One skill for Claude Code and Codex' })).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole('button', { name: '中文' }).click();
+  await expect(page.getByRole('heading', { name: '转录流程' })).toBeVisible();
+  await expect(flow.getByRole('listitem').nth(3).getByText('需复核', { exact: true })).toBeVisible();
+  await expect(flow).toHaveCSS('grid-auto-flow', 'row');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   assertClean();
 });
 

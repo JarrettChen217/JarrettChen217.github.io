@@ -36,6 +36,141 @@ const PROJECTS = {
   ],
   "projects": [
     {
+      "id": "meeting-transcribe",
+      "name": [
+        "Meeting Transcribe — LLM Transcription and Minutes Pipeline",
+        "Meeting Transcribe（大模型转录与纪要流程）"
+      ],
+      "date": [
+        "Jun 2026 – Oct 2026",
+        "2026年6月 – 2026年10月"
+      ],
+      "region": "ny",
+      "type": "personal",
+      "tech": "Python, uv, Claude Code, Codex",
+      "summary": [
+        "An agent skill that turns meeting, lecture, and interview recordings into original-language transcripts and minutes.",
+        "一套将会议、课程和访谈录音整理成原语言转录稿与纪要的 Agent Skill。"
+      ],
+      "background": [
+        "I designed the workflow and output formats and worked with a coding agent to set the review states and thresholds. I designed the model-selection experiments and verified the results. Coding agents wrote most of the code and ran the experiments.",
+        "我设计了工作流程和输出格式，与编程 Agent 一起确定复核状态和判断阈值，也负责设计模型选型实验并核验结果。主要代码和实验执行由编程 Agent 完成。"
+      ],
+      "work": [],
+      "journey": [
+        {
+          "title": [
+            "Choosing a model for formal transcription",
+            "正式转录的模型选型"
+          ],
+          "body": [
+            "I evaluated candidates for the transcription task, then chose the lowest-cost option that produced acceptable output.",
+            "我先评估候选模型是否适合转录任务，再从输出效果可接受的选项中选成本最低的一个。"
+          ]
+        },
+        {
+          "title": [
+            "What the structural checks measure",
+            "结构检查的判断依据"
+          ],
+          "body": [
+            "Each chunk is classified as usable-unverified, needs-review, or unusable. For example, an empty response is unusable.",
+            "每段输出标为「可用但未经核实」（usable-unverified）、「需复核」（needs-review）或「不可用」（unusable）。例如，空输出会被判为不可用。"
+          ]
+        },
+        {
+          "title": [
+            "A fabricated continuation",
+            "一段编造的后续对话"
+          ],
+          "body": [
+            "One chunk passed the structural checks even though it invented dialogue after the audio ended. I spotted the anomaly by comparing the output length with a cheaper reference transcript and the neighboring chunks. The revised prompt added a stop rule for each audio slice and supplied vocabulary as an unordered list.",
+            "有一段转录通过了结构检查，却在录音结束后编出了后续对话。我将输出长度与低成本参照转录和相邻片段对照，才发现异常。修改后的提示词为每个音频片段加入停止规则，并改用无序词表。"
+          ]
+        },
+        {
+          "title": [
+            "One skill for Claude Code and Codex",
+            "同一套 Skill 用于 Claude Code 和 Codex"
+          ],
+          "body": [
+            "Both agents use the same skill, with Python tools running in a uv-locked environment. I ran the installers on macOS and Windows.",
+            "两个 Agent 共用同一套 Skill，Python 工具在由 uv 锁定依赖的环境中运行。我在 macOS 和 Windows 上都运行过安装器。"
+          ]
+        }
+      ],
+      "workflow": [
+        {
+          "title": [
+            "Plan and confirm",
+            "计划与确认"
+          ],
+          "body": [
+            "The agent proposes a chunking plan and budget. The user confirms once before work begins.",
+            "Agent 提出分段方案和预算，用户确认一次后开始。"
+          ]
+        },
+        {
+          "title": [
+            "Preview pass",
+            "预转录"
+          ],
+          "body": [
+            "A low-cost pass identifies the languages and terms in the recording.",
+            "先用低成本预转录识别录音中的语言和术语。"
+          ]
+        },
+        {
+          "title": [
+            "Transcribe",
+            "正式转录"
+          ],
+          "body": [
+            "Transcribe chunks of about 12–15 minutes with roughly 20 seconds of overlap.",
+            "每段约 12–15 分钟，相邻段重叠约 20 秒，再逐段转录。"
+          ]
+        },
+        {
+          "title": [
+            "Check output",
+            "检查输出"
+          ],
+          "body": [
+            "Check each chunk for empty, truncated, or looping output.",
+            "逐段检查输出是否为空、被截断或出现循环重复。"
+          ],
+          "status": [
+            "Needs review",
+            "需复核"
+          ]
+        },
+        {
+          "title": [
+            "Stitch and summarize",
+            "拼接与纪要"
+          ],
+          "body": [
+            "Align speaker labels and remove duplicated overlap before assembling the transcript and writing minutes.",
+            "对齐说话人标记并去除重叠段的重复内容，再合成转录稿并生成纪要。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "workflow",
+        "journey"
+      ],
+      "keywords": [
+        "LLM",
+        "transcription",
+        "agent skill",
+        "audio",
+        "录音",
+        "转录",
+        "纪要"
+      ]
+    },
+    {
       "id": "dance-xr",
       "name": [
         "Dance XR — VR Dance Practice System",

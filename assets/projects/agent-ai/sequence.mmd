@@ -1,0 +1,25 @@
+sequenceDiagram
+    accTitle: Agent AI · 源码中的一次成功问答 / A successful request in source
+    accDescr: On main, Express completes the PDF answer before starting the web answer. The captured demo used a different build and returned HTTP 502.
+    participant U as React
+    participant A as Express
+    participant L as OpenAI
+    participant M as MCP server
+    participant W as SerpAPI
+    U->>A: POST /upload · PDF
+    U->>A: GET /chat · 问题 / Question
+    Note over A,L: 先处理 PDF / Document path first
+    A->>A: 提取并切分 / Extract + split
+    A->>L: 文本与问题嵌入 / Embed text + query
+    L-->>A: 向量 / Vectors
+    A->>A: 内存检索 / Retrieve passages
+    A->>L: 问题 + 片段 / Question + passages
+    L-->>A: 文档回答 / Document answer
+    Note over A,W: 再搜索网页 / Then search the web
+    A->>M: search_web · stdio
+    M->>W: 同一问题 / Same question
+    W-->>M: 搜索结果 / Search results
+    M-->>A: 工具结果 / Tool result
+    A->>L: 归纳网页资料 / Summarize web results
+    L-->>A: 网页回答 / Web answer
+    A-->>U: ragAnswer + mcpAnswer

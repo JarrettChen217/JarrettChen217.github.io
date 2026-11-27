@@ -306,7 +306,18 @@ test('journey preserves bilingual order without leaking research metadata',()=>{
 test('journey rejects malformed entries and missing translations',()=>{for(const journey of [null,{},[null],[{title:{en:'Title',zh:'标题'},body:{en:'English only'}}]]){const doc=fixture();doc.projects[0].journey=journey;assert.throws(()=>run(doc),/journey/);}});
 test('journey is optional and can be empty',()=>{const doc=fixture();delete doc.projects[0].journey;assert.equal(run(doc).projects[0].journey,undefined);doc.projects[0].journey=[];assert.deepEqual(run(doc).projects[0].journey,[]);});
 test('selected order and overrides do not mutate canonical summaries',()=>{const doc=fixture();const result=run(doc);assert.deepEqual(result.selected.map(x=>x.id),doc.selected.map(x=>x.id));const item=result.selected.find(x=>x.description);assert.ok(item);assert.deepEqual(result.projects.find(x=>x.id===item.id).summary,[doc.projects.find(x=>x.id===item.id).summary.en,doc.projects.find(x=>x.id===item.id).summary.zh]);});
-test('draft projects and editor metadata are excluded',()=>{const doc=fixture();const source=doc.projects.find(p=>p.id==='agent-ai');doc.projects.push({...source,id:'private-draft',published:false});source.editor_notes='PRIVATE_SENTINEL';const result=run(doc);assert.ok(!result.projects.some(x=>x.id==='private-draft'));assert.ok(!JSON.stringify(result).includes('PRIVATE_SENTINEL'));});
+test('draft projects and editor metadata are excluded', () => {
+  const doc = fixture();
+  const source = doc.projects.find(project => project.id === 'agent-ai');
+  const { name, date, region, type, tech, summary, background } = source;
+  doc.projects.push({
+    id: 'private-draft', published: false, name, date, region, type, tech, summary, background, work: []
+  });
+  source.editor_notes = 'PRIVATE_SENTINEL';
+  const result = run(doc);
+  assert.ok(!result.projects.some(project => project.id === 'private-draft'));
+  assert.ok(!JSON.stringify(result).includes('PRIVATE_SENTINEL'));
+});
 test('broken selections, duplicates, and missing translations fail',()=>{let doc=fixture();doc.selected.push({id:'missing'});assert.throws(()=>run(doc),/missing or unpublished/);doc=fixture();doc.projects.push(doc.projects[0]);assert.throws(()=>run(doc),/duplicate/);doc=fixture();delete doc.projects[0].summary.zh;assert.throws(()=>run(doc),/en and zh/);doc=fixture();doc.projects.find(p=>p.id===doc.selected[0].id).published=false;assert.throws(()=>run(doc),/unpublished/);});
 test('DaisyWorld publishes a verified bilingual course case study with a local native-window demo',()=>{
  const doc=fixture();

@@ -4,8 +4,8 @@ const PROJECTS = {
     {
       "id": "agent-ai",
       "description": [
-        "Document Q&A with retrieval, voice interaction, and MCP-based web search.",
-        "结合文档检索、语音交互与 MCP 网络搜索的问答应用。"
+        "Ask a question about your study notes and compare a PDF-based answer with a separate web-search answer.",
+        "针对学习笔记提问，分别查看基于 PDF 原文和网页搜索的回答。"
       ]
     },
     {
@@ -281,30 +281,223 @@ const PROJECTS = {
       "type": "personal",
       "tech": "React, Node.js, LangChain, MCP, SerpAPI",
       "summary": [
-        "A conversational application presenting document-based answers alongside answers informed by web search.",
-        "分别展示基于文档及网络搜索回答的对话应用。"
+        "A personal study prototype for asking questions about a PDF and seeing how an answer drawn from the notes compares with one drawn from the web.",
+        "为复习做的个人问答原型。上传一份学习笔记，再针对同一问题分别查看依据笔记和网页资料生成的回答。"
       ],
       "background": [
-        "The project explores two information sources in one interface. Uploaded PDFs provide local context, while a separate MCP search tool retrieves current web information. The two answer streams remain visible separately.",
-        "项目在同一界面中探索两类信息来源：上传 PDF 提供本地上下文，独立 MCP 搜索工具获取网络信息，两种回答分别展示。"
+        "I wanted a way to revise for finals with my own notes. With a physics handout open, I might remember a conclusion but forget the conditions under which it holds. A plausible explanation is hard to trust if I cannot tell whether the handout supports it. I built this personal prototype in a course repository to try grounding the answer in passages from the PDF. The web answer appears alongside it, so I can see what a separate search brings to the question.",
+        "期末复习时，我想直接拿自己的 PDF 笔记来提问。比如翻物理讲义，我可能记得一个结论，却忘了它在什么条件下才成立。回答即使听起来很像那么回事，我还是想知道讲义里有没有依据。我在课程仓库里做了这个个人原型，希望先找回笔记中的相关段落，再让模型据此回答，减少没有依据的猜测。同一个问题还会单独拿去搜网页，方便比较两种来源各自能说清什么。"
       ],
       "work": [
         [
-          "Built the React interface and Express endpoints for PDF uploads and questions.",
-          "构建 React 界面及处理 PDF 上传与问题的 Express 接口。"
-        ],
-        [
-          "Loaded and split PDF text, embedded the chunks into an in-memory vector store, and used retrieved text as context for answering.",
-          "加载并切分 PDF 文本，将文本块嵌入内存向量存储，使用检索文本作为回答上下文。"
-        ],
-        [
-          "Connected a reusable MCP client to a SerpAPI search server and added speech recognition and text-to-speech interaction.",
-          "将可复用 MCP 客户端连接到 SerpAPI 搜索服务，并加入语音识别与文字转语音交互。"
+          "My goal was to get a question from upload to answer. I wrote the MCP search server that exposes SerpAPI as a tool. Express can pass the user’s question to that tool over standard input and output, then use the returned web results to generate a separate answer.",
+          "我当时想跑通从上传文件到提问、回答的流程。我编写了 MCP 搜索服务器，把 SerpAPI 封装成工具。Express 可以通过标准输入输出把问题交给它，再用返回的网页结果单独生成回答。"
         ]
       ],
+      "workHeading": [
+        "My contribution",
+        "我的贡献"
+      ],
+      "process": {
+        "heading": [
+          "One question and two sources",
+          "一个问题，两种资料来源"
+        ],
+        "intro": [
+          "Follow a question through the main implementation, check which physics passages retrieval brings back, then see what happened in an earlier browser run.",
+          "先看两路资料怎样进入模型，再用物理笔记检验段落检索，最后回看演示分支的一次浏览器记录。"
+        ],
+        "stages": [
+          {
+            "id": "architecture",
+            "label": [
+              "System architecture",
+              "系统架构"
+            ],
+            "title": [
+              "What each answer can draw on",
+              "两个回答各自依据什么"
+            ],
+            "body": [
+              "The main implementation extracts the PDF’s text layer and splits it into passages of up to 500 characters with zero overlap. In a check using two visually identical versions of a one-page physics note, the PDF loader and splitter produced one passage from selectable text and zero from an image-only scan. A scan needs OCR first. For each question, LangChain builds an in-memory vector index and retrieves passages to send with the question. The prompt asks the model to say when it does not know. The separate web path supplies the same question and the results from the MCP search tool.",
+              "主分支提取 PDF 文字层，每块最多 500 个字符，相邻块不重叠。拿外观相同的一页物理笔记测试，有可选文字的 PDF 提取并切出一段，纯图片版本为零段。所以只有扫描图像的讲义需要先做文字识别。每次提问时，LangChain 建立内存向量索引，把检索到的段落连同问题交给模型；提示词要求模型在无法回答时说不知道。网页一路则把同一个问题和 MCP 搜索工具返回的资料交给模型。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/architecture.webp",
+                "thumbnail": "assets/projects/agent-ai/architecture-thumb.webp",
+                "width": 1330,
+                "height": 2029,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "React, Express, PDF retrieval and the MCP web-search service",
+                  "React、Express、PDF 检索和 MCP 网页搜索服务"
+                ],
+                "caption": [
+                  "Both paths start with the same question. The document path retrieves passages from the uploaded notes, while the web path retrieves search results.",
+                  "两路从同一句提问出发。文档一路检索笔记中的段落，网页一路获取搜索结果。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sequence",
+            "label": [
+              "Request sequence",
+              "请求时序"
+            ],
+            "title": [
+              "From Ask to the two answer fields",
+              "从点击 Ask 到两个回答区"
+            ],
+            "body": [
+              "In the main branch, Express processes the document question first, then invokes the web search with the same question. After both steps succeed, the response carries ragAnswer and mcpAnswer back to React.",
+              "在主分支中，Express 先处理文档问答，再用同一问题调用网页搜索。两步成功后，接口用 ragAnswer 和 mcpAnswer 两个字段把结果交给 React。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/sequence.webp",
+                "thumbnail": "assets/projects/agent-ai/sequence-thumb.webp",
+                "width": 1330,
+                "height": 1299,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "Sequence diagram of the successful main-branch request",
+                  "主分支成功路径的 UML 时序图"
+                ],
+                "caption": [
+                  "The sequence follows the source code. The browser run below used a separate demo branch.",
+                  "时序图按主分支源码绘制。下方实机画面来自单独的演示分支。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "retrieval-evaluation",
+            "label": [
+              "Physics notes · Retrieval check",
+              "物理笔记 · 检索评测"
+            ],
+            "title": [
+              "Did the search find the passages needed to answer?",
+              "检索找回了解题所需的段落吗？"
+            ],
+            "body": [
+              "For this portfolio check, twelve original physics passages were paired with twelve questions. Reference passages were marked before the run. Two questions needed two passages each, and one had no supporting passage. The PDF loader, splitter and in-memory store followed the project code. The original embedding service returned HTTP 401, so this run used local all-MiniLM-L6-v2 embeddings and returned four passages per question.",
+              "这次为作品集准备了十二段原创物理笔记和十二道题，在运行前标出每题需要的原文。其中两题各需两段，有一题在笔记中找不到依据。PDF 提取、切分和内存向量库沿用项目实现。原嵌入服务返回 HTTP 401，因此这次改用本地 all-MiniLM-L6-v2 计算向量，每题取前四段。"
+            ],
+            "findings": [
+              [
+                "One question asks how adding mass affects a small-angle pendulum and a cart on a spring. The search found both required passages. The pendulum passage says the bob’s mass leaves its period unchanged. The spring passage says the period grows with the square root of the cart’s mass at fixed stiffness.",
+                "有一题问，增加质量对小角度单摆和弹簧小车的周期分别有什么影响。前四段里找到了两处依据：单摆一段写明摆锤质量不改变周期，弹簧一段则说明劲度不变时，周期随小车质量的平方根增大。"
+              ],
+              [
+                "Across the twelve questions, 13 of the 48 retrieved question–passage pairs were relevant (precision@4, 27.08%). All 13 marked pairs appeared in the results (micro recall@4, 100%). With just 13 relevant pairs and 48 slots to fill, 27.08% is the highest possible precision on this set. Across all 144 pairs, 109 agreed with the labels (75.69% pairwise accuracy).",
+                "十二题共返回 48 个「问题 × 段落」配对，13 个与题目相关，前四条的精确率为 27.08%。预先标记的 13 个相关配对全部被找到，汇总召回率为 100%。由于总共只有 13 个相关配对，而返回位置固定有 48 个，27.08% 已是这组题在该设置下的精确率上限。全部 144 个配对中判断与标注一致的有 109 个，配对准确率为 75.69%。"
+              ],
+              [
+                "Asked how temperature changes a copper wire’s resistance, the search still returned four passages, including one about a series circuit. None covered the question. This run scored only the selected passages. It produced no model answers from which to measure answer correctness or hallucinations.",
+                "另一题问温度怎样影响铜线电阻，笔记没有涉及。检索仍返回了串联电路等四段，均无法回答这道题。这次实验只对照了段落选择，没有生成答案，因而也无法据此判断答题正确率或幻觉是否减少。"
+              ]
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/retrieval-matrix.webp",
+                "thumbnail": "assets/projects/agent-ai/retrieval-matrix-thumb.webp",
+                "width": 1100,
+                "height": 736,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Retrieval matrix for 144 question–passage pairs. Retrieved and relevant 13, retrieved and unrelated 35, missed relevant 0, correctly excluded 96.",
+                  "144 个问题与段落配对的检索四格图。找回相关段落 13 对，带入无关段落 35 对，漏掉相关段落 0 对，正确排除无关段落 96 对。"
+                ],
+                "caption": [
+                  "Rows show whether a passage was retrieved. Columns show whether it was marked relevant to that question before the run.",
+                  "行表示该段是否进入检索结果，列表示它是否在运行前被标注为该题的依据。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "walkthrough",
+            "label": [
+              "Browser walkthrough",
+              "浏览器实测"
+            ],
+            "title": [
+              "Asking about the folding screens",
+              "实测屏风归还问题"
+            ],
+            "body": [
+              "For this earlier browser check, I used a fictional venue policy to make the expected answer easy to check. On a separate unmerged demo branch developed with a coding agent, the upload succeeded. Submitting the question returned HTTP 502 and both answer areas displayed errors. In separate checks the PDF yielded one text chunk, the embedding request returned HTTP 401, and the MCP tool returned five web results. The cause of the web-answer error was not established.",
+              "这次早期浏览器实测采用虚构场馆的借用说明，归还规则可以直接对照原文核查。在与编码助手共同完成、尚未合入主分支的本地演示分支中，PDF 上传成功。提交问题后接口返回 HTTP 502，两个回答区分别显示错误。单独复核时，PDF 提取出一个文本块，嵌入请求返回 HTTP 401，MCP 工具返回五条网页搜索结果。网页回答生成失败的具体原因尚未定位。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/document.webp",
+                "thumbnail": "assets/projects/agent-ai/document-thumb.webp",
+                "width": 637,
+                "height": 500,
+                "thumbnailWidth": 540,
+                "alt": [
+                  "The fictional venue loan policy",
+                  "虚构场馆借用说明"
+                ],
+                "caption": [
+                  "The note specifies Copper Alcove and 4:35 p.m. that day. These details come directly from the PDF.",
+                  "说明原文写明归还地点为 Copper Alcove，截止时间为当天 4:35 p.m.。"
+                ]
+              },
+              {
+                "src": "assets/projects/agent-ai/question.webp",
+                "thumbnail": "assets/projects/agent-ai/question-thumb.webp",
+                "width": 1080,
+                "height": 836,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Uploaded filename and the folding-screen question",
+                  "上传的文件名与屏风归还问题"
+                ],
+                "caption": [
+                  "With the upload complete, the question is ready to submit.",
+                  "文件已上传，输入框中是准备提交的问题。"
+                ]
+              },
+              {
+                "src": "assets/projects/agent-ai/result.webp",
+                "thumbnail": "assets/projects/agent-ai/result-thumb.webp",
+                "width": 1080,
+                "height": 872,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Separate document and web error messages",
+                  "文档和网页回答区分别显示错误"
+                ],
+                "caption": [
+                  "The browser received HTTP 502. Neither answer was generated in this run.",
+                  "这次浏览器请求返回 HTTP 502，两个回答区均未生成答案。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "boundary": [
-        "The current prototype uses a shared uploaded-file path and rebuilds its document embeddings during a question request. Public multi-user access and source citations are not yet implemented.",
-        "当前原型共享上传文件路径，并在问答请求中重新构建文档嵌入，尚未实现公共多用户访问及来源引用展示。"
+        "The main prototype uses a shared upload path and rebuilds its in-memory document index with each question.",
+        "主分支原型使用共享上传路径，每次提问都会重建文档的内存索引。"
+      ],
+      "play": {
+        "url": "play/agent-ai-retrieval/index.html",
+        "label": [
+          "Explore the 12 retrieval questions",
+          "查看 12 道题的检索结果"
+        ]
+      },
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "process",
+        "scope"
       ],
       "keywords": [
         "RAG",

@@ -82,6 +82,7 @@ function compile(source) {
         if(stage.demo!==undefined)compiled.demo=processDemo(stage.demo,`${stageField}.demo`);
         return compiled;
       })};
+      if(value.kicker!==undefined)compiledProcess.kicker=bi(value.kicker,`${field}.kicker`);
       if(value.badge!==undefined){
         const badgeField=`${field}.badge`;const badge=value.badge;
         if(!badge||typeof badge!=='object'||Array.isArray(badge))fail(`${badgeField}: must be an object`);
@@ -98,10 +99,12 @@ function compile(source) {
         return {title:bi(entry.title,`${field}.title`),body:bi(entry.body,`${field}.body`)};
       });
     }
+    if(p.journeyHeading !== undefined)result.journeyHeading=bi(p.journeyHeading,`${p.id}.journeyHeading`);
     if(p.architecture !== undefined){
       if(!Array.isArray(p.architecture))fail(`${p.id}.architecture: must be a list`);
       result.architecture=p.architecture.map((item,i)=>({title:bi(item?.title,`${p.id}.architecture[${i}].title`),body:bi(item?.body,`${p.id}.architecture[${i}].body`)}));
     }
+    if(p.architectureIntro !== undefined)result.architectureIntro=bi(p.architectureIntro,`${p.id}.architectureIntro`);
     if(p.gallery !== undefined){
       if(!Array.isArray(p.gallery))fail(`${p.id}.gallery: must be a list`);
       result.gallery=p.gallery.map((item,i)=>{

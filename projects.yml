@@ -1194,6 +1194,108 @@ projects:
       - en: Separated connection tasks, service logic, and JSON-backed persistence.
         zh: 分离连接任务、服务逻辑与基于 JSON 的持久化。
 
+  - id: autonomous-delivery
+    published: true
+    name: {en: Autonomous Delivery App, zh: 自主配送应用}
+    date: {en: 'Mar 2026 – Apr 2026', zh: '2026年3月 – 2026年4月'}
+    region: ny
+    type: academic
+    tech: React, TypeScript, Google Places, Google Maps, Java, Spring Boot, Spring Security, Spring Data JDBC, PostgreSQL, Docker Compose, nginx
+    keywords: [address autocomplete, delivery tracking, JWT, team lead, 地址自动补全, 配送追踪, 队长]
+    summary:
+      en: I led a nine-person course team developing an app for placing and tracking delivery orders.
+      zh: 我担任九人课程项目团队的队长，带领团队开发用于下单和追踪配送的应用。
+    background:
+      en: The course app modeled a San Francisco delivery service. Customers could choose a delivery center, enter a drop-off address and parcel details, and follow a simulated robot or drone delivery.
+      zh: 这个课程项目模拟了旧金山的配送服务。用户可以选择配送站，填写送达地址和包裹信息，再查看模拟机器人或无人机的配送进度。
+    boundary:
+      en: The browser demo lets you choose a fixed sample address and advance tracking by hand on a schematic map. It runs locally with preset data. Sign-in, order submission, and server-driven tracking are part of the course app described below.
+      zh: 网页演示使用预设数据，可选择一个示例地址，并在示意地图上手动推进配送状态。演示在浏览器本地运行。下文的登录、订单提交和服务端模拟追踪属于课程应用。
+    process:
+      kicker: {en: Course team workflow, zh: 课程团队应用流程}
+      heading: {en: From sign-in to delivery, zh: 从登录到送达}
+      intro:
+        en: Follow an order from the browser to the server and back through the customer screens.
+        zh: 沿着用户操作流程，看一笔订单如何在浏览器、服务端和数据库之间流转。
+      stages:
+        - id: sign-in
+          label: {en: Account, zh: 账户}
+          title: {en: Register or sign in, zh: 注册或登录}
+          body:
+            en: New customers complete a verification-code step to register. At sign-in, Spring Boot checks the password against the saved hash for that email address or phone number and issues a JSON Web Token (JWT). The browser keeps the token for the session and sends it with later requests. A Spring Security filter verifies the token and makes the user identity available to controllers without keeping a server-side session.
+            zh: 新用户通过验证码步骤完成注册。登录时，Spring Boot 根据邮箱或手机号查找账户，比对密码与已存储的哈希值，通过后签发 JSON Web Token（JWT）。浏览器在当前会话内保留令牌，并随后续请求发送。Spring Security 过滤器验证令牌，将用户身份交给控制器，无需在服务端保存会话。
+        - id: order
+          label: {en: Addresses and parcels, zh: 地址与包裹}
+          title: {en: Enter the delivery details, zh: 填写配送信息}
+          body:
+            en: The customer picks a delivery center and selects a drop-off suggestion from Google Places within the San Francisco search bounds. The order wizard sends the selected coordinates to Spring Boot. The backend checks the drop-off against the service area, creates the order in PostgreSQL, and accepts a separate request to save the parcel details against that order.
+            zh: 用户选择配送站，再从 Google Places 限定在旧金山范围内的建议中选择送达地址。下单页面把选中的坐标传给 Spring Boot。后端确认送达点位于服务区内，在 PostgreSQL 中创建订单，并通过另一条请求把包裹信息关联到该订单。
+        - id: confirmation
+          label: {en: Vehicle and review, zh: 车型与订单核对}
+          title: {en: Choose an option and confirm the order, zh: 选择配送方式并确认订单}
+          body:
+            en: The recommendations screen checks vehicle availability at the selected center and presents robot and drone options. The customer chooses an option, reviews the order summary, and goes through checkout. The confirmation screen links to tracking for that order.
+            zh: 推荐页面查看所选配送站的车辆可用情况，并显示机器人和无人机选项。用户选择配送方式、核对订单摘要并完成结账步骤。确认页面提供该订单的追踪入口。
+        - id: tracking
+          label: {en: Tracking, zh: 追踪}
+          title: {en: Follow a simulated delivery, zh: 查看模拟配送进度}
+          body:
+            en: The tracking screen requests updates every three seconds. The backend checks that the order belongs to the signed-in customer, advances the vehicle’s simulated position, and returns the status and coordinates. Google Maps shows the center, vehicle, and destination, with a straight dashed line from the center to the destination. Polling stops when the order is delivered.
+            zh: 追踪页面每三秒请求一次更新。后端确认订单属于当前登录用户，推进车辆的模拟位置，并返回配送状态和坐标。Google Maps 显示配送站、车辆和送达点，用一条虚线直接连接配送站和送达点。订单送达后，页面停止轮询。
+        - id: order-history
+          label: {en: History, zh: 历史记录}
+          title: {en: Reopen an order, zh: 查看历史订单}
+          body:
+            en: Order history retrieves the customer’s orders from the backend. From the list, the customer can reopen tracking for an active delivery or view details for a delivered order. A separate profile screen displays and updates account information.
+            zh: 历史订单页面从后端读取当前用户的订单。用户可以从列表继续追踪配送中的订单，也可以查看已送达订单的详情。个人资料页面提供独立的账户信息查看和编辑入口。
+    architectureIntro:
+      en: For the local course demo, Docker Compose ran the frontend, backend, and PostgreSQL together. nginx served the React build and forwarded API requests to Spring Boot under the same origin.
+      zh: 课程演示通过 Docker Compose 在本地一起运行前端、后端和 PostgreSQL。nginx 提供 React 构建产物，并将同源 API 请求转发给 Spring Boot。
+    architecture:
+      - title: {en: 'Browser · React and TypeScript', zh: 浏览器 · React 与 TypeScript}
+        body:
+          en: React Router organizes the screens. The TypeScript client sends HTTP requests to the backend. Google Places suggests addresses and Google Maps draws the tracking view.
+          zh: React Router 组织各个页面，TypeScript 客户端通过 HTTP 请求与后端通信。Google Places 提供地址建议，Google Maps 绘制配送追踪视图。
+      - title: {en: 'Server · Spring Boot and Spring Security', zh: 服务端 · Spring Boot 与 Spring Security}
+        body:
+          en: Java controllers handle account, order, and tracking requests. Spring Security provides the request’s authenticated identity. Order and tracking handlers check ownership before returning the customer’s data.
+          zh: Java 控制器处理账户、订单和配送追踪请求。Spring Security 提供当前请求的认证身份，订单和追踪接口确认归属后再返回用户数据。
+      - title: {en: 'Database · PostgreSQL and Spring Data JDBC', zh: 数据库 · PostgreSQL 与 Spring Data JDBC}
+        body:
+          en: Spring Data JDBC repositories read and write PostgreSQL. Foreign keys link orders to customers and delivery centers and link parcels to orders. The order’s JSONB tracking field stores structured data such as the drop-off coordinates.
+          zh: Spring Data JDBC 仓储层读写 PostgreSQL。外键将订单关联到用户和配送站，将包裹关联到订单。订单的 JSONB 追踪字段保存送达点坐标等结构化数据。
+    workHeading: {en: My contributions, zh: 我的贡献}
+    work:
+      - en: I built the React and TypeScript address input with Google Places suggestions bounded to the delivery area. On the team’s Google Maps tracking page, I added the delivery markers, dashed line, and initial map framing.
+        zh: 我用 React 和 TypeScript 实现了地址输入组件，将 Google Places 的建议限制在配送范围内。我还在团队的 Google Maps 追踪页面加入配送标记、虚线连线和初始视野调整。
+      - en: I migrated the existing JWT authentication in the Spring Boot backend to Spring Security.
+        zh: 我将 Spring Boot 后端已有的 JWT 认证迁移到 Spring Security。
+      - en: As team lead, I turned proposed features into backlog items with acceptance criteria, planned sprints, and merged teammates’ pull requests.
+        zh: 作为队长，我把拟议功能整理成带有验收标准的待办事项，制定迭代计划，并合并队友的拉取请求。
+    journeyHeading: {en: What I learned from integration, zh: 我的联调经验}
+    journey:
+      - title: {en: Keep field names consistent at the API boundary, zh: 在 API 边界统一字段名}
+        body:
+          en: The order history screen expected camelCase fields in snake_case responses, and the profile screen sent an update field with the wrong name. I aligned the TypeScript API types and both screens with the backend’s field names.
+          zh: 订单历史页面按 camelCase 读取后端的 snake_case 响应，个人资料页面提交更新时也用错了一个字段名。我让 TypeScript API 类型和这两个页面都使用与后端一致的字段名。
+      - title: {en: Keep live data separate from the map viewport, zh: 将位置更新与地图视野分开}
+        body:
+          en: On first load, I fit the map to the delivery points so the pickup and drop-off were both visible. Later polls update the vehicle location while preserving the customer’s map view.
+          zh: 我让地图首次加载时自动调整视野，同时显示取件点和送达点。后续轮询会更新车辆位置，同时保留用户调整过的地图视野。
+    play:
+      url: play/autonomous-delivery/index.html
+      label: {en: Try the delivery demo, zh: 体验配送演示}
+    links:
+      - label: {en: Course team repository, zh: 课程团队仓库}
+        url: https://github.com/qhuang258/DDMA-team
+      - label: {en: Address autocomplete source, zh: 地址自动补全源码}
+        url: https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/components/AddressAutocomplete.tsx
+      - label: {en: Tracking page source, zh: 配送追踪页面源码}
+        url: https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/pages/tracking/TrackingPage.tsx
+      - label: {en: Spring Security configuration, zh: Spring Security 配置}
+        url: https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/backend/DeliveryManagement/src/main/java/com/laioffer/deliverymanagement/config/SecurityConfig.java
+    sectionOrder: [background, scope, architecture, process, contributions, journey, resources]
+
   - id: daisyworld
     published: true
     name: {en: 'DaisyWorld — Exploring Emergence', zh: 'DaisyWorld（探索涌现与环境反馈）'}

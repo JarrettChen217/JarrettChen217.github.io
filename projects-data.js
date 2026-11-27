@@ -457,27 +457,27 @@ const PROJECTS = {
               "浏览器实测"
             ],
             "title": [
-              "Asking about the folding screens",
-              "实测屏风归还问题"
+              "How did the two answers compare?",
+              "同一题，两路回答说了什么？"
             ],
             "body": [
-              "For this earlier browser check, I used a fictional venue policy to make the expected answer easy to check. On a separate unmerged demo branch developed with a coding agent, the upload succeeded. Submitting the question returned HTTP 502 and both answer areas displayed errors. In separate checks the PDF yielded one text chunk, the embedding request returned HTTP 401, and the MCP tool returned five web results. The cause of the web-answer error was not established.",
-              "这次早期浏览器实测采用虚构场馆的借用说明，归还规则可以直接对照原文核查。在与编码助手共同完成、尚未合入主分支的本地演示分支中，PDF 上传成功。提交问题后接口返回 HTTP 502，两个回答区分别显示错误。单独复核时，PDF 提取出一个文本块，嵌入请求返回 HTTP 401，MCP 工具返回五条网页搜索结果。网页回答生成失败的具体原因尚未定位。"
+              "In Chrome I uploaded the twelve-page physics notes and asked how adding mass affects each oscillator. Both panels returned an answer. The document answer matched the notes on mass dependence, and the web answer included both period formulas and links to its sources. The notes qualify the pendulum formula as a small-angle result. Neither answer mentioned that condition.",
+              "在 Chrome 上传十二页物理笔记，再问增加质量会怎样影响两种振子的周期。文档回答与笔记对质量的判断一致；网页回答还列出了两个周期公式及来源链接。回头核对讲义，单摆一节明确写了「小角度」，两路回答都漏掉了这个适用条件。"
             ],
             "gallery": [
               {
-                "src": "assets/projects/agent-ai/result.webp",
-                "thumbnail": "assets/projects/agent-ai/result-thumb.webp",
-                "width": 1080,
-                "height": 872,
+                "src": "assets/projects/agent-ai/physics-answers.webp",
+                "thumbnail": "assets/projects/agent-ai/physics-answers-thumb.webp",
+                "width": 908,
+                "height": 498,
                 "thumbnailWidth": 640,
                 "alt": [
-                  "Separate document and web error messages",
-                  "文档和网页回答区分别显示错误"
+                  "One physics question followed by the document answer in blue and the web answer in green",
+                  "同一物理题下方，蓝色区域为文档回答，绿色区域为附来源的网页回答"
                 ],
                 "caption": [
-                  "The browser received HTTP 502. Neither answer was generated in this run.",
-                  "这次浏览器请求返回 HTTP 502，两个回答区均未生成答案。"
+                  "Live answers from the local Docker demo branch, developed with a coding agent. PDF upload returned HTTP 201 and the question returned HTTP 200.",
+                  "与编码助手共同完成的本地 Docker 演示分支实录。PDF 上传返回 HTTP 201，问答返回 HTTP 200。"
                 ]
               }
             ]

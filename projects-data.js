@@ -1516,7 +1516,15 @@ const PROJECTS = {
         "算法",
         "可视化"
       ],
+      "linkPlacement": "top",
       "links": [
+        {
+          "label": [
+            "Try the AVL animation",
+            "体验 AVL 动画"
+          ],
+          "url": "https://dev-aia.vercel.app/animation/?alg=AVLTree&mode=operations"
+        },
         {
           "label": [
             "Course team repository",
@@ -1526,17 +1534,10 @@ const PROJECTS = {
         },
         {
           "label": [
-            "Algorithms in Action upstream repository",
+            "Algorithms in Action upstream",
             "Algorithms in Action 上游仓库"
           ],
           "url": "https://github.com/algorithms-in-action/algorithms-in-action.github.io"
-        },
-        {
-          "label": [
-            "Current AVL tree demo",
-            "当前 AVL 树在线演示"
-          ],
-          "url": "https://dev-aia.vercel.app/animation/?alg=AVLTree&mode=operations"
         }
       ]
     },

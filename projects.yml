@@ -614,13 +614,14 @@ projects:
         body:
           en: Our team's AVL changes were merged into Algorithms in Action. Later maintainers rewrote parts of the module in 2025. The team repository records our course work, and the live demo shows the version maintained upstream.
           zh: 我们团队的 AVL 改动已合入 Algorithms in Action。2025 年，后续维护者重写了部分模块。小组仓库保留了课程期间的工作记录，在线演示展示的是上游维护的版本。
+    linkPlacement: top
     links:
+      - label: {en: Try the AVL animation, zh: 体验 AVL 动画}
+        url: https://dev-aia.vercel.app/animation/?alg=AVLTree&mode=operations
       - label: {en: Course team repository, zh: 课程小组仓库}
         url: https://github.com/JarrettChen217/ITP_team025_staticsound
-      - label: {en: Algorithms in Action upstream repository, zh: Algorithms in Action 上游仓库}
+      - label: {en: Algorithms in Action upstream, zh: Algorithms in Action 上游仓库}
         url: https://github.com/algorithms-in-action/algorithms-in-action.github.io
-      - label: {en: Current AVL tree demo, zh: 当前 AVL 树在线演示}
-        url: https://dev-aia.vercel.app/animation/?alg=AVLTree&mode=operations
     architecture:
       - title: {en: Controller & pseudocode, zh: 控制器与伪代码}
         body:

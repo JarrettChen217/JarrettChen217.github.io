@@ -207,6 +207,10 @@ function compile(source) {
       });
     }
     if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
+    if(p.linkPlacement!==undefined){
+      if(p.linkPlacement!=='top'||!p.links?.length)fail(`${p.id}: top link placement requires links`);
+      result.linkPlacement=p.linkPlacement;
+    }
     if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
     return {published:p.published,data:result};
   });

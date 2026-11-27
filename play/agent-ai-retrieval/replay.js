@@ -1,8 +1,10 @@
 const labels = {
   en: {
     title: 'Retrieval replay',
-    intro: 'Explore a local MiniLM run on twelve physics questions. Each question has a recorded ranking and passages marked relevant before the run.',
+    intro: 'Choose a recorded run to see which four passages it returned for each physics question. All three runs use the same questions and relevance labels.',
     source: 'Read the twelve-page physics notes (PDF)',
+    run: 'Embedding model and run',
+    runs: { 'docker-demo': 'Docker demo', main: 'Main branch', offline: 'Offline baseline' },
     choose: 'Choose a question',
     gold: 'Human-labeled relevant passages',
     none: 'No passage in the notes answers this question.',
@@ -13,8 +15,10 @@ const labels = {
   },
   zh: {
     title: '逐题查看检索试跑',
-    intro: '这次本地试跑使用 MiniLM 检索十二道物理题。选一道题，就能对照实际返回的段落顺序和试跑前的人工标注。',
+    intro: '选择一次试跑，看看该模型为每道物理题找回了哪四段笔记。三次试跑使用同一组问题和预先标注的相关段落。',
     source: '阅读十二页物理笔记（PDF）',
+    run: '嵌入模型与试跑版本',
+    runs: { 'docker-demo': 'Docker 演示版', main: '主分支', offline: '本地对照' },
     choose: '选择题目',
     gold: '人工标注的相关段落',
     none: '笔记中没有能回答这道题的段落。',
@@ -31,7 +35,9 @@ if (!Object.hasOwn(labels, language)) language = navigator.language.toLowerCase(
 
 const byId = id => document.getElementById(id);
 const choose = byId('choose');
-const { questions, passages } = recordedRun;
+const runSelect = byId('run');
+let runId = 'docker-demo';
+const { questions, passages, runs } = recordedRun;
 let questionId = questions[7].id;
 
 function renderQuestion() {
@@ -43,7 +49,7 @@ function renderQuestion() {
   gold.lang = q.gold.length ? 'en' : language;
   const ranked = byId('ranked');
   ranked.replaceChildren();
-  for (const [index, id] of q.ranked.entries()) {
+  for (const [index, id] of runs[runId].rankings[q.id].entries()) {
     const passage = passages[id];
     const row = document.createElement('li');
     const detail = document.createElement('details');
@@ -73,6 +79,11 @@ function render() {
   byId('title').textContent = words.title;
   byId('intro').textContent = words.intro;
   byId('source').textContent = words.source;
+  byId('run-label').textContent = words.run;
+  runSelect.replaceChildren(...Object.entries(runs).map(([id, run]) =>
+    new Option(words.runs[id] + ' · ' + run.model, id)
+  ));
+  runSelect.value = runId;
   byId('choose-label').textContent = words.choose;
   byId('gold-title').textContent = words.gold;
   byId('rank-title').textContent = words.ranked;
@@ -85,6 +96,10 @@ function render() {
   renderQuestion();
 }
 
+runSelect.addEventListener('change', () => {
+  runId = runSelect.value;
+  renderQuestion();
+});
 choose.addEventListener('change', () => {
   questionId = choose.value;
   renderQuestion();

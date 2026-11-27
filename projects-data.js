@@ -415,8 +415,8 @@ const PROJECTS = {
               "检索找回了解题所需的段落吗？"
             ],
             "body": [
-              "For this portfolio check, twelve original physics passages were paired with twelve questions. Reference passages were marked before the run. Two questions needed two passages each, and one had no supporting passage. The PDF loader, splitter and in-memory store followed the project code. The original embedding service returned HTTP 401, so this run used local all-MiniLM-L6-v2 embeddings and returned four passages per question.",
-              "这次为作品集准备了十二段原创物理笔记和十二道题，在运行前标出每题需要的原文。其中两题各需两段，有一题在笔记中找不到依据。PDF 提取、切分和内存向量库沿用项目实现。原嵌入服务返回 HTTP 401，因此这次改用本地 all-MiniLM-L6-v2 计算向量，每题取前四段。"
+              "For this portfolio check, twelve original physics passages were paired with twelve questions. Reference passages were marked before the run. Two questions needed two passages each, and one had no supporting passage. The PDF loader, splitter and in-memory store followed the project code. The first OpenAI call returned HTTP 401, so the initial trial used local MiniLM embeddings. After the credential was updated, the same questions ran against both OpenAI configurations, text-embedding-3-small (Docker demo) and text-embedding-ada-002 (main default). All three runs used the same 12 passages and returned four per question.",
+              "这次为作品集准备了十二段原创物理笔记和十二道题，在运行前标出每题需要的原文。其中两题各需两段，有一题在笔记中找不到依据。PDF 提取、切分和内存向量库沿用项目实现。首次 OpenAI 请求返回 HTTP 401，当时单独用本地 MiniLM 完成基线试跑。更新凭据后，同一组题分别用 Docker 演示的 text-embedding-3-small 和主分支默认的 text-embedding-ada-002 重跑。三轮实际切出的 12 段完全一致，每题均取前四段。"
             ],
             "findings": [
               [
@@ -444,8 +444,8 @@ const PROJECTS = {
                   "144 个问题与段落配对的检索四格图。找回相关段落 13 对，带入无关段落 35 对，漏掉相关段落 0 对，正确排除无关段落 96 对。"
                 ],
                 "caption": [
-                  "Rows show whether a passage was retrieved. Columns show whether it was marked relevant to that question before the run.",
-                  "行表示该段是否进入检索结果，列表示它是否在运行前被标注为该题的依据。"
+                  "All three runs gave the same four counts. For each OpenAI run, 11 of the 12 ranked lists differed from MiniLM. Recomputing cosine similarities from the returned vectors reproduced every top-four list.",
+                  "三轮的四格计数相同。两次 OpenAI 重跑与 MiniLM 分别对照，各有 11 道题的排序列表发生变化。用返回的向量重新计算余弦相似度，逐题都复现了前四段的顺序。"
                 ]
               }
             ]

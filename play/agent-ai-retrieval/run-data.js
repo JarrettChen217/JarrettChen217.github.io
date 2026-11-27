@@ -1,4 +1,4 @@
-// Fixed questions, preassigned relevance labels, and recorded MiniLM rankings.
+// Fixed questions, preassigned relevance labels and the recorded top-four rankings.
 const recordedRun = {
   "questions": [
     {
@@ -6,12 +6,6 @@ const recordedRun = {
       "question": "What does a negative slope mean on a cart's position versus time graph?",
       "gold": [
         "C01"
-      ],
-      "ranked": [
-        "C01",
-        "C02",
-        "C03",
-        "C07"
       ]
     },
     {
@@ -20,12 +14,6 @@ const recordedRun = {
       "gold": [
         "C02",
         "C07"
-      ],
-      "ranked": [
-        "C07",
-        "C02",
-        "C01",
-        "C05"
       ]
     },
     {
@@ -33,12 +21,6 @@ const recordedRun = {
       "question": "When the tow ropes pull equally in opposite directions, can the moving trolley keep rolling?",
       "gold": [
         "C03"
-      ],
-      "ranked": [
-        "C03",
-        "C01",
-        "C02",
-        "C06"
       ]
     },
     {
@@ -46,12 +28,6 @@ const recordedRun = {
       "question": "What sets the maximum friction before a crate starts sliding?",
       "gold": [
         "C04"
-      ],
-      "ranked": [
-        "C04",
-        "C01",
-        "C03",
-        "C08"
       ]
     },
     {
@@ -59,12 +35,6 @@ const recordedRun = {
       "question": "A sideways push is always perpendicular to the path. Does it transfer kinetic energy through work?",
       "gold": [
         "C05"
-      ],
-      "ranked": [
-        "C05",
-        "C03",
-        "C01",
-        "C07"
       ]
     },
     {
@@ -72,12 +42,6 @@ const recordedRun = {
       "question": "Two wagons couple together on impact. What fixes their common speed after they latch?",
       "gold": [
         "C06"
-      ],
-      "ranked": [
-        "C06",
-        "C07",
-        "C03",
-        "C01"
       ]
     },
     {
@@ -85,12 +49,6 @@ const recordedRun = {
       "question": "If I lengthen the contact time for the same change of momentum, what happens to the average push?",
       "gold": [
         "C07"
-      ],
-      "ranked": [
-        "C07",
-        "C06",
-        "C08",
-        "C04"
       ]
     },
     {
@@ -99,12 +57,6 @@ const recordedRun = {
       "gold": [
         "C08",
         "C09"
-      ],
-      "ranked": [
-        "C09",
-        "C08",
-        "C03",
-        "C02"
       ]
     },
     {
@@ -112,12 +64,6 @@ const recordedRun = {
       "question": "How does doubling the voltage change the stored energy between the two plates?",
       "gold": [
         "C10"
-      ],
-      "ranked": [
-        "C10",
-        "C11",
-        "C05",
-        "C09"
       ]
     },
     {
@@ -125,12 +71,6 @@ const recordedRun = {
       "question": "Another resistor joins a single loop fed by the same battery. Does the current increase or decrease?",
       "gold": [
         "C11"
-      ],
-      "ranked": [
-        "C11",
-        "C09",
-        "C07",
-        "C10"
       ]
     },
     {
@@ -138,24 +78,12 @@ const recordedRun = {
       "question": "A light beam enters an optically denser material at an angle. Which way does it turn?",
       "gold": [
         "C12"
-      ],
-      "ranked": [
-        "C12",
-        "C03",
-        "C01",
-        "C08"
       ]
     },
     {
       "id": "Q12",
       "question": "How does temperature change the electrical resistance of a copper wire?",
-      "gold": [],
-      "ranked": [
-        "C11",
-        "C12",
-        "C05",
-        "C10"
-      ]
+      "gold": []
     }
   ],
   "passages": {
@@ -206,6 +134,239 @@ const recordedRun = {
     "C12": {
       "title": "Refraction at a boundary",
       "text": "Light crossing into a medium with higher refractive index slows down. At oblique incidence it bends toward the normal. Frequency stays the same across the boundary while wavelength decreases."
+    }
+  },
+  "runs": {
+    "docker-demo": {
+      "model": "text-embedding-3-small",
+      "rankings": {
+        "Q01": [
+          "C01",
+          "C02",
+          "C03",
+          "C07"
+        ],
+        "Q02": [
+          "C07",
+          "C02",
+          "C05",
+          "C01"
+        ],
+        "Q03": [
+          "C03",
+          "C06",
+          "C04",
+          "C08"
+        ],
+        "Q04": [
+          "C04",
+          "C08",
+          "C06",
+          "C03"
+        ],
+        "Q05": [
+          "C05",
+          "C03",
+          "C07",
+          "C06"
+        ],
+        "Q06": [
+          "C06",
+          "C04",
+          "C03",
+          "C08"
+        ],
+        "Q07": [
+          "C07",
+          "C06",
+          "C05",
+          "C08"
+        ],
+        "Q08": [
+          "C09",
+          "C08",
+          "C03",
+          "C06"
+        ],
+        "Q09": [
+          "C10",
+          "C11",
+          "C08",
+          "C09"
+        ],
+        "Q10": [
+          "C11",
+          "C10",
+          "C08",
+          "C12"
+        ],
+        "Q11": [
+          "C12",
+          "C05",
+          "C01",
+          "C07"
+        ],
+        "Q12": [
+          "C11",
+          "C12",
+          "C04",
+          "C10"
+        ]
+      }
+    },
+    "main": {
+      "model": "text-embedding-ada-002",
+      "rankings": {
+        "Q01": [
+          "C01",
+          "C02",
+          "C03",
+          "C07"
+        ],
+        "Q02": [
+          "C07",
+          "C02",
+          "C01",
+          "C06"
+        ],
+        "Q03": [
+          "C03",
+          "C06",
+          "C08",
+          "C01"
+        ],
+        "Q04": [
+          "C04",
+          "C08",
+          "C03",
+          "C07"
+        ],
+        "Q05": [
+          "C05",
+          "C03",
+          "C06",
+          "C01"
+        ],
+        "Q06": [
+          "C06",
+          "C03",
+          "C04",
+          "C07"
+        ],
+        "Q07": [
+          "C07",
+          "C06",
+          "C08",
+          "C03"
+        ],
+        "Q08": [
+          "C08",
+          "C09",
+          "C03",
+          "C06"
+        ],
+        "Q09": [
+          "C10",
+          "C11",
+          "C05",
+          "C06"
+        ],
+        "Q10": [
+          "C11",
+          "C10",
+          "C09",
+          "C08"
+        ],
+        "Q11": [
+          "C12",
+          "C09",
+          "C07",
+          "C08"
+        ],
+        "Q12": [
+          "C11",
+          "C10",
+          "C12",
+          "C05"
+        ]
+      }
+    },
+    "offline": {
+      "model": "all-MiniLM-L6-v2",
+      "rankings": {
+        "Q01": [
+          "C01",
+          "C02",
+          "C03",
+          "C07"
+        ],
+        "Q02": [
+          "C07",
+          "C02",
+          "C01",
+          "C05"
+        ],
+        "Q03": [
+          "C03",
+          "C01",
+          "C02",
+          "C06"
+        ],
+        "Q04": [
+          "C04",
+          "C01",
+          "C03",
+          "C08"
+        ],
+        "Q05": [
+          "C05",
+          "C03",
+          "C01",
+          "C07"
+        ],
+        "Q06": [
+          "C06",
+          "C07",
+          "C03",
+          "C01"
+        ],
+        "Q07": [
+          "C07",
+          "C06",
+          "C08",
+          "C04"
+        ],
+        "Q08": [
+          "C09",
+          "C08",
+          "C03",
+          "C02"
+        ],
+        "Q09": [
+          "C10",
+          "C11",
+          "C05",
+          "C09"
+        ],
+        "Q10": [
+          "C11",
+          "C09",
+          "C07",
+          "C10"
+        ],
+        "Q11": [
+          "C12",
+          "C03",
+          "C01",
+          "C08"
+        ],
+        "Q12": [
+          "C11",
+          "C12",
+          "C05",
+          "C10"
+        ]
+      }
     }
   }
 };

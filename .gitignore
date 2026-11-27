@@ -4,3 +4,8 @@ design/archive/
 _site/
 playwright-report/
 test-results/
+
+# Local brainstorming and review notes (files already tracked are unaffected)
+.superpowers/
+.local-review/
+docs/superpowers/

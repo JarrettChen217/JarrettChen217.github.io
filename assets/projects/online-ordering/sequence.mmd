@@ -1,0 +1,24 @@
+sequenceDiagram
+    accTitle: Online Food Ordering · 从加购到打开购物车 / From add to cart to the cart drawer
+    accDescr: The browser observed POST and GET returning HTTP 200 and the cart containing one item for $4.89. Internal transaction and cache steps follow the source code.
+    participant R as React
+    participant A as Spring Boot
+    participant D as PostgreSQL
+    participant C as Caffeine
+    Note over R,A: 实测 · 点加号 / Observed · tap +
+    R->>A: POST /cart via Nginx
+    Note over A,C: 内部处理依据源码 / Internals from source
+    A->>A: 会话 → 顾客 ID / Session → customer ID
+    A->>D: 事务内更新明细和总价<br/>Save line item and total in one transaction
+    D-->>A: 提交成功 / Commit
+    A->>C: 使该顾客的缓存失效 / Evict customer's cart
+    A-->>R: HTTP 200
+    Note over R,A: 实测 · 打开购物车 / Observed · open Cart
+    R->>A: GET /cart via Nginx
+    A->>C: 查询缓存 / Look up cart
+    C-->>A: 未命中 / Miss
+    A->>D: 读取明细与菜单 / Read cart and menu details
+    D-->>A: 购物车数据 / Cart data
+    A->>C: 缓存结果 / Cache CartDto
+    A-->>R: HTTP 200 · Cart JSON
+    Note over R,A: 实测 / Observed · 1 × Chicken Fries · $4.89

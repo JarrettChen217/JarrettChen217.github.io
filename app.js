@@ -14,7 +14,7 @@ icons.instagram='M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-
 const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${icons[name]}"/></svg>`;
 const label=(en,zh)=>esc(t([en,zh]));
 const bilingual=(en,zh)=>esc(en)+(language==='zh'?` <span class="annotation">（${esc(zh)}）</span>`:'');
-function route(){const [page='overview',id]=location.hash.slice(1).split('/');return {page:['overview','internships','internship','projects','project','contact'].includes(page)?page:'overview',id};}
+function route(){const [page='overview',id]=location.hash.slice(1).split('/');return {page:['overview','education','internships','internship','projects','project','contact'].includes(page)?page:'overview',id};}
 function profile(){document.querySelector('#profile').innerHTML=`<div class="avatar"><img src="assets/profile/hao-chen-avatar-512.webp" srcset="assets/profile/hao-chen-avatar-512.webp 512w, assets/profile/hao-chen-avatar-1024.webp 1024w" sizes="(max-width: 640px) 96px, (max-width: 900px) 145px, 165px" alt="${label('Portrait of Hao Chen','Hao Chen 的个人头像')}"></div><h1>Hao Chen</h1><div class="pronouns">he / him</div><div class="identity">${label('M.S. student','理学硕士在读')}<br>${bilingual('Computer Engineering','计算机工程')}<br>${bilingual('Columbia University','哥伦比亚大学')}</div><div class="contact-line">${label('New York, United States','纽约，美国')}${CONTENT.email?`<br><a href="mailto:${esc(CONTENT.email)}">${esc(CONTENT.email)}</a>`:''}</div><div class="socials">${CONTENT.linkedin?`<a href="${esc(CONTENT.linkedin)}" aria-label="LinkedIn" target="_blank" rel="noopener">${icon('linkedin')}</a>`:''}<a href="${esc(CONTENT.github)}" aria-label="GitHub" target="_blank" rel="noopener">${icon('github')}</a><div class="wechat"><button id="wechat-toggle" aria-label="WeChat" aria-controls="wechat-info" aria-expanded="false">${icon('wechat')}</button><div class="popover" id="wechat-info"><strong>WeChat</strong><br>${CONTENT.wechat?`${esc(CONTENT.wechat)} <button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`:label('ID to be confirmed','微信号待确认')}</div></div></div><nav class="section-nav" aria-label="Overview sections">${[['about','About me','关于我'],['education','Education','教育经历'],['selected-internships','Selected internships','精选实习'],['selected','Selected projects','精选项目']].map(([id,en,zh])=>`<a href="#overview/${id}">${label(en,zh)}</a>`).join('')}</nav>`;
 document.querySelector('#wechat-toggle').addEventListener('click',e=>{const open=e.currentTarget.parentElement.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',String(open));});}
 const renderProfile=profile;
@@ -31,8 +31,51 @@ profile=()=>{
  instagram.innerHTML=icon('instagram');
  socials.insertBefore(instagram,wechat);
 };
-function progress(){const now=new Date();const day=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());return Math.max(0,Math.min(100,100*(day-Date.UTC(2025,6,1))/(Date.UTC(2027,0,1)-Date.UTC(2025,6,1))));}
-function education(){const pct=progress().toFixed(1);return `<section id="education"><h2>${label('Education','教育经历')}</h2><div class="degree"><div class="row"><h3>${bilingual('Columbia University','哥伦比亚大学')}</h3><span class="meta">${label('New York, United States','纽约，美国')}</span></div><div class="degree-title">${bilingual('Master of Science in Computer Engineering','计算机工程理学硕士')}</div><div class="progress-labels"><span>${label('Jul 2025','2025年7月')}</span><span>${label('Dec 2026 · Expected','2026年12月 · 预计毕业')}</span></div><div class="track" role="progressbar" aria-label="${label('Master’s program timeline','硕士学习时间进度')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div id="ms-fill" class="fill" style="width:${pct}%"></div></div><div class="progress-labels"><span>${label('Program timeline','学习时间进度')}</span><span id="ms-pct">${pct}%</span></div></div><div class="degree"><div class="row"><h3>${bilingual('The University of Melbourne','墨尔本大学')}</h3><span class="meta">${label('Melbourne, Australia','墨尔本，澳大利亚')}</span></div><div class="degree-title">${bilingual('Bachelor of Science','理学学士')}<br>${bilingual('Major in Computing and Software Systems','计算与软件系统专业')}</div><div class="progress-labels"><span>${label('Feb 2022','2022年2月')}</span><span>${label('Dec 2024','2024年12月')}</span></div><div class="track" role="progressbar" aria-label="${label('Bachelor’s program timeline','本科学习时间进度')}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:100%;background:#a9bcc8"></div></div><div class="progress-labels"><span>${label('Completed','已完成')}</span><span>100%</span></div></div></section>`;}
+function progress(){const now=new Date();const day=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());return Math.max(0,Math.min(100,100*(day-Date.UTC(2025,8,1))/(Date.UTC(2027,0,1)-Date.UTC(2025,8,1))));}
+function education(){const pct=progress().toFixed(1);const {columbia,unimelb:school}=CONTENT.education;return `<section id="education"><h2>${label('Education','教育经历')}</h2><div class="degree"><div class="row"><h3><a class="school-link" href="#education/columbia">${bilingual(...columbia.name)}</a></h3><span class="meta">${label('New York, United States','纽约，美国')}</span></div><div class="degree-title">${bilingual(...columbia.degree)}</div><div class="progress-labels"><span>${label(...columbia.start)}</span><span>${label(...columbia.end)}</span></div><div class="track" role="progressbar" aria-label="${label('Master’s program timeline','硕士学习时间进度')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div id="ms-fill" class="fill" style="width:${pct}%"></div></div><div class="progress-labels"><span>${label('Program timeline','学习时间进度')}</span><span id="ms-pct">${pct}%</span></div></div><div class="degree"><div class="row"><h3><a class="school-link" href="#education/unimelb">${bilingual(...school.name)}</a></h3><span class="meta">${label('Melbourne, Australia','墨尔本，澳大利亚')}</span></div><div class="degree-title">${bilingual(...school.degree)}<br>${bilingual(`Major in ${school.major[0]}`,`${school.major[1]}专业`)}</div><div class="progress-labels"><span>${label(...school.start)}</span><span>${label(...school.end)}</span></div><div class="track" role="progressbar" aria-label="${label('Bachelor’s program timeline','本科学习时间进度')}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:100%;background:#a9bcc8"></div></div><div class="progress-labels"><span>${label('Completed','已完成')}</span><span>100%</span></div></div></section>`;}
+function schoolDetail(school){
+ const back=`<a class="back" href="#overview/education"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to education','返回教育经历')}</a>`;
+ if(!school)return `${back}<h2 tabindex="-1">${label('School not found','未找到学校')}</h2>`;
+ const stories=school.stories.map(({title,body,link,photo,figures})=>`
+  <article class="school-story${photo?' school-story-illustrated':''}">
+   <div>
+   <h4>${esc(t(title))}</h4>
+   <p>${esc(t(body))}</p>
+   ${link?`<a class="school-link" href="${esc(link.href)}">${esc(t(link.label))}</a>`:''}
+   </div>
+   ${photo?`<div class="school-photo">${internshipImage(photo)}</div>`:''}
+   ${figures ? `<div class="school-photo school-figures">${figures.map(internshipImage).join('')}</div>` : ''}
+  </article>`).join('');
+ const courses=school.courseGroups.map(({title,courses})=>`
+  <div class="school-course-group">
+   <h4>${esc(t(title))}</h4>
+   <ul role="list">${courses.map(({name,year,semester,term,link})=>`
+    <li><span><span lang="en">${esc(name)}</span>${link ? ` · <a class="school-link" href="${esc(link.href)}">${esc(t(link.label))}</a>` : ''}</span><span class="school-semester">${term ? label(...school.terms[term]) : label(`${year} Semester ${semester}`,`${year} 年第 ${semester} 学期`)}</span></li>`).join('')}
+   </ul>
+  </div>`).join('');
+ return `
+  <article class="school-detail">
+   ${back}
+   <h2 class="detail-heading" tabindex="-1">${bilingual(...school.name)}</h2>
+   <dl class="school-credentials">
+    <div><dt>${label('Degree','学位')}</dt><dd>${bilingual(...school.degree)}</dd></div>
+    ${school.major ? `<div><dt>${label('Major','主修')}</dt><dd>${bilingual(...school.major)}</dd></div>` : ''}
+    <div><dt>${label('Dates','就读时间')}</dt><dd>${label(...school.start)}–${label(...school.end)}</dd></div>
+    <div><dt>${label(...school.gradeLabel)}</dt><dd>${esc(school.grade)}</dd></div>
+   </dl>
+   ${school.entrancePhoto ? `<div class="school-photo school-entrance">${internshipImage(school.entrancePhoto)}</div>` : ''}
+   <p class="school-focus">${esc(t(school.focus))}</p>
+   <section class="detail-section school-stories">
+    <h3>${label('Learning experiences','学习经历')}</h3>
+    ${stories}
+   </section>
+   ${school.cityPhoto ? `<div class="school-photo">${internshipImage(school.cityPhoto)}</div>` : ''}
+   <section class="detail-section school-courses">
+    <h3>${label(...school.courseworkHeading)}</h3>
+    ${courses}
+   </section>
+  </article>`;
+}
 function entry(p, description=p.summary){return `<article class="entry"><div class="row"><h3><a href="#project/${esc(p.id)}">${esc(t(p.name))}</a></h3><span class="meta">${esc(t(p.date))}</span></div><div class="meta">${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}</div><p>${esc(t(description))}</p><div class="tech">${esc(p.tech)}</div><a class="entry-link" href="#project/${esc(p.id)}">${label('Project overview','项目详情')}</a></article>`;}
 function companyLogo(logo,className,{lazy=false}={}){if(!logo)return '';return `<img class="${className}" src="${esc(logo.src)}" width="${logo.width}" height="${logo.height}" alt="${esc(t(logo.alt))}" decoding="async"${lazy?' loading="lazy"':''}>`;}
 function internshipEntry(i,description=i.excerpt){const body=`<div class="row"><h3><a href="#internship/${esc(i.id)}">${esc(t(i.company))}</a></h3><span class="meta">${esc(t(i.date))}</span></div><div class="meta">${esc(t(i.place))} · ${esc(t(i.role))}</div><p>${esc(t(description))}</p><div class="tech">${esc(i.tech)}</div><a class="entry-link" href="#internship/${esc(i.id)}">${label('Internship overview','实习详情')}</a>`;return i.logo?`<article class="entry entry-with-logo"><div class="entry-body">${body}</div>${companyLogo(i.logo,'entry-logo',{lazy:true})}</article>`:`<article class="entry">${body}</article>`;}
@@ -50,42 +93,103 @@ function internshipDetail(id){const i=CONTENT.internships.find(item=>item.id===i
 function projects(){const options=(values,current)=>`<option value="all">${label('All','全部')}</option>`+Object.entries(values).map(([k,v])=>`<option value="${k}" ${current===k?'selected':''}>${esc(t(v))}</option>`).join('');return `<section><h2>${label('Projects','项目作品')}</h2><p class="page-intro">${label('Explore projects by location, context, or technology.','按地点、项目类型或技术关键词浏览项目。')}</p><div class="search-field"><label for="project-search">${label('Search projects','搜索项目')}</label><input id="project-search" type="search" value="${esc(filters.query)}" placeholder="${label('Name, technology, or keyword…','名称、技术栈或关键词…')}" autocomplete="off"></div><div class="filters"><label>${label('Location','地点')}<select id="region">${options(places,filters.region)}</select></label><label>${label('Project type','项目类型')}<select id="type">${options(types,filters.type)}</select></label></div><div class="filter-status"><div id="result-count" class="results" role="status" aria-live="polite"></div><button id="reset-filters">${label('Clear filters','清除筛选')}</button></div><div id="project-results"></div></section>`;}
 function matches(p){const tokens=filters.query.normalize('NFKC').toLowerCase().trim().split(/\s+/).filter(Boolean);const processText=(p.process?.stages||[]).flatMap(stage=>[...stage.label,...stage.title,...stage.body,...(stage.contribution||[]),...(stage.findings||[]).flat()]);const text=[...p.name,...p.summary,...(p.keywords||[]),p.tech,...(p.background||[]),...(p.work||[]).flat(),...processText,...places[p.region],...types[p.type],...p.date].join(' ').normalize('NFKC').toLowerCase();return (filters.region==='all'||filters.region===p.region)&&(filters.type==='all'||filters.type===p.type)&&tokens.every(token=>text.includes(token));}
 function updateResults(){const found=CONTENT.projects.filter(matches);document.querySelector('#result-count').textContent=t([`${found.length} of ${CONTENT.projects.length} projects`,`${found.length} / ${CONTENT.projects.length} 个项目`]);document.querySelector('#project-results').innerHTML=found.map(p=>entry(p)).join('')||`<p class="empty">${label('No matching projects. Try another keyword or clear the filters.','没有匹配的项目，请更换关键词或清除筛选。')}</p>`;}
-function journey(p){if(!p.journey?.length)return '';return `<section class="detail-section project-journey"><h3>${label('Highlights & development','成果与实现')}</h3>${p.journey.map(item=>`<article class="journey-entry"><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></article>`).join('')}</section>`;}
+function journey(p){if(!p.journey?.length)return '';return `<section class="detail-section project-journey"><h3>${esc(t(p.journeyHeading||['Highlights & development','成果与实现']))}</h3>${p.journey.map(item=>`<article class="journey-entry"><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></article>`).join('')}</section>`;}
 function memberByline(p){if(!p.members?.length)return '';return `<br>${label('Members: ','成员：')}<span class="team-members">${p.members.map(member=>{const name=esc(t(member.name));const url=member.github||member.url;return url?`<a class="team-member-link" href="${esc(url)}" target="_blank" rel="noopener">${name}</a>`:name}).join(' · ')}</span>`;}
-function architecture(p){if(!p.architecture?.length)return '';return `<section class="detail-section project-architecture"><h3>${label('Architecture','系统架构')}</h3><ol class="architecture-flow">${p.architecture.map(item=>`<li><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></li>`).join('')}</ol></section>`;}
+function requestSequence(p){
+ const diagram=p.sequence;
+ if(!diagram)return '';
+ const file=`assets/projects/${esc(p.id)}/card-request-${language}`;
+ const title=label('One card recommendation, end to end','一次选牌请求的时序图');
+ const actors=diagram.actors.map(actor=>esc(t(actor)));
+ const phases=diagram.phases.map(phase=>`<h4>${esc(t(phase.title))}</h4><ol>${phase.messages.map(message=>
+   `<li><strong>${actors[message.from]} → ${actors[message.to]}</strong> · ${esc(t(message.label))}</li>`).join('')}</ol>`).join('');
+ return `<section class="detail-section request-sequence"><h3>${title}</h3>
+   <a href="${file}.svg" target="_blank" rel="noopener" aria-label="${label('Enlarge the sequence diagram','放大查看时序图')}"><img src="${file}.svg" alt="${title}" loading="lazy" decoding="async"></a>
+   <div class="sequence-links"><a href="${file}.svg" target="_blank" rel="noopener">${label('View full size','查看大图')} ↗</a>
+   <a href="${file}.mmd" download>${label('Download Mermaid source','下载 Mermaid 源文件')}</a></div>
+   <details><summary>${label('Read the sequence step by step','逐步阅读文字版')}</summary>${phases}</details></section>`;
+}
+function promptLibrary(p){
+ if(!p.prompts?.length)return '';
+ return `<section class="detail-section prompt-library"><h3>${label('Inside the prompts','展开看提示词')}</h3>${p.prompts.map(item=>`<details><summary>${esc(t(item.title))}</summary><p>${esc(t(item.why))}</p><pre dir="auto">${esc(item.original)}</pre></details>`).join('')}</section>`;
+}
+function architecture(p){if(!p.architecture?.length)return '';return `<section class="detail-section project-architecture"><h3>${label('Architecture','系统架构')}</h3>${p.architectureIntro?`<p>${esc(t(p.architectureIntro))}</p>`:''}<ol class="architecture-flow" role="list">${p.architecture.map(item=>`<li><h4>${esc(t(item.title))}</h4><p>${esc(t(item.body))}</p></li>`).join('')}</ol></section>`;}
 function gallery(p,group){const items=(p.gallery||[]).filter(item=>item.group===group);if(!items.length)return '';const titles={product:['Project in action','作品展示'],engineering:['Design & delivery','设计与交付'],team:['Team & moments','团队与记录']};return `<section class="detail-section project-gallery"><h3>${esc(t(titles[group]))}</h3><div class="gallery-grid gallery-${group}">${items.map(item=>`<figure><a href="${esc(item.src)}" data-gallery-preview aria-haspopup="dialog" aria-label="${label('Open larger image: ','查看大图：')}${esc(t(item.alt))}"><img src="${esc(item.thumbnail)}" srcset="${esc(item.thumbnail)} ${item.thumbnailWidth}w, ${esc(item.src)} ${item.width}w" sizes="${group==='team'?'(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 40vw, 360px':'(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 65vw, 800px'}" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${esc(t(item.alt))}"></a><figcaption>${esc(t(item.caption))}</figcaption></figure>`).join('')}</div></section>`;}
 function demoVideo(value){const d=value?.demo||value;if(!d?.src)return '';return `<figure class="project-demo"><video controls playsinline preload="none" poster="${esc(d.poster)}" width="${d.width}" height="${d.height}" aria-label="${esc(t(d.caption))}"><source src="${esc(d.src)}" type="video/mp4"><a href="${esc(d.src)}">${label('Watch the demo','观看演示')}</a></video><button type="button" class="video-enlarge" data-video-preview aria-haspopup="dialog"><span aria-hidden="true">⛶</span> ${label('Enlarge video','放大观看')}</button><figcaption>${esc(t(d.caption))}</figcaption></figure>`;}
 function youtubeDemo(p){if(!p.youtubeDemo)return '';const d=p.youtubeDemo;return `<section class="detail-section project-youtube-demo"><h3>${label('Demo','演示')}</h3><div class="youtube-frame"><iframe width="560" height="315" src="${esc(d.embedUrl)}" title="${esc(t(d.title))}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><a class="youtube-link" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(t(d.linkLabel))}<span aria-hidden="true"> ↗</span></a></section>`;}
 function featuredVideo(p){const video=p.featuredVideo;if(!video)return '';const media=video.embedUrl?`<div class="video-embed"><iframe src="${esc(video.embedUrl)}" title="${esc(t(video.caption))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`:`<a class="video-poster" href="${esc(video.watchUrl)}" target="_blank" rel="noopener" aria-label="${label('Watch gameplay demo on YouTube','前往 YouTube 观看游戏演示')}"><img src="${esc(video.poster)}" width="${video.width}" height="${video.height}" alt="${esc(t(video.caption))}" decoding="async"><span aria-hidden="true"><b>▶</b> ${label('Watch Demo','观看演示')}</span></a>`;return `<section class="detail-section project-featured-video"><h3>${label('Gameplay demo','游戏演示')}</h3>${media}<p class="media-caption">${esc(t(video.caption))}</p><div class="project-actions"><a class="project-action" href="${esc(video.watchUrl)}" target="_blank" rel="noopener">${label('Watch Demo','观看演示')}</a>${p.play?`<a class="project-action project-action-primary" href="${esc(p.play.url)}" target="_blank" rel="noopener">${esc(t(p.play.label))}</a>`:''}</div></section>`;}
 function credits(p){if(!p.credits?.length)return '';return `<section class="detail-section project-credits"><h3>${label('Credits & sources','素材来源与署名')}</h3><ul class="credit-list">${p.credits.map(item=>`<li><strong>${esc(t(item.title))}</strong><span>${esc(t(item.body))}</span>${item.url?`<a href="${esc(item.url)}" target="_blank" rel="noopener">${label('Source','来源')}</a>`:''}</li>`).join('')}</ul></section>`;}
-function processMedia(item){return `<figure><a href="${esc(item.src)}" data-gallery-preview aria-haspopup="dialog" aria-label="${label('Open larger image: ','查看大图：')}${esc(t(item.alt))}"><img src="${esc(item.thumbnail)}" srcset="${esc(item.thumbnail)} ${item.thumbnailWidth}w, ${esc(item.src)} ${item.width}w" sizes="(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 65vw, 800px" width="${item.width}" height="${item.height}" loading="lazy" decoding="async" alt="${esc(t(item.alt))}"></a><figcaption>${esc(t(item.caption))}</figcaption></figure>`;}
+function processMedia(item){
+ const image=language==='en' && item.englishImage ? item.englishImage : item;
+ return `<figure><a href="${esc(image.src)}" data-gallery-preview aria-haspopup="dialog" aria-label="${label('Open larger image: ','查看大图：')}${esc(t(item.alt))}"><img src="${esc(image.thumbnail)}" srcset="${esc(image.thumbnail)} ${image.thumbnailWidth}w, ${esc(image.src)} ${image.width}w" sizes="(max-width: 640px) calc(100vw - 44px), (max-width: 900px) 65vw, 800px" width="${image.width}" height="${image.height}" loading="lazy" decoding="async" alt="${esc(t(item.alt))}"></a><figcaption>${esc(t(item.caption))}</figcaption></figure>`;}
 function projectMechanics(p){if(!p.mechanics?.steps?.length)return '';return `<section class="project-mechanics"><div class="mechanics-header"><p class="mechanics-kicker">${label('Core gameplay loop','核心玩法循环')}</p><h3>${esc(t(p.mechanics.heading))}</h3><p>${esc(t(p.mechanics.intro))}</p></div><ol class="mechanics-flow">${p.mechanics.steps.map((step,index)=>`<li id="mechanic-${esc(step.id)}"><span class="mechanics-index" aria-hidden="true">${String(index+1).padStart(2,'0')}</span><h4>${esc(t(step.title))}</h4><p>${esc(t(step.body))}</p></li>`).join('')}</ol></section>`;}
-function projectProcess(p){if(!p.process?.stages?.length)return '';const copy=`<p class="process-kicker">${esc(t(p.process.kicker||['Design process','设计过程']))}</p><h3>${esc(t(p.process.heading))}</h3><p>${esc(t(p.process.intro))}</p>`;const header=p.process.badge?`<div class="process-header process-header-with-badge"><div class="process-header-copy">${copy}</div><img class="process-badge" src="${esc(p.process.badge.src)}" width="${p.process.badge.width}" height="${p.process.badge.height}" alt="${esc(t(p.process.badge.alt))}" decoding="async"></div>`:`<div class="process-header">${copy}</div>`;return `<section class="project-process">${header}<div class="process-stages">${p.process.stages.map((stage,index)=>`<article class="process-stage" id="process-${esc(stage.id)}"><div class="process-stage-marker" aria-hidden="true"><span>${String(index+1).padStart(2,'0')}</span></div><div class="process-stage-content"><p class="process-stage-label">${esc(t(stage.label))}</p><h4>${esc(t(stage.title))}</h4><p>${esc(t(stage.body))}</p>${stage.contribution?`<p class="process-contribution"><strong>${label('My contribution','我的贡献')}</strong><span>${esc(t(stage.contribution))}</span></p>`:''}${stage.findings?.length?`<ul class="process-findings">${stage.findings.map(finding=>`<li>${esc(t(finding))}</li>`).join('')}</ul>`:''}${stage.gallery?.length?`<div class="process-gallery">${stage.gallery.map(processMedia).join('')}</div>`:''}${demoVideo(stage.demo)}</div></article>`).join('')}</div></section>`;}
+function processDiagram(diagram) {
+  if (!diagram) return '';
+  const src = esc(t(diagram.src));
+  return `<figure class="process-diagram"><a href="${src}" target="_blank" rel="noopener">
+    <img src="${src}" alt="${esc(t(diagram.alt))}">
+    <span>${label('Open full-size sequence diagram', '查看完整时序图')} ↗</span>
+  </a><figcaption>${esc(t(diagram.caption))}</figcaption></figure>`;
+}
+function projectProcess(p){if(!p.process?.stages?.length)return '';const copy=`<p class="process-kicker">${esc(t(p.process.kicker||['Design process','设计过程']))}</p><h3>${esc(t(p.process.heading))}</h3><p>${esc(t(p.process.intro))}</p>`;const header=p.process.badge?`<div class="process-header process-header-with-badge"><div class="process-header-copy">${copy}</div><img class="process-badge" src="${esc(p.process.badge.src)}" width="${p.process.badge.width}" height="${p.process.badge.height}" alt="${esc(t(p.process.badge.alt))}" decoding="async"></div>`:`<div class="process-header">${copy}</div>`;return `<section class="project-process">${header}${processDiagram(p.process.diagram)}<div class="process-stages">${p.process.stages.map((stage,index)=>`<article class="process-stage" id="process-${esc(stage.id)}"><div class="process-stage-marker" aria-hidden="true"><span>${String(index+1).padStart(2,'0')}</span></div><div class="process-stage-content"><p class="process-stage-label">${esc(t(stage.label))}</p><h4>${esc(t(stage.title))}</h4><p>${esc(t(stage.body))}</p>${stage.contribution?`<p class="process-contribution"><strong>${label('My contribution','我的贡献')}</strong><span>${esc(t(stage.contribution))}</span></p>`:''}${stage.findings?.length?`<ul class="process-findings">${stage.findings.map(finding=>`<li>${esc(t(finding))}</li>`).join('')}</ul>`:''}${stage.gallery?.length?`<div class="process-gallery">${stage.gallery.map(processMedia).join('')}</div>`:''}${demoVideo(stage.demo)}</div></article>`).join('')}</div></section>`;}
 function detailSections(p){
  const sections={
   video:()=>featuredVideo(p),background:()=>`<div class="detail-section"><h3>${label('Background','项目背景')}</h3><p>${esc(t(p.background))}</p>${p.backgroundLink?`<a class="background-link" href="${esc(p.backgroundLink.url)}" target="_blank" rel="noopener">${esc(t(p.backgroundLink.label))}<span aria-hidden="true"> ↗</span></a>`:''}</div>`,mechanics:()=>projectMechanics(p),process:()=>projectProcess(p),
   product:()=>gallery(p,'product'),contributions:()=>p.work.length?`<div class="detail-section"><h3>${esc(t(p.workHeading||['Work & contribution','工作与贡献']))}</h3><ul>${p.work.map(w=>`<li>${esc(t(w))}</li>`).join('')}</ul></div>`:'',
-  demo:()=>demoVideo(p),youtube:()=>youtubeDemo(p),journey:()=>journey(p),architecture:()=>architecture(p),engineering:()=>gallery(p,'engineering'),team:()=>gallery(p,'team'),credits:()=>credits(p),
+  demo:()=>demoVideo(p),youtube:()=>youtubeDemo(p),journey:()=>journey(p),architecture:()=>architecture(p),sequence:()=>requestSequence(p),prompts:()=>promptLibrary(p),workflow:()=>p.id==='meeting-transcribe' ? `<section class="detail-section project-inline-demo"><h3>${label('Workflow demo','流程演示')}</h3><transcription-workflow lang="${language}"></transcription-workflow></section>` : '' ,engineering:()=>gallery(p,'engineering'),team:()=>gallery(p,'team'),credits:()=>credits(p),
   resources:()=>p.links?.length?`<div class="detail-section"><h3>${label('Resources','项目资源')}</h3>${p.links.map(link=>`<a href="${esc(link.url)}" target="_blank" rel="noopener">${esc(t(link.label))}</a>`).join(' · ')}</div>`:'',
   scope:()=>p.boundary?`<div class="detail-section"><h3>${label('Scope','展示范围')}</h3><p>${esc(t(p.boundary))}</p></div>`:''
  };
- const order=p.sectionOrder||(p.process?['background','process','resources','scope']:['background','contributions','product','demo','youtube','journey','architecture','engineering','team','resources','scope']);
+ const order=p.sectionOrder||(p.process?['background','workflow','process','resources','scope']:['background','workflow','contributions','product','demo','youtube','journey','architecture','engineering','team','resources','scope']);
  return order.map(key=>sections[key]()).join('');
 }
-function detail(id){const p=CONTENT.projects.find(x=>x.id===id);if(!p)return `<h2>${label('Project not found','未找到项目')}</h2><a href="#projects">${label('Back to projects','返回项目列表')}</a>`;return `<a class="back" href="#projects"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to all projects','返回所有项目')}</a><div class="detail-title-row"><h2 class="detail-heading">${esc(t(p.name))}</h2>${p.logo?`<img class="project-logo" src="${esc(p.logo.src)}" width="${p.logo.width}" height="${p.logo.height}" alt="${esc(t(p.logo.alt))}" decoding="async">`:''}</div><div class="detail-meta">${esc(t(p.date))}<br>${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}${p.team?`<br>${label('Team','团队')}: ${esc(t(p.team))}`:''}${memberByline(p)}<br>${esc(p.tech)}</div><p>${esc(t(p.summary))}</p>${detailSections(p)}`;}
+function detail(id){const p=CONTENT.projects.find(x=>x.id===id);if(!p)return `<h2>${label('Project not found','未找到项目')}</h2><a href="#projects">${label('Back to projects','返回项目列表')}</a>`;return `<a class="back" href="#projects"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to all projects','返回所有项目')}</a><div class="detail-title-row"><h2 class="detail-heading">${esc(t(p.name))}</h2>${p.logo?`<img class="project-logo" src="${esc(p.logo.src)}" width="${p.logo.width}" height="${p.logo.height}" alt="${esc(t(p.logo.alt))}" decoding="async">`:''}</div><div class="detail-meta">${esc(t(p.date))}<br>${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}${p.team?`<br>${label('Team','团队')}: ${esc(t(p.team))}`:''}${memberByline(p)}<br>${esc(p.tech)}</div><p>${esc(t(p.summary))}</p>${projectDetailsContent(p)}`;}
+function projectDetailsContent(p) {
+  const links = p.links || [];
+  const video = p.youtubeDemo
+    ? { url: p.youtubeDemo.url, label: p.youtubeDemo.linkLabel }
+    : p.featuredVideo && { url: p.featuredVideo.watchUrl, label: ['Watch Demo on YouTube', '在 YouTube 观看演示'] };
+  const recording = p.demo || p.process?.stages.find(stage => stage.demo)?.demo;
+  const candidates = [
+    p.play, links[0], video,
+    recording && { url: recording.src, label: ['Watch the local demo', '观看站内演示'] },
+    ...links.slice(1), p.backgroundLink
+  ];
+  // Preserve the order of projects that already curate their own top bar.
+  const ordered = p.linkPlacement === 'top' && links.length ? links : candidates;
+  const top = new Map();
+  for (const link of ordered) {
+    if (link && !top.has(link.url)) top.set(link.url, link);
+    if (top.size === 4) break;
+  }
+  if (!top.size) return detailSections(p);
+  const buttons = [...top.values()].map(link => {
+    const sameTab = link === p.play && !p.featuredVideo;
+    const target = sameTab ? '' : ' target="_blank" rel="noopener"';
+    return `<a href="${esc(link.url)}"${target}><span aria-hidden="true">${sameTab ? '→' : '↗'}</span>${esc(t(link.label))}</a>`;
+  }).join('');
+  const bar = `<nav class="project-link-bar" aria-label="${label('Project links','项目链接')}">${buttons}</nav>`;
+  return bar + detailSections({
+    ...p,
+    links: links.filter(link => !top.has(link.url)),
+    play: top.has(p.play?.url) ? undefined : p.play,
+    backgroundLink: top.has(p.backgroundLink?.url) ? undefined : p.backgroundLink
+  });
+}
 function contact(){const items=[['Email',CONTENT.email,CONTENT.email?'mailto:'+CONTENT.email:''],['LinkedIn',CONTENT.linkedin,CONTENT.linkedin],['GitHub',CONTENT.github,CONTENT.github],['Instagram',CONTENT.instagram,CONTENT.instagram,CONTENT.instagramHandle||'@jarrettchen7'],['WeChat',CONTENT.wechat,'']];return `<section><h2>${label('Contact','联系我')}</h2><p>${label('Feel free to get in touch about software engineering, AI applications, or opportunities to collaborate.','欢迎就软件工程、AI 应用或合作机会与我联系。')}</p><div class="contact-list">${items.map(([name,value,url,display])=>`<div class="contact-item"><strong>${name}</strong><div>${value?(url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(display||value.replace('https://www.','').replace('https://',''))}</a>`:`${esc(value)}<button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`):label('To be added','待补充')}</div></div>`).join('')}</div></section>`;}
 function render({focusRoute=false}={}){
  const {page,id}=route();
+ const school=page==='education'&&Object.hasOwn(CONTENT.education,id)?CONTENT.education[id]:undefined;
  const projectTitle=CONTENT.projects.find(p=>p.id===id)?.name||['Project','项目'];
  const internshipTitle=CONTENT.internships.find(i=>i.id===id)?.company||['Internship','实习经历'];
- const pageTitles={overview:['Overview','个人概览'],internships:['Internship','实习经历'],projects:['Projects','项目作品'],contact:['Contact','联系我']};
+ const pageTitles={overview:['Overview','个人概览'],education:school?.name||['School not found','未找到学校'],internships:['Internship','实习经历'],projects:['Projects','项目作品'],contact:['Contact','联系我']};
  document.documentElement.lang=language;
  document.title=`${t(page==='project'?projectTitle:page==='internship'?internshipTitle:pageTitles[page])} | Hao Chen`;
- document.querySelector('#topnav').innerHTML=[['overview','Overview','个人概览'],['internships','Internship','实习经历'],['projects','Projects','项目作品'],['contact','Contact','联系我']].map(([key,en,zh])=>`<a href="#${key}" ${page===key||(key==='projects'&&page==='project')||(key==='internships'&&page==='internship')?'aria-current="page"':''}>${label(en,zh)}</a>`).join('');
+ document.querySelector('#topnav').innerHTML=[['overview','Overview','个人概览'],['internships','Internship','实习经历'],['projects','Projects','项目作品'],['contact','Contact','联系我']].map(([key,en,zh])=>`<a href="#${key}" ${page===key||(key==='overview'&&page==='education')||(key==='projects'&&page==='project')||(key==='internships'&&page==='internship')?'aria-current="page"':''}>${label(en,zh)}</a>`).join('');
  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===language)));
  document.querySelector('.skip').textContent=t(['Skip to content','跳至正文']);
  profile();
- document.querySelector('#main').innerHTML=page==='internships'?internships():page==='internship'?internshipDetail(id):page==='projects'?projects():page==='project'?detail(id):page==='contact'?contact():overview();
+ document.querySelector('#main').innerHTML=page==='education'?schoolDetail(school):page==='internships'?internships():page==='internship'?internshipDetail(id):page==='projects'?projects():page==='project'?detail(id):page==='contact'?contact():overview();
  document.querySelector('#footer').textContent=t(['Hao Chen · Personal website preview','Hao Chen · 个人网站预览']);
  if(page==='internships'){
   updateInternshipResults();
@@ -96,7 +200,7 @@ function render({focusRoute=false}={}){
  }
  if(page==='projects'){updateResults();document.querySelector('#project-search').addEventListener('input',e=>{filters.query=e.target.value;updateResults()});for(const key of ['region','type'])document.querySelector('#'+key).addEventListener('change',e=>{filters[key]=e.target.value;updateResults()});document.querySelector('#reset-filters').addEventListener('click',()=>{Object.assign(filters,{query:'',region:'all',type:'all'});render();document.querySelector('#project-search').focus()});}
  if(page==='overview'&&id)requestAnimationFrame(()=>{const target=document.getElementById(id);target?.scrollIntoView();if(focusRoute){target?.setAttribute('tabindex','-1');target?.focus({preventScroll:true});}});
- if(focusRoute&&(page==='internship'||page==='internships'))requestAnimationFrame(()=>document.querySelector('#main h2')?.focus({preventScroll:true}));
+ if(focusRoute&&(page==='education'||page==='internship'||page==='internships'))requestAnimationFrame(()=>document.querySelector('#main h2')?.focus({preventScroll:page!=='education'}));
 }
 document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{language=b.dataset.lang;try{localStorage.setItem('hao-language',language)}catch{}render()}));
 document.addEventListener('click',async e=>{const copy=e.target.closest('[data-copy]');if(copy&&CONTENT.wechat){try{await navigator.clipboard.writeText(CONTENT.wechat);copy.textContent=t(['Copied','已复制'])}catch{copy.textContent=t(['Select and copy the ID','请选中微信号复制'])}}});

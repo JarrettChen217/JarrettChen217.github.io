@@ -1,0 +1,20 @@
+flowchart TB
+    accTitle: Agent AI · 两种资料来源 / Two evidence sources
+    accDescr: Express uses the uploaded PDF for the document path. A separate MCP server exposes web search via SerpAPI. Each path produces its own answer field.
+    api["React → Express<br/>上传 PDF、提问 / Upload + ask"]
+    pdf["LangChain<br/>提取与切分 / Extract + split PDF"]
+    vector["OpenAI embeddings<br/>内存索引 / In-memory index"]
+    client["MCP client<br/>调用工具 / Call search_web"]
+    search["MCP server ⇄ SerpAPI<br/>搜索网页 / Search the web"]
+    out["OpenAI<br/>分别生成回答 / Generate each answer"]
+    api --> pdf --> vector
+    api --> client -->|"stdio"| search
+    vector -->|"问题 + 片段<br/>Question + passages"| out
+    search -->|"问题 + 网页结果<br/>Question + web results"| out
+    out --> result["React · 两个回答区 / Answer panels<br/>ragAnswer · mcpAnswer"]
+    classDef clientColor fill:#e8f1ed,stroke:#3f705a,color:#183c2e,stroke-width:2px;
+    classDef docs fill:#faf1d9,stroke:#a18b50,color:#493d20,stroke-width:2px;
+    classDef network fill:#edf1f6,stroke:#648091,color:#263c49,stroke-width:2px;
+    class api,out,result clientColor
+    class pdf,vector docs
+    class client,search network

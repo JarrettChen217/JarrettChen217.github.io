@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor P as 玩家
+    participant A as SpireSight
+    participant R as 本局牌库
+    participant K as 卡牌索引
+    participant M as 视觉模型
+    Note over P,M: 选牌之前 · 用 Inspect 记录牌库
+    P->>A: 捕获牌库截图
+    A->>M: 截图和 JSON 提取指令
+    M-->>A: 返回卡牌、遗物与牌库评估
+    A->>R: 校验并保存
+    Note over P,M: 来到奖励界面 · 这副牌选哪张？
+    P->>A: 点击选牌建议
+    opt 已有牌库摘要
+        A->>R: 读取最近一次 Inspect 结果
+        R-->>A: 返回本局牌库，含痛击
+    end
+    opt 已启用检索且本地索引可用
+        A->>K: 按问题文字检索
+        K-->>A: 有命中则补充卡牌资料
+    end
+    A->>M: 策略指令、上下文、奖励截图和本轮问题
+    loop 回答逐步生成
+        M-->>A: 返回文字片段
+        A-->>P: 追加到聊天窗口
+    end

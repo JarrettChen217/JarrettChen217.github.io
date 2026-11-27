@@ -1,0 +1,18 @@
+sequenceDiagram
+    accTitle: 从 AR 布局到可游览的 VR 动物园
+    accDescr: iOS 搭建器把物体相对园区的位置保存成 JSON，通过 Mac 将文件传至 Quest。VR 应用读取布局、还原物体、生成导航网格，并将园门关联到围区。
+    participant A as iOS AR 搭建器
+    participant M as Mac
+    participant F as Quest 本地存储
+    participant V as Quest VR 应用
+    Note over A,V: 在手机上搭建动物园
+    A->>A: 摆放围区、园门和动物
+    A->>A: 保存物体相对于园区的位置与姿态
+    Note over A,V: 把布局文件传到头显
+    A->>M: 分享 phone_ar_layout.json
+    M->>F: 通过 ADB 将文件复制到头显
+    Note over A,V: 在 Quest 里打开动物园
+    V->>F: 启动时查找导入的文件
+    F-->>V: 返回 JSON 布局
+    V->>V: 匹配预制件，还原物体的位置与姿态
+    V->>V: 生成导航网格，将园门关联到对应围区

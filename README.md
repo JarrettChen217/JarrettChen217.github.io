@@ -70,7 +70,9 @@ The build rejects duplicate IDs, missing translations, unknown categories, and s
 
 Routes use URL fragments (for example `#project/agent-ai` and `#internship/cummins-us`), so direct links and reloads work on static hosting without server routing.
 
-Calendar progress uses July 1, 2025 through January 1, 2027 as month boundaries for the master's program. It is clamped to 0–100% and refreshed on page load and every minute. The completed bachelor's timeline is fixed at 100%. These are calendar visualizations, not academic credit calculations.
+School details at `#education/columbia` and `#education/unimelb` share bilingual education records with the Overview.
+
+Calendar progress uses September 1, 2025 through January 1, 2027 as month boundaries for the master's program. It is clamped to 0–100% and refreshed on page load and every minute. The completed bachelor's timeline is fixed at 100%. These are calendar visualizations, not academic credit calculations.
 
 Language follows the browser on the first visit and retains explicit language choices locally. No analytics, database, or external scripts are used.
 

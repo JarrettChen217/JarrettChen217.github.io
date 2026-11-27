@@ -2,9 +2,9 @@
   "name": "hao-chen-portfolio",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-projects.cjs",
+    "build": "node scripts/build-projects.cjs && node scripts/build-delivery-demo.cjs",
     "build:site": "node scripts/build-site.cjs",
-    "check": "node scripts/build-projects.cjs --check",
+    "check": "node scripts/build-projects.cjs --check && node scripts/build-delivery-demo.cjs --check",
     "test": "npm run test:unit",
     "test:unit": "node --test scripts/*.test.cjs",
     "test:e2e": "playwright test",
@@ -12,6 +12,9 @@
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
-    "js-yaml": "4.3.2"
+    "esbuild": "0.28.2",
+    "js-yaml": "4.3.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }

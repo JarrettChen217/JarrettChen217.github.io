@@ -1,0 +1,24 @@
+sequenceDiagram
+    accTitle: Online Food Ordering · From add to cart to the cart drawer
+    accDescr: The browser observed POST and GET returning HTTP 200 and the cart containing one item for $4.89. Internal transaction and cache steps follow the source code.
+    participant R as React
+    participant A as Spring Boot
+    participant D as PostgreSQL
+    participant C as Caffeine
+    Note over R,A: Observed · tap +
+    R->>A: POST /cart via Nginx
+    Note over A,C: Internals from source
+    A->>A: Session → customer ID
+    A->>D: Save line item and total in one transaction
+    D-->>A: Commit
+    A->>C: Evict customer's cart
+    A-->>R: HTTP 200
+    Note over R,A: Observed · open Cart
+    R->>A: GET /cart via Nginx
+    A->>C: Look up cart
+    C-->>A: Miss
+    A->>D: Read cart and menu details
+    D-->>A: Cart data
+    A->>C: Cache CartDto
+    A-->>R: HTTP 200 · Cart JSON
+    Note over R,A: Observed · 1 × Chicken Fries · $4.89

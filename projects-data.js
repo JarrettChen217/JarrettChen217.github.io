@@ -2411,8 +2411,8 @@ const PROJECTS = {
       "type": "academic",
       "tech": "React, TypeScript, Google Places, Google Maps, Spring Boot, Spring Security",
       "summary": [
-        "I led a course team developing an app for placing and tracking delivery orders.",
-        "我担任课程项目队长，带领团队开发用于下单和追踪配送的应用。"
+        "I led a nine-person course team developing an app for placing and tracking delivery orders.",
+        "我担任九人课程项目团队的队长，带领团队开发用于下单和追踪配送的应用。"
       ],
       "background": [
         "The project brought address entry during checkout and route tracking after an order into one app.",
@@ -2436,6 +2436,13 @@ const PROJECTS = {
         "My contributions",
         "我的贡献"
       ],
+      "play": {
+        "url": "play/autonomous-delivery/index.html",
+        "label": [
+          "Try the delivery demo",
+          "体验配送演示"
+        ]
+      },
       "keywords": [
         "address autocomplete",
         "delivery tracking",
@@ -2452,6 +2459,20 @@ const PROJECTS = {
             "课程团队仓库"
           ],
           "url": "https://github.com/qhuang258/DDMA-team"
+        },
+        {
+          "label": [
+            "Address autocomplete source",
+            "地址自动补全源码"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/components/AddressAutocomplete.tsx"
+        },
+        {
+          "label": [
+            "Tracking page source",
+            "配送追踪页面源码"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/pages/tracking/TrackingPage.tsx"
         }
       ]
     },

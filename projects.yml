@@ -1203,8 +1203,8 @@ projects:
     tech: React, TypeScript, Google Places, Google Maps, Spring Boot, Spring Security
     keywords: [address autocomplete, delivery tracking, JWT, team lead, 地址自动补全, 配送追踪, 队长]
     summary:
-      en: I led a course team developing an app for placing and tracking delivery orders.
-      zh: 我担任课程项目队长，带领团队开发用于下单和追踪配送的应用。
+      en: I led a nine-person course team developing an app for placing and tracking delivery orders.
+      zh: 我担任九人课程项目团队的队长，带领团队开发用于下单和追踪配送的应用。
     background:
       en: The project brought address entry during checkout and route tracking after an order into one app.
       zh: 这个项目把下单时填写配送地址和下单后查看配送路线放在同一个应用里。
@@ -1216,9 +1216,16 @@ projects:
         zh: 我将 Spring Boot 后端已有的 JWT 认证迁移到 Spring Security。
       - en: As team lead, I turned proposed features into backlog items with acceptance criteria, planned sprints, and merged teammates’ pull requests.
         zh: 作为队长，我把拟议功能整理成带有验收标准的待办事项，制定迭代计划，并合并队友的拉取请求。
+    play:
+      url: play/autonomous-delivery/index.html
+      label: {en: Try the delivery demo, zh: 体验配送演示}
     links:
       - label: {en: Course team repository, zh: 课程团队仓库}
         url: https://github.com/qhuang258/DDMA-team
+      - label: {en: Address autocomplete source, zh: 地址自动补全源码}
+        url: https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/components/AddressAutocomplete.tsx
+      - label: {en: Tracking page source, zh: 配送追踪页面源码}
+        url: https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/pages/tracking/TrackingPage.tsx
 
   - id: daisyworld
     published: true

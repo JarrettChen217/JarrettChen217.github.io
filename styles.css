@@ -67,6 +67,7 @@
   max-width: 72ch;
   padding: 15px 0 18px;
 }
+.school-figures { display: grid; gap: 20px; }
 .school-story-illustrated .school-photo { max-width: 320px; margin: 14px 0 0; }
 @media (min-width: 760px) {
   .school-story-illustrated { display: grid; grid-template-columns: minmax(0, 1fr) minmax(160px, 30%); gap: 24px; max-width: none; }

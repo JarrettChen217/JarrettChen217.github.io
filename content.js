@@ -41,6 +41,20 @@ const CONTENT = {
           link: {href: "#project/vitalguard", label: ["See the VitalGuard prototype", "查看 VitalGuard 原型"]},
         },
         {
+          figures: [
+            {
+              src: 'assets/education/columbia/nsight-roofline-1791.webp', thumbnail: 'assets/education/columbia/nsight-roofline-800.webp',
+              width: 1791, height: 1271, thumbnailWidth: 800,
+              alt: ['Nsight Compute Roofline chart for a tiled dilated convolution on a Tesla T4', 'Nsight Compute 中 Tesla T4 上分块空洞卷积的 Roofline 图'],
+              caption: ['The green dot is one run of the tiled convolution. Its horizontal position shows operations per byte; its height shows the measured floating-point throughput.', '绿点是分块卷积内核的一次实测。横向看每传输一字节做了多少次运算，纵向看实际达到的浮点吞吐量。']
+            },
+            {
+              src: 'assets/education/columbia/nsight-memory-1791.webp', thumbnail: 'assets/education/columbia/nsight-memory-800.webp',
+              width: 1791, height: 1271, thumbnailWidth: 800,
+              alt: ['Nsight Compute memory chart with shared memory, L1/TEX and L2 caches, and device memory', 'Nsight Compute 访存图，标出共享内存、L1/TEX 和 L2 缓存以及显存'],
+              caption: ['In the same run, the Shared row shows the kernel accessing shared memory. Follow the upper path to see traffic between the L1/TEX cache, L2 cache and device memory.', '同一次运行中，沿 Shared 这一行可以看到内核对共享内存的访问。再看上方通路，箭头标出了 L1/TEX 缓存、L2 缓存与显存之间的数据传输量。']
+            }
+          ],
           title: ["Heterogeneous computing · Sharing pixels across threads", "异构计算 · 线程之间怎样共享像素"],
           body: ["In heterogeneous computing, I compared two ways to run the same convolution. In one, each thread read its own pixels. In the other, threads in a block loaded a patch of the image into shared memory. That made synchronization click for me: the pixel one thread needed might still be on its way in from another. In my timings, tiling was faster with adjacent samples, but that advantage disappeared when I spaced the samples farther apart.", "在异构计算课上，我用两种方式算同一个卷积：一种让每个线程自己读像素，另一种让同组线程先把一块图像搬进共享内存，再一起使用。后者让我弄懂了为什么要同步：我要读的那个像素，可能是旁边的线程负责搬的。比较计时的时候，我发现采样点相邻时分块更快，采样间距拉大后，这个优势就消失了。"],
         },

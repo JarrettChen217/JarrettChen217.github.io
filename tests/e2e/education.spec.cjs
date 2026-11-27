@@ -48,8 +48,9 @@ for (const width of [390, 1440]) {
         await expect(main).toContainText('3.75/4.0');
         await expect(main).not.toContainText('WES');
         await expect(main).toContainText('GPIO 32');
+        await expect(main.locator('.school-figures figure')).toHaveCount(2);
         const photos = main.locator('.school-photo img');
-        await expect(photos).toHaveCount(4);
+        await expect(photos).toHaveCount(6);
         for (const photo of await photos.all()) {
           await photo.scrollIntoViewIfNeeded();
           await expect.poll(() => photo.evaluate(img => img.naturalWidth)).toBeGreaterThan(0);

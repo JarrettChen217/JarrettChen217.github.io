@@ -484,7 +484,6 @@ const PROJECTS = {
           }
         ]
       },
-      "cardStage": "study-question",
       "boundary": [
         "The main prototype uses a shared upload path and rebuilds its in-memory document index with each question.",
         "主分支原型使用共享上传路径，每次提问都会重建文档的内存索引。"

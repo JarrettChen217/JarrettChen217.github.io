@@ -151,7 +151,6 @@ projects:
     play:
       url: play/agent-ai-retrieval/index.html
       label: {en: Explore the 12 retrieval questions, zh: 查看 12 道题的检索结果}
-    cardStage: study-question
     sectionOrder: [background, contributions, process, scope]
     process:
       kicker: {en: Document and web search, zh: 文档检索与网页搜索}

@@ -73,10 +73,37 @@ function detailSections(p){
  return order.map(key=>sections[key]()).join('');
 }
 function detail(id){const p=CONTENT.projects.find(x=>x.id===id);if(!p)return `<h2>${label('Project not found','未找到项目')}</h2><a href="#projects">${label('Back to projects','返回项目列表')}</a>`;return `<a class="back" href="#projects"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to all projects','返回所有项目')}</a><div class="detail-title-row"><h2 class="detail-heading">${esc(t(p.name))}</h2>${p.logo?`<img class="project-logo" src="${esc(p.logo.src)}" width="${p.logo.width}" height="${p.logo.height}" alt="${esc(t(p.logo.alt))}" decoding="async">`:''}</div><div class="detail-meta">${esc(t(p.date))}<br>${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}${p.team?`<br>${label('Team','团队')}: ${esc(t(p.team))}`:''}${memberByline(p)}<br>${esc(p.tech)}</div><p>${esc(t(p.summary))}</p>${projectDetailsContent(p)}`;}
-function projectDetailsContent(p){
- if(p.linkPlacement!=='top' || !p.links?.length)return detailSections(p);
- const actions=`<nav class="project-link-bar" aria-label="${label('Project links','项目链接')}">${p.links.map(link=>`<a href="${esc(link.url)}" target="_blank" rel="noopener"><span aria-hidden="true">↗</span>${esc(t(link.label))}</a>`).join('')}</nav>`;
- return actions+detailSections({...p,links:undefined});
+function projectDetailsContent(p) {
+  const links = p.links || [];
+  const video = p.youtubeDemo
+    ? { url: p.youtubeDemo.url, label: p.youtubeDemo.linkLabel }
+    : p.featuredVideo && { url: p.featuredVideo.watchUrl, label: ['Watch Demo on YouTube', '在 YouTube 观看演示'] };
+  const recording = p.demo || p.process?.stages.find(stage => stage.demo)?.demo;
+  const candidates = [
+    p.play, links[0], video,
+    recording && { url: recording.src, label: ['Watch the local demo', '观看站内演示'] },
+    ...links.slice(1), p.backgroundLink
+  ];
+  // Preserve the order of projects that already curate their own top bar.
+  const ordered = p.linkPlacement === 'top' && links.length ? links : candidates;
+  const top = new Map();
+  for (const link of ordered) {
+    if (link && !top.has(link.url)) top.set(link.url, link);
+    if (top.size === 4) break;
+  }
+  if (!top.size) return detailSections(p);
+  const buttons = [...top.values()].map(link => {
+    const sameTab = link === p.play && !p.featuredVideo;
+    const target = sameTab ? '' : ' target="_blank" rel="noopener"';
+    return `<a href="${esc(link.url)}"${target}><span aria-hidden="true">${sameTab ? '→' : '↗'}</span>${esc(t(link.label))}</a>`;
+  }).join('');
+  const bar = `<nav class="project-link-bar" aria-label="${label('Project links','项目链接')}">${buttons}</nav>`;
+  return bar + detailSections({
+    ...p,
+    links: links.filter(link => !top.has(link.url)),
+    play: top.has(p.play?.url) ? undefined : p.play,
+    backgroundLink: top.has(p.backgroundLink?.url) ? undefined : p.backgroundLink
+  });
 }
 function contact(){const items=[['Email',CONTENT.email,CONTENT.email?'mailto:'+CONTENT.email:''],['LinkedIn',CONTENT.linkedin,CONTENT.linkedin],['GitHub',CONTENT.github,CONTENT.github],['Instagram',CONTENT.instagram,CONTENT.instagram,CONTENT.instagramHandle||'@jarrettchen7'],['WeChat',CONTENT.wechat,'']];return `<section><h2>${label('Contact','联系我')}</h2><p>${label('Feel free to get in touch about software engineering, AI applications, or opportunities to collaborate.','欢迎就软件工程、AI 应用或合作机会与我联系。')}</p><div class="contact-list">${items.map(([name,value,url,display])=>`<div class="contact-item"><strong>${name}</strong><div>${value?(url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(display||value.replace('https://www.','').replace('https://',''))}</a>`:`${esc(value)}<button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`):label('To be added','待补充')}</div></div>`).join('')}</div></section>`;}
 function render({focusRoute=false}={}){

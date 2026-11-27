@@ -957,8 +957,142 @@ const PROJECTS = {
           ]
         }
       ],
+      "prompts": [
+        {
+          "title": [
+            "Inspect · read the deck",
+            "Inspect · 读牌库"
+          ],
+          "why": [
+            "Overlapping screenshots can show the same card twice. The extraction rules explicitly address duplicates and require JSON that the app can validate before saving the run state.",
+            "滚动截图可能两次拍到同一张牌。提取指令要求处理重叠，按固定 JSON 格式输出，让应用在保存本局状态前先校验。"
+          ],
+          "original": "You are a Slay the Spire II run-state extractor. Look at the\nscreenshot and output a single JSON object matching this schema:\n\n{\n  \"cards\":  [{\"name\": str, \"count\": int, \"rarity\": str,\n              \"usefulness\": str, \"note\": str}],\n  \"relics\": [{\"name\": str, \"synergy_tags\": [str]}],\n  \"potions\": [str],\n  \"archetype_candidates\":\n            [{\"name\": str, \"confidence\": str, \"rationale\": str}],\n  \"overall_eval\": str,\n  \"inspected_at\": \"ISO-8601 timestamp\"\n}\n\nYou will receive one or more screenshots of the deck view, possibly\nwith overlap from the player scrolling. Treat them as views of the\nsame deck — a card visible in multiple frames is the same card and\nmust be counted exactly once. Aggregate the full deck from all\nframes before emitting the JSON.\n\nRules:\n- rarity in {\"starter\", \"common\", \"uncommon\", \"rare\"}.\n- usefulness in {\"skip\", \"situational\", \"good\", \"key\"}. Judge each\n  card in the context of the candidate archetypes, not in absolute\n  terms.\n- confidence in {\"low\", \"medium\", \"high\"}.\n- archetype_candidates: 1-3 entries, highest confidence first.\n- overall_eval: 2-3 sentences. Diagnosis only - no advice.\n- \"note\" is one short sentence or \"\".\n- Output JSON only, no prose, no markdown fence."
+        },
+        {
+          "title": [
+            "Strategy · give a recommendation",
+            "策略 · 给建议"
+          ],
+          "why": [
+            "All four buttons use this system prompt. It asks for a recommendation first, up to three supporting points, and risks or uncertainty. Those are reasons the player can check; the template does not ask for a private step-by-step reasoning trace.",
+            "四个快捷按钮共用这段系统指令。先给一句建议，再给最多三条理由，并指出风险和不确定之处。玩家可以拿这些理由对照牌面；模板没有要求模型输出逐步的内部思维链。"
+          ],
+          "original": "You are an expert Slay the Spire II strategist. You analyze game\nscreenshots and provide concise, actionable advice.\n\nConventions:\n- Lead with the recommendation in one sentence.\n- Justify in <= 3 bullet points.\n- Call out risks explicitly.\n- When uncertain, say so.\n\nPriorities, in order: immediate threats, long-run deck health,\nenergy/economy curves.\n\nIf a \"## Current Run Context\" section is appended below, use it to\nbias your advice toward the player's existing archetype direction\nand known deck contents. Do not contradict it unless the\nscreenshot proves the context stale."
+        },
+        {
+          "title": [
+            "Card Selection Guide",
+            "选牌建议"
+          ],
+          "why": [
+            "The reward screenshot supplies the choices. Extra text can name a card for the local lookup.",
+            "奖励截图给出候选项，补充文字里写出的卡名还可用于本地检索。"
+          ],
+          "original": "Help me choose between the offered cards. {custom_text}\n请帮我选择卡牌。{custom_text}"
+        },
+        {
+          "title": [
+            "Combat Strategy",
+            "战斗策略"
+          ],
+          "why": [
+            "The question limits the recommendation to the current turn.",
+            "把决策范围限定在眼前这个回合。"
+          ],
+          "original": "What's the best play this turn? {custom_text}\n本回合最佳出牌是什么?{custom_text}"
+        },
+        {
+          "title": [
+            "Pathfinding",
+            "地图选路"
+          ],
+          "why": [
+            "The question asks for a route and the reason for taking it.",
+            "同时索要路线和选择理由，方便对照地图。"
+          ],
+          "original": "Which path should I take and why? {custom_text}\n应该选哪条路线?为什么?{custom_text}"
+        },
+        {
+          "title": [
+            "Relic Analysis",
+            "遗物评估"
+          ],
+          "why": [
+            "This directs the shared strategy prompt toward the relic on offer.",
+            "让共用的策略指令聚焦当前可选的遗物。"
+          ],
+          "original": "Evaluate this relic offering. {custom_text}\n评估这个遗物。{custom_text}"
+        },
+        {
+          "title": [
+            "Freeform · first message",
+            "自由提问 · 第一条消息"
+          ],
+          "why": [
+            "For an empty conversation, the instructions ground the answer in the question and attached image and ask the model to flag missing information.",
+            "会话为空时，用问题和所附截图确定回答范围，信息不足时明确指出。"
+          ],
+          "original": "You are a Slay the Spire 2 strategy assistant. Answer the user's question using their message and any screenshot they provide. Do not refer to prior conversation unless messages are included in the request. If you lack information needed to answer well, say so explicitly rather than guessing."
+        },
+        {
+          "title": [
+            "Follow-up · existing conversation",
+            "追问 · 已有对话"
+          ],
+          "why": [
+            "This is the base instruction for a typed follow-up. The runner also appends the current run summary when one is available.",
+            "这是手动追问的基础指令。如果已经做过 Inspect 且摘要仍在，调用层还会把当前牌库摘要追加在它后面。"
+          ],
+          "original": "You are continuing a previous conversation. The user is asking a follow-up question without re-attaching the structured run state (cards, relics, potions). Rely on prior assistant messages for game-state context. If the user asks something that requires information you cannot infer from the conversation history, say so explicitly rather than guessing."
+        }
+      ],
+      "architecture": [
+        {
+          "title": [
+            "One request interface",
+            "一次请求怎样抵达模型"
+          ],
+          "body": [
+            "A Python runner assembles the instructions, messages and optional screenshots. The selected provider adapter translates them into the OpenAI, Anthropic or Gemini API format. Each returns text increments through the same stream interface, so the chat window can display them as they arrive.",
+            "Python 调用层组装指令、消息和可选截图，再由所选服务的适配器转换为 OpenAI、Anthropic 或 Gemini 的 API 格式。各家返回的文字片段通过同一个流式接口交给聊天窗口，收到一段就显示一段。"
+          ]
+        },
+        {
+          "title": [
+            "Typing a follow-up",
+            "在聊天框里追问"
+          ],
+          "body": [
+            "The app keeps an ordered list of user and assistant messages in memory. A typed follow-up sends all the text in the current conversation plus the new question. Clearing the conversation starts a fresh list. Image retention has its own setting: Latest only strips images from earlier turns; the current turn can carry a fresh capture or reuse the last screenshot.",
+            "应用在内存里按顺序保存用户消息和助手回答。手动追问时，会把当前会话的全部文字连同新问题一起发送；清空对话后重新记录。图片单独处理：在 Latest only 下，历史消息只留文字，本轮可以附上新截图，也可以复用上一张。"
+          ]
+        },
+        {
+          "title": [
+            "Pressing a quick action",
+            "点击快捷操作"
+          ],
+          "body": [
+            "A quick action sends the shared strategy instructions, the action’s question, any extra text and the optional screenshot. An available Inspect summary is appended to the system instructions. The request log snapshot can include earlier chat turns; the provider call for the button sends only the current user message.",
+            "快捷按钮使用共用的策略指令，配上该按钮的问题、用户补充的文字和可选截图。已有的 Inspect 牌库摘要会追加到系统指令。请求日志的快照可以包含旧对话；按钮实际发给服务商的用户消息只有本轮这一条。"
+          ]
+        },
+        {
+          "title": [
+            "Where card facts come from",
+            "选牌时去哪里查卡牌资料"
+          ],
+          "body": [
+            "Card Selection can search a local index of Slay the Spire 2 card facts cached from wiki.gg. It searches the request text by name, alias, fuzzy match and keyword, returning up to five hits within a 1,800-character context budget. A hit supplies facts such as cost, effect, upgrade and source. Without a hit the request proceeds. The run footage alone cannot tell us whether a lookup matched.",
+            "选牌按钮可以查询本地卡牌索引，资料来自 wiki.gg 的《杀戮尖塔 2》卡牌页面。它用请求文字匹配卡名、别名、近似名称和关键词，最多取五条，附加文本上限为 1,800 个字符。命中后可补充费用、效果、升级说明和出处；没有命中也会继续请求。仅凭这段实机画面无法判断当时是否命中了索引。"
+          ]
+        }
+      ],
       "sectionOrder": [
         "process",
+        "architecture",
+        "prompts",
         "background",
         "journey",
         "resources"
@@ -982,6 +1116,27 @@ const PROJECTS = {
             "在 GitHub 查看 SpireSight 源码"
           ],
           "url": "https://github.com/JarrettChen217/SpireSight"
+        },
+        {
+          "label": [
+            "Original system prompts",
+            "系统提示词原文"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight/blob/ac364e3ae565d2b61663ecc6eb6e192d5b24b08c/prompts/system_prompts.yaml"
+        },
+        {
+          "label": [
+            "Request assembly",
+            "请求组装源码"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight/blob/ac364e3ae565d2b61663ecc6eb6e192d5b24b08c/src/spiresight/core/runner.py"
+        },
+        {
+          "label": [
+            "Local card index and sources",
+            "本地卡牌索引与资料来源"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight/blob/ac364e3ae565d2b61663ecc6eb6e192d5b24b08c/data/sts2_cards/metadata.json"
         }
       ]
     },

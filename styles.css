@@ -57,3 +57,7 @@ header .languages{flex-shrink:0}
   .brand-wordmark{font-size:20px}
 }
 @media(prefers-reduced-motion:reduce){.brand-snow{animation:none}}
+
+.prompt-library details { border-bottom: 1px solid var(--line); padding: 10px 0; }
+.prompt-library summary { cursor: pointer; font-weight: 600; }
+.prompt-library pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; border-left: 2px solid var(--line); font-size: 0.88em; line-height: 1.6; }

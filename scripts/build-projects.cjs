@@ -98,6 +98,14 @@ function compile(source) {
         return {title:bi(entry.title,`${field}.title`),body:bi(entry.body,`${field}.body`)};
       });
     }
+    if(p.prompts !== undefined){
+      if(!Array.isArray(p.prompts))fail(`${p.id}.prompts: must be a list`);
+      result.prompts=p.prompts.map((item,i)=>{
+        const field=`${p.id}.prompts[${i}]`;
+        if(typeof item?.original!=='string'||!item.original.trim())fail(`${field}.original: expected prompt text`);
+        return {title:bi(item.title,field+'.title'),why:bi(item.why,field+'.why'),original:item.original};
+      });
+    }
     if(p.architecture !== undefined){
       if(!Array.isArray(p.architecture))fail(`${p.id}.architecture: must be a list`);
       result.architecture=p.architecture.map((item,i)=>({title:bi(item?.title,`${p.id}.architecture[${i}].title`),body:bi(item?.body,`${p.id}.architecture[${i}].body`)}));
@@ -191,7 +199,7 @@ function compile(source) {
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','prompts','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }

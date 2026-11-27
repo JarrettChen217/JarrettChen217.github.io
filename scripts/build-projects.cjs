@@ -192,9 +192,13 @@ function compile(source) {
       const field=`${p.id}.play`;const value=p.play;
       if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.url!=='string'||!/^play\/[a-z0-9]+(?:-[a-z0-9]+)*\/index\.html$/.test(value.url))fail(`${field}: invalid repository-relative play URL`);
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
+      if(value.inline!==undefined){
+        if(typeof value.inline!=='boolean')fail(`${field}.inline: must be true or false`);
+        result.play.inline=value.inline;
+      }
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','workflow','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }

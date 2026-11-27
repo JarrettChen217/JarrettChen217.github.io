@@ -2,6 +2,68 @@
 const CONTENT = {
   email:'hao.chen1281@gmail.com', github:'https://github.com/JarrettChen217', linkedin:'https://www.linkedin.com/in/chen-hao-j33625/', instagram:'https://www.instagram.com/jarrettchen7/', instagramHandle:'@jarrettchen7', wechat:'Che8147',
   education: {
+    columbia: {
+      name: ['Columbia University', '哥伦比亚大学'],
+      degree: ['Master of Science in Computer Engineering', '计算机工程理学硕士'],
+      start: ['Sep 2025', '2025年9月'],
+      end: ['Dec 2026 · Expected', '2026年12月 · 预计毕业'],
+      grade: '3.75/4.0',
+      gradeLabel: ['GPA', 'GPA'],
+      courseworkHeading: ['Graduate coursework', '硕士课程'],
+      terms: {
+        fall25: ['Fall 2025', '2025 年秋季'],
+        spring26: ['Spring 2026', '2026 年春季'],
+        fall26: ['Fall 2026 · In progress', '2026 年秋季 · 在读']
+      },
+      focus: ["While working on a racing simulator in Melbourne, I heard a mentor describe a subway gate that would fail on a cold start. By the time the equipment had warmed up, the problem was hard to reproduce. That detail stayed with me. As an undergraduate, I focused on delivering software with a team. At Columbia, I wanted to understand more about the machines running that software. I studied computer architecture and heterogeneous computing, and followed the storage stack from physical devices to file systems.", "在墨尔本做赛车模拟时，一位导师跟我讲过地铁闸机的故事：清晨刚开机时容易出错，等机器热起来，再去查就很难复现。我一直记得这个细节。本科时，我更关心怎样和队友把软件做出来；到 Columbia 读计算机工程，我想多了解程序运行的那台机器。我选了计算机体系结构和异构计算，也从存储设备一路学到文件系统。"],
+      stories: [
+        {
+          title: ["VitalGuard · Testing the sensors with Wi-Fi on", "VitalGuard · 在 Wi-Fi 开启时测试传感器"],
+          body: ["On VitalGuard, my electrical engineering teammate wired the sensors and checked each one with a small test script. I integrated them into the MicroPython firmware that collected their readings and uploaded them over Wi-Fi. During integration, one reading disappeared. I disabled features one at a time; the reading came back when I skipped Wi-Fi initialization. My teammate and I checked the pins on the board and moved the force sensor’s analog input from GPIO 25 to GPIO 32. We could then read it with Wi-Fi running. That experience changed what I considered a complete hardware test: I wanted to see the sensors working together with the radio on.", "做 VitalGuard 时，学电气工程的队友负责接线，用小脚本逐个确认传感器能读出数据。我负责把它们接进同一套 MicroPython 固件，将读数打包、通过 Wi-Fi 上传。整机联调时，一路原本正常的读数消失了。我逐项关掉功能，直到跳过 Wi-Fi 初始化，读数才重新出现。我在固件里缩小排查范围，队友和我一起在板子上核对引脚。最后我们把压力传感器的模拟输入从 GPIO 25 换到 GPIO 32，才让采集和上传一起工作。这次我记住了：单个模块测通之后，还得在所有模块同时运行时再测一次。"],
+          link: {href: "#project/vitalguard", label: ["See the VitalGuard prototype", "查看 VitalGuard 原型"]},
+        },
+        {
+          title: ["Heterogeneous computing · Sharing pixels across threads", "异构计算 · 线程之间怎样共享像素"],
+          body: ["In heterogeneous computing, I compared two ways to run the same convolution. In one, each thread read its own pixels. In the other, threads in a block loaded a patch of the image into shared memory. That made synchronization click for me: the pixel one thread needed might still be on its way in from another. In my timings, tiling was faster with adjacent samples, but that advantage disappeared when I spaced the samples farther apart.", "在异构计算课上，我用两种方式算同一个卷积：一种让每个线程自己读像素，另一种让同组线程先把一块图像搬进共享内存，再一起使用。后者让我弄懂了为什么要同步：我要读的那个像素，可能是旁边的线程负责搬的。比较计时的时候，我发现采样点相邻时分块更快，采样间距拉大后，这个优势就消失了。"],
+        },
+        {
+          title: ["Formal verification · What should an empty elevator do?", "形式化验证 · 空升降机移动之后应是什么状态？"],
+          body: ["When I worked on the mine simulation in Melbourne, I was thinking about how to get the carts and the elevator to work together. At Columbia, I had to put what the program should do into a form a machine could check for the first time. Take an empty elevator at the top: after one move, it should be at the bottom and still empty. To write that assertion, I had to spell out the starting state, the operation, and what had to hold afterward.", "以前写矿车模拟时，我想的是怎样让矿车和升降机配合起来。到了 Columbia 的形式化验证课，我第一次要把「程序应该怎样运行」写成机器能检查的条件。比如，一台空升降机从顶端出发，只执行一次移动，它就应该在底端，而且里面仍然没有车。说「升降机运行正常」很容易；写成断言时，我得说清楚它从哪里开始、做了什么、之后哪些事情必须成立。"],
+          link: {href: "#project/java-concurrency", label: ["Explore the mine simulation and verification project", "查看矿车模拟与验证项目"]},
+        },
+        {
+          title: ["Computer storage · Keeping a second copy", "计算机存储 · 给照片留一份备份"],
+          body: ["As a photographer, I sometimes get just one chance to take a picture. Studying RAID and backups made me ask where I could recover those photos if a drive failed, or if something happened to the place where I kept my copies. After the course, I started backing up my Mac to two drives with Time Machine. I keep an 8 TB drive at home for backups. Next, I’d like to build a NAS so I can open the same video files from either my Windows PC or my Mac.", "我平时拍照，有些瞬间只有一次机会。学 RAID 和备份时，我开始想：一块盘坏了，我还能从哪儿找回这些照片？如果备份都放在同一个地方呢？上完课后，我开始用两块硬盘给 Mac 做 Time Machine 备份，家里有一块 8 TB 的盘专门用来备份。下一步我想自己搭一台 NAS，这样在 Windows 和 Mac 之间换着用时，两边都能打开同一份视频。"],
+        },
+      ],
+      courseGroups: [
+        {
+          title: ["Architecture and systems", "体系结构与系统"],
+          courses: [
+            {name: "Computer Architecture", term: "fall25"},
+            {name: "Heterogeneous Computing for Signal and Data Processing", term: "fall25"},
+            {name: "Computer Storage", term: "spring26"},
+            {name: "Modeling and Performance Evaluation", term: "fall26"},
+          ],
+        },
+        {
+          title: ["Verification and embedded systems", "验证与嵌入式系统"],
+          courses: [
+            {name: "Formal Verification of HW/SW Systems", term: "fall25"},
+            {name: "IoT – Intelligent & Connected Systems", term: "fall25"},
+          ],
+        },
+        {
+          title: ["AI and interaction", "人工智能与交互"],
+          courses: [
+            {name: "3D UI & AR", term: "spring26", link: {href: '#project/dance-xr', label: ['Dance XR project', 'Dance XR 项目']}},
+            {name: "Advanced Big Data & AI", term: "spring26"},
+            {name: "Reinforcement Learning", term: "spring26"},
+            {name: "AI in Practice: Game Design and Development", term: "fall26"},
+          ],
+        },
+      ],
+    },
     unimelb: {
       name: ['The University of Melbourne', '墨尔本大学'],
       degree: ['Bachelor of Science', '理学学士'],
@@ -9,6 +71,8 @@ const CONTENT = {
       start: ['Feb 2022', '2022年2月'],
       end: ['Dec 2024', '2024年12月'],
       grade: '3.63/4.0 (WES)',
+      gradeLabel: ['WES-converted GPA', 'WES 换算成绩'],
+      courseworkHeading: ['Undergraduate coursework', '本科课程'],
       focus: ['At Melbourne, I first enjoyed the moment when a program finally worked. Later, I found that I also liked the work of finishing a project with a team. That experience drew me toward software engineering.', '我在墨尔本学计算机，最初喜欢的是把一道题写通。后来我发现，我也喜欢和一组人把一个项目做完。本科时，我的选课逐渐偏向了软件工程。'],
       entrancePhoto: {
         src: 'assets/education/unimelb/campus-entrance-1600.webp', thumbnail: 'assets/education/unimelb/campus-entrance-800.webp',

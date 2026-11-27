@@ -31,8 +31,8 @@ profile=()=>{
  instagram.innerHTML=icon('instagram');
  socials.insertBefore(instagram,wechat);
 };
-function progress(){const now=new Date();const day=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());return Math.max(0,Math.min(100,100*(day-Date.UTC(2025,6,1))/(Date.UTC(2027,0,1)-Date.UTC(2025,6,1))));}
-function education(){const pct=progress().toFixed(1);const school=CONTENT.education.unimelb;return `<section id="education"><h2>${label('Education','教育经历')}</h2><div class="degree"><div class="row"><h3>${bilingual('Columbia University','哥伦比亚大学')}</h3><span class="meta">${label('New York, United States','纽约，美国')}</span></div><div class="degree-title">${bilingual('Master of Science in Computer Engineering','计算机工程理学硕士')}</div><div class="progress-labels"><span>${label('Jul 2025','2025年7月')}</span><span>${label('Dec 2026 · Expected','2026年12月 · 预计毕业')}</span></div><div class="track" role="progressbar" aria-label="${label('Master’s program timeline','硕士学习时间进度')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div id="ms-fill" class="fill" style="width:${pct}%"></div></div><div class="progress-labels"><span>${label('Program timeline','学习时间进度')}</span><span id="ms-pct">${pct}%</span></div></div><div class="degree"><div class="row"><h3><a class="school-link" href="#education/unimelb">${bilingual(...school.name)}</a></h3><span class="meta">${label('Melbourne, Australia','墨尔本，澳大利亚')}</span></div><div class="degree-title">${bilingual(...school.degree)}<br>${bilingual(`Major in ${school.major[0]}`,`${school.major[1]}专业`)}</div><div class="progress-labels"><span>${label(...school.start)}</span><span>${label(...school.end)}</span></div><div class="track" role="progressbar" aria-label="${label('Bachelor’s program timeline','本科学习时间进度')}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:100%;background:#a9bcc8"></div></div><div class="progress-labels"><span>${label('Completed','已完成')}</span><span>100%</span></div></div></section>`;}
+function progress(){const now=new Date();const day=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());return Math.max(0,Math.min(100,100*(day-Date.UTC(2025,8,1))/(Date.UTC(2027,0,1)-Date.UTC(2025,8,1))));}
+function education(){const pct=progress().toFixed(1);const {columbia,unimelb:school}=CONTENT.education;return `<section id="education"><h2>${label('Education','教育经历')}</h2><div class="degree"><div class="row"><h3><a class="school-link" href="#education/columbia">${bilingual(...columbia.name)}</a></h3><span class="meta">${label('New York, United States','纽约，美国')}</span></div><div class="degree-title">${bilingual(...columbia.degree)}</div><div class="progress-labels"><span>${label(...columbia.start)}</span><span>${label(...columbia.end)}</span></div><div class="track" role="progressbar" aria-label="${label('Master’s program timeline','硕士学习时间进度')}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div id="ms-fill" class="fill" style="width:${pct}%"></div></div><div class="progress-labels"><span>${label('Program timeline','学习时间进度')}</span><span id="ms-pct">${pct}%</span></div></div><div class="degree"><div class="row"><h3><a class="school-link" href="#education/unimelb">${bilingual(...school.name)}</a></h3><span class="meta">${label('Melbourne, Australia','墨尔本，澳大利亚')}</span></div><div class="degree-title">${bilingual(...school.degree)}<br>${bilingual(`Major in ${school.major[0]}`,`${school.major[1]}专业`)}</div><div class="progress-labels"><span>${label(...school.start)}</span><span>${label(...school.end)}</span></div><div class="track" role="progressbar" aria-label="${label('Bachelor’s program timeline','本科学习时间进度')}" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:100%;background:#a9bcc8"></div></div><div class="progress-labels"><span>${label('Completed','已完成')}</span><span>100%</span></div></div></section>`;}
 function schoolDetail(school){
  const back=`<a class="back" href="#overview/education"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to education','返回教育经历')}</a>`;
  if(!school)return `${back}<h2 tabindex="-1">${label('School not found','未找到学校')}</h2>`;
@@ -45,8 +45,8 @@ function schoolDetail(school){
  const courses=school.courseGroups.map(({title,courses})=>`
   <div class="school-course-group">
    <h4>${esc(t(title))}</h4>
-   <ul role="list">${courses.map(({name,year,semester})=>`
-    <li><span lang="en">${esc(name)}</span><span class="school-semester">${label(`${year} Semester ${semester}`,`${year} 年第 ${semester} 学期`)}</span></li>`).join('')}
+   <ul role="list">${courses.map(({name,year,semester,term,link})=>`
+    <li><span><span lang="en">${esc(name)}</span>${link ? ` · <a class="school-link" href="${esc(link.href)}">${esc(t(link.label))}</a>` : ''}</span><span class="school-semester">${term ? label(...school.terms[term]) : label(`${year} Semester ${semester}`,`${year} 年第 ${semester} 学期`)}</span></li>`).join('')}
    </ul>
   </div>`).join('');
  return `
@@ -55,9 +55,9 @@ function schoolDetail(school){
    <h2 class="detail-heading" tabindex="-1">${bilingual(...school.name)}</h2>
    <dl class="school-credentials">
     <div><dt>${label('Degree','学位')}</dt><dd>${bilingual(...school.degree)}</dd></div>
-    <div><dt>${label('Major','主修')}</dt><dd>${bilingual(...school.major)}</dd></div>
+    ${school.major ? `<div><dt>${label('Major','主修')}</dt><dd>${bilingual(...school.major)}</dd></div>` : ''}
     <div><dt>${label('Dates','就读时间')}</dt><dd>${label(...school.start)}–${label(...school.end)}</dd></div>
-    <div><dt>${label('WES-converted GPA','WES 换算成绩')}</dt><dd>${esc(school.grade)}</dd></div>
+    <div><dt>${label(...school.gradeLabel)}</dt><dd>${esc(school.grade)}</dd></div>
    </dl>
    ${school.entrancePhoto ? `<div class="school-photo school-entrance">${internshipImage(school.entrancePhoto)}</div>` : ''}
    <p class="school-focus">${esc(t(school.focus))}</p>
@@ -67,7 +67,7 @@ function schoolDetail(school){
    </section>
    ${school.cityPhoto ? `<div class="school-photo">${internshipImage(school.cityPhoto)}</div>` : ''}
    <section class="detail-section school-courses">
-    <h3>${label('Undergraduate coursework','本科课程')}</h3>
+    <h3>${label(...school.courseworkHeading)}</h3>
     ${courses}
    </section>
   </article>`;

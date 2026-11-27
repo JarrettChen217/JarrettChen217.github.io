@@ -321,39 +321,228 @@ const PROJECTS = {
         "SocialAI（AI 社交平台）"
       ],
       "date": [
-        "Dec 2025 – Mar 2026; subsequent maintenance",
-        "2025年12月 – 2026年3月；后续持续维护"
+        "Dec 2025 – Mar 2026 · Maintenance in Jun 2026",
+        "2025年12月 – 2026年3月 · 2026年6月维护"
       ],
       "region": "ny",
-      "type": "personal",
-      "tech": "React, Go, Elasticsearch, Google Cloud, Docker",
+      "type": "academic",
+      "tech": "React, Go, Elasticsearch, Google Cloud Storage, Docker",
       "summary": [
-        "A full-stack social application combining searchable posts with AI-assisted image creation.",
-        "将帖子搜索与 AI 辅助图像创作结合的全栈社交应用。"
+        "A word from a post can lead you back to its photo. In SocialAI’s Collection, a keyword search finds matching posts and lets you open their images.",
+        "记得帖子里写过的一个词，就能用它找回配图。在 SocialAI 的 Collection 里，输入关键词可以找到对应的帖子，再点开图片查看。"
       ],
       "background": [
-        "SocialAI brings content creation and discovery together. Its React interface connects to a Go service, with Elasticsearch for search and cloud storage for uploaded media.",
-        "SocialAI 将内容创作与发现结合起来。React 界面连接 Go 服务，使用 Elasticsearch 搜索及云存储保存媒体。"
+        "SocialAI was a course project for publishing and finding media posts. Searching by author is useful when you remember who posted a photo. Searching the post text gives you another way in when all you remember is what someone wrote.",
+        "SocialAI 是一个发布和查找图文帖子的课程项目。记得谁发过照片时，可以按作者检索；只记得帖子里写过什么时，也可以从正文入手。"
       ],
       "work": [
         [
-          "Implemented frontend and backend flows for users, posts, and content search.",
-          "实现用户、帖子与内容搜索相关的前后端流程。"
-        ],
-        [
-          "Integrated image generation behind provider interfaces; the current repository includes OpenAI and Gemini implementations and related tests.",
-          "通过服务接口接入图像生成；当前仓库包含 OpenAI、Gemini 实现及相关测试。"
-        ],
-        [
-          "Maintained a Docker Compose development stack and Google Cloud deployment configuration.",
-          "维护 Docker Compose 开发环境与 Google Cloud 部署配置。"
+          "I wrote the Go endpoints for creating and searching posts from the React app and indexed the posts in Elasticsearch so they could be retrieved by keyword or author.",
+          "我为 React 应用编写了发帖和搜索的 Go 接口，并将帖子索引到 Elasticsearch，支持按正文关键词或作者检索。"
         ]
+      ],
+      "workHeading": [
+        "My contribution during the course",
+        "我在课程项目中的工作"
+      ],
+      "process": {
+        "heading": [
+          "Finding the garden bridge",
+          "找回花园里的那座桥"
+        ],
+        "intro": [
+          "Of the three sample posts, only “Garden bridge” mentions a bridge in its text. The first three images show the local React app with sample responses. The diagrams that follow trace the backend path from the source code.",
+          "三条示例帖子中，只有「Garden bridge」的正文含有 bridge。前三张图来自本地 React 前端，使用示例响应；后面两张图依据源码，展示实际服务如何处理同一类请求。"
+        ],
+        "stages": [
+          {
+            "id": "keyword",
+            "label": [
+              "Collection",
+              "图片集合"
+            ],
+            "title": [
+              "Start with a word from the post",
+              "从正文中的一个词开始"
+            ],
+            "body": [
+              "Collection opens here with All selected. To narrow the gallery, switch to Keyword, enter “bridge” and choose Search.",
+              "画面中选中的是 All，可以看到搜索前的全部图片。切换到 Keyword，输入 bridge，再点 Search 缩小范围。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/keyword.webp",
+                "thumbnail": "assets/projects/social-ai/keyword-thumb.webp",
+                "width": 1102,
+                "height": 720,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Collection with All selected and three sample thumbnails showing a bridge, a sailboat and buildings",
+                  "Collection 中选中了 All，可见桥梁、帆船和楼群三张示例图"
+                ],
+                "caption": [
+                  "Local frontend demo with sample data. Before the search, all three thumbnails are visible.",
+                  "本地前端演示，使用示例数据。搜索前，三张缩略图全部可见。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "result",
+            "label": [
+              "Search result",
+              "搜索结果"
+            ],
+            "title": [
+              "See which photo matches",
+              "看哪张图匹配"
+            ],
+            "body": [
+              "The Images tab now shows a single thumbnail. “Garden bridge” matches because its post contains the search word.",
+              "搜索后，Images 页只剩一张缩略图。「Garden bridge」这条帖子的正文含有搜索词，因此它的配图被保留下来。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/result.webp",
+                "thumbnail": "assets/projects/social-ai/result-thumb.webp",
+                "width": 1102,
+                "height": 1464,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Collection with Keyword selected and a single bridge thumbnail under Images",
+                  "Collection 中选中了 Keyword，Images 下只有一张桥梁缩略图"
+                ],
+                "caption": [
+                  "Local frontend demo with sample data. The matching bridge post remains after searching.",
+                  "本地前端演示，使用示例数据。提交搜索后，画面只显示匹配的桥梁帖子。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "open",
+            "label": [
+              "Image viewer",
+              "大图查看器"
+            ],
+            "title": [
+              "Open the bridge photo",
+              "点开桥梁图片"
+            ],
+            "body": [
+              "Select the remaining thumbnail to inspect the bridge in the image viewer. The search has taken the reader from a remembered word to the image attached to that post.",
+              "点击剩下的缩略图，大图查看器便会展开桥梁图片。从一个记得的词，读者找到了那条帖子的配图。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/open.webp",
+                "thumbnail": "assets/projects/social-ai/open-thumb.webp",
+                "width": 1102,
+                "height": 1114,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Image viewer displaying the garden bridge illustration",
+                  "大图查看器中展开的花园小桥示意图"
+                ],
+                "caption": [
+                  "Local frontend demo with sample data. The selected thumbnail opens in the image viewer.",
+                  "本地前端演示，使用示例数据。点开搜索结果后，桥梁图片在查看器里展开。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "architecture",
+            "label": [
+              "System architecture",
+              "系统架构"
+            ],
+            "title": [
+              "Where the words and the image go",
+              "正文和图片分别存在哪里"
+            ],
+            "body": [
+              "When a post is published, Go saves the media in Google Cloud Storage and indexes the post text, author and media URL in Elasticsearch. During a search, Go returns the matching post records to React. The browser uses their URLs to load the images from storage.",
+              "发帖时，Go 将媒体文件保存到 Google Cloud Storage，并把正文、作者和媒体 URL 写入 Elasticsearch 索引。搜索时，Go 将匹配的帖子记录返回给 React；浏览器拿到记录中的 URL，再从对象存储加载图片。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/architecture.webp",
+                "thumbnail": "assets/projects/social-ai/architecture-thumb.webp",
+                "width": 1330,
+                "height": 1315,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "React sends posts and searches to Go. Go uses Elasticsearch for posts and Google Cloud Storage for media. The browser loads each image by URL.",
+                  "React 向 Go 提交帖子或搜索。Go 使用 Elasticsearch 存储帖子索引，使用 Google Cloud Storage 存储媒体。浏览器按 URL 加载图片。"
+                ],
+                "caption": [
+                  "The search result carries the media URL. The browser makes a separate request for the image itself.",
+                  "搜索结果带回媒体 URL。图片文件由浏览器另行请求。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sequence",
+            "label": [
+              "Request sequence",
+              "请求时序"
+            ],
+            "title": [
+              "Follow one search request",
+              "跟进一次搜索请求"
+            ],
+            "body": [
+              "React sends a GET request to /search?keywords=bridge with a bearer token. After JWT validation, the handler calls the post service in the same Go process. The service runs an Elasticsearch match query on the message field. Go returns JSON to React, which filters the posts by media type and displays the matching thumbnail.",
+              "React 向 /search?keywords=bridge 发出带 Bearer 令牌的 GET 请求。JWT 校验通过后，处理函数调用同一 Go 进程中的帖子服务，由它对 Elasticsearch 索引的 message 字段执行 match 查询。Go 把帖子列表以 JSON 返回，React 按媒体类型筛选，在图片页显示匹配的缩略图。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/sequence.webp",
+                "thumbnail": "assets/projects/social-ai/sequence-thumb.webp",
+                "width": 1330,
+                "height": 1212,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "Sequence of a keyword search, from the React request through JWT validation and an Elasticsearch match query to a bridge thumbnail and the open image viewer",
+                  "关键词查询时序，从 React 请求、JWT 校验和 Elasticsearch 匹配，到桥梁缩略图和展开的大图查看器"
+                ],
+                "caption": [
+                  "The diagram follows the backend success path in code. The local walkthrough used a sample response to exercise the frontend.",
+                  "图中后端部分依据源码的成功路径绘制。本地演示使用示例响应来验证前端交互。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "journey": [
+        {
+          "title": [
+            "June 2026 · Image generation",
+            "2026年6月 · 图像生成维护"
+          ],
+          "body": [
+            "During later maintenance, I designed and verified a Go interface for image generation with assistance from a coding agent. I checked that configuration could switch the provider between OpenAI and Gemini and tested how the service handled invalid prompts and provider errors.",
+            "后续维护时，我在编码助手协助下设计并验证了 Go 图像生成接口。我检查了服务端能否通过配置切换 OpenAI 和 Gemini，并测试了无效提示词和供应商报错时服务的处理方式。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "process",
+        "journey"
       ],
       "keywords": [
         "search",
-        "full-stack",
+        "keyword",
+        "author",
         "image generation",
         "搜索",
+        "关键词",
+        "作者",
         "图像生成"
       ]
     },

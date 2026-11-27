@@ -1,6 +1,202 @@
 // Profile content is separate from the project catalogue.
 const CONTENT = {
   email:'hao.chen1281@gmail.com', github:'https://github.com/JarrettChen217', linkedin:'https://www.linkedin.com/in/chen-hao-j33625/', instagram:'https://www.instagram.com/jarrettchen7/', instagramHandle:'@jarrettchen7', wechat:'Che8147',
+  education: {
+    columbia: {
+      name: ['Columbia University', '哥伦比亚大学'],
+      degree: ['Master of Science in Computer Engineering', '计算机工程理学硕士'],
+      start: ['Sep 2025', '2025年9月'],
+      end: ['Dec 2026 · Expected', '2026年12月 · 预计毕业'],
+      grade: '3.75/4.0',
+      gradeLabel: ['GPA', 'GPA'],
+      courseworkHeading: ['Graduate coursework', '硕士课程'],
+      entrancePhoto: {
+        src: 'assets/education/columbia/library-1024.webp', thumbnail: 'assets/education/columbia/library-800.webp',
+        width: 1024, height: 683, thumbnailWidth: 800,
+        alt: ['Stone columns beneath the inscription “The Library of Columbia University”', '石柱上方刻着“The Library of Columbia University”'],
+        caption: ['Looking up at the library inscription on campus.', '在校园里抬头看图书馆柱廊上的刻字。']
+      },
+      cityPhoto: {
+        src: 'assets/education/columbia/campus-walk-1024.webp', thumbnail: 'assets/education/columbia/campus-walk-800.webp',
+        width: 1024, height: 576, thumbnailWidth: 800,
+        alt: ['Paths cross a long lawn leading to a columned building', '几条步道穿过长方形草坪，通向一栋有柱廊的建筑'],
+        caption: ['Across the lawn on Columbia’s campus.', '从草坪这一头望向哥大校园。']
+      },
+      terms: {
+        fall25: ['Fall 2025', '2025 年秋季'],
+        spring26: ['Spring 2026', '2026 年春季'],
+        fall26: ['Fall 2026 · In progress', '2026 年秋季 · 在读']
+      },
+      focus: ["While working on a racing simulator in Melbourne, I heard a mentor describe a subway gate that would fail on a cold start. By the time the equipment had warmed up, the problem was hard to reproduce. That detail stayed with me. As an undergraduate, I focused on delivering software with a team. At Columbia, I wanted to understand more about the machines running that software. I studied computer architecture and heterogeneous computing, and followed the storage stack from physical devices to file systems.", "在墨尔本做赛车模拟时，一位导师跟我讲过地铁闸机的故事：清晨刚开机时容易出错，等机器热起来，再去查就很难复现。我一直记得这个细节。本科时，我更关心怎样和队友把软件做出来；到 Columbia 读计算机工程，我想多了解程序运行的那台机器。我选了计算机体系结构和异构计算，也从存储设备一路学到文件系统。"],
+      stories: [
+        {
+          photo: {
+            src: 'assets/projects/vitalguard/vitalguard-prototype-tabletop-960.webp', thumbnail: 'assets/projects/vitalguard/vitalguard-prototype-tabletop-480.webp',
+            width: 960, height: 1280, thumbnailWidth: 480,
+            alt: ['Glove-mounted sensors wired to the VitalGuard prototype on a table', '桌面上的 VitalGuard 原型，导线连接着手套上的传感器'],
+            caption: ['Our VitalGuard prototype with the sensors and ESP32 connected.', '我们把传感器接到 ESP32 后的 VitalGuard 原型。']
+          },
+          title: ["VitalGuard · Testing the sensors with Wi-Fi on", "VitalGuard · 在 Wi-Fi 开启时测试传感器"],
+          body: ["On VitalGuard, my electrical engineering teammate wired the sensors and checked each one with a small test script. I integrated them into the MicroPython firmware that collected their readings and uploaded them over Wi-Fi. During integration, one reading disappeared. I disabled features one at a time; the reading came back when I skipped Wi-Fi initialization. My teammate and I checked the pins on the board and moved the force sensor’s analog input from GPIO 25 to GPIO 32. We could then read it with Wi-Fi running. That experience changed what I considered a complete hardware test: I wanted to see the sensors working together with the radio on.", "做 VitalGuard 时，学电气工程的队友负责接线，用小脚本逐个确认传感器能读出数据。我负责把它们接进同一套 MicroPython 固件，将读数打包、通过 Wi-Fi 上传。整机联调时，一路原本正常的读数消失了。我逐项关掉功能，直到跳过 Wi-Fi 初始化，读数才重新出现。我在固件里缩小排查范围，队友和我一起在板子上核对引脚。最后我们把压力传感器的模拟输入从 GPIO 25 换到 GPIO 32，才让采集和上传一起工作。这次我记住了：单个模块测通之后，还得在所有模块同时运行时再测一次。"],
+          link: {href: "#project/vitalguard", label: ["See the VitalGuard prototype", "查看 VitalGuard 原型"]},
+        },
+        {
+          figures: [
+            {
+              src: 'assets/education/columbia/nsight-roofline-1791.webp', thumbnail: 'assets/education/columbia/nsight-roofline-800.webp',
+              width: 1791, height: 1271, thumbnailWidth: 800,
+              alt: ['Nsight Compute Roofline chart for a tiled dilated convolution on a Tesla T4', 'Nsight Compute 中 Tesla T4 上分块空洞卷积的 Roofline 图'],
+              caption: ['The green dot is one run of the tiled convolution. Its horizontal position shows operations per byte; its height shows the measured floating-point throughput.', '绿点是分块卷积内核的一次实测。横向看每传输一字节做了多少次运算，纵向看实际达到的浮点吞吐量。']
+            },
+            {
+              src: 'assets/education/columbia/nsight-memory-1791.webp', thumbnail: 'assets/education/columbia/nsight-memory-800.webp',
+              width: 1791, height: 1271, thumbnailWidth: 800,
+              alt: ['Nsight Compute memory chart with shared memory, L1/TEX and L2 caches, and device memory', 'Nsight Compute 访存图，标出共享内存、L1/TEX 和 L2 缓存以及显存'],
+              caption: ['In the same run, the Shared row shows the kernel accessing shared memory. Follow the upper path to see traffic between the L1/TEX cache, L2 cache and device memory.', '同一次运行中，沿 Shared 这一行可以看到内核对共享内存的访问。再看上方通路，箭头标出了 L1/TEX 缓存、L2 缓存与显存之间的数据传输量。']
+            }
+          ],
+          title: ["Heterogeneous computing · Sharing pixels across threads", "异构计算 · 线程之间怎样共享像素"],
+          body: ["In heterogeneous computing, I compared two ways to run the same convolution. In one, each thread read its own pixels. In the other, threads in a block loaded a patch of the image into shared memory. That made synchronization click for me: the pixel one thread needed might still be on its way in from another. In my timings, tiling was faster with adjacent samples, but that advantage disappeared when I spaced the samples farther apart.", "在异构计算课上，我用两种方式算同一个卷积：一种让每个线程自己读像素，另一种让同组线程先把一块图像搬进共享内存，再一起使用。后者让我弄懂了为什么要同步：我要读的那个像素，可能是旁边的线程负责搬的。比较计时的时候，我发现采样点相邻时分块更快，采样间距拉大后，这个优势就消失了。"],
+        },
+        {
+          title: ["Formal verification · What should an empty elevator do?", "形式化验证 · 空升降机移动之后应是什么状态？"],
+          body: ["When I worked on the mine simulation in Melbourne, I was thinking about how to get the carts and the elevator to work together. At Columbia, I had to put what the program should do into a form a machine could check for the first time. Take an empty elevator at the top: after one move, it should be at the bottom and still empty. To write that assertion, I had to spell out the starting state, the operation, and what had to hold afterward.", "以前写矿车模拟时，我想的是怎样让矿车和升降机配合起来。到了 Columbia 的形式化验证课，我第一次要把「程序应该怎样运行」写成机器能检查的条件。比如，一台空升降机从顶端出发，只执行一次移动，它就应该在底端，而且里面仍然没有车。说「升降机运行正常」很容易；写成断言时，我得说清楚它从哪里开始、做了什么、之后哪些事情必须成立。"],
+          link: {href: "#project/java-concurrency", label: ["Explore the mine simulation and verification project", "查看矿车模拟与验证项目"]},
+        },
+        {
+          photo: {
+            src: 'assets/education/columbia/avenue-683.webp', thumbnail: 'assets/education/columbia/avenue-420.webp',
+            width: 683, height: 1024, thumbnailWidth: 420,
+            alt: ['Traffic on a New York avenue stretching uphill between brick buildings', '纽约一条大道上的车流沿坡道延伸，两侧是砖楼'],
+            caption: ['A frame from my New York street photography.', '我在纽约拍的一张街景。']
+          },
+          title: ["Computer storage · Keeping a second copy", "计算机存储 · 给照片留一份备份"],
+          body: ["As a photographer, I sometimes get just one chance to take a picture. Studying RAID and backups made me ask where I could recover those photos if a drive failed, or if something happened to the place where I kept my copies. After the course, I started backing up my Mac to two drives with Time Machine. I keep an 8 TB drive at home for backups. Next, I’d like to build a NAS so I can open the same video files from either my Windows PC or my Mac.", "我平时拍照，有些瞬间只有一次机会。学 RAID 和备份时，我开始想：一块盘坏了，我还能从哪儿找回这些照片？如果备份都放在同一个地方呢？上完课后，我开始用两块硬盘给 Mac 做 Time Machine 备份，家里有一块 8 TB 的盘专门用来备份。下一步我想自己搭一台 NAS，这样在 Windows 和 Mac 之间换着用时，两边都能打开同一份视频。"],
+        },
+      ],
+      courseGroups: [
+        {
+          title: ["Architecture and systems", "体系结构与系统"],
+          courses: [
+            {name: "Computer Architecture", term: "fall25"},
+            {name: "Heterogeneous Computing for Signal and Data Processing", term: "fall25"},
+            {name: "Computer Storage", term: "spring26"},
+            {name: "Modeling and Performance Evaluation", term: "fall26"},
+          ],
+        },
+        {
+          title: ["Verification and embedded systems", "验证与嵌入式系统"],
+          courses: [
+            {name: "Formal Verification of HW/SW Systems", term: "fall25"},
+            {name: "IoT – Intelligent & Connected Systems", term: "fall25"},
+          ],
+        },
+        {
+          title: ["AI and interaction", "人工智能与交互"],
+          courses: [
+            {name: "3D UI & AR", term: "spring26", link: {href: '#project/dance-xr', label: ['Dance XR project', 'Dance XR 项目']}},
+            {name: "Advanced Big Data & AI", term: "spring26"},
+            {name: "Reinforcement Learning", term: "spring26"},
+            {name: "AI in Practice: Game Design and Development", term: "fall26"},
+          ],
+        },
+      ],
+    },
+    unimelb: {
+      name: ['The University of Melbourne', '墨尔本大学'],
+      degree: ['Bachelor of Science', '理学学士'],
+      major: ['Computing and Software Systems', '计算与软件系统'],
+      start: ['Feb 2022', '2022年2月'],
+      end: ['Dec 2024', '2024年12月'],
+      grade: '3.63/4.0 (WES)',
+      gradeLabel: ['WES-converted GPA', 'WES 换算成绩'],
+      courseworkHeading: ['Undergraduate coursework', '本科课程'],
+      focus: ['At Melbourne, I first enjoyed the moment when a program finally worked. Later, I found that I also liked the work of finishing a project with a team. That experience drew me toward software engineering.', '我在墨尔本学计算机，最初喜欢的是把一道题写通。后来我发现，我也喜欢和一组人把一个项目做完。本科时，我的选课逐渐偏向了软件工程。'],
+      entrancePhoto: {
+        src: 'assets/education/unimelb/campus-entrance-1600.webp', thumbnail: 'assets/education/unimelb/campus-entrance-800.webp',
+        width: 1024, height: 768, thumbnailWidth: 800,
+        alt: ['A blue bridge above the road at the university entrance', '校园入口处，一座蓝色的桥横跨道路'],
+        caption: ['At the entrance to the University of Melbourne.', '墨尔本大学校园入口。']
+      },
+      cityPhoto: {
+        src: 'assets/education/unimelb/rooftops-1600.webp', thumbnail: 'assets/education/unimelb/rooftops-800.webp',
+        width: 1024, height: 683, thumbnailWidth: 800,
+        alt: ['Melbourne rooftops stretching toward the horizon under a cloudy sky', '阴云下，墨尔本的屋顶一路延伸到远处'],
+        caption: ['Melbourne rooftops seen through a window.', '从窗边望出去的墨尔本屋顶。']
+      },
+      stories: [
+        {
+          title: ["Design of Algorithms · Finding a memory leak", "Design of Algorithms · 找出内存泄漏"],
+          body: ["I remember getting the algorithm for an assignment worked out and still having a memory leak in my C program. A tutor sat down with me, and we kept debugging until we found it. What stayed with me was the relief of seeing it run.", "我记得一道算法作业，解题思路已经有了，C 程序却一直有内存泄漏。我和助教一起调了很久，终于找出问题。比起最后交上去的答案，我更记得程序跑通时那种一下子松了口气的感觉。"],
+        },
+        {
+          title: ["Graphics and Interaction · Leading my first game team", "Graphics and Interaction · 第一次带队交付游戏"],
+          body: ["Midas Curse was my first Unity project and my first time leading a team. I thought the lead’s job was to hand out tasks and collect everyone’s work at the end. Close to our deadline, some teammates wanted to add new abilities for the wizard. Another teammate and I wanted to see how the game played for someone new. I brought the group together, and we agreed on a cutoff for new mechanics and booked a playtest. One player tried to fill the gold meter, expecting a reward. A full meter actually turned the character to gold and ended the game. We made the meter flash red as it rose and added a red warning across the screen. That experience changed how I thought about leading a team: I had to make time for us to see our work through a player’s eyes.", "Midas Curse 是我第一次用 Unity，也是我第一次带小组交付一个作品。起初，我以为组长就是把任务分下去，最后再把大家做的东西收回来。临近交付，有队友想给巫师加新玩法，我和另一位队友想留时间给第一次玩的玩家试一试。我把大家叫到一起，约定了加机制的截止时间，也约好了试玩。试玩时，有人竟然主动去攒满金条，以为会得到奖励。可在我们的游戏里，金条一满，角色就会变成金子，游戏也就结束了。我们让金条上涨时跟着闪红，屏幕上也出现红色警示。我第一次体会到，带队还得给大家留出时间，看一看玩家究竟是怎么理解我们做的东西的。"],
+          link: {href: "#project/midas-curse-unity", label: ["Explore Midas Curse", "看看我们做的游戏"]},
+        },
+        {
+          title: ["IT Project · Learning from weekly client feedback", "IT Project · 按周跟进客户反馈"],
+          body: ["On the AVL visualisation project for Algorithms in Action, I served as Scrum Master for the first time and worked with a teammate on the algorithms. We tracked client feedback week by week. To help students see when a rotation was needed, we displayed subtree heights above the nodes. When our client tried the animation, they liked the heights but asked for smaller text because the labels overlapped. We reduced the font size. By the time we handed over the project, our client had already seen how their feedback shaped it.", "在 Algorithms in Action 的 AVL 可视化项目里，我第一次担任 Scrum Master，也和队友结对做算法开发。我们按周记录和跟进客户反馈。为了让学生看出什么时候需要旋转，我们在节点上方显示子树高度。客户试玩后觉得这个信息有用，但标签容易重叠，希望字号再小一些。我们就把字调小了。到交付时，客户已经亲眼看过自己的反馈怎样改变了作品。"],
+          link: {href: "#project/avl-visualisation", label: ["See the AVL rotation animation", "看我们怎样把 AVL 旋转做成分步动画"]},
+        },
+        {
+          title: ["Making Movies 2 · Following the eyeline", "Making Movies 2 · 镜头里的视线"],
+          body: ["Working from a script, I made a shot list and planned where to put the camera during a conversation. I still watch the eyelines when a film cuts between two people. Keeping the camera on one side of the line between them makes it feel as though they are looking at each other.", "我从剧本列出镜头清单，规划两个人对话时摄影机该放在哪里。到现在看电影，我还会留意剪辑前后两个人的视线。如果镜头一直留在对话轴线的同一侧，即使切换人物，我也能感觉他们在看着彼此。"],
+        },
+      ],
+      courseGroups: [
+        {
+          title: ["Programming and algorithms", "编程与算法"],
+          courses: [
+            {name: "Foundations of Computing", year: 2022, semester: 1},
+            {name: "Foundations of Algorithms", year: 2022, semester: 2},
+            {name: "Design of Algorithms", year: 2023, semester: 1},
+            {name: "Declarative Programming", year: 2024, semester: 2},
+            {name: "Models of Computation", year: 2024, semester: 2},
+          ],
+        },
+        {
+          title: ["Software engineering and team projects", "软件工程与团队项目"],
+          courses: [
+            {name: "Object Oriented Software Development", year: 2023, semester: 1},
+            {name: "Software Modelling and Design", year: 2024, semester: 1},
+            {name: "IT Project", year: 2024, semester: 2},
+            {name: "Engineering Modelling and Design", year: 2023, semester: 2},
+          ],
+        },
+        {
+          title: ["Systems, data and AI", "系统、数据与人工智能"],
+          courses: [
+            {name: "Computer Systems", year: 2024, semester: 1},
+            {name: "Database Systems", year: 2023, semester: 2},
+            {name: "Elements of Data Processing", year: 2023, semester: 2},
+            {name: "Artificial Intelligence", year: 2024, semester: 1},
+          ],
+        },
+        {
+          title: ["Interaction, film and breadth studies", "交互、影像与人文选修"],
+          courses: [
+            {name: "Graphics and Interaction", year: 2023, semester: 2},
+            {name: "Making Movies 1", year: 2023, semester: 1},
+            {name: "Making Movies 2", year: 2024, semester: 1},
+            {name: "The Business of Music", year: 2022, semester: 2},
+            {name: "Japanese 1", year: 2022, semester: 1},
+          ],
+        },
+        {
+          title: ["Mathematics and science", "数学与科学"],
+          courses: [
+            {name: "Calculus 1", year: 2022, semester: 1},
+            {name: "Calculus 2", year: 2022, semester: 2},
+            {name: "Linear Algebra", year: 2022, semester: 2},
+            {name: "Engineering Mathematics", year: 2023, semester: 1},
+            {name: "Today's Science, Tomorrow's World", year: 2022, semester: 1},
+            {name: "Thinking Scientifically", year: 2024, semester: 2},
+          ],
+        },
+      ],
+    },
+  },
   internships:[
     {id:'cummins-us',region:'us',roleKey:'data-analytics',company:['Cummins Inc. — Turbo Technologies','康明斯公司 — 涡轮增压技术'],place:['Charleston, SC, United States','美国南卡罗来纳州查尔斯顿'],role:['Data Analytics Intern','数据分析实习生'],team:['Manufacturing Engineering & Data Analytics','制造工程与数据分析'],date:['June 2026 – Sep 2026','2026年6月 – 2026年9月'],excerpt:['Evidence-led manufacturing analytics spanning balancing-system validation, reviewable decision tools, and a read-only production-data pipeline for BI.','以证据为导向开展制造数据分析，覆盖动平衡系统验证、可评审决策工具，以及面向 BI 的只读生产数据管道。'],tech:'Python · pandas · scikit-learn · React · Flask · Docker · Parquet · Power BI · Codex · GitHub Copilot · Claude Code',summary:['At Cummins Turbo Technologies in Charleston, I worked across manufacturing engineering, data analytics, and software delivery. I built reproducible studies for a balancing-system discrepancy, translated the analysis into a containerized demonstrator, and developed read-only archive tooling and BI foundations for production-test data. I also used high-intensity vibe coding with Codex, GitHub Copilot, and Claude Code to turn repeated engineering tasks into reusable agent skills and durable scripts, while keeping outputs reviewable through tests and evidence checks.','在康明斯涡轮增压技术查尔斯顿团队实习期间，我的工作横跨制造工程、数据分析与软件交付。我为动平衡系统差异建立可复现研究流程，将分析转化为容器化演示工具，并为生产测试数据开发只读归档工具与 BI 数据基础。我也使用 Codex、GitHub Copilot 与 Claude Code 高强度开展 vibe coding，将重复工程任务沉淀为可复用的 Agent Skills 与持久脚本，同时通过测试和证据检查保持输出可评审。'],background:['The internship began with a practical manufacturing question: two independent measurement chains could observe the same production event yet return different correction guidance. That question expanded into three connected needs—build evidence that engineers could reproduce, make the analysis reviewable without notebook knowledge, and create a trustworthy path from a large test archive to operational reporting. Agent-assisted development became a core delivery method: I used Codex, GitHub Copilot, and Claude Code to explore quickly, then converted successful workflows into versioned skills, persistent scripts, tests, and handoff documentation rather than leaving them as one-off prompts.','这段实习从一个实际制造问题开始：两条独立测量链路观察同一生产事件时，可能给出不同的修正建议。由此延伸出三项相互关联的需求——建立工程师可复现的证据、让不熟悉 notebook 的评审者也能检查分析过程，以及为大规模测试归档建立通往运营报表的可信数据路径。Agent 辅助开发成为核心交付方式：我使用 Codex、GitHub Copilot 与 Claude Code 快速探索，再将有效工作流固化为版本化 Skills、持久脚本、测试与交接文档，而不是停留在一次性提示词。'],highlights:[
       ['Evidence boundaries are part of the result. I separated established observations, directional findings, untested hypotheses, and follow-up tests instead of forcing a single root-cause claim.','证据边界本身就是结果的一部分。我将已确认现象、方向性发现、未经验证的假设与后续测试分开记录，而不是强行给出单一根因。'],
@@ -15,8 +211,7 @@ const CONTENT = {
     ],agentSkills:{kicker:['Agent Skills engineering','Agent Skills 工程化'],heading:['From repeated prompt to shared engineering capability','从重复提示词到共享工程能力'],intro:['High-intensity work with Codex, GitHub Copilot, and Claude Code was useful because successful conversations did not remain chat history. I converted recurring procedures into reviewable Skills, kept deterministic work in scripts and tests, and used GitHub as the versioned validation and distribution path.','与 Codex、GitHub Copilot 和 Claude Code 的高强度协作之所以真正产生价值，是因为有效对话没有停留在聊天记录中。我将重复流程转化为可评审的 Skills，把确定性工作保留在脚本与测试中，并以 GitHub 作为版本化验证和传播路径。'],examples:[
       {title:['Read-only archive access','只读归档访问'],body:['Skills guided safe discovery, inspection, and profiling while persistent commands preserved source immutability, provenance, manifests, and explicit failure states.','Skills 引导安全发现、检查与画像；持久命令则保证源数据不可变，并记录来源、清单与明确失败状态。']},
       {title:['Controlled ingest and pairing','受控摄取与配对'],body:['Repeated ingest, synchronization, and paired-run preparation became named workflows with guarded inputs, reviewable outputs, and less manual cross-checking.','重复的数据摄取、同步与配对准备被整理为具名工作流，包含受控输入、可评审输出，并减少人工交叉校对。']},
-      {title:['Kappa DAT reading and export','Kappa DAT 读取与导出'],body:['A teammate-facing Skill packaged file discovery, parsing, validation, preview, explicit confirmation, export, and reporting into one repeatable path.','面向同事的 Skill 将文件发现、解析、校验、预览、明确确认、导出与结果报告封装为一条可重复路径。']},
-      {title:['Portable meeting transcription','可移植会议转录'],body:['A tool-neutral Skill kept multilingual transcription instructions beside its scripts and reproducible environment so the same workflow could be used while working with Codex, GitHub Copilot, and Claude Code.','工具中立的 Skill 将多语言转录说明、脚本与可复现环境放在一起，使 Codex、GitHub Copilot 与 Claude Code 的协作都能复用同一套流程。']}
+      {title:['Kappa DAT reading and export','Kappa DAT 读取与导出'],body:['A teammate-facing Skill packaged file discovery, parsing, validation, preview, explicit confirmation, export, and reporting into one repeatable path.','面向同事的 Skill 将文件发现、解析、校验、预览、明确确认、导出与结果报告封装为一条可重复路径。']}
     ],stages:[
       {title:['Extract the operating contract','提取操作契约'],body:['I first turned a successful agent conversation into a concise Skill: when to use it, which evidence to inspect, what must remain read-only, where approval is required, and what a complete report contains.','先把一次成功的 Agent 对话整理为精炼的 Skill：何时使用、检查哪些证据、哪些内容必须只读、何处需要确认，以及完整报告应包含什么。']},
       {title:['Back instructions with durable code','用持久代码支撑说明'],body:['The Skill handled judgement and sequencing; Python and command-line scripts handled parsing, hashing, manifests, exports, and failure checks. Tests hardened the deterministic layer after every agent-assisted iteration.','Skill 负责判断与步骤编排；Python 和命令行脚本负责解析、哈希、清单、导出与失败检查。每次 Agent 辅助迭代后，都由测试加固确定性执行层。']},

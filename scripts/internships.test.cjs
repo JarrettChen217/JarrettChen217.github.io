@@ -181,7 +181,7 @@ test('Cummins Charleston presents three evidence-bounded manufacturing data stud
 test('Cummins Charleston explains the Agent Skills build and distribution system', () => {
   const context = appContext();
   const record = "CONTENT.internships.find(item => item.id === 'cummins-us')";
-  assert.equal(vm.runInContext(`${record}.agentSkills.examples.length`, context), 4);
+  assert.equal(vm.runInContext(`${record}.agentSkills.examples.length`, context), 3);
   assert.equal(vm.runInContext(`${record}.agentSkills.stages.length`, context), 4);
   assert.equal(vm.runInContext(`${record}.agentSkills.examples.every(item => item.title.length === 2 && item.body.length === 2)`, context), true);
   assert.equal(vm.runInContext(`${record}.agentSkills.stages.every(item => item.title.length === 2 && item.body.length === 2)`, context), true);
@@ -193,7 +193,8 @@ test('Cummins Charleston explains the Agent Skills build and distribution system
   assert.match(html, /Make all three coding agents work from the same contract/);
   assert.match(html, /Claude Code/);
   assert.match(html, /GitHub Actions/);
-  assert.equal((html.match(/class="agent-skill-example"/g) || []).length, 4);
+  assert.equal((html.match(/class="agent-skill-example"/g) || []).length, 3);
+  assert.doesNotMatch(vm.runInContext(`JSON.stringify(${record})`, context), /Portable meeting transcription|可移植会议转录/);
   assert.equal((html.match(/class="agent-skill-stage"/g) || []).length, 4);
 });
 

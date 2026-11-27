@@ -1,0 +1,18 @@
+sequenceDiagram
+    accTitle: From an AR layout to a walkable VR zoo
+    accDescr: The iOS builder saves placements relative to the zoo and shares a JSON file with a Mac. After transfer to Quest storage, the VR app reads the file, restores the objects, builds navigation and connects the gates.
+    participant A as iOS AR builder
+    participant M as Mac
+    participant F as Quest storage
+    participant V as Quest VR app
+    Note over A,V: Build the zoo on the phone
+    A->>A: Place enclosures, gates and animals
+    A->>A: Save their poses relative to the zoo
+    Note over A,V: Transfer the layout file
+    A->>M: Share phone_ar_layout.json
+    M->>F: Copy the file to the headset via ADB
+    Note over A,V: Open the zoo on Quest
+    V->>F: Look for the imported file at startup
+    F-->>V: Return the layout JSON
+    V->>V: Match entries to prefabs and restore poses
+    V->>V: Bake navigation and link gates to enclosures

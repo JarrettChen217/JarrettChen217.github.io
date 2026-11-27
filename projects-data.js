@@ -4,8 +4,8 @@ const PROJECTS = {
     {
       "id": "agent-ai",
       "description": [
-        "Document Q&A with retrieval, voice interaction, and MCP-based web search.",
-        "结合文档检索、语音交互与 MCP 网络搜索的问答应用。"
+        "Ask a question about your study notes and compare a PDF-based answer with a separate web-search answer.",
+        "针对学习笔记提问，分别查看基于 PDF 原文和网页搜索的回答。"
       ]
     },
     {
@@ -35,6 +35,355 @@ const PROJECTS = {
     }
   ],
   "projects": [
+    {
+      "id": "zooxr",
+      "name": [
+        "ZooXR",
+        "ZooXR（跨设备动物园）"
+      ],
+      "date": [
+        "Feb – Apr 2026 · Columbia University · COMS W4172",
+        "2026年2月 – 2026年4月 · 哥伦比亚大学 · COMS W4172"
+      ],
+      "region": "ny",
+      "type": "academic",
+      "tech": "Unity, ARKit, iOS, JSON, Meta Quest 3",
+      "summary": [
+        "Lay out a zoo in augmented reality on an iPad or iPhone, then put on a Quest 3 and visit the zoo you just designed.",
+        "先在 iPad 或 iPhone 的增强现实画面里搭一座动物园，再戴上 Quest 3，走进自己刚刚布置的园区。"
+      ],
+      "background": [
+        "ZooXR began as a Columbia University 3D user interfaces assignment. It gives the designer and the visitor different views of one place. The phone shows the layout against the real surroundings while the headset puts the visitor inside it.",
+        "ZooXR 是哥伦比亚大学三维用户界面课程的作业。设计者和游客看到的是同一座园区的两个视角。拿起手机时，可以对照眼前的真实空间安排布局；戴上头显后，就能从游客的视角看这座动物园。"
+      ],
+      "work": [],
+      "process": {
+        "heading": [
+          "How the phone-built zoo reaches the headset",
+          "手机里搭的动物园怎样进入头显"
+        ],
+        "intro": [
+          "Two Unity applications share a layout file. The iOS builder writes it when the design is ready. The Quest explorer reads it to open that design in VR.",
+          "两个 Unity 应用通过一份布局文件交接。园区搭好后，iOS 搭建器把布局写入文件，Quest 游览器再读取它，让这座园区出现在 VR 里。"
+        ],
+        "stages": [
+          {
+            "id": "build",
+            "label": [
+              "iOS · ARKit",
+              "iOS · ARKit"
+            ],
+            "title": [
+              "Lay out the zoo on iPad",
+              "在 iPad 上布置园区"
+            ],
+            "body": [
+              "The builder runs on iOS. Looking through the iPad camera, the designer places enclosures and animals in AR and can see where they sit relative to each other before saving.",
+              "搭建器运行在 iOS 上。透过 iPad 摄像头，设计者可以在增强现实画面里摆放围栏和动物，保存前就能看到它们彼此的位置。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/zooxr/layout.webp",
+                "thumbnail": "assets/projects/zooxr/layout-thumb.webp",
+                "width": 960,
+                "height": 1320,
+                "thumbnailWidth": 480,
+                "alt": [
+                  "Dogs inside a grassy enclosure in the iPad AR builder",
+                  "iPad 的 AR 搭建画面中，几只狗位于草地围栏内"
+                ],
+                "caption": [
+                  "Start at one enclosure. The placement grid shows where the builder can position objects in the camera view.",
+                  "从一处围栏开始看。草地上的狗和画面里的定位点，让人能看清搭建时物体放在哪里。"
+                ]
+              },
+              {
+                "src": "assets/projects/zooxr/path-edit.webp",
+                "thumbnail": "assets/projects/zooxr/path-edit-thumb.webp",
+                "width": 940,
+                "height": 744,
+                "thumbnailWidth": 600,
+                "alt": [
+                  "The iPad builder in path-editing mode",
+                  "iPad 搭建器中的道路编辑画面"
+                ],
+                "caption": [
+                  "Once all three enclosures are in place, the designer can lay path tiles between them. The enclosure floors stay fixed during this step.",
+                  "三个围区就位后，可以在它们之间铺设路面。编辑道路时，围区地板会锁定，避免铺路过程中把围区挪走。"
+                ]
+              },
+              {
+                "src": "assets/projects/zooxr/builder.webp",
+                "thumbnail": "assets/projects/zooxr/builder-thumb.webp",
+                "width": 1280,
+                "height": 960,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "iOS AR view of a deer with a green checklist and the layout menu open",
+                  "iOS 增强现实画面里的一头鹿、绿色检查表和打开的布局菜单"
+                ],
+                "caption": [
+                  "The builder shows the placement checks in green. With the layout ready, the designer can choose “Export layout (share)” from the open menu.",
+                  "搭建检查表上的项目已变绿。在打开的菜单中点「Export layout (share)」，就能分享搭好的布局。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "transfer",
+            "label": [
+              "JSON",
+              "JSON"
+            ],
+            "title": [
+              "Pass the layout from one device to the other",
+              "把园区布局交给另一台设备"
+            ],
+            "body": [
+              "The iOS share sheet exports the layout as JSON. A Mac copies the file into the Quest app’s storage with Android Debug Bridge (ADB). Each record identifies an object and gives its position, rotation and scale relative to the zoo. One animal in the saved layout is a deer in enclosure 1. The headset can place that deer without knowing where the phone was in the room.",
+              "通过 iOS 分享面板导出 JSON 布局后，在 Mac 上用 Android 调试桥（ADB）把文件传入 Quest 应用的存储目录。文件逐项记录物体的类型，以及相对于园区的位置、朝向和缩放。实际保存的布局里有一头鹿属于 1 号围栏。有了这条记录，头显就能把鹿放回园区里的位置，无需知道当时手机在房间的哪一处。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/zooxr/layout-map.webp",
+                "thumbnail": "assets/projects/zooxr/layout-map-thumb.webp",
+                "width": 1200,
+                "height": 900,
+                "thumbnailWidth": 600,
+                "alt": [
+                  "Plan of the three enclosures drawn from the exported layout",
+                  "根据导出布局绘制的俯视图，标出了三个围区"
+                ],
+                "caption": [
+                  "The saved X/Z coordinates seen from above. Numbers identify enclosures, red dots mark animals, blue diamonds mark gates, green lines mark fences and brown tiles trace the path.",
+                  "这张俯视图根据导出文件中的 X/Z 坐标绘制。数字对应围区编号，红点是动物，蓝色菱形是门，绿线是围栏，棕色短条标出游览路径。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "explore",
+            "label": [
+              "Meta Quest 3",
+              "Meta Quest 3"
+            ],
+            "title": [
+              "Step inside the saved design",
+              "走进刚才保存的动物园"
+            ],
+            "body": [
+              "On startup, the Quest app reads each record, looks up the matching Unity prefab and places an instance at the saved pose. It restores the deer’s enclosure assignment, then rebuilds the navigation mesh around the placed enclosures and obstacles. The visitor can approach the enclosure in VR and see it from the gate.",
+              "Quest 应用启动时逐条读取布局，按标识找到对应的 Unity 预制件，在保存的位置和朝向上放置实例，并恢复鹿与 1 号围栏的关联。围栏和障碍物全部就位后，应用再重建标示可行走区域的导航网格。游客可以走近围栏，从门边向里看。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/zooxr/explorer.webp",
+                "thumbnail": "assets/projects/zooxr/explorer-thumb.webp",
+                "width": 1280,
+                "height": 720,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "First-person Quest view through a wooden gate towards a dog standing on sand",
+                  "Quest 第一人称视角，透过木栏门可以看到站在沙地上的狗"
+                ],
+                "caption": [
+                  "From the gate, the visitor can see a dog inside the enclosure and the fences of other enclosures in the distance.",
+                  "从门边望进去，能看到围栏里的一只狗，远处还有其他围栏。"
+                ]
+              },
+              {
+                "src": "assets/projects/zooxr/feeding.webp",
+                "thumbnail": "assets/projects/zooxr/feeding-thumb.webp",
+                "width": 1280,
+                "height": 720,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "A dog approaches food held by the visitor in VR",
+                  "VR 画面中，一只狗靠近游客手里的食物"
+                ],
+                "caption": [
+                  "Inside the enclosure, the visitor holds food out to the dog.",
+                  "进到围区后，游客把手里的食物递向狗。"
+                ]
+              }
+            ]
+          }
+        ],
+        "kicker": [
+          "Across two devices",
+          "跨设备体验"
+        ],
+        "diagram": {
+          "src": [
+            "assets/projects/zooxr/pipeline-en.svg",
+            "assets/projects/zooxr/pipeline-zh.svg"
+          ],
+          "alt": [
+            "Sequence diagram showing the designer placing zoo objects on iOS, exporting their layout as JSON, transferring the file to Quest 3 and opening the reconstructed zoo in VR.",
+            "时序图从上到下展示设计者在 iOS 摆放园区物体、导出 JSON 布局、将文件传到 Quest 3，以及游览器读取布局并在 VR 中还原园区的过程。"
+          ],
+          "caption": [
+            "Follow a layout from the moment the designer saves it on the phone to the moment a visitor sees it in the headset.",
+            "从设计者在手机上保存布局，到游客在头显里看到园区，图中的箭头标出每一步由谁完成。"
+          ]
+        }
+      },
+      "featuredVideo": {
+        "youtubeId": "cUG-zWmE-2E",
+        "watchUrl": "https://www.youtube.com/watch?v=cUG-zWmE-2E",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/cUG-zWmE-2E",
+        "poster": "assets/projects/zooxr/explorer.webp",
+        "width": 1280,
+        "height": 720,
+        "caption": [
+          "Full course demo, from laying out the zoo in AR to visiting the enclosures in VR. If YouTube is unavailable, the walkthrough above covers both devices in stills.",
+          "完整课程演示记录了从 AR 搭建到 VR 入园的过程。如果无法播放 YouTube，可以通过上方的实机图和园区地图看完整个流程。"
+        ]
+      },
+      "sectionOrder": [
+        "background",
+        "process",
+        "video",
+        "credits"
+      ],
+      "credits": [
+        {
+          "title": [
+            "Course project screenshots",
+            "课程项目截图"
+          ],
+          "body": [
+            "Captured by Hao Chen. The deer and dog models are from Animals FREE by ithappy.",
+            "截图由 Hao Chen 提供。鹿和狗的模型出自 ithappy 的 Animals FREE 素材包。"
+          ]
+        }
+      ],
+      "keywords": [
+        "AR",
+        "VR",
+        "XR",
+        "zoo",
+        "augmented reality",
+        "virtual reality",
+        "动物园",
+        "增强现实",
+        "虚拟现实"
+      ]
+    },
+    {
+      "id": "meeting-transcribe",
+      "name": [
+        "Meeting Transcribe — LLM Transcription and Minutes Pipeline",
+        "Meeting Transcribe（大模型转录与纪要流程）"
+      ],
+      "date": [
+        "Jun 2026 – Oct 2026",
+        "2026年6月 – 2026年10月"
+      ],
+      "region": "ny",
+      "type": "personal",
+      "tech": "Python, uv, Claude Code, Codex",
+      "summary": [
+        "An agent skill that turns meeting, lecture, and interview recordings into original-language transcripts and minutes.",
+        "一套将会议、课程和访谈录音整理成原语言转录稿与纪要的 Agent Skill。"
+      ],
+      "background": [
+        "I designed the workflow and output formats and worked with a coding agent to set the review states and thresholds. I designed the model-selection experiments and verified the results. Coding agents wrote most of the code and ran the experiments.",
+        "我设计了工作流程和输出格式，与编程 Agent 一起确定复核状态和判断阈值，也负责设计模型选型实验并核验结果。主要代码和实验执行由编程 Agent 完成。"
+      ],
+      "work": [],
+      "journey": [
+        {
+          "title": [
+            "Choosing a model for formal transcription",
+            "正式转录的模型选型"
+          ],
+          "body": [
+            "I evaluated candidates for the transcription task, then chose the lowest-cost option that produced acceptable output.",
+            "我先评估候选模型是否适合转录任务，再从输出效果可接受的选项中选成本最低的一个。"
+          ]
+        },
+        {
+          "title": [
+            "What the structural checks measure",
+            "结构检查的判断依据"
+          ],
+          "body": [
+            "Each chunk is classified as usable-unverified, needs-review, or unusable. For example, an empty response is unusable.",
+            "每段输出标为「可用但未经核实」（usable-unverified）、「需复核」（needs-review）或「不可用」（unusable）。例如，空输出会被判为不可用。"
+          ]
+        },
+        {
+          "title": [
+            "A fabricated continuation",
+            "一段编造的后续对话"
+          ],
+          "body": [
+            "One chunk passed the structural checks even though it invented dialogue after the audio ended. I spotted the anomaly by comparing the output length with a cheaper reference transcript and the neighboring chunks. The revised prompt added a stop rule for each audio slice and supplied vocabulary as an unordered list.",
+            "有一段转录通过了结构检查，却在录音结束后编出了后续对话。我将输出长度与低成本参照转录和相邻片段对照，才发现异常。修改后的提示词为每个音频片段加入停止规则，并改用无序词表。"
+          ]
+        },
+        {
+          "title": [
+            "One skill for Claude Code and Codex",
+            "同一套 Skill 用于 Claude Code 和 Codex"
+          ],
+          "body": [
+            "Both agents use the same skill, with Python tools running in a uv-locked environment. I ran the installers on macOS and Windows.",
+            "两个 Agent 共用同一套 Skill，Python 工具在由 uv 锁定依赖的环境中运行。我在 macOS 和 Windows 上都运行过安装器。"
+          ]
+        }
+      ],
+      "gallery": [
+        {
+          "src": "assets/projects/meeting-transcribe/sample-transcript.webp",
+          "thumbnail": "assets/projects/meeting-transcribe/sample-transcript-thumb.webp",
+          "width": 1510,
+          "height": 528,
+          "thumbnailWidth": 640,
+          "group": "product",
+          "alt": [
+            "Transcript of a synthetic exchange about taking photographs",
+            "合成摄影对话转录稿中的两段发言"
+          ],
+          "caption": [
+            "In this 17-second synthetic recording the speakers agree to meet at the library entrance at ten on Saturday and photograph the reading room if it rains. The text shown is the transcriber’s normalized output.",
+            "这段约 17 秒的合成录音中，两人约定周六十点在图书馆入口碰面，下雨就改拍阅览室。图中是转录工具整理输出的原文。"
+          ]
+        },
+        {
+          "src": "assets/projects/meeting-transcribe/sample-check.webp",
+          "thumbnail": "assets/projects/meeting-transcribe/sample-check-thumb.webp",
+          "width": 1510,
+          "height": 868,
+          "thumbnailWidth": 640,
+          "group": "product",
+          "alt": [
+            "Selected response and structural-check fields for the same sample",
+            "同一次样例请求返回的状态与结构检查字段"
+          ],
+          "caption": [
+            "The transcription request returned HTTP 200. The checker found two speakers and no structural warnings. Its usable_unverified status leaves content verification to a reader. This run covered transcription, parsing and checks.",
+            "同次转录请求返回 HTTP 200，检查识别到两个说话人，没有结构告警。usable_unverified 表示文本可用，内容仍待人工核实。本次实测覆盖转录、解析和检查。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "workflow",
+        "background",
+        "product",
+        "journey"
+      ],
+      "keywords": [
+        "LLM",
+        "transcription",
+        "agent skill",
+        "audio",
+        "录音",
+        "转录",
+        "纪要"
+      ]
+    },
     {
       "id": "dance-xr",
       "name": [
@@ -281,30 +630,229 @@ const PROJECTS = {
       "type": "personal",
       "tech": "React, Node.js, LangChain, MCP, SerpAPI",
       "summary": [
-        "A conversational application presenting document-based answers alongside answers informed by web search.",
-        "分别展示基于文档及网络搜索回答的对话应用。"
+        "A personal study prototype for asking questions about a PDF and seeing how an answer drawn from the notes compares with one drawn from the web.",
+        "为复习做的个人问答原型。上传一份学习笔记，再针对同一问题分别查看依据笔记和网页资料生成的回答。"
       ],
       "background": [
-        "The project explores two information sources in one interface. Uploaded PDFs provide local context, while a separate MCP search tool retrieves current web information. The two answer streams remain visible separately.",
-        "项目在同一界面中探索两类信息来源：上传 PDF 提供本地上下文，独立 MCP 搜索工具获取网络信息，两种回答分别展示。"
+        "I wanted a way to revise for finals with my own notes. With a physics handout open, I might remember a conclusion but forget the conditions under which it holds. A plausible explanation is hard to trust if I cannot tell whether the handout supports it. I built this personal prototype in a course repository to try grounding the answer in passages from the PDF. The web answer appears alongside it, so I can see what a separate search brings to the question.",
+        "期末复习时，我想直接拿自己的 PDF 笔记来提问。比如翻物理讲义，我可能记得一个结论，却忘了它在什么条件下才成立。回答即使听起来很像那么回事，我还是想知道讲义里有没有依据。我在课程仓库里做了这个个人原型，希望先找回笔记中的相关段落，再让模型据此回答，减少没有依据的猜测。同一个问题还会单独拿去搜网页，方便比较两种来源各自能说清什么。"
       ],
       "work": [
         [
-          "Built the React interface and Express endpoints for PDF uploads and questions.",
-          "构建 React 界面及处理 PDF 上传与问题的 Express 接口。"
-        ],
-        [
-          "Loaded and split PDF text, embedded the chunks into an in-memory vector store, and used retrieved text as context for answering.",
-          "加载并切分 PDF 文本，将文本块嵌入内存向量存储，使用检索文本作为回答上下文。"
-        ],
-        [
-          "Connected a reusable MCP client to a SerpAPI search server and added speech recognition and text-to-speech interaction.",
-          "将可复用 MCP 客户端连接到 SerpAPI 搜索服务，并加入语音识别与文字转语音交互。"
+          "My goal was to get a question from upload to answer. I wrote the MCP search server that exposes SerpAPI as a tool. Express can pass the user’s question to that tool over standard input and output, then use the returned web results to generate a separate answer.",
+          "我当时想跑通从上传文件到提问、回答的流程。我编写了 MCP 搜索服务器，把 SerpAPI 封装成工具。Express 可以通过标准输入输出把问题交给它，再用返回的网页结果单独生成回答。"
         ]
       ],
+      "workHeading": [
+        "My contribution",
+        "我的贡献"
+      ],
+      "process": {
+        "heading": [
+          "One question and two sources",
+          "一个问题，两种资料来源"
+        ],
+        "intro": [
+          "Follow a question through the main implementation, check which physics passages retrieval brings back, then see what happened in an earlier browser run.",
+          "先看两路资料怎样进入模型，再用物理笔记检验段落检索，最后回看演示分支的一次浏览器记录。"
+        ],
+        "stages": [
+          {
+            "id": "study-question",
+            "label": [
+              "From the study notes",
+              "从复习笔记出发"
+            ],
+            "title": [
+              "Does adding mass change the period?",
+              "增加质量，周期就一定变长吗？"
+            ],
+            "body": [
+              "Compare a small-angle pendulum with a cart on a spring. This question needs two passages from the physics notes. In the recorded retrieval trial, the pendulum passage ranked first and the spring passage second.",
+              "把小角度单摆和弹簧小车放在一起比较，这道题需要笔记里两处不同的依据。本地检索试跑中，单摆段落排第一，弹簧小车排第二。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/study-question.webp",
+                "thumbnail": "assets/projects/agent-ai/study-question-thumb.webp",
+                "width": 1012,
+                "height": 553,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Physics question beside the expanded pendulum and spring passages",
+                  "左侧为复习题，右侧展开了单摆与弹簧振子两段笔记原文"
+                ],
+                "caption": [
+                  "Q08 in the local MiniLM retrieval replay. Both highlighted passages match the reference labels.",
+                  "本地 MiniLM 检索回放第 8 题。展开的两段原文都命中了预先标注的依据。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "architecture",
+            "label": [
+              "System architecture",
+              "系统架构"
+            ],
+            "title": [
+              "What each answer can draw on",
+              "两个回答各自依据什么"
+            ],
+            "body": [
+              "The main implementation extracts the PDF’s text layer and splits it into passages of up to 500 characters with zero overlap. In a check using two visually identical versions of a one-page physics note, the PDF loader and splitter produced one passage from selectable text and zero from an image-only scan. A scan needs OCR first. For each question, LangChain builds an in-memory vector index and retrieves passages to send with the question. The prompt asks the model to say when it does not know. The separate web path supplies the same question and the results from the MCP search tool.",
+              "主分支提取 PDF 文字层，每块最多 500 个字符，相邻块不重叠。拿外观相同的一页物理笔记测试，有可选文字的 PDF 提取并切出一段，纯图片版本为零段。所以只有扫描图像的讲义需要先做文字识别。每次提问时，LangChain 建立内存向量索引，把检索到的段落连同问题交给模型；提示词要求模型在无法回答时说不知道。网页一路则把同一个问题和 MCP 搜索工具返回的资料交给模型。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/architecture.webp",
+                "thumbnail": "assets/projects/agent-ai/architecture-thumb.webp",
+                "width": 1330,
+                "height": 2029,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "React, Express, PDF retrieval and the MCP web-search service",
+                  "React、Express、PDF 检索和 MCP 网页搜索服务"
+                ],
+                "caption": [
+                  "Both paths start with the same question. The document path retrieves passages from the uploaded notes, while the web path retrieves search results.",
+                  "两路从同一句提问出发。文档一路检索笔记中的段落，网页一路获取搜索结果。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sequence",
+            "label": [
+              "Request sequence",
+              "请求时序"
+            ],
+            "title": [
+              "From Ask to the two answer fields",
+              "从点击 Ask 到两个回答区"
+            ],
+            "body": [
+              "In the main branch, Express processes the document question first, then invokes the web search with the same question. After both steps succeed, the response carries ragAnswer and mcpAnswer back to React.",
+              "在主分支中，Express 先处理文档问答，再用同一问题调用网页搜索。两步成功后，接口用 ragAnswer 和 mcpAnswer 两个字段把结果交给 React。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/sequence.webp",
+                "thumbnail": "assets/projects/agent-ai/sequence-thumb.webp",
+                "width": 1330,
+                "height": 1299,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "Sequence diagram of the successful main-branch request",
+                  "主分支成功路径的 UML 时序图"
+                ],
+                "caption": [
+                  "The sequence follows the source code. The browser run below used a separate demo branch.",
+                  "时序图按主分支源码绘制。下方实机画面来自单独的演示分支。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "retrieval-evaluation",
+            "label": [
+              "Physics notes · Retrieval check",
+              "物理笔记 · 检索评测"
+            ],
+            "title": [
+              "Did the search find the passages needed to answer?",
+              "检索找回了解题所需的段落吗？"
+            ],
+            "body": [
+              "For this portfolio check, twelve original physics passages were paired with twelve questions. Reference passages were marked before the run. Two questions needed two passages each, and one had no supporting passage. The PDF loader, splitter and in-memory store followed the project code. The first OpenAI call returned HTTP 401, so the initial trial used local MiniLM embeddings. After the credential was updated, the same questions ran against both OpenAI configurations, text-embedding-3-small (Docker demo) and text-embedding-ada-002 (main default). All three runs used the same 12 passages and returned four per question.",
+              "这次为作品集准备了十二段原创物理笔记和十二道题，在运行前标出每题需要的原文。其中两题各需两段，有一题在笔记中找不到依据。PDF 提取、切分和内存向量库沿用项目实现。首次 OpenAI 请求返回 HTTP 401，当时单独用本地 MiniLM 完成基线试跑。更新凭据后，同一组题分别用 Docker 演示的 text-embedding-3-small 和主分支默认的 text-embedding-ada-002 重跑。三轮实际切出的 12 段完全一致，每题均取前四段。"
+            ],
+            "findings": [
+              [
+                "One question asks how adding mass affects a small-angle pendulum and a cart on a spring. The search found both required passages. The pendulum passage says the bob’s mass leaves its period unchanged. The spring passage says the period grows with the square root of the cart’s mass at fixed stiffness.",
+                "有一题问，增加质量对小角度单摆和弹簧小车的周期分别有什么影响。前四段里找到了两处依据：单摆一段写明摆锤质量不改变周期，弹簧一段则说明劲度不变时，周期随小车质量的平方根增大。"
+              ],
+              [
+                "Across the twelve questions, 13 of the 48 retrieved question–passage pairs were relevant (precision@4, 27.08%). All 13 marked pairs appeared in the results (micro recall@4, 100%). With just 13 relevant pairs and 48 slots to fill, 27.08% is the highest possible precision on this set. Across all 144 pairs, 109 agreed with the labels (75.69% pairwise accuracy).",
+                "十二题共返回 48 个「问题 × 段落」配对，13 个与题目相关，前四条的精确率为 27.08%。预先标记的 13 个相关配对全部被找到，汇总召回率为 100%。由于总共只有 13 个相关配对，而返回位置固定有 48 个，27.08% 已是这组题在该设置下的精确率上限。全部 144 个配对中判断与标注一致的有 109 个，配对准确率为 75.69%。"
+              ],
+              [
+                "Asked how temperature changes a copper wire’s resistance, the search still returned four passages, including one about a series circuit. None covered the question. This run scored only the selected passages. It produced no model answers from which to measure answer correctness or hallucinations.",
+                "另一题问温度怎样影响铜线电阻，笔记没有涉及。检索仍返回了串联电路等四段，均无法回答这道题。这次实验只对照了段落选择，没有生成答案，因而也无法据此判断答题正确率或幻觉是否减少。"
+              ]
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/retrieval-matrix.webp",
+                "thumbnail": "assets/projects/agent-ai/retrieval-matrix-thumb.webp",
+                "width": 1100,
+                "height": 736,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Retrieval matrix for 144 question–passage pairs. Retrieved and relevant 13, retrieved and unrelated 35, missed relevant 0, correctly excluded 96.",
+                  "144 个问题与段落配对的检索四格图。找回相关段落 13 对，带入无关段落 35 对，漏掉相关段落 0 对，正确排除无关段落 96 对。"
+                ],
+                "caption": [
+                  "All three runs gave the same four counts. For each OpenAI run, 11 of the 12 ranked lists differed from MiniLM. Recomputing cosine similarities from the returned vectors reproduced every top-four list.",
+                  "三轮的四格计数相同。两次 OpenAI 重跑与 MiniLM 分别对照，各有 11 道题的排序列表发生变化。用返回的向量重新计算余弦相似度，逐题都复现了前四段的顺序。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "walkthrough",
+            "label": [
+              "Browser walkthrough",
+              "浏览器实测"
+            ],
+            "title": [
+              "How did the two answers compare?",
+              "同一题，两路回答说了什么？"
+            ],
+            "body": [
+              "In Chrome I uploaded the twelve-page physics notes and asked how adding mass affects each oscillator. Both panels returned an answer. The document answer matched the notes on mass dependence, and the web answer included both period formulas and links to its sources. The notes qualify the pendulum formula as a small-angle result. Neither answer mentioned that condition.",
+              "在 Chrome 上传十二页物理笔记，再问增加质量会怎样影响两种振子的周期。文档回答与笔记对质量的判断一致；网页回答还列出了两个周期公式及来源链接。回头核对讲义，单摆一节明确写了「小角度」，两路回答都漏掉了这个适用条件。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/physics-answers.webp",
+                "thumbnail": "assets/projects/agent-ai/physics-answers-thumb.webp",
+                "width": 908,
+                "height": 498,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "One physics question followed by the document answer in blue and the web answer in green",
+                  "同一物理题下方，蓝色区域为文档回答，绿色区域为附来源的网页回答"
+                ],
+                "caption": [
+                  "Live answers from the local Docker demo branch, developed with a coding agent. PDF upload returned HTTP 201 and the question returned HTTP 200.",
+                  "与编码助手共同完成的本地 Docker 演示分支实录。PDF 上传返回 HTTP 201，问答返回 HTTP 200。"
+                ]
+              }
+            ]
+          }
+        ],
+        "kicker": [
+          "Document and web search",
+          "文档检索与网页搜索"
+        ]
+      },
       "boundary": [
-        "The current prototype uses a shared uploaded-file path and rebuilds its document embeddings during a question request. Public multi-user access and source citations are not yet implemented.",
-        "当前原型共享上传文件路径，并在问答请求中重新构建文档嵌入，尚未实现公共多用户访问及来源引用展示。"
+        "The main prototype uses a shared upload path and rebuilds its in-memory document index with each question.",
+        "主分支原型使用共享上传路径，每次提问都会重建文档的内存索引。"
+      ],
+      "play": {
+        "url": "play/agent-ai-retrieval/index.html",
+        "label": [
+          "Explore the 12 retrieval questions",
+          "查看 12 道题的检索结果"
+        ]
+      },
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "process",
+        "scope"
       ],
       "keywords": [
         "RAG",
@@ -321,39 +869,279 @@ const PROJECTS = {
         "SocialAI（AI 社交平台）"
       ],
       "date": [
-        "Dec 2025 – Mar 2026; subsequent maintenance",
-        "2025年12月 – 2026年3月；后续持续维护"
+        "Dec 2025 – Mar 2026 · Maintenance in Jun 2026",
+        "2025年12月 – 2026年3月 · 2026年6月维护"
       ],
       "region": "ny",
-      "type": "personal",
-      "tech": "React, Go, Elasticsearch, Google Cloud, Docker",
+      "type": "academic",
+      "tech": "React, Go, Elasticsearch, Google Cloud Storage, Docker",
       "summary": [
-        "A full-stack social application combining searchable posts with AI-assisted image creation.",
-        "将帖子搜索与 AI 辅助图像创作结合的全栈社交应用。"
+        "Describe a reaction image to go with a post, preview it, and choose whether to publish. To find an image someone has already posted, search Collection for a word you remember.",
+        "想给帖子配张表情图，可以用一句话描述画面，预览后再决定是否发布。想找回看过的配图，也可以在 Collection 里搜一个记得的词。"
       ],
       "background": [
-        "SocialAI brings content creation and discovery together. Its React interface connects to a Go service, with Elasticsearch for search and cloud storage for uploaded media.",
-        "SocialAI 将内容创作与发现结合起来。React 界面连接 Go 服务，使用 Elasticsearch 搜索及云存储保存媒体。"
+        "People often know exactly what they want to say but cannot think of the right reaction image. Sometimes they can picture the meme and still cannot find it. Take “Finally finished.” A cat slumped over a keyboard adds something the words leave open — exhaustion and relief at the same time. SocialAI explores that idea in Create, where the author describes a scene and decides whether the generated preview fits the post. Collection addresses a different moment. Someone looking for a garden bridge photo can find it again by searching for “bridge” in the post text.",
+        "发帖时，常常已经知道自己要说什么，却想不到哪张表情包最贴切。有时脑子里明明有那张图，翻了半天也找不到。比如一句「终于写完了」，配上一只瘫在键盘上的猫，读者就能体会到那种累得够呛、又松了口气的心情。在 SocialAI 的 Create 页面，发帖的人可以把想到的画面描述出来，看过生成的预览再决定是否发布。Collection 用在另一个场景：以前看过一张花园小桥的配图，只要记得帖子里写过 bridge，就能用这个词找回来。"
       ],
       "work": [
         [
-          "Implemented frontend and backend flows for users, posts, and content search.",
-          "实现用户、帖子与内容搜索相关的前后端流程。"
-        ],
-        [
-          "Integrated image generation behind provider interfaces; the current repository includes OpenAI and Gemini implementations and related tests.",
-          "通过服务接口接入图像生成；当前仓库包含 OpenAI、Gemini 实现及相关测试。"
-        ],
-        [
-          "Maintained a Docker Compose development stack and Google Cloud deployment configuration.",
-          "维护 Docker Compose 开发环境与 Google Cloud 部署配置。"
+          "I wrote the Go endpoints for creating and searching posts from the React app and indexed the posts in Elasticsearch so they could be retrieved by keyword or author.",
+          "我为 React 应用编写了发帖和搜索的 Go 接口，并将帖子索引到 Elasticsearch，支持按正文关键词或作者检索。"
         ]
+      ],
+      "workHeading": [
+        "My contribution during the course",
+        "我在课程项目中的工作"
+      ],
+      "process": {
+        "heading": [
+          "Create a reaction image and find a saved photo",
+          "生成一张表情包，再找回一张配图"
+        ],
+        "intro": [
+          "In Create, I described the feeling of finishing an assignment and opened the generated image. In a separate Collection demo, I searched three sample posts for a photo I remembered.",
+          "在 Create 里，我把写完作业时的心情描述成一个画面，生成后点开看效果。另一次 Collection 演示则用了三条示例帖子，试着用记得的关键词找回一张照片。"
+        ],
+        "stages": [
+          {
+            "id": "create",
+            "label": [
+              "Create",
+              "创作"
+            ],
+            "title": [
+              "Give “Finally finished” a face",
+              "给「终于写完了」配张图"
+            ],
+            "body": [
+              "I pictured a tired cat resting on a keyboard beside its finished homework. I entered that scene in Create, then opened the preview to see whether the picture conveyed the relief I had in mind.",
+              "我想到一只累瘫在键盘上的猫，旁边就是刚写完的作业。我在 Create 里描述这个场景，再点开预览，看它有没有画出那种终于能松口气的感觉。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/create-prompt.webp",
+                "thumbnail": "assets/projects/social-ai/create-prompt-thumb.webp",
+                "width": 1100,
+                "height": 435,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Scene description entered in the SocialAI Create form",
+                  "SocialAI 的 Create 表单中填入了想生成的画面"
+                ],
+                "caption": [
+                  "The prompt in the original Create form before generation.",
+                  "生成前，原版 Create 页面中的画面描述。"
+                ]
+              },
+              {
+                "src": "assets/projects/social-ai/create-preview.webp",
+                "thumbnail": "assets/projects/social-ai/create-preview-thumb.webp",
+                "width": 1100,
+                "height": 900,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Generated orange cat resting on a keyboard beside finished homework in warm light",
+                  "暖光下，橘猫趴在键盘上，身旁放着写完的作业"
+                ],
+                "caption": [
+                  "The generated image opened for review before posting.",
+                  "点开本次实际生成的图，在发布前查看效果。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "keyword",
+            "label": [
+              "Collection",
+              "图片集合"
+            ],
+            "title": [
+              "Start with a word from the post",
+              "从正文中的一个词开始"
+            ],
+            "body": [
+              "Collection opens here with All selected. To narrow the gallery, switch to Keyword, enter “bridge” and choose Search.",
+              "画面中选中的是 All，可以看到搜索前的全部图片。切换到 Keyword，输入 bridge，再点 Search 缩小范围。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/keyword.webp",
+                "thumbnail": "assets/projects/social-ai/keyword-thumb.webp",
+                "width": 1102,
+                "height": 720,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Collection with All selected and three sample thumbnails showing a bridge, a sailboat and buildings",
+                  "Collection 中选中了 All，可见桥梁、帆船和楼群三张示例图"
+                ],
+                "caption": [
+                  "Local frontend demo with sample data. Before the search, all three thumbnails are visible.",
+                  "本地前端演示，使用示例数据。搜索前，三张缩略图全部可见。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "result",
+            "label": [
+              "Search result",
+              "搜索结果"
+            ],
+            "title": [
+              "See which photo matches",
+              "看哪张图匹配"
+            ],
+            "body": [
+              "The Images tab now shows a single thumbnail. “Garden bridge” matches because its post contains the search word.",
+              "搜索后，Images 页只剩一张缩略图。「Garden bridge」这条帖子的正文含有搜索词，因此它的配图被保留下来。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/result.webp",
+                "thumbnail": "assets/projects/social-ai/result-thumb.webp",
+                "width": 1102,
+                "height": 1464,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Collection with Keyword selected and a single bridge thumbnail under Images",
+                  "Collection 中选中了 Keyword，Images 下只有一张桥梁缩略图"
+                ],
+                "caption": [
+                  "Local frontend demo with sample data. The matching bridge post remains after searching.",
+                  "本地前端演示，使用示例数据。提交搜索后，画面只显示匹配的桥梁帖子。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "open",
+            "label": [
+              "Image viewer",
+              "大图查看器"
+            ],
+            "title": [
+              "Open the bridge photo",
+              "点开桥梁图片"
+            ],
+            "body": [
+              "Select the remaining thumbnail to inspect the bridge in the image viewer. The search has taken the reader from a remembered word to the image attached to that post.",
+              "点击剩下的缩略图，大图查看器便会展开桥梁图片。从一个记得的词，读者找到了那条帖子的配图。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/open.webp",
+                "thumbnail": "assets/projects/social-ai/open-thumb.webp",
+                "width": 1102,
+                "height": 1114,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Image viewer displaying the garden bridge illustration",
+                  "大图查看器中展开的花园小桥示意图"
+                ],
+                "caption": [
+                  "Local frontend demo with sample data. The selected thumbnail opens in the image viewer.",
+                  "本地前端演示，使用示例数据。点开搜索结果后，桥梁图片在查看器里展开。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "architecture",
+            "label": [
+              "System architecture",
+              "系统架构"
+            ],
+            "title": [
+              "Where the words and the image go",
+              "正文和图片分别存在哪里"
+            ],
+            "body": [
+              "Create sends the author’s scene description to Go. The image-generation interface, which I designed and verified with coding-agent assistance during June 2026 maintenance, calls the configured provider and returns an image for preview. If the author publishes a post, Go stores its media in Google Cloud Storage and indexes its text, author and media URL in Elasticsearch. Collection can then search the index and load a matching image by URL. The bridge walkthrough starts with an existing sample post.",
+              "Create 将作者的画面描述提交给 Go。2026年6月维护时，我在编码助手协助下设计并验证了图像生成接口，由它调用配置的服务商，将图片返回给作者预览。作者决定发布后，Go 把媒体存入 Google Cloud Storage，并将正文、作者和媒体 URL 写入 Elasticsearch 索引。Collection 可以检索这个索引，再按 URL 加载匹配的图片。桥梁搜图演示从一条已有的示例帖子开始。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/architecture.webp",
+                "thumbnail": "assets/projects/social-ai/architecture-thumb.webp",
+                "width": 1330,
+                "height": 1030,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "Create previews a generated image before publication. Collection searches indexed posts and loads their media by URL.",
+                  "Create 在发布前预览生成的配图。Collection 从帖子索引中搜索，再按 URL 加载图片。"
+                ],
+                "caption": [
+                  "The search result carries the media URL. The browser makes a separate request for the image itself.",
+                  "搜索结果带回媒体 URL。图片文件由浏览器另行请求。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sequence",
+            "label": [
+              "Request sequence",
+              "请求时序"
+            ],
+            "title": [
+              "Follow one search request",
+              "跟进一次搜索请求"
+            ],
+            "body": [
+              "React sends a GET request to /search?keywords=bridge with a bearer token. After JWT validation, the handler calls the post service in the same Go process. The service runs an Elasticsearch match query on the message field. Go returns JSON to React, which filters the posts by media type and displays the matching thumbnail.",
+              "React 向 /search?keywords=bridge 发出带 Bearer 令牌的 GET 请求。JWT 校验通过后，处理函数调用同一 Go 进程中的帖子服务，由它对 Elasticsearch 索引的 message 字段执行 match 查询。Go 把帖子列表以 JSON 返回，React 按媒体类型筛选，在图片页显示匹配的缩略图。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/social-ai/sequence.webp",
+                "thumbnail": "assets/projects/social-ai/sequence-thumb.webp",
+                "width": 1330,
+                "height": 1212,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "Sequence of a keyword search, from the React request through JWT validation and an Elasticsearch match query to a bridge thumbnail and the open image viewer",
+                  "关键词查询时序，从 React 请求、JWT 校验和 Elasticsearch 匹配，到桥梁缩略图和展开的大图查看器"
+                ],
+                "caption": [
+                  "The diagram follows the backend success path in code. The local walkthrough used a sample response to exercise the frontend.",
+                  "图中后端部分依据源码的成功路径绘制。本地演示使用示例响应来验证前端交互。"
+                ]
+              }
+            ]
+          }
+        ],
+        "kicker": [
+          "Walkthrough",
+          "操作演示"
+        ]
+      },
+      "journey": [
+        {
+          "title": [
+            "June 2026 · Image generation",
+            "2026年6月 · 图像生成维护"
+          ],
+          "body": [
+            "During later maintenance, I designed and verified a Go interface for image generation with assistance from a coding agent. I checked that configuration could switch the provider between OpenAI and Gemini and tested how the service handled invalid prompts and provider errors.",
+            "后续维护时，我在编码助手协助下设计并验证了 Go 图像生成接口。我检查了服务端能否通过配置切换 OpenAI 和 Gemini，并测试了无效提示词和供应商报错时服务的处理方式。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "process",
+        "journey"
       ],
       "keywords": [
         "search",
-        "full-stack",
+        "keyword",
+        "author",
         "image generation",
         "搜索",
+        "关键词",
+        "作者",
         "图像生成"
       ]
     },
@@ -368,34 +1156,232 @@ const PROJECTS = {
         "2025年12月 – 2026年2月"
       ],
       "region": "ny",
-      "type": "personal",
-      "tech": "Java, Spring Boot, React, PostgreSQL, Spring Security, Docker",
+      "type": "academic",
+      "tech": "Java, Spring Boot, Spring Security, Spring Data JDBC, PostgreSQL, Caffeine, React, Docker Compose",
       "summary": [
-        "A restaurant and ordering application with a React client and a layered Java backend.",
-        "使用 React 客户端与分层 Java 后端的餐厅浏览及订餐应用。"
+        "Add an item from a restaurant menu and open the cart to see what you ordered. Behind the plus button, a Spring service updates both the line item and the total.",
+        "在餐厅菜单上选一道菜，点加号，再打开购物车就能看到刚点的菜和总价。点一次加号，背后的 Spring 服务要完成两处相关的写入。"
       ],
       "background": [
-        "The application connects restaurant and menu browsing to customer and cart services. The backend separates controllers, services, and data access around a PostgreSQL database.",
-        "应用将餐厅、菜单浏览与客户及购物车服务连接起来。后端围绕 PostgreSQL 数据库分离控制器、服务与数据访问。"
+        "I built this ordering app during a full-stack development course. A React client handles menu browsing and the cart. The Java backend uses Spring Security sessions to identify each diner and Spring Data JDBC to store cart data in PostgreSQL.",
+        "我在全栈开发课程中搭建了这款点餐应用。顾客通过 React 界面浏览菜单、查看购物车。Java 后端以 Spring Security 会话识别登录顾客，并通过 Spring Data JDBC 将购物车数据写入 PostgreSQL。"
       ],
       "work": [
         [
-          "Implemented Spring Boot endpoints for customer, restaurant, menu, and cart workflows.",
-          "使用 Spring Boot 实现客户、餐厅、菜单与购物车流程接口。"
+          "I connected the React menu and cart to Spring Boot endpoints that resolve the customer from the signed-in session.",
+          "我把 React 菜单和购物车接到 Spring Boot 接口上，后端根据登录会话确定这是谁的购物车。"
         ],
         [
-          "Used Spring Data JDBC for persistence and Spring Security for session-based authentication.",
-          "使用 Spring Data JDBC 实现持久化，以 Spring Security 实现会话认证。"
-        ],
-        [
-          "Integrated the React interface and prepared Docker application configuration.",
-          "集成 React 界面并配置应用 Docker 环境。"
+          "I put the line-item update and the total-price update in one transaction. A successful write also evicts the customer’s cached cart so the next read returns the updated contents.",
+          "我把菜品明细和总价的修改放进同一个事务。写入成功后，服务会使该顾客的购物车缓存失效，让下一次读取拿到更新后的内容。"
         ]
       ],
+      "workHeading": [
+        "My work on the cart",
+        "我的购物车实现"
+      ],
+      "process": {
+        "heading": [
+          "Add one order of Chicken Fries",
+          "加购一份 Chicken Fries"
+        ],
+        "intro": [
+          "This walkthrough follows a signed-in diner in the local app. Chrome recorded the cart requests and responses. The two diagrams explain the server-side behavior from the source code.",
+          "这次在本地应用中用已登录账号走了一遍加购流程。Chrome 记录了购物车的请求和响应，后面两张图依据源码说明服务端怎样处理它们。"
+        ],
+        "stages": [
+          {
+            "id": "menu",
+            "label": [
+              "Restaurant menu",
+              "餐厅菜单"
+            ],
+            "title": [
+              "Pick Chicken Fries from the Burger King menu",
+              "在 Burger King 菜单里找到 Chicken Fries"
+            ],
+            "body": [
+              "Find Chicken Fries - 9 Pc, priced at $4.89. The plus button beside that item adds one serving to the signed-in diner’s cart.",
+              "找到标价 $4.89 的 Chicken Fries - 9 Pc，点它右侧的「＋」，把一份菜品加入当前顾客的购物车。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/menu.webp",
+                "thumbnail": "assets/projects/online-ordering/menu-thumb.webp",
+                "width": 1100,
+                "height": 760,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Burger King menu listing Chicken Fries - 9 Pc at 4.89 beside an add button",
+                  "Burger King 菜单列出标价 4.89 的 Chicken Fries - 9 Pc，右侧有加号按钮"
+                ],
+                "caption": [
+                  "The Chicken Fries row has its own plus button. The local menu shows text in place of the food photos.",
+                  "Chicken Fries 这一行右侧有加号。本地菜单的菜图位置显示替代文字。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "added",
+            "label": [
+              "Add to cart",
+              "加购"
+            ],
+            "title": [
+              "Get confirmation on the menu",
+              "在菜单上看到加购反馈"
+            ],
+            "body": [
+              "React sends POST /cart with the selected menu item’s ID. In the recorded run the server returned HTTP 200, and the menu displayed “Add to cart successfully.”",
+              "React 通过 POST /cart 提交所选菜品的 ID。本次操作中，服务端返回 HTTP 200，菜单上方随即出现加购成功提示。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/added.webp",
+                "thumbnail": "assets/projects/online-ordering/added-thumb.webp",
+                "width": 1100,
+                "height": 760,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Restaurant menu with an “Add to cart successfully” confirmation",
+                  "餐厅菜单上方显示「Add to cart successfully」提示"
+                ],
+                "caption": [
+                  "The menu stays open after POST /cart succeeds.",
+                  "POST /cart 成功后，顾客仍停留在菜单上。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "cart",
+            "label": [
+              "Cart drawer",
+              "购物车抽屉"
+            ],
+            "title": [
+              "Open Cart and check the total",
+              "打开 Cart 核对总价"
+            ],
+            "body": [
+              "Opening Cart triggers a separate GET /cart request. The response returned HTTP 200 with one line item and a total of 4.89. The drawer shows the same item and $4.89 total.",
+              "点击 Cart 会另外发出 GET /cart。此次响应状态为 HTTP 200，内容包含一条明细，总价为 4.89。购物车抽屉也显示了同一份菜品和 $4.89 的总价。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/cart.webp",
+                "thumbnail": "assets/projects/online-ordering/cart-thumb.webp",
+                "width": 1100,
+                "height": 760,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Open cart drawer showing Chicken Fries - 9 Pc and a total price of $4.89",
+                  "购物车抽屉内有一份 Chicken Fries - 9 Pc，总价为 $4.89"
+                ],
+                "caption": [
+                  "One serving appears in the drawer. Its subtotal matches the $4.89 total.",
+                  "抽屉里有一份菜品，菜品小计与底部总价均为 $4.89。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "architecture",
+            "label": [
+              "Local system architecture",
+              "本地系统架构"
+            ],
+            "title": [
+              "From the browser to the customer’s cart",
+              "从浏览器找到顾客的购物车"
+            ],
+            "body": [
+              "In the local Docker Compose setup, Nginx serves the React app and proxies API calls to Spring Boot. Spring Security supplies the signed-in identity, and the controller resolves the customer through CustomerService. CartService uses Spring Data JDBC to reach PostgreSQL and keeps a Caffeine cart cache keyed by customer ID in the backend process.",
+              "本地通过 Docker Compose 启动应用。Nginx 提供 React 静态资源，并把 API 请求转发到 Spring Boot。Spring Security 提供登录身份，控制器再通过 CustomerService 找到顾客。CartService 通过 Spring Data JDBC 读写 PostgreSQL，并在后端进程内使用 Caffeine 按顾客 ID 缓存购物车。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/architecture.webp",
+                "thumbnail": "assets/projects/online-ordering/architecture-thumb.webp",
+                "width": 1330,
+                "height": 1665,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "React reaches Spring Boot through Nginx. The cart service uses PostgreSQL via Spring Data JDBC and a per-customer Caffeine cache.",
+                  "React 通过 Nginx 访问 Spring Boot。购物车服务经 Spring Data JDBC 读写 PostgreSQL，并在 Caffeine 中按顾客缓存购物车。"
+                ],
+                "caption": [
+                  "The diagram shows the local deployment used for the walkthrough. The course app was also deployed on AWS App Runner with managed PostgreSQL on AWS.",
+                  "图中是本次演示使用的本地部署。这款课程应用也曾部署到 AWS App Runner，并使用 AWS 托管的 PostgreSQL。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sequence",
+            "label": [
+              "Request sequence",
+              "请求时序"
+            ],
+            "title": [
+              "Save an item",
+              "写入菜品，再读回购物车"
+            ],
+            "body": [
+              "On a write, CartService reads the menu price and any matching cart line. It inserts the line or increments its quantity, then updates the total in the same transaction. After a successful write, the customer’s cache entry is evicted. On the next cache miss, the service reads the cart, its lines and menu details from PostgreSQL and caches the assembled result.",
+              "加购时，CartService 读取菜品价格并查找对应明细。它新增一条明细或增加已有数量，接着在同一事务中更新总价。写入成功后，该顾客的缓存条目失效。下次读取未命中缓存时，服务从 PostgreSQL 取出购物车、明细和菜品资料，组装结果并重新缓存。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/online-ordering/sequence.webp",
+                "thumbnail": "assets/projects/online-ordering/sequence-thumb.webp",
+                "width": 1330,
+                "height": 1382,
+                "thumbnailWidth": 660,
+                "alt": [
+                  "A POST updates the cart and evicts its cache entry. A subsequent GET reads the cart and returns its single item and total.",
+                  "POST 更新购物车并使其缓存失效，随后的 GET 读取购物车并返回一条明细和总价。"
+                ],
+                "caption": [
+                  "Chrome recorded both HTTP responses. The database transaction and cache operations shown between them follow the service implementation.",
+                  "两次 HTTP 响应由 Chrome 实测记录，其间的数据库事务和缓存操作依据服务实现绘制。"
+                ]
+              }
+            ]
+          }
+        ],
+        "kicker": [
+          "Menu to cart",
+          "从菜单到购物车"
+        ]
+      },
+      "journey": [
+        {
+          "title": [
+            "What the cart taught me about transactions",
+            "从购物车理解事务"
+          ],
+          "body": [
+            "Building the cart made transactions click for me. If the item were saved but the total stayed at its old value, the diner would see a cart that didn’t add up. Following a single click helped me see where each part of Spring fits. Security identifies the diner, the service sets the transaction boundary, and JDBC writes both changes.",
+            "写购物车时，我才具体理解事务为什么有用。如果菜品已经加进去了，总价却停在原来的数字，顾客眼前的账就对不上。沿着这一次点击往下看，Spring 各层的分工也清楚了。Security 提供身份，服务层划定事务边界，JDBC 负责把两处修改写入数据库。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "background",
+        "contributions",
+        "process",
+        "journey"
+      ],
       "keywords": [
+        "cart",
+        "transaction",
         "backend",
         "REST",
         "SQL",
+        "购物车",
+        "事务",
         "订餐",
         "后端"
       ]
@@ -752,6 +1738,534 @@ const PROJECTS = {
             "GitHub 项目源码"
           ],
           "url": "https://github.com/JarrettChen217/EECS-E4764-2025-Fall-Final-Project-vitalguard-ai"
+        }
+      ]
+    },
+    {
+      "id": "spiresight",
+      "name": [
+        "SpireSight",
+        "SpireSight（桌面截图助手）"
+      ],
+      "date": [
+        "May 2026 – Jun 2026",
+        "2026年5月 – 2026年6月"
+      ],
+      "region": "ny",
+      "type": "personal",
+      "tech": "Python",
+      "summary": [
+        "SpireSight is a desktop assistant that sends screenshots to a vision model and displays the answer as it streams in. Claude Code and Cursor wrote nearly all the code.",
+        "SpireSight 是一款桌面助手，将截图发给视觉模型，并实时显示模型陆续返回的回答。代码几乎全部由 Claude Code 和 Cursor 编写。"
+      ],
+      "background": [
+        "I specified a single interface for sending screenshots to models from OpenAI, Anthropic and Gemini. I ran the app to check its streamed answers against the specification and used the CI results when deciding whether to accept a release.",
+        "我在规格中要求通过同一个接口把截图发给 OpenAI、Anthropic 和 Gemini 的模型。我运行应用，对照规格验收流式回答，再结合 CI 结果决定是否接受发布。"
+      ],
+      "work": [],
+      "process": {
+        "heading": [
+          "Why Sword Boomerang fits this deck",
+          "这副牌为什么选飞剑回旋镖？"
+        ],
+        "intro": [
+          "In this Slay the Spire run, I used Inspect to capture my deck before asking for help at a card reward. SpireSight carried the deck summary into the next prompt, so the answer could refer to cards I already held.",
+          "这局《杀戮尖塔》里，我先用 Inspect 记录牌库，再问三张奖励牌该选哪一张。SpireSight 会把牌库摘要放进后续提示词，回答时就能结合我手里已经有的牌。"
+        ],
+        "stages": [
+          {
+            "id": "inspect-deck",
+            "label": [
+              "Inspect",
+              "记录牌库"
+            ],
+            "title": [
+              "From the deck screen to Run State",
+              "从牌库画面到本局摘要"
+            ],
+            "body": [
+              "With the deck open, I used the Inspect controls in the lower left of SpireSight. In Run State I could check what it had picked up. It listed five Strikes and four Defends and identified Bash as my only source of Vulnerable.",
+              "我打开游戏里的牌库，用 SpireSight 左下角的 Inspect 控件捕获画面，再到 Run State 核对识别结果。摘要里有五张打击、四张防御，还指出 Bash（痛击）是这副牌里唯一能施加易伤的牌。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/spiresight/deck.webp",
+                "thumbnail": "assets/projects/spiresight/deck-thumb.webp",
+                "width": 1440,
+                "height": 588,
+                "thumbnailWidth": 680,
+                "alt": [
+                  "Ironclad deck open in the game with rows of attack and skill cards",
+                  "游戏中展开的铁甲战士牌库，攻击牌和技能牌分行排列"
+                ],
+                "caption": [
+                  "The deck I captured during the run.",
+                  "我在这一局里捕获的牌库画面。"
+                ]
+              },
+              {
+                "src": "assets/projects/spiresight/run-state.webp",
+                "thumbnail": "assets/projects/spiresight/run-state-thumb.webp",
+                "width": 870,
+                "height": 570,
+                "thumbnailWidth": 680,
+                "alt": [
+                  "SpireSight Run State showing Bash above the Strike and Defend counts",
+                  "SpireSight 的 Run State 在打击和防御的数量上方单独列出了 Bash"
+                ],
+                "caption": [
+                  "Run State highlights Bash and explains what it contributes to the deck.",
+                  "Run State 把 Bash 单独列出，并说明它在这副牌里的作用。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "card-reward",
+            "label": [
+              "Card selection",
+              "选牌建议"
+            ],
+            "title": [
+              "A recommendation that refers back to Bash",
+              "把新牌和已有的痛击连起来"
+            ],
+            "body": [
+              "At the reward screen, the assistant recommended the middle card, Sword Boomerang. Its reasoning referred back to Bash. With three energy I could play Bash first to apply Vulnerable, then spend the last energy on Sword Boomerang. It also pointed out the drawback of random targeting against several enemies.",
+              "三选一时，助手推荐了中间的飞剑回旋镖。理由接上了刚才的牌库：有三点能量时，可以先用痛击施加易伤，再花最后一点打出飞剑回旋镖。回答也提醒我，面对多个敌人时，随机攻击很难集中在想击倒的目标上。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/spiresight/rewards.webp",
+                "thumbnail": "assets/projects/spiresight/rewards-thumb.webp",
+                "width": 1008,
+                "height": 608,
+                "thumbnailWidth": 680,
+                "alt": [
+                  "Three reward cards with Sword Boomerang in the middle",
+                  "三张奖励牌，中间是飞剑回旋镖"
+                ],
+                "caption": [
+                  "The three choices on screen when I asked for a recommendation.",
+                  "我询问选牌建议时，游戏给出的三个选项。"
+                ]
+              }
+            ],
+            "demo": {
+              "src": "assets/projects/spiresight/shop-advice.mp4",
+              "poster": "assets/projects/spiresight/shop-poster.webp",
+              "width": 876,
+              "height": 568,
+              "caption": [
+                "The clip opens on the Sword Boomerang answer. At the next shop request, watch the new answer appear line by line in the same chat.",
+                "录屏开头保留了飞剑回旋镖的推荐理由。接着我在商店再次提问，可以看到同一聊天窗口里逐步出现新的建议。"
+              ]
+            }
+          },
+          {
+            "id": "settings",
+            "label": [
+              "Settings",
+              "设置"
+            ],
+            "title": [
+              "What goes into the next request?",
+              "下一次追问会带上什么？"
+            ],
+            "body": [
+              "In Providers, I can configure a service and refresh its list of models. In General, I can choose which screenshots accompany a follow-up. With “Latest only”, earlier chat messages keep their text and only the current message can include an image. The deck summary from Inspect still goes into the prompt as text. That lets me ask about a new reward screen while keeping the same deck in context.",
+              "我可以在 Providers 里配置服务、刷新可选模型，再到 General 里决定追问时带哪些截图。选「Latest only」时，之前的聊天保留文字，只有本次消息可以附图。Inspect 整理出的牌库摘要仍然以文字放进提示词。这样换到新的奖励画面时，模型既能看眼前的选项，也能参考刚才那副牌。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/spiresight/settings-providers.webp",
+                "thumbnail": "assets/projects/spiresight/settings-providers.webp",
+                "width": 597,
+                "height": 397,
+                "thumbnailWidth": 597,
+                "alt": [
+                  "Providers tab with the OpenAI service selected and a Refresh models button",
+                  "Providers 页选中了 OpenAI 服务，下方有刷新模型列表的按钮"
+                ],
+                "caption": [
+                  "Each provider has its own settings tab. Refresh models updates the list for the selected service.",
+                  "每个模型服务都有独立的设置页。「Refresh models」刷新当前服务的模型列表。"
+                ]
+              },
+              {
+                "src": "assets/projects/spiresight/settings-general.webp",
+                "thumbnail": "assets/projects/spiresight/settings-general.webp",
+                "width": 597,
+                "height": 397,
+                "thumbnailWidth": 597,
+                "alt": [
+                  "General tab showing the screenshot hotkey and Latest only follow-up policy",
+                  "General 页显示截图快捷键和追问时的 Latest only 选项"
+                ],
+                "caption": [
+                  "The capture shortcut here is Ctrl + Shift + S. The follow-up screenshot policy is the last control in the same window.",
+                  "图中设置的截图快捷键是 Ctrl + Shift + S。同一窗口最下面一项控制追问时携带的截图。"
+                ]
+              }
+            ]
+          }
+        ],
+        "kicker": [
+          "Gameplay walkthrough",
+          "实机演示"
+        ]
+      },
+      "journey": [
+        {
+          "title": [
+            "How I specified request logging",
+            "我如何定义请求日志的规格"
+          ],
+          "body": [
+            "To investigate unexpected answers, I specified one log entry per request. The entry records the prompt, request settings and image metadata when the call starts. When it ends, the same entry records the answer or error.",
+            "为了排查不符合预期的回答，我要求每次请求对应一条日志。调用开始时，日志记录提示词、请求设置和图像元数据。调用结束后，再在同一条日志中补上回答或错误信息。"
+          ]
+        },
+        {
+          "title": [
+            "How I checked the streamed response",
+            "我如何验收流式回答"
+          ],
+          "body": [
+            "I ran the desktop app and checked its streamed answers against the specification, including whether the response appeared on screen as the model returned it.",
+            "我亲自运行桌面应用，把流式回答与规格逐项对照，检查模型返回的内容是否随生成过程逐步显示在屏幕上。"
+          ]
+        },
+        {
+          "title": [
+            "How I accepted a release",
+            "我如何决定是否接受发布"
+          ],
+          "body": [
+            "Before accepting a tagged release, I checked the GitHub Actions results for Ruff linting, mypy type checking and pytest.",
+            "接受带版本标签的发布前，我在 GitHub Actions 中查看 Ruff 代码检查、mypy 类型检查和 pytest 测试的结果。"
+          ]
+        }
+      ],
+      "sequence": {
+        "actors": [
+          [
+            "Player",
+            "玩家"
+          ],
+          [
+            "SpireSight",
+            "桌面助手"
+          ],
+          [
+            "Run State",
+            "牌库摘要"
+          ],
+          [
+            "Card index",
+            "卡牌索引"
+          ],
+          [
+            "Vision model",
+            "视觉模型"
+          ]
+        ],
+        "phases": [
+          {
+            "title": [
+              "Before the question · Inspect the deck",
+              "提问之前 · 用 Inspect 记录牌库"
+            ],
+            "messages": [
+              {
+                "from": 0,
+                "to": 1,
+                "label": [
+                  "Capture the deck screen and finish Inspect.",
+                  "捕获牌库画面，完成 Inspect。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 4,
+                "label": [
+                  "Send the captured frames and the JSON extraction instructions.",
+                  "发送牌库截图和 JSON 提取指令。"
+                ]
+              },
+              {
+                "from": 4,
+                "to": 1,
+                "label": [
+                  "Return card names, counts, relics and an assessment of the deck.",
+                  "返回牌名、数量、遗物和牌库评估。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 2,
+                "label": [
+                  "Validate the JSON and save the current run. Bash is among the key cards.",
+                  "校验 JSON，保存本局状态。这副牌的关键牌里有痛击。"
+                ]
+              }
+            ]
+          },
+          {
+            "title": [
+              "At the reward screen · Ask for a recommendation",
+              "来到奖励界面 · 询问三张牌怎么选"
+            ],
+            "messages": [
+              {
+                "from": 0,
+                "to": 1,
+                "label": [
+                  "Click Card Selection Guide with the reward screen open.",
+                  "打开奖励界面，点击「选牌建议」。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 2,
+                "label": [
+                  "Read the most recent Inspect summary, if available.",
+                  "读取最近一次 Inspect 保存的本局摘要（如有）。"
+                ]
+              },
+              {
+                "from": 2,
+                "to": 1,
+                "label": [
+                  "Supply the known deck as text alongside the strategy instructions.",
+                  "把已知牌库作为文字上下文附在策略指令后。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 3,
+                "label": [
+                  "Optional lookup: match the question text against local card data.",
+                  "可选检索：用本轮问题的文字匹配本地卡牌资料。"
+                ]
+              },
+              {
+                "from": 3,
+                "to": 1,
+                "label": [
+                  "On a match, add card facts and their source. Otherwise continue without them.",
+                  "命中时附上卡牌资料和出处；未命中则继续请求。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 4,
+                "label": [
+                  "The provider adapter sends the instructions, available context, question and reward screenshot.",
+                  "服务适配器发送策略指令、已有上下文、本轮问题和奖励截图。"
+                ]
+              },
+              {
+                "from": 4,
+                "to": 1,
+                "label": [
+                  "Stream the recommendation and its reasons in text fragments.",
+                  "逐段返回推荐和理由。"
+                ]
+              },
+              {
+                "from": 1,
+                "to": 0,
+                "label": [
+                  "Display each fragment. In this run: play Bash, then Sword Boomerang; its random targeting matters against groups.",
+                  "收到一段就显示一段。这局的建议是先打痛击，再用飞剑回旋镖；遇到多个敌人时要考虑随机目标。"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "prompts": [
+        {
+          "title": [
+            "Inspect · read the deck",
+            "Inspect · 读牌库"
+          ],
+          "why": [
+            "Overlapping screenshots can show the same card twice. The extraction rules explicitly address duplicates and require JSON that the app can validate before saving the run state.",
+            "滚动截图可能两次拍到同一张牌。提取指令要求处理重叠，按固定 JSON 格式输出，让应用在保存本局状态前先校验。"
+          ],
+          "original": "You are a Slay the Spire II run-state extractor. Look at the\nscreenshot and output a single JSON object matching this schema:\n\n{\n  \"cards\":  [{\"name\": str, \"count\": int, \"rarity\": str,\n              \"usefulness\": str, \"note\": str}],\n  \"relics\": [{\"name\": str, \"synergy_tags\": [str]}],\n  \"potions\": [str],\n  \"archetype_candidates\":\n            [{\"name\": str, \"confidence\": str, \"rationale\": str}],\n  \"overall_eval\": str,\n  \"inspected_at\": \"ISO-8601 timestamp\"\n}\n\nYou will receive one or more screenshots of the deck view, possibly\nwith overlap from the player scrolling. Treat them as views of the\nsame deck — a card visible in multiple frames is the same card and\nmust be counted exactly once. Aggregate the full deck from all\nframes before emitting the JSON.\n\nRules:\n- rarity in {\"starter\", \"common\", \"uncommon\", \"rare\"}.\n- usefulness in {\"skip\", \"situational\", \"good\", \"key\"}. Judge each\n  card in the context of the candidate archetypes, not in absolute\n  terms.\n- confidence in {\"low\", \"medium\", \"high\"}.\n- archetype_candidates: 1-3 entries, highest confidence first.\n- overall_eval: 2-3 sentences. Diagnosis only - no advice.\n- \"note\" is one short sentence or \"\".\n- Output JSON only, no prose, no markdown fence."
+        },
+        {
+          "title": [
+            "Strategy · give a recommendation",
+            "策略 · 给建议"
+          ],
+          "why": [
+            "All four buttons use this system prompt. It asks for a recommendation first, up to three supporting points, and risks or uncertainty. Those are reasons the player can check; the template does not ask for a private step-by-step reasoning trace.",
+            "四个快捷按钮共用这段系统指令。先给一句建议，再给最多三条理由，并指出风险和不确定之处。玩家可以拿这些理由对照牌面；模板没有要求模型输出逐步的内部思维链。"
+          ],
+          "original": "You are an expert Slay the Spire II strategist. You analyze game\nscreenshots and provide concise, actionable advice.\n\nConventions:\n- Lead with the recommendation in one sentence.\n- Justify in <= 3 bullet points.\n- Call out risks explicitly.\n- When uncertain, say so.\n\nPriorities, in order: immediate threats, long-run deck health,\nenergy/economy curves.\n\nIf a \"## Current Run Context\" section is appended below, use it to\nbias your advice toward the player's existing archetype direction\nand known deck contents. Do not contradict it unless the\nscreenshot proves the context stale."
+        },
+        {
+          "title": [
+            "Card Selection Guide",
+            "选牌建议"
+          ],
+          "why": [
+            "The reward screenshot supplies the choices. Extra text can name a card for the local lookup.",
+            "奖励截图给出候选项，补充文字里写出的卡名还可用于本地检索。"
+          ],
+          "original": "Help me choose between the offered cards. {custom_text}\n请帮我选择卡牌。{custom_text}"
+        },
+        {
+          "title": [
+            "Combat Strategy",
+            "战斗策略"
+          ],
+          "why": [
+            "The question limits the recommendation to the current turn.",
+            "把决策范围限定在眼前这个回合。"
+          ],
+          "original": "What's the best play this turn? {custom_text}\n本回合最佳出牌是什么?{custom_text}"
+        },
+        {
+          "title": [
+            "Pathfinding",
+            "地图选路"
+          ],
+          "why": [
+            "The question asks for a route and the reason for taking it.",
+            "同时索要路线和选择理由，方便对照地图。"
+          ],
+          "original": "Which path should I take and why? {custom_text}\n应该选哪条路线?为什么?{custom_text}"
+        },
+        {
+          "title": [
+            "Relic Analysis",
+            "遗物评估"
+          ],
+          "why": [
+            "This directs the shared strategy prompt toward the relic on offer.",
+            "让共用的策略指令聚焦当前可选的遗物。"
+          ],
+          "original": "Evaluate this relic offering. {custom_text}\n评估这个遗物。{custom_text}"
+        },
+        {
+          "title": [
+            "Freeform · first message",
+            "自由提问 · 第一条消息"
+          ],
+          "why": [
+            "For an empty conversation, the instructions ground the answer in the question and attached image and ask the model to flag missing information.",
+            "会话为空时，用问题和所附截图确定回答范围，信息不足时明确指出。"
+          ],
+          "original": "You are a Slay the Spire 2 strategy assistant. Answer the user's question using their message and any screenshot they provide. Do not refer to prior conversation unless messages are included in the request. If you lack information needed to answer well, say so explicitly rather than guessing."
+        },
+        {
+          "title": [
+            "Follow-up · existing conversation",
+            "追问 · 已有对话"
+          ],
+          "why": [
+            "This is the base instruction for a typed follow-up. The runner also appends the current run summary when one is available.",
+            "这是手动追问的基础指令。如果已经做过 Inspect 且摘要仍在，调用层还会把当前牌库摘要追加在它后面。"
+          ],
+          "original": "You are continuing a previous conversation. The user is asking a follow-up question without re-attaching the structured run state (cards, relics, potions). Rely on prior assistant messages for game-state context. If the user asks something that requires information you cannot infer from the conversation history, say so explicitly rather than guessing."
+        }
+      ],
+      "architecture": [
+        {
+          "title": [
+            "One request interface",
+            "一次请求怎样抵达模型"
+          ],
+          "body": [
+            "A Python runner assembles the instructions, messages and optional screenshots. The selected provider adapter translates them into the OpenAI, Anthropic or Gemini API format. Each returns text increments through the same stream interface, so the chat window can display them as they arrive.",
+            "Python 调用层组装指令、消息和可选截图，再由所选服务的适配器转换为 OpenAI、Anthropic 或 Gemini 的 API 格式。各家返回的文字片段通过同一个流式接口交给聊天窗口，收到一段就显示一段。"
+          ]
+        },
+        {
+          "title": [
+            "Typing a follow-up",
+            "在聊天框里追问"
+          ],
+          "body": [
+            "The app keeps an ordered list of user and assistant messages in memory. A typed follow-up sends all the text in the current conversation plus the new question. Clearing the conversation starts a fresh list. Image retention has its own setting: Latest only strips images from earlier turns; the current turn can carry a fresh capture or reuse the last screenshot.",
+            "应用在内存里按顺序保存用户消息和助手回答。手动追问时，会把当前会话的全部文字连同新问题一起发送；清空对话后重新记录。图片单独处理：在 Latest only 下，历史消息只留文字，本轮可以附上新截图，也可以复用上一张。"
+          ]
+        },
+        {
+          "title": [
+            "Pressing a quick action",
+            "点击快捷操作"
+          ],
+          "body": [
+            "A quick action sends the shared strategy instructions, the action’s question, any extra text and the optional screenshot. An available Inspect summary is appended to the system instructions. The request log snapshot can include earlier chat turns; the provider call for the button sends only the current user message.",
+            "快捷按钮使用共用的策略指令，配上该按钮的问题、用户补充的文字和可选截图。已有的 Inspect 牌库摘要会追加到系统指令。请求日志的快照可以包含旧对话；按钮实际发给服务商的用户消息只有本轮这一条。"
+          ]
+        },
+        {
+          "title": [
+            "Where card facts come from",
+            "选牌时去哪里查卡牌资料"
+          ],
+          "body": [
+            "Card Selection can search a local index of Slay the Spire 2 card facts cached from wiki.gg. It searches the request text by name, alias, fuzzy match and keyword, returning up to five hits within a 1,800-character context budget. A hit supplies facts such as cost, effect, upgrade and source. Without a hit the request proceeds. The run footage alone cannot tell us whether a lookup matched.",
+            "选牌按钮可以查询本地卡牌索引，资料来自 wiki.gg 的《杀戮尖塔 2》卡牌页面。它用请求文字匹配卡名、别名、近似名称和关键词，最多取五条，附加文本上限为 1,800 个字符。命中后可补充费用、效果、升级说明和出处；没有命中也会继续请求。仅凭这段实机画面无法判断当时是否命中了索引。"
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "process",
+        "architecture",
+        "sequence",
+        "prompts",
+        "background",
+        "journey",
+        "resources"
+      ],
+      "keywords": [
+        "vision LLM",
+        "OpenAI",
+        "Anthropic",
+        "Gemini",
+        "request logs",
+        "Claude Code",
+        "Cursor",
+        "视觉模型",
+        "截图",
+        "请求日志"
+      ],
+      "links": [
+        {
+          "label": [
+            "SpireSight source on GitHub",
+            "在 GitHub 查看 SpireSight 源码"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight"
+        },
+        {
+          "label": [
+            "Original system prompts",
+            "系统提示词原文"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight/blob/ac364e3ae565d2b61663ecc6eb6e192d5b24b08c/prompts/system_prompts.yaml"
+        },
+        {
+          "label": [
+            "Request assembly",
+            "请求组装源码"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight/blob/ac364e3ae565d2b61663ecc6eb6e192d5b24b08c/src/spiresight/core/runner.py"
+        },
+        {
+          "label": [
+            "Local card index and sources",
+            "本地卡牌索引与资料来源"
+          ],
+          "url": "https://github.com/JarrettChen217/SpireSight/blob/ac364e3ae565d2b61663ecc6eb6e192d5b24b08c/data/sts2_cards/metadata.json"
         }
       ]
     },
@@ -1220,6 +2734,16 @@ const PROJECTS = {
             "The team used Confluence for requirements, sprint reports and handover notes, while Jira linked implementation tasks to commits and deployment status. Separate stable and development previews supported client reviews. Controller tests checked tree outputs across rotation cases, and the handover documented the interfaces needed for continued development.",
             "团队使用 Confluence 整理需求、冲刺报告和交接说明，通过 Jira 将实现任务关联到提交与部署状态；稳定版和开发版预览支持客户评审。控制器测试检查不同旋转场景下的树输出，交接文档则记录后续开发所需的接口。"
           ]
+        },
+        {
+          "title": [
+            "From the course project to Algorithms in Action",
+            "从课程项目到 Algorithms in Action"
+          ],
+          "body": [
+            "Our team's AVL changes were merged into Algorithms in Action. Later maintainers rewrote parts of the module in 2025. The team repository records our course work, and the live demo shows the version maintained upstream.",
+            "我们团队的 AVL 改动已合入 Algorithms in Action。2025 年，后续维护者重写了部分模块。小组仓库保留了课程期间的工作记录，在线演示展示的是上游维护的版本。"
+          ]
         }
       ],
       "architecture": [
@@ -1505,6 +3029,30 @@ const PROJECTS = {
         "education",
         "算法",
         "可视化"
+      ],
+      "linkPlacement": "top",
+      "links": [
+        {
+          "label": [
+            "Try the AVL animation",
+            "体验 AVL 动画"
+          ],
+          "url": "https://dev-aia.vercel.app/animation/?alg=AVLTree&mode=operations"
+        },
+        {
+          "label": [
+            "Course team repository",
+            "课程小组仓库"
+          ],
+          "url": "https://github.com/JarrettChen217/ITP_team025_staticsound"
+        },
+        {
+          "label": [
+            "Algorithms in Action upstream",
+            "Algorithms in Action 上游仓库"
+          ],
+          "url": "https://github.com/algorithms-in-action/algorithms-in-action.github.io"
+        }
       ]
     },
     {
@@ -2395,6 +3943,307 @@ const PROJECTS = {
         "concurrency",
         "分布式",
         "并发"
+      ]
+    },
+    {
+      "id": "autonomous-delivery",
+      "name": [
+        "Autonomous Delivery App",
+        "自主配送应用"
+      ],
+      "date": [
+        "Mar 2026 – Apr 2026",
+        "2026年3月 – 2026年4月"
+      ],
+      "region": "ny",
+      "type": "academic",
+      "tech": "React, TypeScript, Google Places, Google Maps, Java, Spring Boot, Spring Security, Spring Data JDBC, PostgreSQL, Docker Compose, nginx",
+      "summary": [
+        "I led a nine-person course team developing an app for placing and tracking delivery orders.",
+        "我担任九人课程项目团队的队长，带领团队开发用于下单和追踪配送的应用。"
+      ],
+      "background": [
+        "The course app modeled a San Francisco delivery service. Customers could choose a delivery center, enter a drop-off address and parcel details, and follow a simulated robot or drone delivery.",
+        "这个课程项目模拟了旧金山的配送服务。用户可以选择配送站，填写送达地址和包裹信息，再查看模拟机器人或无人机的配送进度。"
+      ],
+      "work": [
+        [
+          "I built the React and TypeScript address input with Google Places suggestions bounded to the delivery area. On the team’s Google Maps tracking page, I added the delivery markers, dashed line, and initial map framing.",
+          "我用 React 和 TypeScript 实现了地址输入组件，将 Google Places 的建议限制在配送范围内。我还在团队的 Google Maps 追踪页面加入配送标记、虚线连线和初始视野调整。"
+        ],
+        [
+          "I migrated the existing JWT authentication in the Spring Boot backend to Spring Security.",
+          "我将 Spring Boot 后端已有的 JWT 认证迁移到 Spring Security。"
+        ],
+        [
+          "As team lead, I turned proposed features into backlog items with acceptance criteria, planned sprints, and merged teammates’ pull requests.",
+          "作为队长，我把拟议功能整理成带有验收标准的待办事项，制定迭代计划，并合并队友的拉取请求。"
+        ]
+      ],
+      "workHeading": [
+        "My contributions",
+        "我的贡献"
+      ],
+      "process": {
+        "heading": [
+          "From sign-in to delivery",
+          "从登录到送达"
+        ],
+        "intro": [
+          "Follow an order from the browser to the server and back through the customer screens.",
+          "沿着用户操作流程，看一笔订单如何在浏览器、服务端和数据库之间流转。"
+        ],
+        "stages": [
+          {
+            "id": "sign-in",
+            "label": [
+              "Account",
+              "账户"
+            ],
+            "title": [
+              "Register or sign in",
+              "注册或登录"
+            ],
+            "body": [
+              "New customers complete a verification-code step to register. At sign-in, Spring Boot checks the password against the saved hash for that email address or phone number and issues a JSON Web Token (JWT). The browser keeps the token for the session and sends it with later requests. A Spring Security filter verifies the token and makes the user identity available to controllers without keeping a server-side session.",
+              "新用户通过验证码步骤完成注册。登录时，Spring Boot 根据邮箱或手机号查找账户，比对密码与已存储的哈希值，通过后签发 JSON Web Token（JWT）。浏览器在当前会话内保留令牌，并随后续请求发送。Spring Security 过滤器验证令牌，将用户身份交给控制器，无需在服务端保存会话。"
+            ]
+          },
+          {
+            "id": "order",
+            "label": [
+              "Addresses and parcels",
+              "地址与包裹"
+            ],
+            "title": [
+              "Enter the delivery details",
+              "填写配送信息"
+            ],
+            "body": [
+              "The customer picks a delivery center and selects a drop-off suggestion from Google Places within the San Francisco search bounds. The order wizard sends the selected coordinates to Spring Boot. The backend checks the drop-off against the service area, creates the order in PostgreSQL, and accepts a separate request to save the parcel details against that order.",
+              "用户选择配送站，再从 Google Places 限定在旧金山范围内的建议中选择送达地址。下单页面把选中的坐标传给 Spring Boot。后端确认送达点位于服务区内，在 PostgreSQL 中创建订单，并通过另一条请求把包裹信息关联到该订单。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/autonomous-delivery/places-suggestions.webp",
+                "thumbnail": "assets/projects/autonomous-delivery/places-suggestions-thumb.webp",
+                "width": 650,
+                "height": 615,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Google Places lists the museum, its library and a nearby garage in the drop-off field.",
+                  "送达地址栏中的 Google Places 候选列表包括美术馆、图书馆和附近的停车场。"
+                ],
+                "caption": [
+                  "In the original React app, typing “San Francisco Museum of Modern Art” brings up live suggestions. The first result is the museum itself.",
+                  "在原版 React 应用里输入 San Francisco Museum of Modern Art，Google Places 返回实时建议，第一项就是美术馆本身。"
+                ]
+              },
+              {
+                "src": "assets/projects/autonomous-delivery/places-selection.webp",
+                "thumbnail": "assets/projects/autonomous-delivery/places-selection-thumb.webp",
+                "width": 650,
+                "height": 538,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Selected museum address with latitude and longitude beneath the field.",
+                  "选中的美术馆地址，下方显示经纬度。"
+                ],
+                "caption": [
+                  "Selecting the museum fills in its formatted address. The coordinates below the field are the point the order page can pass to the backend.",
+                  "选中美术馆后，输入框填入完整地址，下方显示经纬度，订单页面可以把这个点传给后端。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "confirmation",
+            "label": [
+              "Vehicle and review",
+              "车型与订单核对"
+            ],
+            "title": [
+              "Choose an option and confirm the order",
+              "选择配送方式并确认订单"
+            ],
+            "body": [
+              "The recommendations screen checks vehicle availability at the selected center and presents robot and drone options. The customer chooses an option, reviews the order summary, and goes through checkout. The confirmation screen links to tracking for that order.",
+              "推荐页面查看所选配送站的车辆可用情况，并显示机器人和无人机选项。用户选择配送方式、核对订单摘要并完成结账步骤。确认页面提供该订单的追踪入口。"
+            ]
+          },
+          {
+            "id": "tracking",
+            "label": [
+              "Tracking",
+              "追踪"
+            ],
+            "title": [
+              "Follow a simulated delivery",
+              "查看模拟配送进度"
+            ],
+            "body": [
+              "The tracking screen requests updates every three seconds. The backend checks that the order belongs to the signed-in customer, advances the vehicle’s simulated position, and returns the status and coordinates. Google Maps shows the center, vehicle, and destination, with a straight dashed line from the center to the destination. Polling stops when the order is delivered.",
+              "追踪页面每三秒请求一次更新。后端确认订单属于当前登录用户，推进车辆的模拟位置，并返回配送状态和坐标。Google Maps 显示配送站、车辆和送达点，用一条虚线直接连接配送站和送达点。订单送达后，页面停止轮询。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/autonomous-delivery/maps-tracking.webp",
+                "thumbnail": "assets/projects/autonomous-delivery/maps-tracking-thumb.webp",
+                "width": 1052,
+                "height": 356,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Google Maps shows a green pickup center, blue simulated robot, red museum destination and dashed center-to-destination line.",
+                  "Google 地图上，绿色为配送站，蓝色为模拟机器人，红色为美术馆目的地；虚线连接配送站和目的地。"
+                ],
+                "caption": [
+                  "A local test order has the same museum as its destination. The original tracking page polls Spring Boot for the simulated vehicle position. The dashed line connects the endpoints directly.",
+                  "本地示例订单使用同一座美术馆作为目的地。原版追踪页轮询 Spring Boot 获取模拟车辆的位置；虚线直接连接配送站和目的地。"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "order-history",
+            "label": [
+              "History",
+              "历史记录"
+            ],
+            "title": [
+              "Reopen an order",
+              "查看历史订单"
+            ],
+            "body": [
+              "Order history retrieves the customer’s orders from the backend. From the list, the customer can reopen tracking for an active delivery or view details for a delivered order. A separate profile screen displays and updates account information.",
+              "历史订单页面从后端读取当前用户的订单。用户可以从列表继续追踪配送中的订单，也可以查看已送达订单的详情。个人资料页面提供独立的账户信息查看和编辑入口。"
+            ]
+          }
+        ],
+        "kicker": [
+          "Course team workflow",
+          "课程团队应用流程"
+        ]
+      },
+      "journey": [
+        {
+          "title": [
+            "Keep field names consistent at the API boundary",
+            "在 API 边界统一字段名"
+          ],
+          "body": [
+            "The order history screen expected camelCase fields in snake_case responses, and the profile screen sent an update field with the wrong name. I aligned the TypeScript API types and both screens with the backend’s field names.",
+            "订单历史页面按 camelCase 读取后端的 snake_case 响应，个人资料页面提交更新时也用错了一个字段名。我让 TypeScript API 类型和这两个页面都使用与后端一致的字段名。"
+          ]
+        },
+        {
+          "title": [
+            "Keep live data separate from the map viewport",
+            "将位置更新与地图视野分开"
+          ],
+          "body": [
+            "On first load, I fit the map to the delivery points so the pickup and drop-off were both visible. Later polls update the vehicle location while preserving the customer’s map view.",
+            "我让地图首次加载时自动调整视野，同时显示取件点和送达点。后续轮询会更新车辆位置，同时保留用户调整过的地图视野。"
+          ]
+        }
+      ],
+      "journeyHeading": [
+        "What I learned from integration",
+        "我的联调经验"
+      ],
+      "architecture": [
+        {
+          "title": [
+            "Browser · React and TypeScript",
+            "浏览器 · React 与 TypeScript"
+          ],
+          "body": [
+            "React Router organizes the screens. The TypeScript client sends HTTP requests to the backend. Google Places suggests addresses and Google Maps draws the tracking view.",
+            "React Router 组织各个页面，TypeScript 客户端通过 HTTP 请求与后端通信。Google Places 提供地址建议，Google Maps 绘制配送追踪视图。"
+          ]
+        },
+        {
+          "title": [
+            "Server · Spring Boot and Spring Security",
+            "服务端 · Spring Boot 与 Spring Security"
+          ],
+          "body": [
+            "Java controllers handle account, order, and tracking requests. Spring Security provides the request’s authenticated identity. Order and tracking handlers check ownership before returning the customer’s data.",
+            "Java 控制器处理账户、订单和配送追踪请求。Spring Security 提供当前请求的认证身份，订单和追踪接口确认归属后再返回用户数据。"
+          ]
+        },
+        {
+          "title": [
+            "Database · PostgreSQL and Spring Data JDBC",
+            "数据库 · PostgreSQL 与 Spring Data JDBC"
+          ],
+          "body": [
+            "Spring Data JDBC repositories read and write PostgreSQL. Foreign keys link orders to customers and delivery centers and link parcels to orders. The order’s JSONB tracking field stores structured data such as the drop-off coordinates.",
+            "Spring Data JDBC 仓储层读写 PostgreSQL。外键将订单关联到用户和配送站，将包裹关联到订单。订单的 JSONB 追踪字段保存送达点坐标等结构化数据。"
+          ]
+        }
+      ],
+      "architectureIntro": [
+        "For the local course demo, Docker Compose ran the frontend, backend, and PostgreSQL together. nginx served the React build and forwarded API requests to Spring Boot under the same origin.",
+        "课程演示通过 Docker Compose 在本地一起运行前端、后端和 PostgreSQL。nginx 提供 React 构建产物，并将同源 API 请求转发给 Spring Boot。"
+      ],
+      "boundary": [
+        "The browser demo lets you choose a fixed sample address and advance tracking by hand on a schematic map. It runs locally with preset data. Sign-in, order submission, and server-driven tracking are part of the course app described below.",
+        "网页演示使用预设数据，可选择一个示例地址，并在示意地图上手动推进配送状态。演示在浏览器本地运行。下文的登录、订单提交和服务端模拟追踪属于课程应用。"
+      ],
+      "play": {
+        "url": "play/autonomous-delivery/index.html",
+        "label": [
+          "Try the delivery demo",
+          "体验配送演示"
+        ]
+      },
+      "sectionOrder": [
+        "background",
+        "scope",
+        "architecture",
+        "process",
+        "contributions",
+        "journey",
+        "resources"
+      ],
+      "keywords": [
+        "address autocomplete",
+        "delivery tracking",
+        "JWT",
+        "team lead",
+        "地址自动补全",
+        "配送追踪",
+        "队长"
+      ],
+      "links": [
+        {
+          "label": [
+            "Course team repository",
+            "课程团队仓库"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team"
+        },
+        {
+          "label": [
+            "Address autocomplete source",
+            "地址自动补全源码"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/components/AddressAutocomplete.tsx"
+        },
+        {
+          "label": [
+            "Tracking page source",
+            "配送追踪页面源码"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/frontend/src/pages/tracking/TrackingPage.tsx"
+        },
+        {
+          "label": [
+            "Spring Security configuration",
+            "Spring Security 配置"
+          ],
+          "url": "https://github.com/qhuang258/DDMA-team/blob/8813ad895ad14b156235b4994b8e38ad7433e4e8/backend/DeliveryManagement/src/main/java/com/laioffer/deliverymanagement/config/SecurityConfig.java"
+        }
       ]
     },
     {

@@ -82,11 +82,20 @@ function compile(source) {
         if(stage.demo!==undefined)compiled.demo=processDemo(stage.demo,`${stageField}.demo`);
         return compiled;
       })};
+      if(value.kicker!==undefined)compiledProcess.kicker=bi(value.kicker,`${field}.kicker`);
       if(value.badge!==undefined){
         const badgeField=`${field}.badge`;const badge=value.badge;
         if(!badge||typeof badge!=='object'||Array.isArray(badge))fail(`${badgeField}: must be an object`);
         if(![badge.width,badge.height].every(n=>Number.isInteger(n)&&n>0))fail(`${badgeField}: invalid dimensions`);
         compiledProcess.badge={src:localAsset(badge.src,'webp',badgeField),width:badge.width,height:badge.height,alt:bi(badge.alt,`${badgeField}.alt`)};
+      }
+      if (value.diagram !== undefined) {
+        const diagram = value.diagram;
+        compiledProcess.diagram = {
+          src: ['en', 'zh'].map(lang => localAsset(`assets/projects/${p.id}/pipeline-${lang}.svg`, 'svg', `${field}.diagram`)),
+          alt: bi(diagram?.alt, `${field}.diagram.alt`),
+          caption: bi(diagram?.caption, `${field}.diagram.caption`)
+        };
       }
       result.process=compiledProcess;
     }
@@ -98,10 +107,35 @@ function compile(source) {
         return {title:bi(entry.title,`${field}.title`),body:bi(entry.body,`${field}.body`)};
       });
     }
+    if(p.journeyHeading !== undefined)result.journeyHeading=bi(p.journeyHeading,`${p.id}.journeyHeading`);
+    if(p.sequence !== undefined){
+      const {actors,phases}=p.sequence;
+      const field=p.id+'.sequence';
+      if(!Array.isArray(actors)||actors.length<2||!Array.isArray(phases)||!phases.length)fail(field+': expected actors and phases');
+      result.sequence={
+        actors:actors.map(actor=>bi(actor,field+'.actors')),
+        phases:phases.map(phase=>({
+          title:bi(phase.title,field+'.title'),
+          messages:phase.messages.map(({from,to,label})=>{
+            if(![from,to].every(i=>Number.isInteger(i)&&i>=0&&i<actors.length)||from===to)fail(field+': invalid message endpoints');
+            return {from,to,label:bi(label,field+'.label')};
+          })
+        }))
+      };
+    }
+    if(p.prompts !== undefined){
+      if(!Array.isArray(p.prompts))fail(`${p.id}.prompts: must be a list`);
+      result.prompts=p.prompts.map((item,i)=>{
+        const field=`${p.id}.prompts[${i}]`;
+        if(typeof item?.original!=='string'||!item.original.trim())fail(`${field}.original: expected prompt text`);
+        return {title:bi(item.title,field+'.title'),why:bi(item.why,field+'.why'),original:item.original};
+      });
+    }
     if(p.architecture !== undefined){
       if(!Array.isArray(p.architecture))fail(`${p.id}.architecture: must be a list`);
       result.architecture=p.architecture.map((item,i)=>({title:bi(item?.title,`${p.id}.architecture[${i}].title`),body:bi(item?.body,`${p.id}.architecture[${i}].body`)}));
     }
+    if(p.architectureIntro !== undefined)result.architectureIntro=bi(p.architectureIntro,`${p.id}.architectureIntro`);
     if(p.gallery !== undefined){
       if(!Array.isArray(p.gallery))fail(`${p.id}.gallery: must be a list`);
       result.gallery=p.gallery.map((item,i)=>{
@@ -189,9 +223,13 @@ function compile(source) {
       const field=`${p.id}.play`;const value=p.play;
       if(!value||typeof value!=='object'||Array.isArray(value)||typeof value.url!=='string'||!/^play\/[a-z0-9]+(?:-[a-z0-9]+)*\/index\.html$/.test(value.url))fail(`${field}: invalid repository-relative play URL`);
       result.play={url:value.url,label:bi(value.label,`${field}.label`)};
+      if(value.inline!==undefined){
+        if(typeof value.inline!=='boolean')fail(`${field}.inline: must be true or false`);
+        result.play.inline=value.inline;
+      }
     }
     if(p.sectionOrder !== undefined){
-      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','engineering','team','credits','resources','scope']);
+      const field=`${p.id}.sectionOrder`;const allowed=new Set(['video','background','mechanics','process','product','contributions','demo','youtube','journey','architecture','sequence','prompts','workflow','engineering','team','credits','resources','scope']);
       if(!Array.isArray(p.sectionOrder)||p.sectionOrder.some(key=>typeof key!=='string'||!allowed.has(key))||new Set(p.sectionOrder).size!==p.sectionOrder.length)fail(`${field}: invalid or duplicate section key`);
       result.sectionOrder=[...p.sectionOrder];
     }
@@ -207,6 +245,10 @@ function compile(source) {
       });
     }
     if(p.keywords) { if(!Array.isArray(p.keywords)||p.keywords.some(x=>typeof x!=='string')) fail(`${p.id}: keywords must be strings`); result.keywords=p.keywords; }
+    if(p.linkPlacement!==undefined){
+      if(p.linkPlacement!=='top'||!p.links?.length)fail(`${p.id}: top link placement requires links`);
+      result.linkPlacement=p.linkPlacement;
+    }
     if(p.links) { if(!Array.isArray(p.links)) fail(`${p.id}: links must be a list`);result.links=p.links.map(link=>{const url=new URL(link.url);if(url.protocol!=='https:')fail(`${p.id}: links must use HTTPS`);return {label:bi(link.label,`${p.id}.link`),url:url.href};}); }
     return {published:p.published,data:result};
   });

@@ -1,0 +1,20 @@
+sequenceDiagram
+    accTitle: SocialAI · 一次关键词搜索 / One keyword search
+    accDescr: The frontend was observed with a sample response. The Go and Elasticsearch interactions are the successful path in source code.
+    participant U as 用户 / User
+    participant R as React Collection
+    participant G as Go HTTP
+    participant E as Elasticsearch
+    Note over U,R: 前端实测，示例数据<br/>Observed UI · sample data
+    U->>R: Keyword → “bridge” → Search
+    R->>G: GET /search?keywords=bridge
+    Note over G,E: 后端成功路径，依据源码<br/>Backend success path · source code
+    G->>G: 验证令牌 / Verify JWT
+    G->>G: searchHandler → SearchPostsByKeywords
+    G->>E: match(message, “bridge”)
+    E-->>G: 命中的帖子 / Matching posts
+    G-->>R: JSON · type, url, message
+    Note over U,R: 前端实测，示例响应<br/>Observed UI · sample response
+    R-->>U: 图片缩略图 / Image thumbnail
+    U->>R: 点开 / Open “Garden bridge”
+    R-->>U: 显示大图 / Image viewer

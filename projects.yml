@@ -53,7 +53,32 @@ projects:
         body:
           en: Both agents use the same skill, with Python tools running in a uv-locked environment. I ran the installers on macOS and Windows.
           zh: 两个 Agent 共用同一套 Skill，Python 工具在由 uv 锁定依赖的环境中运行。我在 macOS 和 Windows 上都运行过安装器。
-    sectionOrder: [workflow, background, journey]
+    gallery:
+      - group: product
+        src: assets/projects/meeting-transcribe/sample-transcript.webp
+        thumbnail: assets/projects/meeting-transcribe/sample-transcript-thumb.webp
+        width: 1510
+        height: 528
+        thumbnailWidth: 640
+        alt:
+          en: "Transcript of a synthetic exchange about taking photographs"
+          zh: "合成摄影对话转录稿中的两段发言"
+        caption:
+          en: "In this 17-second synthetic recording the speakers agree to meet at the library entrance at ten on Saturday and photograph the reading room if it rains. The text shown is the transcriber’s normalized output."
+          zh: "这段约 17 秒的合成录音中，两人约定周六十点在图书馆入口碰面，下雨就改拍阅览室。图中是转录工具整理输出的原文。"
+      - group: product
+        src: assets/projects/meeting-transcribe/sample-check.webp
+        thumbnail: assets/projects/meeting-transcribe/sample-check-thumb.webp
+        width: 1510
+        height: 868
+        thumbnailWidth: 640
+        alt:
+          en: "Selected response and structural-check fields for the same sample"
+          zh: "同一次样例请求返回的状态与结构检查字段"
+        caption:
+          en: "The transcription request returned HTTP 200. The checker found two speakers and no structural warnings. Its usable_unverified status leaves content verification to a reader. This run covered transcription, parsing and checks."
+          zh: "同次转录请求返回 HTTP 200，检查识别到两个说话人，没有结构告警。usable_unverified 表示文本可用，内容仍待人工核实。本次实测覆盖转录、解析和检查。"
+    sectionOrder: [workflow, background, product, journey]
 
   - id: dance-xr
     published: true
@@ -1264,6 +1289,29 @@ projects:
           body:
             en: The customer picks a delivery center and selects a drop-off suggestion from Google Places within the San Francisco search bounds. The order wizard sends the selected coordinates to Spring Boot. The backend checks the drop-off against the service area, creates the order in PostgreSQL, and accepts a separate request to save the parcel details against that order.
             zh: 用户选择配送站，再从 Google Places 限定在旧金山范围内的建议中选择送达地址。下单页面把选中的坐标传给 Spring Boot。后端确认送达点位于服务区内，在 PostgreSQL 中创建订单，并通过另一条请求把包裹信息关联到该订单。
+          gallery:
+            - src: assets/projects/autonomous-delivery/places-suggestions.webp
+              thumbnail: assets/projects/autonomous-delivery/places-suggestions-thumb.webp
+              width: 650
+              height: 615
+              thumbnailWidth: 640
+              alt:
+                en: "Google Places lists the museum, its library and a nearby garage in the drop-off field."
+                zh: "送达地址栏中的 Google Places 候选列表包括美术馆、图书馆和附近的停车场。"
+              caption:
+                en: "In the original React app, typing “San Francisco Museum of Modern Art” brings up live suggestions. The first result is the museum itself."
+                zh: "在原版 React 应用里输入 San Francisco Museum of Modern Art，Google Places 返回实时建议，第一项就是美术馆本身。"
+            - src: assets/projects/autonomous-delivery/places-selection.webp
+              thumbnail: assets/projects/autonomous-delivery/places-selection-thumb.webp
+              width: 650
+              height: 538
+              thumbnailWidth: 640
+              alt:
+                en: "Selected museum address with latitude and longitude beneath the field."
+                zh: "选中的美术馆地址，下方显示经纬度。"
+              caption:
+                en: "Selecting the museum fills in its formatted address. The coordinates below the field are the point the order page can pass to the backend."
+                zh: "选中美术馆后，输入框填入完整地址，下方显示经纬度，订单页面可以把这个点传给后端。"
         - id: confirmation
           label: {en: Vehicle and review, zh: 车型与订单核对}
           title: {en: Choose an option and confirm the order, zh: 选择配送方式并确认订单}
@@ -1276,6 +1324,18 @@ projects:
           body:
             en: The tracking screen requests updates every three seconds. The backend checks that the order belongs to the signed-in customer, advances the vehicle’s simulated position, and returns the status and coordinates. Google Maps shows the center, vehicle, and destination, with a straight dashed line from the center to the destination. Polling stops when the order is delivered.
             zh: 追踪页面每三秒请求一次更新。后端确认订单属于当前登录用户，推进车辆的模拟位置，并返回配送状态和坐标。Google Maps 显示配送站、车辆和送达点，用一条虚线直接连接配送站和送达点。订单送达后，页面停止轮询。
+          gallery:
+            - src: assets/projects/autonomous-delivery/maps-tracking.webp
+              thumbnail: assets/projects/autonomous-delivery/maps-tracking-thumb.webp
+              width: 1052
+              height: 356
+              thumbnailWidth: 640
+              alt:
+                en: "Google Maps shows a green pickup center, blue simulated robot, red museum destination and dashed center-to-destination line."
+                zh: "Google 地图上，绿色为配送站，蓝色为模拟机器人，红色为美术馆目的地；虚线连接配送站和目的地。"
+              caption:
+                en: "A local test order has the same museum as its destination. The original tracking page polls Spring Boot for the simulated vehicle position. The dashed line connects the endpoints directly."
+                zh: "本地示例订单使用同一座美术馆作为目的地。原版追踪页轮询 Spring Boot 获取模拟车辆的位置；虚线直接连接配送站和目的地。"
         - id: order-history
           label: {en: History, zh: 历史记录}
           title: {en: Reopen an order, zh: 查看历史订单}

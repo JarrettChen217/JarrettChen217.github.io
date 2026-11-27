@@ -275,7 +275,7 @@ const PROJECTS = {
       ],
       "date": [
         "Feb – Apr 2026 · Columbia University · COMS W4172",
-        "2026 年 2 月至 4 月 · 哥伦比亚大学 · COMS W4172"
+        "2026年2月 – 2026年4月 · 哥伦比亚大学 · COMS W4172"
       ],
       "region": "ny",
       "type": "academic",

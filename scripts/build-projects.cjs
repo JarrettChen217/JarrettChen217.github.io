@@ -62,10 +62,15 @@ function compile(source) {
         if(!fs.existsSync(file)||!fs.statSync(file).isFile()||!fs.realpathSync(file).startsWith(fs.realpathSync(ROOT)+path.sep))fail(`${assetField}: asset missing or outside repository`);
         return assetPath;
       };
-      const processImage=(item,imageField)=>{
+      const imageAsset=(item,imageField)=>{
         if(!item||typeof item!=='object'||Array.isArray(item))fail(`${imageField}: must be an object`);
         if(![item.width,item.height,item.thumbnailWidth].every(n=>Number.isInteger(n)&&n>0)||item.thumbnailWidth>item.width)fail(`${imageField}: invalid dimensions`);
-        return {src:localAsset(item.src,'webp',imageField),thumbnail:localAsset(item.thumbnail,'webp',imageField),width:item.width,height:item.height,thumbnailWidth:item.thumbnailWidth,alt:bi(item.alt,`${imageField}.alt`),caption:bi(item.caption,`${imageField}.caption`)};
+        return {src:localAsset(item.src,'webp',imageField),thumbnail:localAsset(item.thumbnail,'webp',imageField),width:item.width,height:item.height,thumbnailWidth:item.thumbnailWidth};
+      };
+      const processImage=(item,imageField)=>{
+        const image=imageAsset(item,imageField);
+        if(item.englishImage!==undefined)image.englishImage=imageAsset(item.englishImage,`${imageField}.englishImage`);
+        return {...image,alt:bi(item.alt,`${imageField}.alt`),caption:bi(item.caption,`${imageField}.caption`)};
       };
       const processDemo=(demo,demoField)=>{
         if(!demo||typeof demo!=='object'||Array.isArray(demo)||![demo.width,demo.height].every(n=>Number.isInteger(n)&&n>0))fail(`${demoField}: invalid dimensions`);

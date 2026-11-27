@@ -90,6 +90,11 @@ function compile(source) {
       }
       result.process=compiledProcess;
     }
+    if (p.cardStage !== undefined) {
+      const stage = result.process?.stages.find(item => item.id === p.cardStage);
+      if (!stage?.gallery?.length) fail(`${p.id}.cardStage must reference a stage with an image`);
+      result.cardStage = p.cardStage;
+    }
     if(p.journey !== undefined) {
       if(!Array.isArray(p.journey)) fail(`${p.id}.journey: must be a list`);
       result.journey=p.journey.map((entry,i)=>{

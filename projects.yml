@@ -151,6 +151,7 @@ projects:
     play:
       url: play/agent-ai-retrieval/index.html
       label: {en: Explore the 12 retrieval questions, zh: 查看 12 道题的检索结果}
+    cardStage: study-question
     sectionOrder: [background, contributions, process, scope]
     process:
       kicker: {en: Document and web search, zh: 文档检索与网页搜索}
@@ -159,6 +160,20 @@ projects:
         en: Follow a question through the main implementation, check which physics passages retrieval brings back, then see what happened in an earlier browser run.
         zh: 先看两路资料怎样进入模型，再用物理笔记检验段落检索，最后回看演示分支的一次浏览器记录。
       stages:
+        - id: study-question
+          label: {en: From the study notes, zh: 从复习笔记出发}
+          title: {en: Does adding mass change the period?, zh: 增加质量，周期就一定变长吗？}
+          body:
+            en: Compare a small-angle pendulum with a cart on a spring. This question needs two passages from the physics notes. In the recorded retrieval trial, the pendulum passage ranked first and the spring passage second.
+            zh: 把小角度单摆和弹簧小车放在一起比较，这道题需要笔记里两处不同的依据。本地检索试跑中，单摆段落排第一，弹簧小车排第二。
+          gallery:
+            - src: assets/projects/agent-ai/study-question.webp
+              thumbnail: assets/projects/agent-ai/study-question-thumb.webp
+              width: 1012
+              height: 553
+              thumbnailWidth: 640
+              alt: {en: Physics question beside the expanded pendulum and spring passages, zh: 左侧为复习题，右侧展开了单摆与弹簧振子两段笔记原文}
+              caption: {en: Q08 in the local MiniLM retrieval replay. Both highlighted passages match the reference labels., zh: 本地 MiniLM 检索回放第 8 题。展开的两段原文都命中了预先标注的依据。}
         - id: architecture
           label: {en: System architecture, zh: 系统架构}
           title: {en: What each answer can draw on, zh: 两个回答各自依据什么}
@@ -227,28 +242,6 @@ projects:
             en: For this earlier browser check, I used a fictional venue policy to make the expected answer easy to check. On a separate unmerged demo branch developed with a coding agent, the upload succeeded. Submitting the question returned HTTP 502 and both answer areas displayed errors. In separate checks the PDF yielded one text chunk, the embedding request returned HTTP 401, and the MCP tool returned five web results. The cause of the web-answer error was not established.
             zh: 这次早期浏览器实测采用虚构场馆的借用说明，归还规则可以直接对照原文核查。在与编码助手共同完成、尚未合入主分支的本地演示分支中，PDF 上传成功。提交问题后接口返回 HTTP 502，两个回答区分别显示错误。单独复核时，PDF 提取出一个文本块，嵌入请求返回 HTTP 401，MCP 工具返回五条网页搜索结果。网页回答生成失败的具体原因尚未定位。
           gallery:
-            - src: assets/projects/agent-ai/document.webp
-              thumbnail: assets/projects/agent-ai/document-thumb.webp
-              width: 637
-              height: 500
-              thumbnailWidth: 540
-              alt:
-                en: The fictional venue loan policy
-                zh: 虚构场馆借用说明
-              caption:
-                en: The note specifies Copper Alcove and 4:35 p.m. that day. These details come directly from the PDF.
-                zh: 说明原文写明归还地点为 Copper Alcove，截止时间为当天 4:35 p.m.。
-            - src: assets/projects/agent-ai/question.webp
-              thumbnail: assets/projects/agent-ai/question-thumb.webp
-              width: 1080
-              height: 836
-              thumbnailWidth: 640
-              alt:
-                en: Uploaded filename and the folding-screen question
-                zh: 上传的文件名与屏风归还问题
-              caption:
-                en: With the upload complete, the question is ready to submit.
-                zh: 文件已上传，输入框中是准备提交的问题。
             - src: assets/projects/agent-ai/result.webp
               thumbnail: assets/projects/agent-ai/result-thumb.webp
               width: 1080

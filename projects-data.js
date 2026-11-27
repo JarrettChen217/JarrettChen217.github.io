@@ -309,6 +309,38 @@ const PROJECTS = {
         ],
         "stages": [
           {
+            "id": "study-question",
+            "label": [
+              "From the study notes",
+              "从复习笔记出发"
+            ],
+            "title": [
+              "Does adding mass change the period?",
+              "增加质量，周期就一定变长吗？"
+            ],
+            "body": [
+              "Compare a small-angle pendulum with a cart on a spring. This question needs two passages from the physics notes. In the recorded retrieval trial, the pendulum passage ranked first and the spring passage second.",
+              "把小角度单摆和弹簧小车放在一起比较，这道题需要笔记里两处不同的依据。本地检索试跑中，单摆段落排第一，弹簧小车排第二。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/agent-ai/study-question.webp",
+                "thumbnail": "assets/projects/agent-ai/study-question-thumb.webp",
+                "width": 1012,
+                "height": 553,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "Physics question beside the expanded pendulum and spring passages",
+                  "左侧为复习题，右侧展开了单摆与弹簧振子两段笔记原文"
+                ],
+                "caption": [
+                  "Q08 in the local MiniLM retrieval replay. Both highlighted passages match the reference labels.",
+                  "本地 MiniLM 检索回放第 8 题。展开的两段原文都命中了预先标注的依据。"
+                ]
+              }
+            ]
+          },
+          {
             "id": "architecture",
             "label": [
               "System architecture",
@@ -434,36 +466,6 @@ const PROJECTS = {
             ],
             "gallery": [
               {
-                "src": "assets/projects/agent-ai/document.webp",
-                "thumbnail": "assets/projects/agent-ai/document-thumb.webp",
-                "width": 637,
-                "height": 500,
-                "thumbnailWidth": 540,
-                "alt": [
-                  "The fictional venue loan policy",
-                  "虚构场馆借用说明"
-                ],
-                "caption": [
-                  "The note specifies Copper Alcove and 4:35 p.m. that day. These details come directly from the PDF.",
-                  "说明原文写明归还地点为 Copper Alcove，截止时间为当天 4:35 p.m.。"
-                ]
-              },
-              {
-                "src": "assets/projects/agent-ai/question.webp",
-                "thumbnail": "assets/projects/agent-ai/question-thumb.webp",
-                "width": 1080,
-                "height": 836,
-                "thumbnailWidth": 640,
-                "alt": [
-                  "Uploaded filename and the folding-screen question",
-                  "上传的文件名与屏风归还问题"
-                ],
-                "caption": [
-                  "With the upload complete, the question is ready to submit.",
-                  "文件已上传，输入框中是准备提交的问题。"
-                ]
-              },
-              {
                 "src": "assets/projects/agent-ai/result.webp",
                 "thumbnail": "assets/projects/agent-ai/result-thumb.webp",
                 "width": 1080,
@@ -482,6 +484,7 @@ const PROJECTS = {
           }
         ]
       },
+      "cardStage": "study-question",
       "boundary": [
         "The main prototype uses a shared upload path and rebuilds its in-memory document index with each question.",
         "主分支原型使用共享上传路径，每次提问都会重建文档的内存索引。"

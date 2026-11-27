@@ -155,6 +155,13 @@ const PROJECTS = {
           ]
         }
       ],
+      "play": {
+        "url": "play/meeting-transcribe/index.html",
+        "label": [
+          "View the workflow demo",
+          "查看流程演示"
+        ]
+      },
       "sectionOrder": [
         "background",
         "workflow",

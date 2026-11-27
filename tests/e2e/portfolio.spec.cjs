@@ -194,11 +194,11 @@ test('publishes the bilingual Meeting Transcribe workflow through the project ca
 
   await expect(page).toHaveURL(/#project\/meeting-transcribe$/);
   await expect(page.getByRole('heading', { name: 'Workflow demo' })).toBeVisible();
-  const demo = page.frameLocator('.project-demo-frame');
+  const demo = page.locator('transcription-workflow');
   await expect(demo.locator('[data-scene]')).toHaveCount(6);
   await expect(demo.getByRole('heading', { name: 'A sample recording' })).toBeVisible();
   await expect(demo.locator('#language')).toBeHidden();
-  await expect(page.getByRole('link', { name: 'Open the standalone demo' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Open the standalone demo' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'A fabricated continuation' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'One skill for Claude Code and Codex' })).toBeVisible();
 
@@ -206,10 +206,9 @@ test('publishes the bilingual Meeting Transcribe workflow through the project ca
   await page.getByRole('button', { name: '中文' }).click();
   await expect(page.getByRole('heading', { name: '流程演示' })).toBeVisible();
   await expect(demo.getByRole('heading', { name: '一段示例录音' })).toBeVisible();
-  await expect(demo.locator('html')).toHaveAttribute('lang', 'zh');
-  await expect.poll(() => demo.locator('html').evaluate(root =>
-    root.scrollWidth <= root.clientWidth && root.scrollHeight <= root.clientHeight
-  )).toBe(true);
+  await expect(demo).toHaveAttribute('lang', 'zh');
+  await expect(page.locator('#main > .detail-section').first()).toContainText('流程演示');
+  await expect(page.locator('#main iframe')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   assertClean();
 });

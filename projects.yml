@@ -53,11 +53,7 @@ projects:
         body:
           en: Both agents use the same skill, with Python tools running in a uv-locked environment. I ran the installers on macOS and Windows.
           zh: 两个 Agent 共用同一套 Skill，Python 工具在由 uv 锁定依赖的环境中运行。我在 macOS 和 Windows 上都运行过安装器。
-    play:
-      url: play/meeting-transcribe/index.html
-      label: {en: Open the standalone demo, zh: 单独打开流程演示}
-      inline: true
-    sectionOrder: [background, workflow, journey]
+    sectionOrder: [workflow, background, journey]
 
   - id: dance-xr
     published: true

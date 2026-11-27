@@ -3,9 +3,10 @@ const { test, expect } = require('@playwright/test');
 test('a viewed transcription scene stays complete on return and translation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 740 });
   await page.goto('/#project/meeting-transcribe');
-  await page.locator('a[href="play/meeting-transcribe/index.html"]').click();
+
   const first = page.locator('[data-scene="recording"]');
   const chunks = page.locator('[data-scene="chunks"]');
+  await first.locator('.scene').scrollIntoViewIfNeeded();
   await expect(first).toHaveAttribute('data-phase', 'done', { timeout: 10000 });
   await expect(chunks).toHaveAttribute('data-phase', 'pending');
   await chunks.scrollIntoViewIfNeeded();
@@ -19,13 +20,13 @@ test('a viewed transcription scene stays complete on return and translation', as
       .observe(node, { attributes: true, attributeFilter: ['data-phase'] });
   });
   await page.locator('[data-scene="minutes"]').scrollIntoViewIfNeeded();
-  await page.locator('#language').click();
+  await page.locator('[data-lang=zh]').click();
   await chunks.scrollIntoViewIfNeeded();
   await expect(chunks).toContainText('重叠');
   await expect(chunks).toHaveAttribute('data-phase', 'done');
   expect(await page.evaluate(() => window.chunkPhaseChanges)).not.toContain('playing');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
-  await page.locator('#back').click();
+
   await expect(page).toHaveURL(/#project\/meeting-transcribe$/);
 });
 
@@ -42,17 +43,15 @@ test('reduced motion presents the complete example without animated text', async
 test('embedded demo observes the parent viewport and keeps visited scenes across a locale change', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 640 });
   await page.goto('/#project/meeting-transcribe');
-  const demo = page.frameLocator('.project-demo-frame');
+  const demo = page.locator('transcription-workflow');
   const chunks = demo.locator('[data-scene="chunks"]');
   await expect(chunks).toHaveAttribute('data-phase', 'pending');
   await expect(demo.locator('[data-scene="minutes"]')).toHaveAttribute('data-phase', 'pending');
   await chunks.locator('.scene').scrollIntoViewIfNeeded();
   await expect(chunks).toHaveAttribute('data-phase', 'done');
-  const originalFrame = page.frames().find(frame => frame.url().endsWith('?embed=1'));
 
   await page.getByRole('button', { name: '中文' }).click();
   await expect(chunks).toContainText('重叠 20 秒');
-  expect(page.frames().find(frame => frame.url().endsWith('?embed=1'))).toBe(originalFrame);
   await chunks.locator('.scene').scrollIntoViewIfNeeded();
   await expect(chunks).toHaveAttribute('data-phase', 'done');
 

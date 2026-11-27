@@ -99,17 +99,9 @@ const PROJECTS = {
           ]
         }
       ],
-      "play": {
-        "url": "play/meeting-transcribe/index.html",
-        "label": [
-          "Open the standalone demo",
-          "单独打开流程演示"
-        ],
-        "inline": true
-      },
       "sectionOrder": [
-        "background",
         "workflow",
+        "background",
         "journey"
       ],
       "keywords": [

@@ -105,27 +105,16 @@ function processMedia(item){return `<figure><a href="${esc(item.src)}" data-gall
 function projectMechanics(p){if(!p.mechanics?.steps?.length)return '';return `<section class="project-mechanics"><div class="mechanics-header"><p class="mechanics-kicker">${label('Core gameplay loop','核心玩法循环')}</p><h3>${esc(t(p.mechanics.heading))}</h3><p>${esc(t(p.mechanics.intro))}</p></div><ol class="mechanics-flow">${p.mechanics.steps.map((step,index)=>`<li id="mechanic-${esc(step.id)}"><span class="mechanics-index" aria-hidden="true">${String(index+1).padStart(2,'0')}</span><h4>${esc(t(step.title))}</h4><p>${esc(t(step.body))}</p></li>`).join('')}</ol></section>`;}
 function projectProcess(p){if(!p.process?.stages?.length)return '';const copy=`<p class="process-kicker">${esc(t(p.process.kicker||['Design process','设计过程']))}</p><h3>${esc(t(p.process.heading))}</h3><p>${esc(t(p.process.intro))}</p>`;const header=p.process.badge?`<div class="process-header process-header-with-badge"><div class="process-header-copy">${copy}</div><img class="process-badge" src="${esc(p.process.badge.src)}" width="${p.process.badge.width}" height="${p.process.badge.height}" alt="${esc(t(p.process.badge.alt))}" decoding="async"></div>`:`<div class="process-header">${copy}</div>`;return `<section class="project-process">${header}<div class="process-stages">${p.process.stages.map((stage,index)=>`<article class="process-stage" id="process-${esc(stage.id)}"><div class="process-stage-marker" aria-hidden="true"><span>${String(index+1).padStart(2,'0')}</span></div><div class="process-stage-content"><p class="process-stage-label">${esc(t(stage.label))}</p><h4>${esc(t(stage.title))}</h4><p>${esc(t(stage.body))}</p>${stage.contribution?`<p class="process-contribution"><strong>${label('My contribution','我的贡献')}</strong><span>${esc(t(stage.contribution))}</span></p>`:''}${stage.findings?.length?`<ul class="process-findings">${stage.findings.map(finding=>`<li>${esc(t(finding))}</li>`).join('')}</ul>`:''}${stage.gallery?.length?`<div class="process-gallery">${stage.gallery.map(processMedia).join('')}</div>`:''}${demoVideo(stage.demo)}</div></article>`).join('')}</div></section>`;}
 function detailSections(p){
- const demoLink=p.play && !p.play.inline && !p.featuredVideo
+ const demoLink=p.play && !p.featuredVideo
    ? `<div class="project-actions"><a class="project-action project-action-primary" href="${esc(p.play.url)}">${esc(t(p.play.label))} <span aria-hidden="true">→</span></a></div>`
    : '';
  return demoLink+projectSections(p);
-}
-function inlineProjectDemo(play) {
-  if (!play?.inline) return '';
-  const name = label('Workflow demo', '流程演示');
-  return `<section class="detail-section project-inline-demo" data-inline-demo>
-    <div class="project-demo-heading">
-      <h3>${name}</h3>
-      <a href="${esc(play.url)}">${esc(t(play.label))}</a>
-    </div>
-    <iframe src="${esc(play.url)}?embed=1" title="${name}" class="project-demo-frame"></iframe>
-  </section>`;
 }
 function projectSections(p){
  const sections={
   video:()=>featuredVideo(p),background:()=>`<div class="detail-section"><h3>${label('Background','项目背景')}</h3><p>${esc(t(p.background))}</p>${p.backgroundLink?`<a class="background-link" href="${esc(p.backgroundLink.url)}" target="_blank" rel="noopener">${esc(t(p.backgroundLink.label))}<span aria-hidden="true"> ↗</span></a>`:''}</div>`,mechanics:()=>projectMechanics(p),process:()=>projectProcess(p),
   product:()=>gallery(p,'product'),contributions:()=>p.work.length?`<div class="detail-section"><h3>${esc(t(p.workHeading||['Work & contribution','工作与贡献']))}</h3><ul>${p.work.map(w=>`<li>${esc(t(w))}</li>`).join('')}</ul></div>`:'',
-  demo:()=>demoVideo(p),youtube:()=>youtubeDemo(p),journey:()=>journey(p),architecture:()=>architecture(p),workflow:()=>inlineProjectDemo(p.play),engineering:()=>gallery(p,'engineering'),team:()=>gallery(p,'team'),credits:()=>credits(p),
+  demo:()=>demoVideo(p),youtube:()=>youtubeDemo(p),journey:()=>journey(p),architecture:()=>architecture(p),workflow:()=>p.id==='meeting-transcribe' ? `<section class="detail-section project-inline-demo"><h3>${label('Workflow demo','流程演示')}</h3><transcription-workflow lang="${language}"></transcription-workflow></section>` : '' ,engineering:()=>gallery(p,'engineering'),team:()=>gallery(p,'team'),credits:()=>credits(p),
   resources:()=>p.links?.length?`<div class="detail-section"><h3>${label('Resources','项目资源')}</h3>${p.links.map(link=>`<a href="${esc(link.url)}" target="_blank" rel="noopener">${esc(t(link.label))}</a>`).join(' · ')}</div>`:'',
   scope:()=>p.boundary?`<div class="detail-section"><h3>${label('Scope','展示范围')}</h3><p>${esc(t(p.boundary))}</p></div>`:''
  };
@@ -134,44 +123,6 @@ function projectSections(p){
 }
 function detail(id){const p=CONTENT.projects.find(x=>x.id===id);if(!p)return `<h2>${label('Project not found','未找到项目')}</h2><a href="#projects">${label('Back to projects','返回项目列表')}</a>`;return `<a class="back" href="#projects"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg>${label('Back to all projects','返回所有项目')}</a><div class="detail-title-row"><h2 class="detail-heading">${esc(t(p.name))}</h2>${p.logo?`<img class="project-logo" src="${esc(p.logo.src)}" width="${p.logo.width}" height="${p.logo.height}" alt="${esc(t(p.logo.alt))}" decoding="async">`:''}</div><div class="detail-meta">${esc(t(p.date))}<br>${esc(t(places[p.region]))} · ${esc(t(types[p.type]))}${p.team?`<br>${label('Team','团队')}: ${esc(t(p.team))}`:''}${memberByline(p)}<br>${esc(p.tech)}</div><p>${esc(t(p.summary))}</p>${detailSections(p)}`;}
 function contact(){const items=[['Email',CONTENT.email,CONTENT.email?'mailto:'+CONTENT.email:''],['LinkedIn',CONTENT.linkedin,CONTENT.linkedin],['GitHub',CONTENT.github,CONTENT.github],['Instagram',CONTENT.instagram,CONTENT.instagram,CONTENT.instagramHandle||'@jarrettchen7'],['WeChat',CONTENT.wechat,'']];return `<section><h2>${label('Contact','联系我')}</h2><p>${label('Feel free to get in touch about software engineering, AI applications, or opportunities to collaborate.','欢迎就软件工程、AI 应用或合作机会与我联系。')}</p><div class="contact-list">${items.map(([name,value,url,display])=>`<div class="contact-item"><strong>${name}</strong><div>${value?(url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(display||value.replace('https://www.','').replace('https://',''))}</a>`:`${esc(value)}<button class="copy" data-copy="wechat">${label('Copy','复制')}</button>`):label('To be added','待补充')}</div></div>`).join('')}</div></section>`;}
-const projectDemoVisits = new Map();
-
-function syncInlineDemo(frame) {
-  const source = frame.getAttribute('src');
-  if (!projectDemoVisits.has(source)) projectDemoVisits.set(source, { seen: new Set(), skip: false });
-  frame.contentWindow?.mountInlineDemo?.(language, projectDemoVisits.get(source));
-}
-
-function renderMain(markup) {
-  const main = document.querySelector('#main');
-  const previous = main.querySelector('[data-inline-demo]');
-  if (previous) {
-    const template = document.createElement('template');
-    template.innerHTML = markup;
-    const next = template.content.querySelector('[data-inline-demo]');
-    const frame = previous.querySelector('iframe');
-    const nextFrame = next?.querySelector('iframe');
-    if (nextFrame?.getAttribute('src') === frame.getAttribute('src')) {
-      // Keep the frame attached so locale changes preserve its scroll-driven scenes.
-      for (const node of [...main.childNodes]) if (node !== previous) node.remove();
-      let beforeDemo = true;
-      for (const node of [...template.content.childNodes]) {
-        if (node === next) beforeDemo = false;
-        else if (beforeDemo) previous.before(node);
-        else main.append(node);
-      }
-      previous.querySelector('.project-demo-heading').replaceWith(next.querySelector('.project-demo-heading'));
-      frame.title = nextFrame.title;
-      syncInlineDemo(frame);
-      return;
-    }
-  }
-
-  main.innerHTML = markup;
-  const frame = main.querySelector('[data-inline-demo] iframe');
-  frame?.addEventListener('load', () => syncInlineDemo(frame));
-}
-
 function render({focusRoute=false}={}){
  const {page,id}=route();
  const school=page==='education'&&Object.hasOwn(CONTENT.education,id)?CONTENT.education[id]:undefined;
@@ -184,7 +135,7 @@ function render({focusRoute=false}={}){
  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===language)));
  document.querySelector('.skip').textContent=t(['Skip to content','跳至正文']);
  profile();
- renderMain(page==='education'?schoolDetail(school):page==='internships'?internships():page==='internship'?internshipDetail(id):page==='projects'?projects():page==='project'?detail(id):page==='contact'?contact():overview());
+ document.querySelector('#main').innerHTML=page==='education'?schoolDetail(school):page==='internships'?internships():page==='internship'?internshipDetail(id):page==='projects'?projects():page==='project'?detail(id):page==='contact'?contact():overview();
  document.querySelector('#footer').textContent=t(['Hao Chen · Personal website preview','Hao Chen · 个人网站预览']);
  if(page==='internships'){
   updateInternshipResults();

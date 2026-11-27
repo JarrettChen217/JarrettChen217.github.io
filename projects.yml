@@ -503,11 +503,17 @@ projects:
     journeyHeading: {en: Design decisions, zh: 设计取舍}
     journey:
       - title:
-          en: "What should a search for “bridge” return?"
-          zh: "搜 bridge 时，究竟要找什么？"
+          en: "Why use the search index as the post store?"
+          zh: "为什么直接把帖子存在搜索索引里？"
         body:
-          en: "I indexed the post text and author in Elasticsearch so readers could find a post by a word they remembered or by who wrote it. The matching post carries the media URL. React uses that URL to load the photo from Google Cloud Storage, which keeps the image bytes out of the search response. The trade-off appears at publication time. The Go service uploads the file first, so if indexing fails afterwards, the file can exist without a searchable post."
-          zh: "用户记得正文里写过 bridge，或者记得是谁发的，就应该能把帖子找回来。我把正文和作者放进 Elasticsearch 索引，搜索结果带回帖子的媒体地址，React 再按这个地址向 Google Cloud Storage 加载照片。搜索响应只需传帖子信息。拆开存也有代价：Go 服务先上传文件，再写索引；如果第二步失败，照片已经存好了，却还没有能搜到的帖子。"
+          en: "The course app needed to answer two everyday questions: which posts mention “bridge”, and what has this author posted? Each post fit in one document with its text, author and media URL. I used Elasticsearch for both storage and search. Go writes the document directly to the post index and queries its message or user field. That kept the prototype small: there was no separate SQL post table to keep in sync. It also made the index essential. If it is unavailable, the app cannot look up posts, even when the photos are still in Cloud Storage."
+          zh: "课程原型里，读者最常问的是两件事：哪些帖子提到了 bridge？这个人发过什么？一篇帖子的正文、作者和媒体地址就能放进一份文档，这两种查询也用不着跨表关联。所以我让 Elasticsearch 同时负责存帖和搜帖：Go 把文档直接写进帖子索引，搜索时按 message 字段查正文，或按 user 字段查作者。这样省去了维护 SQL 帖子表、再把变更同步到索引的工作。代价是帖子查询依赖这个索引；即使照片还在对象存储里，索引不可用时，页面也找不回对应的帖子。"
+      - title:
+          en: "Where does the photo live?"
+          zh: "帖子找到以后，照片从哪里来？"
+        body:
+          en: "A search result includes the media URL. React loads the photo from Google Cloud Storage, so the search response can stay small. Splitting the file from the post has a cost when publishing: Go uploads the file before writing the index entry. If that second write fails, the photo can exist without a searchable post."
+          zh: "搜索结果里带着媒体地址，React 据此向 Google Cloud Storage 加载照片，搜索响应只需传回帖子信息。文件和帖子分开存，也留下了一个发布时要处理的问题：Go 先上传照片，再写入索引。如果第二步失败，照片已经存好了，却还没有能搜到的帖子。"
       - title:
           en: "Who checks the reader’s identity?"
           zh: "用户带着令牌，谁来核验身份？"

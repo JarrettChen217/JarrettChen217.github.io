@@ -281,8 +281,8 @@ const PROJECTS = {
       "type": "academic",
       "tech": "Unity, ARKit, iOS, JSON, Meta Quest 3",
       "summary": [
-        "Lay out a zoo in augmented reality on an iPhone, then put on a Quest 3 and visit the zoo you just designed.",
-        "先在 iPhone 的增强现实画面里搭一座动物园，再戴上 Quest 3，走进自己刚刚布置的园区。"
+        "Lay out a zoo in augmented reality on an iPad or iPhone, then put on a Quest 3 and visit the zoo you just designed.",
+        "先在 iPad 或 iPhone 的增强现实画面里搭一座动物园，再戴上 Quest 3，走进自己刚刚布置的园区。"
       ],
       "background": [
         "ZooXR began as a Columbia University 3D user interfaces assignment. It gives the designer and the visitor different views of one place. The phone shows the layout against the real surroundings while the headset puts the visitor inside it.",
@@ -306,14 +306,44 @@ const PROJECTS = {
               "iOS · ARKit"
             ],
             "title": [
-              "Arrange the zoo on the phone",
-              "在手机上布置园区"
+              "Lay out the zoo on iPad",
+              "在 iPad 上布置园区"
             ],
             "body": [
-              "The builder runs on iOS. Looking through the phone camera, the designer places enclosures and animals in AR and can see where they sit relative to each other before saving.",
-              "搭建器运行在 iOS 上。透过手机摄像头，设计者可以在增强现实画面里摆放围栏和动物，保存前就能看到它们彼此的位置。"
+              "The builder runs on iOS. Looking through the iPad camera, the designer places enclosures and animals in AR and can see where they sit relative to each other before saving.",
+              "搭建器运行在 iOS 上。透过 iPad 摄像头，设计者可以在增强现实画面里摆放围栏和动物，保存前就能看到它们彼此的位置。"
             ],
             "gallery": [
+              {
+                "src": "assets/projects/zooxr/layout.webp",
+                "thumbnail": "assets/projects/zooxr/layout-thumb.webp",
+                "width": 960,
+                "height": 1320,
+                "thumbnailWidth": 480,
+                "alt": [
+                  "Dogs inside a grassy enclosure in the iPad AR builder",
+                  "iPad 的 AR 搭建画面中，几只狗位于草地围栏内"
+                ],
+                "caption": [
+                  "Start at one enclosure. The placement grid shows where the builder can position objects in the camera view.",
+                  "从一处围栏开始看。草地上的狗和画面里的定位点，让人能看清搭建时物体放在哪里。"
+                ]
+              },
+              {
+                "src": "assets/projects/zooxr/path-edit.webp",
+                "thumbnail": "assets/projects/zooxr/path-edit-thumb.webp",
+                "width": 940,
+                "height": 744,
+                "thumbnailWidth": 600,
+                "alt": [
+                  "The iPad builder in path-editing mode",
+                  "iPad 搭建器中的道路编辑画面"
+                ],
+                "caption": [
+                  "Once all three enclosures are in place, the designer can lay path tiles between them. The enclosure floors stay fixed during this step.",
+                  "三个围区就位后，可以在它们之间铺设路面。编辑道路时，围区地板会锁定，避免铺路过程中把围区挪走。"
+                ]
+              },
               {
                 "src": "assets/projects/zooxr/builder.webp",
                 "thumbnail": "assets/projects/zooxr/builder-thumb.webp",
@@ -344,6 +374,23 @@ const PROJECTS = {
             "body": [
               "The iOS share sheet exports the layout as JSON. A Mac copies the file into the Quest app’s storage with Android Debug Bridge (ADB). Each record identifies an object and gives its position, rotation and scale relative to the zoo. One animal in the saved layout is a deer in enclosure 1. The headset can place that deer without knowing where the phone was in the room.",
               "通过 iOS 分享面板导出 JSON 布局后，在 Mac 上用 Android 调试桥（ADB）把文件传入 Quest 应用的存储目录。文件逐项记录物体的类型，以及相对于园区的位置、朝向和缩放。实际保存的布局里有一头鹿属于 1 号围栏。有了这条记录，头显就能把鹿放回园区里的位置，无需知道当时手机在房间的哪一处。"
+            ],
+            "gallery": [
+              {
+                "src": "assets/projects/zooxr/layout-map.webp",
+                "thumbnail": "assets/projects/zooxr/layout-map-thumb.webp",
+                "width": 1200,
+                "height": 900,
+                "thumbnailWidth": 600,
+                "alt": [
+                  "Plan of the three enclosures drawn from the exported layout",
+                  "根据导出布局绘制的俯视图，标出了三个围区"
+                ],
+                "caption": [
+                  "The saved X/Z coordinates seen from above. Numbers identify enclosures, red dots mark animals, blue diamonds mark gates, green lines mark fences and brown tiles trace the path.",
+                  "这张俯视图根据导出文件中的 X/Z 坐标绘制。数字对应围区编号，红点是动物，蓝色菱形是门，绿线是围栏，棕色短条标出游览路径。"
+                ]
+              }
             ]
           },
           {
@@ -375,6 +422,21 @@ const PROJECTS = {
                   "From the gate, the visitor can see a dog inside the enclosure and the fences of other enclosures in the distance.",
                   "从门边望进去，能看到围栏里的一只狗，远处还有其他围栏。"
                 ]
+              },
+              {
+                "src": "assets/projects/zooxr/feeding.webp",
+                "thumbnail": "assets/projects/zooxr/feeding-thumb.webp",
+                "width": 1280,
+                "height": 720,
+                "thumbnailWidth": 640,
+                "alt": [
+                  "A dog approaches food held by the visitor in VR",
+                  "VR 画面中，一只狗靠近游客手里的食物"
+                ],
+                "caption": [
+                  "Inside the enclosure, the visitor holds food out to the dog.",
+                  "进到围区后，游客把手里的食物递向狗。"
+                ]
               }
             ]
           }
@@ -394,9 +456,22 @@ const PROJECTS = {
           ]
         }
       },
+      "featuredVideo": {
+        "youtubeId": "cUG-zWmE-2E",
+        "watchUrl": "https://www.youtube.com/watch?v=cUG-zWmE-2E",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/cUG-zWmE-2E",
+        "poster": "assets/projects/zooxr/explorer.webp",
+        "width": 1280,
+        "height": 720,
+        "caption": [
+          "Full course demo, from laying out the zoo in AR to visiting the enclosures in VR. If YouTube is unavailable, the walkthrough above covers both devices in stills.",
+          "完整课程演示记录了从 AR 搭建到 VR 入园的过程。如果无法播放 YouTube，可以通过上方的实机图和园区地图看完整个流程。"
+        ]
+      },
       "sectionOrder": [
         "background",
         "process",
+        "video",
         "credits"
       ],
       "credits": [

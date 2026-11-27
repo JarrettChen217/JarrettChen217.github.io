@@ -328,12 +328,12 @@ const PROJECTS = {
       "type": "academic",
       "tech": "React, Go, Elasticsearch, Google Cloud Storage, Docker",
       "summary": [
-        "A word from a post can lead you back to its photo. In SocialAI’s Collection, a keyword search finds matching posts and lets you open their images.",
-        "记得帖子里写过的一个词，就能用它找回配图。在 SocialAI 的 Collection 里，输入关键词可以找到对应的帖子，再点开图片查看。"
+        "Describe a reaction image to go with a post, preview it, and choose whether to publish. To find an image someone has already posted, search Collection for a word you remember.",
+        "想给帖子配张表情图，可以用一句话描述画面，预览后再决定是否发布。想找回看过的配图，也可以在 Collection 里搜一个记得的词。"
       ],
       "background": [
-        "SocialAI was a course project for publishing and finding media posts. Searching by author is useful when you remember who posted a photo. Searching the post text gives you another way in when all you remember is what someone wrote.",
-        "SocialAI 是一个发布和查找图文帖子的课程项目。记得谁发过照片时，可以按作者检索；只记得帖子里写过什么时，也可以从正文入手。"
+        "People often know exactly what they want to say but cannot think of the right reaction image. Sometimes they can picture the meme and still cannot find it. Take “Finally finished.” A cat slumped over a keyboard adds something the words leave open — exhaustion and relief at the same time. SocialAI explores that idea in Create, where the author describes a scene and decides whether the generated preview fits the post. Collection addresses a different moment. Someone looking for a garden bridge photo can find it again by searching for “bridge” in the post text.",
+        "发帖时，常常已经知道自己要说什么，却想不到哪张表情包最贴切。有时脑子里明明有那张图，翻了半天也找不到。比如一句「终于写完了」，配上一只瘫在键盘上的猫，读者就能体会到那种累得够呛、又松了口气的心情。在 SocialAI 的 Create 页面，发帖的人可以把想到的画面描述出来，看过生成的预览再决定是否发布。Collection 用在另一个场景：以前看过一张花园小桥的配图，只要记得帖子里写过 bridge，就能用这个词找回来。"
       ],
       "work": [
         [
@@ -462,19 +462,19 @@ const PROJECTS = {
               "正文和图片分别存在哪里"
             ],
             "body": [
-              "When a post is published, Go saves the media in Google Cloud Storage and indexes the post text, author and media URL in Elasticsearch. During a search, Go returns the matching post records to React. The browser uses their URLs to load the images from storage.",
-              "发帖时，Go 将媒体文件保存到 Google Cloud Storage，并把正文、作者和媒体 URL 写入 Elasticsearch 索引。搜索时，Go 将匹配的帖子记录返回给 React；浏览器拿到记录中的 URL，再从对象存储加载图片。"
+              "Create sends the author’s scene description to Go. The image-generation interface, which I designed and verified with coding-agent assistance during June 2026 maintenance, calls the configured provider and returns an image for preview. If the author publishes a post, Go stores its media in Google Cloud Storage and indexes its text, author and media URL in Elasticsearch. Collection can then search the index and load a matching image by URL. The bridge walkthrough starts with an existing sample post.",
+              "Create 将作者的画面描述提交给 Go。2026年6月维护时，我在编码助手协助下设计并验证了图像生成接口，由它调用配置的服务商，将图片返回给作者预览。作者决定发布后，Go 把媒体存入 Google Cloud Storage，并将正文、作者和媒体 URL 写入 Elasticsearch 索引。Collection 可以检索这个索引，再按 URL 加载匹配的图片。桥梁搜图演示从一条已有的示例帖子开始。"
             ],
             "gallery": [
               {
                 "src": "assets/projects/social-ai/architecture.webp",
                 "thumbnail": "assets/projects/social-ai/architecture-thumb.webp",
                 "width": 1330,
-                "height": 1315,
+                "height": 1030,
                 "thumbnailWidth": 660,
                 "alt": [
-                  "React sends posts and searches to Go. Go uses Elasticsearch for posts and Google Cloud Storage for media. The browser loads each image by URL.",
-                  "React 向 Go 提交帖子或搜索。Go 使用 Elasticsearch 存储帖子索引，使用 Google Cloud Storage 存储媒体。浏览器按 URL 加载图片。"
+                  "Create previews a generated image before publication. Collection searches indexed posts and loads their media by URL.",
+                  "Create 在发布前预览生成的配图。Collection 从帖子索引中搜索，再按 URL 加载图片。"
                 ],
                 "caption": [
                   "The search result carries the media URL. The browser makes a separate request for the image itself.",

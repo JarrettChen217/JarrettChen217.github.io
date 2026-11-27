@@ -55,17 +55,16 @@ function memberByline(p){if(!p.members?.length)return '';return `<br>${label('Me
 function requestSequence(p){
  const diagram=p.sequence;
  if(!diagram)return '';
+ const file=`assets/projects/${esc(p.id)}/card-request-${language}`;
+ const title=label('One card recommendation, end to end','一次选牌请求的时序图');
  const actors=diagram.actors.map(actor=>esc(t(actor)));
- const tracks=actors.map(()=>'<i></i>').join('');
- const messages=phase=>phase.messages.map(({from,to,label:message})=>{
-   const route=actors[from]+' → '+actors[to];
-   const start=Math.min(from,to), span=Math.abs(to-from);
-   return `<li><div class="seq-path">${route}</div><div class="seq-message">${esc(t(message))}</div>
-     <div class="seq-track" aria-hidden="true">${tracks}<b class="seq-arrow ${to<from?'seq-left':''}" style="left:${(start+.5)*100/actors.length}%;width:${span*100/actors.length}%"></b></div></li>`;
- }).join('');
- return `<section class="detail-section request-sequence" style="--actors:${actors.length}"><h3>${label('One card recommendation, end to end','一次选牌请求的时序图')}</h3>
-   ${diagram.phases.map(phase=>`<section class="seq-phase"><h4>${esc(t(phase.title))}</h4>
-     <div class="seq-actors" aria-hidden="true">${actors.map(a=>`<strong>${a}</strong>`).join('')}</div><ol>${messages(phase)}</ol></section>`).join('')}</section>`;
+ const phases=diagram.phases.map(phase=>`<h4>${esc(t(phase.title))}</h4><ol>${phase.messages.map(message=>
+   `<li><strong>${actors[message.from]} → ${actors[message.to]}</strong> · ${esc(t(message.label))}</li>`).join('')}</ol>`).join('');
+ return `<section class="detail-section request-sequence"><h3>${title}</h3>
+   <a href="${file}.svg" target="_blank" rel="noopener" aria-label="${label('Enlarge the sequence diagram','放大查看时序图')}"><img src="${file}.svg" alt="${title}" loading="lazy" decoding="async"></a>
+   <div class="sequence-links"><a href="${file}.svg" target="_blank" rel="noopener">${label('View full size','查看大图')} ↗</a>
+   <a href="${file}.mmd" download>${label('Download Mermaid source','下载 Mermaid 源文件')}</a></div>
+   <details><summary>${label('Read the sequence step by step','逐步阅读文字版')}</summary>${phases}</details></section>`;
 }
 function promptLibrary(p){
  if(!p.prompts?.length)return '';

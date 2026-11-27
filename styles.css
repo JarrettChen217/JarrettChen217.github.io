@@ -62,24 +62,7 @@ header .languages{flex-shrink:0}
 .prompt-library summary { cursor: pointer; font-weight: 600; }
 .prompt-library pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; border-left: 2px solid var(--line); font-size: 0.88em; line-height: 1.6; }
 
-.request-sequence { container-type: inline-size; }
-.seq-phase { margin: 1.5rem 0; }
-.seq-phase h4 { margin-bottom: .65rem; }
-.seq-phase ol { list-style: none; padding: 0; margin: 0; }
-.seq-phase li { display: grid; grid-template-columns: 40% 60%; border-bottom: 1px solid var(--line); position: relative; }
-.seq-message { grid-column: 1; padding: .55rem .8rem .55rem 0; font-size: .88rem; }
-.seq-actors, .seq-track { display: grid; grid-template-columns: repeat(var(--actors),minmax(0,1fr)); }
-.seq-actors { margin-left: 40%; background: #edf3f6; border-radius: 4px; }
-.seq-actors strong { padding: .5rem .1rem; align-self: center; text-align: center; font-size: .77rem; color: #355365; }
-.seq-track { grid-column: 2; position: relative; }
-.seq-track i { justify-self: center; border-left: 1px dashed #a7b8c2; }
-.seq-arrow { position: absolute; top: 50%; height: 2px; background: #496d81; }
-.seq-arrow::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 2px solid #496d81; border-right: 2px solid #496d81; transform: rotate(45deg); }
-.seq-left::after { right: auto; left: 0; transform: rotate(-135deg); }
-.seq-path { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
-@container (max-width: 570px) {
-  .seq-actors, .seq-track { display: none; }
-  .seq-phase li { display: block; padding: .55rem 0; }
-  .seq-path { position: static; clip-path: none; width: auto; height: auto; color: #355365; font-size: .78rem; font-weight: 650; }
-  .seq-message { padding: .15rem 0 0; }
-}
+.request-sequence img { display: block; width: 100%; height: auto; background: white; }
+.sequence-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: .75rem 0; }
+.request-sequence summary { cursor: pointer; font-weight: 600; }
+.request-sequence li { margin-bottom: .5rem; }

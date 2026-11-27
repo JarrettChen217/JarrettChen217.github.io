@@ -16,6 +16,12 @@ for (const width of [390, 1440]) {
         await expect(main).toContainText(language === 'en' ? 'subtree heights' : '子树高度');
         await expect(main.locator('a[href="#project/midas-curse-unity"]')).toBeVisible();
         await expect(main.locator('a[href="#project/avl-visualisation"]')).toBeVisible();
+        const photos = main.locator('.school-photo img');
+        await expect(photos).toHaveCount(2);
+        for (const photo of await photos.all()) {
+          await photo.scrollIntoViewIfNeeded();
+          await expect.poll(() => photo.evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+        }
         const text = await main.innerText();
         for (const course of courses) expect(text).toContain(course);
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);

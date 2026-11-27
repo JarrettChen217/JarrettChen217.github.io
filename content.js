@@ -10,6 +10,18 @@ const CONTENT = {
       end: ['Dec 2024', '2024年12月'],
       grade: '3.63/4.0 (WES)',
       focus: ['At Melbourne, I first enjoyed the moment when a program finally worked. Later, I found that I also liked the work of finishing a project with a team. That experience drew me toward software engineering.', '我在墨尔本学计算机，最初喜欢的是把一道题写通。后来我发现，我也喜欢和一组人把一个项目做完。本科时，我的选课逐渐偏向了软件工程。'],
+      entrancePhoto: {
+        src: 'assets/education/unimelb/campus-entrance-1600.webp', thumbnail: 'assets/education/unimelb/campus-entrance-800.webp',
+        width: 1024, height: 768, thumbnailWidth: 800,
+        alt: ['A blue bridge above the road at the university entrance', '校园入口处，一座蓝色的桥横跨道路'],
+        caption: ['At the entrance to the University of Melbourne.', '墨尔本大学校园入口。']
+      },
+      cityPhoto: {
+        src: 'assets/education/unimelb/rooftops-1600.webp', thumbnail: 'assets/education/unimelb/rooftops-800.webp',
+        width: 1024, height: 683, thumbnailWidth: 800,
+        alt: ['Melbourne rooftops stretching toward the horizon under a cloudy sky', '阴云下，墨尔本的屋顶一路延伸到远处'],
+        caption: ['Melbourne rooftops seen through a window.', '从窗边望出去的墨尔本屋顶。']
+      },
       stories: [
         {
           title: ["Design of Algorithms · Finding a memory leak", "Design of Algorithms · 找出内存泄漏"],

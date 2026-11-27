@@ -48,6 +48,14 @@
   font-size: 14px;
   margin: 0;
 }
+.school-photo { margin: 22px 0; }
+.school-photo figure { margin: 0; }
+.school-photo a, .school-photo img { display: block; }
+.school-photo img { width: 100%; height: auto; }
+.school-photo figcaption { margin-top: 7px; color: var(--muted); font-size: 13px; }
+@media (min-width: 641px) {
+  .school-entrance img { aspect-ratio: 2/1; object-fit: cover; }
+}
 .school-focus {
   max-width: 68ch;
   font-size: 16px;

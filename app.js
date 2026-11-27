@@ -59,11 +59,13 @@ function schoolDetail(school){
     <div><dt>${label('Dates','就读时间')}</dt><dd>${label(...school.start)}–${label(...school.end)}</dd></div>
     <div><dt>${label('WES-converted GPA','WES 换算成绩')}</dt><dd>${esc(school.grade)}</dd></div>
    </dl>
+   ${school.entrancePhoto ? `<div class="school-photo school-entrance">${internshipImage(school.entrancePhoto)}</div>` : ''}
    <p class="school-focus">${esc(t(school.focus))}</p>
    <section class="detail-section school-stories">
     <h3>${label('Learning experiences','学习经历')}</h3>
     ${stories}
    </section>
+   ${school.cityPhoto ? `<div class="school-photo">${internshipImage(school.cityPhoto)}</div>` : ''}
    <section class="detail-section school-courses">
     <h3>${label('Undergraduate coursework','本科课程')}</h3>
     ${courses}

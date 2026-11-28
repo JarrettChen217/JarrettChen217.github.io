@@ -324,7 +324,7 @@ projects:
     region: ny
     type: personal
     tech: React, Node.js, LangChain, MCP, SerpAPI
-    keywords: [RAG, AI agent, 文档问答, 语音, retrieval]
+    keywords: [RAG, AI agent, 文档问答, retrieval]
     summary:
       en: A personal study prototype for asking questions about a PDF and seeing how an answer drawn from the notes compares with one drawn from the web.
       zh: 为复习做的个人问答原型。上传一份学习笔记，再针对同一问题分别查看依据笔记和网页资料生成的回答。

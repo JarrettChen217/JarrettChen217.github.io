@@ -916,7 +916,6 @@ const PROJECTS = {
         "RAG",
         "AI agent",
         "文档问答",
-        "语音",
         "retrieval"
       ]
     },
